@@ -1,4 +1,4 @@
-# XRAI Vault — Threat model v1.4 (P02 + P02-02 + P03-00 iOS host, key cache and rotation safety, 2026-10-19)
+# XRAI Vault — Threat model v1.5 (… + P03-00F device launch, monotonic cache, rotation serialization, 2026-10-20)
 
 **Scope:** the on-device personal vault (encrypted records of birth data, names, optional family data, psychometrics, journals, goals, evidence, consent receipts) and the optional user-held encrypted backup. **Out of scope here:** UI, network broker, model router, StoreKit (own threat models later). **Status:** design + library-level tests; **no device verification, no independent security review yet.** Nothing in this document claims the vault is unbreakable (constitution §83: "No 'unbreakable' promise").
 
@@ -46,6 +46,9 @@ B1 process boundary of the app (other apps, extensions, keyboards, clipboard) ·
 | T32 | Two provider instances diverge (stale pointer): wraps under a retired version or conflicting rotations | Pointer re-read before every wrap and rotation; refresh on unknown newer version. | TESTED (`twoInstances`) |
 | T33 | Accidental data loss via `forget`/`wipe` while records still reference a key | Two-phase `retire`→`forget` (`keyVersionNotRetired`), current never forgettable, `WipeConfirmation` naming the key id and acknowledging loss. **Residual:** value-type confirmation stops accidents, not intent; store layer must re-wrap before forget. | TESTED (`rotation`, `wipe`) |
 | T34 | Debug/test hooks shipped in production | Removed from the Keychain module; adversarial tests use `@testable` store access; compile-negative + source scan. | TESTED (`IsolationTests`, `compileNegative`) |
+| T35 | Packaging defect: embedded frameworks unreachable (missing rpath), unsigned or duplicated frameworks, Mac-absolute search paths on device | Explicit `LD_RUNPATH_SEARCH_PATHS` in `project.yml`; static linkage for plain app builds; `otool -L` / `LC_RPATH` / `codesign --deep --strict` verification recorded per build; normal launch + tests on a real iPhone. | TESTED on device (`p03_00f_device_bundle_verification.txt`) |
+| T36 | Cache TTL extended by wall-clock changes; time-source failure serves a stale KEK | Monotonic `SystemUptime`; failure → purge + `clockUnavailable`; backwards time counts as expired. | TESTED (`ClockFailureCacheTests`) |
+| T37 | Concurrent rotation by several provider instances (non-atomic keychain sequence) | In-process `KeySetSerializer` lock per (service, keyID); cross-process writers BLOCKED by ownership rule (main app only). | TESTED in-process (`RotationSerializationTests`); cross-process BLOCKED |
 
 ## Residual risks stated honestly
 - Keys live in process memory while in use; a compromised OS or a debugger can read them.
@@ -56,4 +59,4 @@ B1 process boundary of the app (other apps, extensions, keyboards, clipboard) ·
 - No independent security review or penetration test has happened. Statuses are library TESTED, not SECURITY_REVIEWED.
 
 ## Test-to-threat map
-`VaultContractsTests.swift` → T6, T9, T10, T14, T19, T20, T21 · `VaultCryptoTests.swift` → T1–T5, T7, T8, T11, T13, T14, T18–T22 · `AuthorizationGateTests.swift` → T24, T25, T26 · `CompositionBoundaryTests.swift` → T13, T23 · `Gate0Tests.swift` → T26, T27 · `KeychainKeyProviderTests.swift` → T1, T16, T28–T34 · `PrivacyNegativeTests.swift` (BOOT-01) → T11 for pure math modules.
+`VaultContractsTests.swift` → T6, T9, T10, T14, T19, T20, T21 · `VaultCryptoTests.swift` → T1–T5, T7, T8, T11, T13, T14, T18–T22 · `AuthorizationGateTests.swift` → T24, T25, T26 · `CompositionBoundaryTests.swift` → T13, T23 · `Gate0Tests.swift` → T26, T27 · `KeychainKeyProviderTests.swift` → T1, T16, T28–T34, T36, T37 · hosted/device runs → T35 · `PrivacyNegativeTests.swift` (BOOT-01) → T11 for pure math modules.

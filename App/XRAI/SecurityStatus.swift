@@ -62,7 +62,7 @@ final class SecurityStatus {
         let clock = MonotonicGuardClock(wrapping: SystemClock())
         let cache = KeyCachePolicy(ttlSeconds: cacheTTLSeconds)
         do {
-            let p = try KeychainKeyProvider(keyID: SecurityStatus.keyID, configuration: .production(service: SecurityStatus.keychainService), clock: clock, cachePolicy: cache)
+            let p = try KeychainKeyProvider(keyID: SecurityStatus.keyID, configuration: .production(service: SecurityStatus.keychainService), uptime: SystemUptime(), cachePolicy: cache)
             let i = AuthorizationIssuer(clock: clock)
             let v = SecureVault(keyProvider: p, consentAuthority: NoConsentAuthority(), clock: clock, authorizations: i, quarantine: InMemoryAppQuarantineRegistry())
             provider = p; issuer = i; vault = v

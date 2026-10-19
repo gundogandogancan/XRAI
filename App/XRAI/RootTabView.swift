@@ -38,9 +38,18 @@ struct NotYetView: View {
 struct TodayView: View {
     var body: some View {
         NavigationStack {
-            NotYetView(title: "Bugün",
+            VStack(spacing: 0) {
+                Image("XRAILogo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 96, height: 96)
+                    .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+                    .padding(.top, 24)
+                    .accessibilityLabel("XRAI logosu")
+                NotYetView(title: "Bugün",
                        what: "Günün tek anlamlı daveti, isteğe bağlı kısa bir yansıma ve bir adım burada görünecek. Şu an hiçbir kişisel veri saklanmıyor ve hiçbir yorum üretilmiyor.",
                        phase: "P03 (ücretsiz ilk deneyim)")
+            }
         }
     }
 }

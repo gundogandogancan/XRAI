@@ -116,3 +116,18 @@ DATE:
 SCOPE_APPROVED:
 CHANGES_REQUESTED:
 ```
+
+---
+
+## P03-00F RESULT (2026-10-20) — REAL IPHONE LAUNCH FIXED, STOP
+
+Root cause: missing `@executable_path/Frameworks` rpath (xcodegen presets absent) — fixed in `project.yml`, verified with otool/codesign. iPhone 14 Pro Max: normal launch OK, hosted tests **24/24** (real Secure Enclave). Simulator 24/24, macOS 108/108. F3 monotonic fail-closed cache; F4 in-process rotation serialization, cross-process BLOCKED. Logo = app icon + Bugün tab. Report: `docs/status/P03_00F_DEVICE_LAUNCH_FIX_REPORT.md`. DEVICE_VERIFIED: PARTIAL (non-destructive suite only).
+
+Next target after ChatGPT review: **P03-01 real user experience and onboarding**.
+
+```
+APPROVED_BY:
+DATE:
+SCOPE_APPROVED:
+CHANGES_REQUESTED:
+```

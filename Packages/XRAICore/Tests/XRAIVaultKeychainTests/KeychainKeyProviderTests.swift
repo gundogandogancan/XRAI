@@ -29,8 +29,16 @@ private func testConfig(_ service: String, se: SecureEnclavePolicy = .preferred,
 private func raw(_ p: KeychainKeyProvider) -> KeychainStore {
     KeychainStore(service: p.configuration.service, accessibility: p.configuration.accessibility, mode: p.protection == .keychainLegacyMacOSTestOnly ? .legacyMacOS : .dataProtection)
 }
-private func provider(_ service: String, keyID: String = "k", clock: ManualClock = ManualClock(t0), cache: KeyCachePolicy = KeyCachePolicy(), se: SecureEnclavePolicy = .preferred) throws -> KeychainKeyProvider {
-    try KeychainKeyProvider(keyID: keyID, configuration: testConfig(service, se: se), clock: clock, cachePolicy: cache)
+/// Manual monotonic uptime for deterministic TTL tests.
+final class ManualUptime: UptimeSource, @unchecked Sendable {
+    private let lock = NSLock(); private var t: Int64; var fail = false
+    init(_ start: Int64 = 1_000) { t = start }
+    func uptimeSeconds() throws -> Int64 { lock.lock(); defer { lock.unlock() }; if fail { throw VaultError.clockUnavailable }; return t }
+    func advance(_ s: Int64) { lock.lock(); t += s; lock.unlock() }
+    func setFailing(_ f: Bool) { lock.lock(); fail = f; lock.unlock() }
+}
+private func provider(_ service: String, keyID: String = "k", uptime: ManualUptime = ManualUptime(), cache: KeyCachePolicy = KeyCachePolicy(), se: SecureEnclavePolicy = .preferred) throws -> KeychainKeyProvider {
+    try KeychainKeyProvider(keyID: keyID, configuration: testConfig(service, se: se), uptime: uptime, cachePolicy: cache)
 }
 private func vault(_ p: any KeyProvider, clock: ManualClock = ManualClock(t0)) -> (SecureVault, AuthorizationIssuer) {
     let issuer = AuthorizationIssuer(clock: clock)
@@ -294,8 +302,8 @@ struct KeyCacheTests {
     @Test("a cached KEK survives deletion of its item only until TTL or purge; purge on lock makes the loss immediate")
     func ttlAndPurge() throws {
         let service = testService(); defer { cleanup(service) }
-        let clock = ManualClock(t0)
-        let p = try provider(service, keyID: "c", clock: clock, cache: KeyCachePolicy(ttlSeconds: 30))
+        let clock = ManualUptime()
+        let p = try provider(service, keyID: "c", uptime: clock, cache: KeyCachePolicy(ttlSeconds: 30))
         let w = try p.wrapDataKey(dek(), boundTo: RecordID())
         #expect(p.cachedVersions == [1])
         try raw(p).delete(account: "c/kek/v1")                      // item gone (e.g. passcode removed)
@@ -305,7 +313,7 @@ struct KeyCacheTests {
         #expect(p.cachedVersions.isEmpty)
         // purge path: fresh provider, cache warm, lock event → immediate failure after deletion
         let service2 = testService(); defer { cleanup(service2) }
-        let q = try provider(service2, keyID: "c", clock: clock, cache: KeyCachePolicy(ttlSeconds: 300))
+        let q = try provider(service2, keyID: "c", uptime: clock, cache: KeyCachePolicy(ttlSeconds: 300))
         let w2 = try q.wrapDataKey(dek(), boundTo: RecordID())
         try raw(q).delete(account: "c/kek/v1")
         q.purgeCache()                                              // what the app does on lock/background
@@ -325,17 +333,86 @@ struct KeyCacheTests {
     @Test("another instance's stale cache after retire+forget: access persists only until its TTL/purge (documented), then fails closed")
     func staleCacheAcrossInstances() throws {
         let service = testService(); defer { cleanup(service) }
-        let clock = ManualClock(t0)
-        let a = try provider(service, keyID: "s", clock: clock, cache: KeyCachePolicy(ttlSeconds: 30))
-        let b = try provider(service, keyID: "s", clock: clock, cache: KeyCachePolicy(ttlSeconds: 30))
+        let clock = ManualUptime()
+        let a = try provider(service, keyID: "s", uptime: clock, cache: KeyCachePolicy(ttlSeconds: 30))
+        let b = try provider(service, keyID: "s", uptime: clock, cache: KeyCachePolicy(ttlSeconds: 30))
         let w = try a.wrapDataKey(dek(), boundTo: RecordID())
         _ = try b.unwrapDataKey(w)                                  // B caches v1
         _ = try a.rotate(); try a.retire(version: 1); try a.forget(version: 1)
         _ = try b.unwrapDataKey(w)                                  // B still serves v1 from memory (bounded exposure)
         b.purgeCache()
         #expect(throws: VaultError.keyUnavailable(version: 1)) { try b.unwrapDataKey(w) }
-        let c = try provider(service, keyID: "s", clock: clock)
+        let c = try provider(service, keyID: "s", uptime: clock)
         #expect(throws: VaultError.keyUnavailable(version: 1)) { try c.unwrapDataKey(w) }
+    }
+}
+
+@Suite("P03-00F F3 — cache fails closed when the time source fails; TTL is monotonic", .serialized)
+struct ClockFailureCacheTests {
+    @Test("time source failure purges the cache and refuses the operation; a stale KEK is never served; recovery after the source returns")
+    func failingTimeSource() throws {
+        let service = testService(); defer { cleanup(service) }
+        let up = ManualUptime()
+        let p = try provider(service, keyID: "f", uptime: up, cache: KeyCachePolicy(ttlSeconds: 300))
+        let w = try p.wrapDataKey(dek(), boundTo: RecordID())
+        #expect(p.cachedVersions == [1])
+        up.setFailing(true)
+        #expect(throws: VaultError.clockUnavailable) { try p.unwrapDataKey(w) }
+        #expect(p.cachedVersions.isEmpty, "cache purged on clock failure")
+        #expect(throws: VaultError.clockUnavailable) { try p.wrapDataKey(dek(), boundTo: RecordID()) }
+        up.setFailing(false)
+        _ = try p.unwrapDataKey(w)
+        // the item disappears while the clock is failing: nothing stale can be served afterwards
+        try raw(p).delete(account: "f/kek/v1")
+        up.setFailing(true)
+        #expect(throws: VaultError.clockUnavailable) { try p.unwrapDataKey(w) }
+        up.setFailing(false)
+        #expect(throws: VaultError.keyUnavailable(version: 1)) { try p.unwrapDataKey(w) }
+    }
+
+    @Test("a time source that goes backwards (impossible for monotonic, simulated) does not extend the TTL")
+    func backwardsTimeDoesNotExtend() throws {
+        let service = testService(); defer { cleanup(service) }
+        let up = ManualUptime(1_000)
+        let p = try provider(service, keyID: "b", uptime: up, cache: KeyCachePolicy(ttlSeconds: 30))
+        let w = try p.wrapDataKey(dek(), boundTo: RecordID())
+        try raw(p).delete(account: "b/kek/v1")
+        up.advance(-500)   // now < loadedAt → treated as expired
+        #expect(throws: VaultError.keyUnavailable(version: 1)) { try p.unwrapDataKey(w) }
+    }
+
+    @Test("the production uptime source is monotonic and positive")
+    func systemUptime() throws {
+        let a = try SystemUptime().uptimeSeconds()
+        let b = try SystemUptime().uptimeSeconds()
+        #expect(a > 0 && b >= a)
+    }
+}
+
+@Suite("P03-00F F4 — in-process rotation serialization; cross-process is BLOCKED", .serialized)
+struct RotationSerializationTests {
+    @Test("two instances rotating concurrently in one process: versions strictly monotonic, no conflicts, pointer consistent")
+    func concurrentRotateTwoInstances() throws {
+        let service = testService(); defer { cleanup(service) }
+        let a = try provider(service, keyID: "rr")
+        let b = try provider(service, keyID: "rr")
+        let lock = NSLock()
+        var versions: [UInt32] = []
+        var errors: [String] = []
+        let rounds = 24
+        DispatchQueue.concurrentPerform(iterations: rounds) { n in
+            do {
+                let id = try (n % 2 == 0 ? a : b).rotate()
+                lock.lock(); versions.append(id.version); lock.unlock()
+            } catch { lock.lock(); errors.append("\(error)"); lock.unlock() }
+        }
+        #expect(errors.isEmpty, Comment(rawValue: errors.joined(separator: "; ")))
+        #expect(Set(versions).count == rounds && versions.max() == UInt32(rounds + 1))
+        #expect(try a.refreshCurrentKey().version == UInt32(rounds + 1) && (try b.refreshCurrentKey().version) == UInt32(rounds + 1))
+        // every version 1...rounds+1 exists exactly once and unwraps
+        let w = try a.wrapDataKey(dek(), boundTo: RecordID())
+        #expect(w.keyVersion == UInt32(rounds + 1))
+        _ = try b.unwrapDataKey(w)
     }
 }
 

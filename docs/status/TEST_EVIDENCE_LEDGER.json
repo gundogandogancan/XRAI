@@ -247,6 +247,71 @@
       "command": "git diff --stat on pure core dirs",
       "exit_code": 0,
       "result": "empty diff"
+    },
+    {
+      "run_id": "P03-00F-MAC",
+      "command": "swift test --package-path Packages/XRAICore",
+      "exit_code": 0,
+      "result": "108 tests in 27 suites passed (4 new: clock-failure cache ×3, rotation serialization); 0 keychain items left",
+      "log": "docs/status/evidence/p03_00f_swift_test_macos.log",
+      "log_sha256": "45b87098b75727963927fd441e45e1a490c08f4a75697528ab4b4963b1a55cdd"
+    },
+    {
+      "run_id": "P03-00F-SIM-BUILD",
+      "command": "xcodebuild build … iPhone 17 Simulator",
+      "exit_code": 0,
+      "result": "BUILD SUCCEEDED; AppIcon compiled; rpath includes @executable_path/Frameworks",
+      "log": "docs/status/evidence/p03_00f_xcodebuild_sim_app_build.log",
+      "log_sha256": "757f9dd3b3ec4341163e85d3f3ab04a2010e43be95c341865f66826676305b45"
+    },
+    {
+      "run_id": "P03-00F-SIM-HOSTED",
+      "command": "xcodebuild test … iPhone 17 Simulator",
+      "exit_code": 0,
+      "result": "24 tests in 7 suites passed",
+      "log": "docs/status/evidence/p03_00f_xcodebuild_sim_hosted_tests.log",
+      "log_sha256": "4eb0c2fee97ae55d94f663863e35e3769624ada8eddacb00cfa816192a75be69"
+    },
+    {
+      "run_id": "P03-00F-DEVICE-BUILD",
+      "command": "xcodebuild build … platform=iOS,id=C7C6CE6E… -allowProvisioningUpdates",
+      "exit_code": 0,
+      "result": "BUILD SUCCEEDED; static linkage; codesign deep/strict valid",
+      "log": "docs/status/evidence/p03_00f_xcodebuild_device_app_build.log",
+      "log_sha256": "9d41bd42de6786f3df355651dc5ab4042342642b28cc6d7767b4ed94892594ee"
+    },
+    {
+      "run_id": "P03-00F-DEVICE-BUNDLE-VERIFY",
+      "command": "otool -L / otool -l LC_RPATH / ls Frameworks / codesign --verify --deep --strict / entitlements",
+      "exit_code": 0,
+      "result": "@executable_path/Frameworks present; frameworks embedded+signed in test build; entitlements application-identifier + keychain-access-groups",
+      "log": "docs/status/evidence/p03_00f_device_bundle_verification.txt",
+      "log_sha256": "db0c36a9d481232d30b5aa2fb62babf47854219ebc1381f09f96d07b3997baed"
+    },
+    {
+      "run_id": "P03-00F-DEVICE-LAUNCH",
+      "command": "devicectl device install app; devicectl device process launch com.xrai.app; devicectl device info processes",
+      "exit_code": 0,
+      "result": "installed; launched; XRAI.app/XRAI process running after 5 s (normal launch on iPhone 14 Pro Max)",
+      "log": "docs/status/evidence/p03_00f_device_install_launch_process.log",
+      "log_sha256": "12d15acb0bef7d9c9e167575a8ec9e3176f4a04db6b4f7cc201b09fb51958f2a"
+    },
+    {
+      "run_id": "P03-00F-DEVICE-HOSTED",
+      "command": "xcodebuild test … platform=iOS,id=C7C6CE6E… -resultBundlePath",
+      "exit_code": 0,
+      "result": "24 tests in 7 suites passed on the physical iPhone 14 Pro Max inside the signed app (incl. real Secure Enclave wrapping); non-destructive only",
+      "log": "docs/status/evidence/p03_00f_xcodebuild_device_hosted_tests.log",
+      "log_sha256": "5145ffdc6f9d8939fbefd76d83663d49b52ffc608a4bfc5eba8fb119c8b93e09",
+      "xcresult_summary": "docs/status/evidence/p03_00f_device_xcresult_summary.json",
+      "device_info": "docs/status/evidence/p03_00f_device_info.txt",
+      "xcresult_summary_sha256": "028265ef6131ce6c21a046ccd9221c65b6ad9867f637668a764e04e1a0d648f0"
+    },
+    {
+      "run_id": "P03-00F-NUMEROLOGY-REGRESSION",
+      "command": "git diff --stat on pure core dirs",
+      "exit_code": 0,
+      "result": "empty diff"
     }
   ],
   "acceptance_test_mapping": [
@@ -340,7 +405,7 @@
     "vault.contracts.v1": "TESTED (hardened H1)",
     "vault.aes256gcm.envelope.v1": "TESTED (library; SECURITY_REVIEWED: NO; DEVICE_VERIFIED: NO)",
     "vault.backup.recoverykey.v1": "TESTED (library)",
-    "vault.keychain_provider": "CODED + TESTED (macOS host; iOS Simulator inside signed app host); DEVICE_VERIFIED: NO",
+    "vault.keychain_provider": "CODED + TESTED on macOS host, Simulator host and physical iPhone 14 Pro Max (non-destructive suite); DEVICE_VERIFIED: PARTIAL (lock/passcode/reinstall NOT_RUN)",
     "vault.backup.sealed.v2": "TESTED (library; v1 format retired)",
     "vault.secure_vault.facade": "TESTED",
     "vault.consent_authority": "PORT_ONLY (production registry NOT_STARTED)",
@@ -351,10 +416,12 @@
     "vault.compile_negative_boundary": "TESTED with swiftc",
     "vault.envelope.header": "v2 (consentPurpose authenticated)",
     "vault.secure_enclave_wrapper": "TESTED on Apple-silicon Mac enclave; iPhone NOT_RUN",
-    "app.ios_host_skeleton": "CODED + BUILT (simulator); five tabs; no persistence",
-    "vault.key_cache_policy": "TESTED (TTL, purge on lock/background, stale-instance bound)",
+    "app.ios_host_skeleton": "CODED + BUILT (simulator + device) + normal launch on iPhone 14 Pro Max; app icon = founder logo",
+    "vault.key_cache_policy": "TESTED (monotonic uptime TTL, fail-closed on clock failure, purge on lock/background)",
     "vault.rotation_recovery": "TESTED (pointer refresh, orphan adopt/repair, two-phase retire→forget, confirmed wipe)",
-    "vault.debug_surface": "REMOVED from production (compile-negative + source scan)"
+    "vault.debug_surface": "REMOVED from production (compile-negative + source scan)",
+    "vault.rotation_serialization": "TESTED in-process; cross-process BLOCKED (ownership rule)",
+    "app.packaging_rpath": "FIXED in project.yml; verified with otool/codesign on device"
   },
   "not_evidence": [
     "docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"

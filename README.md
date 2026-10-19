@@ -32,7 +32,7 @@ swift test
 python3 -I ../../validation/validate_package.py   # spec structure only, not an app build
 ```
 
-An Xcode app target exists (`XRAI.xcodeproj`, regenerate with `xcodegen generate`); it is a host skeleton with no persistence. No network, persistent storage, analytics or model code exists yet by design; the vault has a production Keychain/Secure Enclave key provider tested on a macOS host; physical-device verification is pending.
+An Xcode app target exists (`XRAI.xcodeproj`, regenerate with `xcodegen generate`); it is a host skeleton with no persistence; it launches on a real iPhone and the hosted keychain tests pass there (non-destructive). No network, persistent storage, analytics or model code exists yet by design; the vault has a production Keychain/Secure Enclave key provider tested on a macOS host; physical-device verification is pending.
 
 ## Non-negotiables
 No private book scans or PDFs in the repo. No paid API, cloud model, MCP or hook without an ADR. Deterministic results never come from an LLM. Symbolic readings are never presented as personality, health or destiny facts. Nothing is "DONE" without a test log in `docs/status/evidence/`.

@@ -1,0 +1,32 @@
+## otool -L XRAI
+/private/tmp/claude-501/-Users-dogancangundogan-ProjectXrai/fd9c625e-16e5-48b0-ac59-d611e0d88337/scratchpad/dd-device/Build/Products/Debug-iphoneos/XRAI.app/XRAI:
+	@rpath/XRAI.debug.dylib (compatibility version 0.0.0, current version 0.0.0)
+	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1356.0.0)
+## otool -L XRAI.debug.dylib (xrai refs)
+/private/tmp/claude-501/-Users-dogancangundogan-ProjectXrai/fd9c625e-16e5-48b0-ac59-d611e0d88337/scratchpad/dd-device/Build/Products/Debug-iphoneos/XRAI.app/XRAI.debug.dylib:
+	@rpath/XRAI.debug.dylib (compatibility version 0.0.0, current version 0.0.0)
+	@rpath/XRAIVaultContracts.framework/XRAIVaultContracts (compatibility version 0.0.0, current version 0.0.0)
+	@rpath/XRAIVaultCryptoKit.framework/XRAIVaultCryptoKit (compatibility version 0.0.0, current version 0.0.0)
+	@rpath/XRAIVaultKeychain_-5BCBB21E85665F83_PackageProduct.framework/XRAIVaultKeychain_-5BCBB21E85665F83_PackageProduct (compatibility version 0.0.0, current version 0.0.0)
+## LC_RPATH
+         path @executable_path (offset 12)
+         path /tmp/claude-501/-Users-dogancangundogan-ProjectXrai/fd9c625e-16e5-48b0-ac59-d611e0d88337/scratchpad/dd-device/Build/Products/Debug-iphoneos/PackageFrameworks (offset 12)
+         path @executable_path/Frameworks (offset 12)
+## Frameworks
+Testing.framework
+XCTAutomationSupport.framework
+XCTest.framework
+XCTestCore.framework
+XCTestSupport.framework
+XCUIAutomation.framework
+XCUnit.framework
+XRAIVaultContracts.framework
+XRAIVaultCryptoKit.framework
+XRAIVaultKeychain_-5BCBB21E85665F83_PackageProduct.framework
+libXCTestBundleInject.dylib
+libXCTestSwiftSupport.dylib
+## codesign --verify --deep --strict
+/private/tmp/claude-501/-Users-dogancangundogan-ProjectXrai/fd9c625e-16e5-48b0-ac59-d611e0d88337/scratchpad/dd-device/Build/Products/Debug-iphoneos/XRAI.app: valid on disk
+/private/tmp/claude-501/-Users-dogancangundogan-ProjectXrai/fd9c625e-16e5-48b0-ac59-d611e0d88337/scratchpad/dd-device/Build/Products/Debug-iphoneos/XRAI.app: satisfies its Designated Requirement
+## entitlements
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "https://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>application-identifier</key><string>47XQMQZLF6.com.xrai.app</string><key>com.apple.developer.team-identifier</key><string>47XQMQZLF6</string><key>get-task-allow</key><true/><key>keychain-access-groups</key><array><string>47XQMQZLF6.com.xrai.app</string></array></dict></plist>

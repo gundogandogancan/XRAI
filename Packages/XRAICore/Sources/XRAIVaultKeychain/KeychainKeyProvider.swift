@@ -12,9 +12,11 @@
 // and refuses if it is not (explicit repair required); any unreadable, malformed or mode-mismatched
 // item fails closed. Key material never goes to UserDefaults, files, logs or Git.
 //
-// Key cache (P03-00 §3): unwrapped KEK bytes are kept in process memory for at most
-// `KeyCachePolicy.ttlSeconds` (default 30 s) and are dropped by `purgeCache()`, which the app layer
-// calls on lock / background / protected-data-unavailable events. The Secure Enclave protects the
+// Key cache (P03-00 §3, F3): unwrapped KEK bytes are kept in process memory for at most
+// `KeyCachePolicy.ttlSeconds` (default 30 s) measured on a MONOTONIC uptime source (wall-clock
+// changes cannot extend it) and are dropped by `purgeCache()`, which the app layer calls on
+// lock / background / protected-data-unavailable events. If the time source fails, the cache is
+// purged and the operation fails closed (`clockUnavailable`): a stale KEK is never reused on error. The Secure Enclave protects the
 // KEK AT REST (the keychain item alone is useless); it does NOT protect bytes already in process
 // memory. Swift gives no zeroization guarantee; the cache only bounds the exposure window.
 import CryptoKit
@@ -46,20 +48,23 @@ public final class KeychainKeyProvider: KeyProvider, @unchecked Sendable {
     public let cachePolicy: KeyCachePolicy
 
     private let store: KeychainStore
-    private let clock: any VaultClock
+    private let uptime: any UptimeSource
     private let lock = NSLock()
+    /// Process-wide lock shared by every instance on the same (service, keyID): serializes mutations (F4).
+    private let setLock: NSLock
     private var cache: [UInt32: (kek: [UInt8], loadedAt: Int64)] = [:]
     private var currentVersion: UInt32
     private let seActive: Bool
 
     /// Opens (or creates on first use) the key set for `keyID`. Fails closed when the configured
     /// keychain mode is unavailable or when Secure Enclave is required but absent.
-    public init(keyID: String, configuration: KeychainConfiguration, clock: any VaultClock = SystemClock(), cachePolicy: KeyCachePolicy = KeyCachePolicy()) throws {
+    public init(keyID: String, configuration: KeychainConfiguration, uptime: any UptimeSource = SystemUptime(), cachePolicy: KeyCachePolicy = KeyCachePolicy()) throws {
         guard !keyID.isEmpty, keyID.count <= 64, !keyID.contains("/") else { throw VaultError.limitExceeded("keyID") }
         self.keyID = keyID
         self.configuration = configuration
-        self.clock = clock
+        self.uptime = uptime
         self.cachePolicy = cachePolicy
+        self.setLock = KeySetSerializer.lock(for: configuration.service, keyID: keyID)
 
         // 1. Keychain mode. Production: data-protection keychain or fail.
         var mode: KeychainStore.Mode = .dataProtection
@@ -103,6 +108,7 @@ public final class KeychainKeyProvider: KeyProvider, @unchecked Sendable {
             self.currentVersion = try KeychainKeyProvider.readPointer(store: store, keyID: keyID)
             _ = try loadKEK(version: currentVersion)  // fail closed now, not later
         } else {
+            setLock.lock(); defer { setLock.unlock() }
             self.currentVersion = 1
             try writeKEK(version: 1)
             do {
@@ -153,6 +159,7 @@ public final class KeychainKeyProvider: KeyProvider, @unchecked Sendable {
     /// it is ADOPTED when readable — the pointer is moved to it, completing that rotation — and
     /// refused with `keychainCorrupted` when unreadable (call `repairOrphan` explicitly).
     public func rotate() throws -> KeyIdentity {
+        setLock.lock(); defer { setLock.unlock() }
         lock.lock(); defer { lock.unlock() }
         let stored = try KeychainKeyProvider.readPointer(store: store, keyID: keyID)
         let next = stored + 1
@@ -170,6 +177,7 @@ public final class KeychainKeyProvider: KeyProvider, @unchecked Sendable {
     /// Deletes an UNREFERENCED orphan item above the pointer that could not be adopted. Never deletes
     /// a version at or below the pointer.
     public func repairOrphan(version: UInt32) throws {
+        setLock.lock(); defer { setLock.unlock() }
         lock.lock(); defer { lock.unlock() }
         let stored = try KeychainKeyProvider.readPointer(store: store, keyID: keyID)
         guard version > stored else { throw VaultError.keyUnavailable(version: version) }
@@ -180,6 +188,7 @@ public final class KeychainKeyProvider: KeyProvider, @unchecked Sendable {
     /// Two-phase forgetting, phase 1: mark a version retired. Retired versions still unwrap (so
     /// records can be re-wrapped) but are never used to wrap. Idempotent. Not allowed for `current`.
     public func retire(version: UInt32) throws {
+        setLock.lock(); defer { setLock.unlock() }
         lock.lock(); defer { lock.unlock() }
         let stored = try KeychainKeyProvider.readPointer(store: store, keyID: keyID)
         currentVersion = stored
@@ -194,6 +203,7 @@ public final class KeychainKeyProvider: KeyProvider, @unchecked Sendable {
     /// Phase 2: delete the material. Allowed only for a RETIRED version, i.e. after the store layer
     /// has re-wrapped every record that referenced it. The current version cannot be forgotten.
     public func forget(version: UInt32) throws {
+        setLock.lock(); defer { setLock.unlock() }
         lock.lock(); defer { lock.unlock() }
         let stored = try KeychainKeyProvider.readPointer(store: store, keyID: keyID)
         currentVersion = stored
@@ -208,6 +218,7 @@ public final class KeychainKeyProvider: KeyProvider, @unchecked Sendable {
     /// Requires a confirmation naming this key id and acknowledging loss of every record.
     public func wipeAllKeys(confirmation: WipeConfirmation) throws {
         guard confirmation.keyID == keyID, confirmation.acknowledgesIrreversibleLoss else { throw VaultError.notAuthorized(.userInitiationRequired) }
+        setLock.lock(); defer { setLock.unlock() }
         lock.lock(); defer { lock.unlock() }
         let stored = (try? KeychainKeyProvider.readPointer(store: store, keyID: keyID)) ?? currentVersion
         var v: UInt32 = 1
@@ -237,15 +248,19 @@ public final class KeychainKeyProvider: KeyProvider, @unchecked Sendable {
         let kek = SymmetricKey(size: .bits256).withUnsafeBytes { Array($0) }
         let payload: [UInt8] = seActive ? try SecureEnclaveWrapper.wrap(kek: kek, accessibility: configuration.accessibility) : kek
         try store.add(account: keyID + "/kek/v" + String(version), data: Data(payload))
-        cache[version] = (kek, (try? clock.now()) ?? 0)
+        if cachePolicy.ttlSeconds > 0, let now = try? uptime.uptimeSeconds() { cache[version] = (kek, now) }
     }
 
     private func loadKEK(version: UInt32) throws -> [UInt8] { lock.lock(); defer { lock.unlock() }; return try loadKEKLocked(version: version) }
 
     private func loadKEKLocked(version: UInt32) throws -> [UInt8] {
-        let now = (try? clock.now()) ?? 0
+        let now: Int64
+        do { now = try uptime.uptimeSeconds() } catch {
+            cache = [:]                       // never reuse a cached KEK when time is unknown
+            throw VaultError.clockUnavailable
+        }
         if let c = cache[version] {
-            if cachePolicy.ttlSeconds > 0, now - c.loadedAt < cachePolicy.ttlSeconds { return c.kek }
+            if cachePolicy.ttlSeconds > 0, now >= c.loadedAt, now - c.loadedAt < cachePolicy.ttlSeconds { return c.kek }
             cache[version] = nil
         }
         guard let data = try store.read(account: keyID + "/kek/v" + String(version)) else { throw VaultError.keyUnavailable(version: version) }

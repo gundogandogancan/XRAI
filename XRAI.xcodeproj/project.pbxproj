@@ -22,6 +22,7 @@
 		96B3D5D834A6DCB86F623745 /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B647636EF65BFE3670C92974 /* RootTabView.swift */; };
 		B0E639D08C7DE36721A0C5A1 /* XRAIVaultKeychain in Frameworks */ = {isa = PBXBuildFile; productRef = 31FE44D09BC3828DEBFA63D3 /* XRAIVaultKeychain */; };
 		C6E39840796C6FEC0B6B6E0C /* XRAIIdentityTime in Frameworks */ = {isa = PBXBuildFile; productRef = 571E70B74A5DFCAEA534A92B /* XRAIIdentityTime */; };
+		FE64764C86A29F4381A98A5A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D67A02E02AE3CF07F3C01F64 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		B1E680188227E88C242E0BB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B647636EF65BFE3670C92974 /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
 		D1B75040866957FF3325A8D5 /* XRAIHostedTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = XRAIHostedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D67A02E02AE3CF07F3C01F64 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 		DA9DC6043A46BBDC810D3322 /* XRAI */ = {
 			isa = PBXGroup;
 			children = (
+				D67A02E02AE3CF07F3C01F64 /* Assets.xcassets */,
 				B1E680188227E88C242E0BB7 /* Info.plist */,
 				B647636EF65BFE3670C92974 /* RootTabView.swift */,
 				0A772EA7549B990FED1D1A54 /* SecurityStatus.swift */,
@@ -164,6 +167,7 @@
 			buildConfigurationList = F582A13CD266EE9BD8534A35 /* Build configuration list for PBXNativeTarget "XRAI" */;
 			buildPhases = (
 				BADE518458110DC7C7C82EE2 /* Sources */,
+				BC999736528EF632DC0506B8 /* Resources */,
 				837DB5025FC6EDAB67B73E27 /* Frameworks */,
 			);
 			buildRules = (
@@ -245,6 +249,17 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		BC999736528EF632DC0506B8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE64764C86A29F4381A98A5A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		880BFF17F2DFDDE8E740C4BB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -280,20 +295,30 @@
 		0CC3DE80D5A97CCCAB1D05D3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 47XQMQZLF6;
-				ENABLE_TESTABILITY = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_TESTABILITY = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
+				GCC_OPTIMIZATION_LEVEL = s;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 0.0.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -302,6 +327,11 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.xrai.app.hostedtests;
 				PRODUCT_NAME = XRAIHostedTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XRAI.app/XRAI";
@@ -311,9 +341,14 @@
 		5D4AE6B77DAB56471FAED86D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = App/XRAI/XRAI.entitlements;
 				INFOPLIST_FILE = App/XRAI/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.xrai.app;
 				PRODUCT_NAME = XRAI;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -323,9 +358,14 @@
 		7F5739A94D6011861F5EB1E5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = App/XRAI/XRAI.entitlements;
 				INFOPLIST_FILE = App/XRAI/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.xrai.app;
 				PRODUCT_NAME = XRAI;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -335,18 +375,28 @@
 		BCF7F843CDCEBA56920C5AC7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 47XQMQZLF6;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1 $(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 0.0.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
 			};
@@ -357,6 +407,11 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.xrai.app.hostedtests;
 				PRODUCT_NAME = XRAIHostedTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XRAI.app/XRAI";

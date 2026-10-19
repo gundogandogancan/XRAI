@@ -1,0 +1,8 @@
+    • marketingName: iPhone 14 Pro Max
+    • platform: iOS
+    • productType: iPhone15,3
+    • thinningProductType: iPhone15,3
+    • developerModeStatus: enabled
+    • name: Dogi (2)
+    • osVersionNumber: 26.6
+    • bootedSnapshotName: com.apple.os.update-F97970D935FCDF013A25853382FEFF7415F89D175C7841E80974CABB9E6AB5DF
