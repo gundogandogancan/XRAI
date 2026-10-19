@@ -23,3 +23,12 @@ XRAI must keep all sensitive personal data encrypted on the iPhone by default, w
 
 ## Consequences
 The vault can seal, open, rotate, export and restore at the library level with adversarial tests (64/64). It cannot yet persist anything safely: the Keychain/SE provider, Data Protection file classes, app-lock, egress broker and device tests are explicit follow-ups. Status words: CODED + TESTED (library); SECURITY_REVIEWED: NO; DEVICE_VERIFIED: NO.
+
+## Amendment H1 — V32-02-01H hardening (2026-10-19, after ChatGPT review of the P02-01 code)
+
+1. **Backup format v2 (`SealedBackup`)** replaces v1: an outer AES-256-GCM envelope whose ciphertext holds `BackupBody` (createdAt + all `RecordEnvelope`s). Cleartext is limited to magic, format version, 16-byte salt and 12-byte nonce (all bound as AAD). The HMAC layer is dropped; GCM authenticates. Body is length-prefixed and zero-padded to 4096-byte blocks. HKDF contexts: `xrai.backup.kek.v2` (DEK wrapping key), `xrai.backup.outer.v2` (outer key). v1 files are rejected. Residual: size leaks at 4 KiB granularity.
+2. **Authorized entry point.** `SecureVault` is the only public API; `AESGCMEnvelopeSealer` and `BackupCodec` are internal. Policy consults a `ConsentAuthority` port; caller-supplied receipts carry no authority. Export and restore require `userInitiated`; `sessionOnly` records are never backed up.
+3. **Tier floor fail-closed.** `DataClass.minimumTier`; `RecordDescriptor.init` throws below it; `EnvelopeHeader.validate()` at seal, open, rewrap and decode/import.
+4. **Identifier hygiene.** `RecordID` = 128-bit CSPRNG hex, strictly parsed, redacted; envelope description and `VaultError` carry no record/key identifiers; `crashLogs` is hard-denied for raw personal data.
+5. **Export/import robustness.** Export verifies every envelope's payload and binding and rejects duplicates; import enforces `BackupLimits` (file size, entry count, field lengths), duplicate ids, binding, padding, and verifies every payload under the new device keys before returning.
+Status unchanged: library TESTED (71/71); SECURITY_REVIEWED: NO; DEVICE_VERIFIED: NO.

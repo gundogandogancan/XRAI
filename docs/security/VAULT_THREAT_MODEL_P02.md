@@ -1,4 +1,4 @@
-# XRAI Vault — Threat model v1 (P02, V32-02-01, 2026-10-19)
+# XRAI Vault — Threat model v1.1 (P02, V32-02-01 + V32-02-01H hardening, 2026-10-19)
 
 **Scope:** the on-device personal vault (encrypted records of birth data, names, optional family data, psychometrics, journals, goals, evidence, consent receipts) and the optional user-held encrypted backup. **Out of scope here:** UI, network broker, model router, StoreKit (own threat models later). **Status:** design + library-level tests; **no device verification, no independent security review yet.** Nothing in this document claims the vault is unbreakable (constitution §83: "No 'unbreakable' promise").
 
@@ -18,7 +18,7 @@ B1 process boundary of the app (other apps, extensions, keyboards, clipboard) ·
 | T4 | Nonce reuse (catastrophic for GCM) | Fresh 96-bit nonce from CryptoKit's system CSPRNG per seal and per wrap; DEK is per record, so even a nonce collision would be under a different key. | TESTED (500-seal uniqueness, same plaintext distinct ciphertext) · formal bound: 2^96 space, random; per-key message count is 1 for payloads |
 | T5 | Wrong/unknown key version after rotation; stale envelopes | Versioned KEK identity in `WrappedKey`; rotation re-wraps DEKs without re-encrypting payloads; `forget(version)` makes un-rewrapped envelopes unreadable (explicit, typed). | TESTED (`KeyRotationTests`) |
 | T6 | Lost device / lost backup / lost recovery key | Decision 4: unrecoverable by design if both backup and recovery key are lost; UI must say so plainly. Recovery key is 256-bit random, shown once, never stored by XRAI. | CONTRACT (`RecoveryKey`), UI copy NOT_STARTED |
-| T7 | Backup file tampered, truncated, reordered, replayed with wrong key | HMAC-SHA256 (key via HKDF from recovery key + salt) over the whole authenticated body incl. entry order/count; constant-time compare; strict decoder (magic, version, bounds, trailing bytes). | TESTED (`BackupTests`: flipped bytes at 7 positions, truncation, reorder, drop, wrong key) |
+| T7 | Backup file tampered, truncated, reordered, replayed with wrong key, old version | v2: outer AES-256-GCM over the whole body (order/count inside), AAD = magic/version/salt/nonce; strict decoder; v1 rejected. | TESTED (`corruptedOrWrongKey`, `forgedBody`) |
 | T8 | Backup leaks plaintext or the recovery key | Export re-wraps DEKs only; payload ciphertext is carried unchanged; tests assert neither plaintext nor key bytes occur in the backup bytes. | TESTED |
 | T9 | Silent cloud sync / data broker SDK / analytics / model training on personal data | `VaultPolicy` hard-denies analytics, model training, cloud sync, advertising for every data class regardless of consent; provider egress needs an active, purpose-matched consent receipt. | TESTED (`PolicyTests`) · runtime `NetworkEgressBroker` NOT_STARTED (P06) |
 | T10 | Family data used beyond the chosen purpose (decision 6) | `parentsNames`/`siblingOrder` flagged third-party; storage needs purpose-bound consent; destination hard rules apply. | TESTED (`storeGate`) |
@@ -29,13 +29,19 @@ B1 process boundary of the app (other apps, extensions, keyboards, clipboard) ·
 | T15 | Timing side channel on MAC compare | Constant-time compare for backup tag (AES-GCM tag compare is CryptoKit's own). | IMPLEMENTED |
 | T16 | Hardware capability over-claim (Secure Enclave on devices/simulators without it) | Decision 2: `KeyProvider` is a port; SE is used only where `SecureEnclave.isAvailable`; otherwise Keychain-only with explicit capability flag in the key identity. | DESIGN (P02-02) |
 | T17 | Minors / shared devices | Out of scope of the vault; separate age gate and AHTOVIA boundary (FUTURE_CHILD_SAFETY). | OPEN |
+| T18 | Backup size side channel | Zero padding to 4 KiB blocks; total volume still leaks coarsely. Bucketed/fixed-size padding deferred until backup cadence is designed. | PARTIAL, residual documented |
+| T19 | Policy bypass by calling crypto directly; forged/stale/revoked consent receipts | `SecureVault` is the only public path; raw sealer/codec internal (test-enforced); `ConsentAuthority` port is the sole source of grants; revocation/expiry honoured at the instant. | TESTED (`EnforcementTests`, `PolicyTests`) |
+| T20 | Privacy-tier downgrade at creation, read or import | Class floors; throwing descriptor; `validate()` on seal/open/rewrap/decode. | TESTED (`descriptorFloor`, `tamperHeader`, `forgedBody` #1) |
+| T21 | Identifier/metadata leakage through descriptions, errors, logs | Random `RecordID`, redacted descriptions, identifier-free `VaultError`, crash logs hard-denied. | TESTED (`errorHygiene`, `redaction`, `hardRules`) |
+| T22 | Resource exhaustion / malformed backup on import; corrupted or foreign envelope laundered into a backup on export | `BackupLimits` (256 MiB, 100k entries, field lengths), duplicate ids, binding check, padding check, payload verification on both export and restore. | TESTED (`unauthorizedExport`, `forgedBody`, `corruptedOrWrongKey`) |
 
 ## Residual risks stated honestly
 - Keys live in process memory while in use; a compromised OS or a debugger can read them.
 - A device with passcode removed or a jailbroken device weakens Keychain guarantees.
 - A user who loses both backup and recovery key loses the data. This is intended.
 - The in-memory `KeyProvider` is a development double; the production Keychain/SE provider does not exist yet. **Until it does, nothing may be persisted.**
+- The `ConsentAuthority` is a port; its production implementation (own encrypted store, audit trail, UI) is future work.
 - No independent security review or penetration test has happened. Statuses are library TESTED, not SECURITY_REVIEWED.
 
 ## Test-to-threat map
-`VaultContractsTests.swift` → T9, T10, T14 (encoding), T6 (recovery key contract) · `VaultCryptoTests.swift` → T1–T5, T7, T8, T11, T13, T14 · `PrivacyNegativeTests.swift` (BOOT-01) → T11 for pure math modules.
+`VaultContractsTests.swift` → T6, T9, T10, T14, T19, T20, T21 · `VaultCryptoTests.swift` → T1–T5, T7, T8, T11, T13, T14, T18–T22 · `PrivacyNegativeTests.swift` (BOOT-01) → T11 for pure math modules.

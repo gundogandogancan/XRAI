@@ -1,6 +1,9 @@
 // XRAIVaultCryptoKit — the ONLY module in XRAICore allowed to import CryptoKit.
 // Adapter for the XRAIVaultContracts ports using Apple CryptoKit AES-256-GCM (decision 5).
 // No home-made primitives. No persistence. No networking.
+//
+// Hardening V32-02-01H §2: the raw sealer is `internal`. The only public way to seal, open, export
+// or restore is `SecureVault`, which enforces policy, consent authority and tier floors first.
 import CryptoKit
 import Foundation
 import XRAIVaultContracts
@@ -13,13 +16,14 @@ public enum CryptoConstants {
 
 /// AES-256-GCM envelope sealer: random 256-bit DEK per record, 96-bit random nonce per seal,
 /// header canonical bytes as associated data, DEK wrapped by the `KeyProvider`.
-public struct AESGCMEnvelopeSealer: EnvelopeSealer {
-    public let keyProvider: any KeyProvider
+struct AESGCMEnvelopeSealer: EnvelopeSealer {
+    let keyProvider: any KeyProvider
 
-    public init(keyProvider: any KeyProvider) { self.keyProvider = keyProvider }
+    init(keyProvider: any KeyProvider) { self.keyProvider = keyProvider }
 
-    public func seal(plaintext: [UInt8], descriptor: RecordDescriptor) throws -> RecordEnvelope {
+    func seal(plaintext: [UInt8], descriptor: RecordDescriptor) throws -> RecordEnvelope {
         let header = EnvelopeHeader(algorithm: .aes256gcm, descriptor: descriptor)
+        try header.validate()
         let dek = SymmetricKey(size: .bits256)
         let nonce = AES.GCM.Nonce() // fresh system-random 96-bit nonce per seal
         let box = try AES.GCM.seal(plaintext, using: dek, nonce: nonce, authenticating: header.canonicalBytes())
@@ -34,10 +38,9 @@ public struct AESGCMEnvelopeSealer: EnvelopeSealer {
         )
     }
 
-    public func open(_ envelope: RecordEnvelope) throws -> [UInt8] {
+    func open(_ envelope: RecordEnvelope) throws -> [UInt8] {
         let h = envelope.header
-        guard h.formatVersion == EnvelopeHeader.currentFormatVersion else { throw VaultError.unsupportedFormat(h.formatVersion) }
-        guard h.algorithm == .aes256gcm else { throw VaultError.unsupportedAlgorithm(h.algorithm.rawValue) }
+        try h.validate()
         guard envelope.nonce.count == CryptoConstants.gcmNonceBytes else {
             throw VaultError.invalidLength(field: "nonce", expected: CryptoConstants.gcmNonceBytes, actual: envelope.nonce.count)
         }
@@ -59,7 +62,8 @@ public struct AESGCMEnvelopeSealer: EnvelopeSealer {
         }
     }
 
-    public func rewrap(_ envelope: RecordEnvelope) throws -> RecordEnvelope {
+    func rewrap(_ envelope: RecordEnvelope) throws -> RecordEnvelope {
+        try envelope.header.validate()
         let dek = try keyProvider.unwrapDataKey(envelope.wrappedDEK)
         let w = try keyProvider.wrapDataKey(dek, boundTo: envelope.header.recordID)
         return envelope.replacingWrappedDEK(w)
@@ -84,7 +88,7 @@ public final class InMemoryKeyProvider: KeyProvider, @unchecked Sendable {
     }
 
     /// Deterministic variant for backup keys derived from a recovery key.
-    public init(keyID: String, material: [UInt8]) throws {
+    init(keyID: String, material: [UInt8]) throws {
         guard material.count == CryptoConstants.keyBytes else {
             throw VaultError.invalidLength(field: "kek", expected: CryptoConstants.keyBytes, actual: material.count)
         }
@@ -103,7 +107,7 @@ public final class InMemoryKeyProvider: KeyProvider, @unchecked Sendable {
         return keks.keys.sorted()
     }
 
-    public func wrapDataKey(_ dek: [UInt8], boundTo recordID: String) throws -> WrappedKey {
+    public func wrapDataKey(_ dek: [UInt8], boundTo recordID: RecordID) throws -> WrappedKey {
         let (version, kek): (UInt32, SymmetricKey) = {
             lock.lock(); defer { lock.unlock() }
             return (current, keks[current]!)
@@ -116,12 +120,12 @@ public final class InMemoryKeyProvider: KeyProvider, @unchecked Sendable {
     }
 
     public func unwrapDataKey(_ wrapped: WrappedKey) throws -> [UInt8] {
-        guard wrapped.keyID == keyID else { throw VaultError.keyUnavailable(keyID: wrapped.keyID, version: wrapped.keyVersion) }
+        guard wrapped.keyID == keyID else { throw VaultError.keyUnavailable(version: wrapped.keyVersion) }
         let kek: SymmetricKey? = {
             lock.lock(); defer { lock.unlock() }
             return keks[wrapped.keyVersion]
         }()
-        guard let kek else { throw VaultError.keyUnavailable(keyID: wrapped.keyID, version: wrapped.keyVersion) }
+        guard let kek else { throw VaultError.keyUnavailable(version: wrapped.keyVersion) }
         let ad = WrappedKey.associatedData(keyID: wrapped.keyID, keyVersion: wrapped.keyVersion, recordID: wrapped.boundRecordID)
         do {
             let box = try AES.GCM.SealedBox(nonce: AES.GCM.Nonce(data: wrapped.nonce), ciphertext: wrapped.ciphertext, tag: wrapped.tag)
@@ -140,7 +144,7 @@ public final class InMemoryKeyProvider: KeyProvider, @unchecked Sendable {
 
     public func forget(version: UInt32) throws {
         lock.lock(); defer { lock.unlock() }
-        guard version != current else { throw VaultError.keyUnavailable(keyID: keyID, version: version) }
+        guard version != current else { throw VaultError.keyUnavailable(version: version) }
         keks[version] = nil
     }
 }

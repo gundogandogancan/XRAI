@@ -1,17 +1,25 @@
-// Envelope encryption contracts (constitution §83). No cryptography lives here; only the shapes,
-// the ports and the authenticated-metadata rules that an adapter must honour.
+// Envelope encryption contracts (constitution §83; hardening V32-02-01H). No cryptography lives here;
+// only the shapes, the ports and the authenticated-metadata rules that an adapter must honour.
 
+/// Typed vault errors. By design NO case carries a record identifier, key identifier, name or date:
+/// error values may end up in logs (V32-02-01H §4).
 public enum VaultError: Error, Equatable, Sendable {
     /// AEAD authentication failed: wrong key, tampered ciphertext/tag/nonce, or tampered header.
     case authenticationFailed
     case unsupportedFormat(UInt16)
     case unsupportedAlgorithm(String)
-    case keyUnavailable(keyID: String, version: UInt32)
+    /// The provider has no key for the requested version (identifier intentionally omitted).
+    case keyUnavailable(version: UInt32)
     case invalidLength(field: String, expected: Int, actual: Int)
-    case policyDenied(DataClass, Destination, DenialReason)
-    case consentRequired(DataClass)
+    case invalidRecordID
+    case privacyTierBelowMinimum(dataClass: DataClass, required: PrivacyTier, got: PrivacyTier)
+    case notAuthorized(DenialReason)
+    case duplicateRecordID
+    case limitExceeded(String)
+    /// An envelope offered for export did not verify (tampered or mismatched); export refused.
+    case envelopeIntegrityFailed
     case backupCorrupted(reason: String)
-    /// Backup MAC mismatch: wrong recovery key OR altered backup. The two are indistinguishable by design.
+    /// Backup AEAD failed: wrong recovery key OR altered backup. Indistinguishable by design.
     case backupIntegrityFailed
     case recoveryKeyInvalid(reason: String)
 }
@@ -21,32 +29,74 @@ public enum EnvelopeAlgorithm: String, Hashable, Sendable {
     case aes256gcm = "AES-256-GCM"
 }
 
-/// What a caller knows about a record before sealing it. Key identity is NOT part of this: keys
-/// may rotate without re-encrypting the payload.
+/// Random, non-sensitive record identifier: 128 bits from the system CSPRNG, lower-case hex.
+/// Contract: NEVER derived from content, names, dates or user identity. Redacted in descriptions.
+public struct RecordID: Hashable, Sendable {
+    public static let byteCount = 16
+    public let hex: String
+
+    /// Generates a fresh random identifier.
+    public init() {
+        var rng = SystemRandomNumberGenerator()
+        var bytes = [UInt8](repeating: 0, count: RecordID.byteCount)
+        for i in 0..<bytes.count { bytes[i] = UInt8.random(in: 0...255, using: &rng) }
+        self.hex = RecordID.hexString(bytes)
+    }
+
+    /// Accepts only exactly 32 lower-case hex characters.
+    public init(hex: String) throws {
+        guard hex.count == RecordID.byteCount * 2 else { throw VaultError.invalidRecordID }
+        for c in hex.unicodeScalars {
+            let v = c.value
+            let isDigit = v >= 48 && v <= 57
+            let isLowerHex = v >= 97 && v <= 102
+            guard isDigit || isLowerHex else { throw VaultError.invalidRecordID }
+        }
+        self.hex = hex
+    }
+
+    static func hexString(_ bytes: [UInt8]) -> String {
+        let digits = Array("0123456789abcdef")
+        var s = ""
+        s.reserveCapacity(bytes.count * 2)
+        for b in bytes { s.append(digits[Int(b >> 4)]); s.append(digits[Int(b & 0x0f)]) }
+        return s
+    }
+}
+
+extension RecordID: CustomStringConvertible, CustomDebugStringConvertible {
+    public var description: String { "RecordID(redacted)" }
+    public var debugDescription: String { "RecordID(redacted)" }
+}
+
+/// What a caller knows about a record before sealing it. Construction fails closed when the tier is
+/// below the class floor. Key identity is NOT part of this: keys may rotate without re-encrypting.
 public struct RecordDescriptor: Hashable, Sendable {
-    public let recordID: String
+    public let recordID: RecordID
     public let dataClass: DataClass
     public let privacyTier: PrivacyTier
     public let retention: RetentionClass
     public let createdAtUnixSeconds: Int64
 
-    public init(recordID: String, dataClass: DataClass, privacyTier: PrivacyTier? = nil, retention: RetentionClass, createdAtUnixSeconds: Int64) {
+    public init(recordID: RecordID = RecordID(), dataClass: DataClass, privacyTier: PrivacyTier? = nil, retention: RetentionClass, createdAtUnixSeconds: Int64) throws {
+        let tier = privacyTier ?? dataClass.minimumTier
+        try VaultPolicy.validateTier(tier, for: dataClass)
         self.recordID = recordID
         self.dataClass = dataClass
-        self.privacyTier = privacyTier ?? dataClass.defaultTier
+        self.privacyTier = tier
         self.retention = retention
         self.createdAtUnixSeconds = createdAtUnixSeconds
     }
 }
 
 /// Versioned, authenticated metadata. Its canonical bytes are the AEAD associated data for the
-/// payload, so any change to any field makes `open` fail.
+/// payload, so any change to any field makes `open` fail. Validated again on every read and import.
 public struct EnvelopeHeader: Hashable, Sendable {
     public static let currentFormatVersion: UInt16 = 1
 
     public let formatVersion: UInt16
     public let algorithm: EnvelopeAlgorithm
-    public let recordID: String
+    public let recordID: RecordID
     public let dataClass: DataClass
     public let privacyTier: PrivacyTier
     public let retention: RetentionClass
@@ -62,7 +112,8 @@ public struct EnvelopeHeader: Hashable, Sendable {
         self.createdAtUnixSeconds = d.createdAtUnixSeconds
     }
 
-    public init(formatVersion: UInt16, algorithm: EnvelopeAlgorithm, recordID: String, dataClass: DataClass, privacyTier: PrivacyTier, retention: RetentionClass, createdAtUnixSeconds: Int64) {
+    /// Unchecked constructor for decoding and adversarial tests; callers must run `validate()`.
+    public init(formatVersion: UInt16, algorithm: EnvelopeAlgorithm, recordID: RecordID, dataClass: DataClass, privacyTier: PrivacyTier, retention: RetentionClass, createdAtUnixSeconds: Int64) {
         self.formatVersion = formatVersion
         self.algorithm = algorithm
         self.recordID = recordID
@@ -72,39 +123,43 @@ public struct EnvelopeHeader: Hashable, Sendable {
         self.createdAtUnixSeconds = createdAtUnixSeconds
     }
 
+    /// Fail-closed structural validation: supported version/algorithm and tier floor.
+    public func validate() throws {
+        guard formatVersion == EnvelopeHeader.currentFormatVersion else { throw VaultError.unsupportedFormat(formatVersion) }
+        guard algorithm == .aes256gcm else { throw VaultError.unsupportedAlgorithm(algorithm.rawValue) }
+        try VaultPolicy.validateTier(privacyTier, for: dataClass)
+    }
+
     public func canonicalBytes() -> [UInt8] {
         var e = CanonicalEncoder()
         e.appendString("XRAI-ENV")
-        e.appendU16(formatVersion)
-        e.appendString(algorithm.rawValue)
-        e.appendString(recordID)
-        e.appendString(dataClass.rawValue)
-        e.appendString(privacyTier.rawValue)
-        e.appendString(retention.rawValue)
-        e.appendI64(createdAtUnixSeconds)
+        encode(into: &e)
         return e.bytes
     }
 
     public func encode(into e: inout CanonicalEncoder) {
         e.appendU16(formatVersion)
         e.appendString(algorithm.rawValue)
-        e.appendString(recordID)
+        e.appendString(recordID.hex)
         e.appendString(dataClass.rawValue)
         e.appendString(privacyTier.rawValue)
         e.appendString(retention.rawValue)
         e.appendI64(createdAtUnixSeconds)
     }
 
+    /// Decodes AND validates (tier floor, version, algorithm). Import of a downgraded header fails here.
     public static func decode(from d: inout CanonicalDecoder) throws -> EnvelopeHeader {
         let v = try d.readU16()
         let algRaw = try d.readString()
         guard let alg = EnvelopeAlgorithm(rawValue: algRaw) else { throw VaultError.unsupportedAlgorithm(algRaw) }
-        let rid = try d.readString()
+        let rid = try RecordID(hex: try d.readString())
         guard let dc = DataClass(rawValue: try d.readString()) else { throw VaultError.backupCorrupted(reason: "data class") }
         guard let tier = PrivacyTier(rawValue: try d.readString()) else { throw VaultError.backupCorrupted(reason: "tier") }
         guard let ret = RetentionClass(rawValue: try d.readString()) else { throw VaultError.backupCorrupted(reason: "retention") }
         let t = try d.readI64()
-        return EnvelopeHeader(formatVersion: v, algorithm: alg, recordID: rid, dataClass: dc, privacyTier: tier, retention: ret, createdAtUnixSeconds: t)
+        let h = EnvelopeHeader(formatVersion: v, algorithm: alg, recordID: rid, dataClass: dc, privacyTier: tier, retention: ret, createdAtUnixSeconds: t)
+        try h.validate()
+        return h
     }
 }
 
@@ -113,12 +168,12 @@ public struct EnvelopeHeader: Hashable, Sendable {
 public struct WrappedKey: Hashable, Sendable {
     public let keyID: String
     public let keyVersion: UInt32
-    public let boundRecordID: String
+    public let boundRecordID: RecordID
     public let nonce: [UInt8]
     public let ciphertext: [UInt8]
     public let tag: [UInt8]
 
-    public init(keyID: String, keyVersion: UInt32, boundRecordID: String, nonce: [UInt8], ciphertext: [UInt8], tag: [UInt8]) {
+    public init(keyID: String, keyVersion: UInt32, boundRecordID: RecordID, nonce: [UInt8], ciphertext: [UInt8], tag: [UInt8]) {
         self.keyID = keyID
         self.keyVersion = keyVersion
         self.boundRecordID = boundRecordID
@@ -128,22 +183,24 @@ public struct WrappedKey: Hashable, Sendable {
     }
 
     /// Associated data for wrapping: binds the wrapped DEK to key identity and record.
-    public static func associatedData(keyID: String, keyVersion: UInt32, recordID: String) -> [UInt8] {
+    public static func associatedData(keyID: String, keyVersion: UInt32, recordID: RecordID) -> [UInt8] {
         var e = CanonicalEncoder()
         e.appendString("XRAI-WRAP")
         e.appendString(keyID)
         e.appendU32(keyVersion)
-        e.appendString(recordID)
+        e.appendString(recordID.hex)
         return e.bytes
     }
 
     public func encode(into e: inout CanonicalEncoder) {
-        e.appendString(keyID); e.appendU32(keyVersion); e.appendString(boundRecordID)
+        e.appendString(keyID); e.appendU32(keyVersion); e.appendString(boundRecordID.hex)
         e.appendBytes(nonce); e.appendBytes(ciphertext); e.appendBytes(tag)
     }
     public static func decode(from d: inout CanonicalDecoder) throws -> WrappedKey {
-        WrappedKey(keyID: try d.readString(), keyVersion: try d.readU32(), boundRecordID: try d.readString(),
-                   nonce: try d.readBytes(), ciphertext: try d.readBytes(), tag: try d.readBytes())
+        let keyID = try d.readString()
+        guard keyID.count <= 64 else { throw VaultError.limitExceeded("keyID length") }
+        return WrappedKey(keyID: keyID, keyVersion: try d.readU32(), boundRecordID: try RecordID(hex: try d.readString()),
+                          nonce: try d.readBytes(), ciphertext: try d.readBytes(), tag: try d.readBytes())
     }
 }
 
@@ -181,11 +238,11 @@ public struct RecordEnvelope: Hashable, Sendable {
 }
 
 extension RecordEnvelope: CustomStringConvertible, CustomDebugStringConvertible {
+    /// Redacted: no record id, no key id, no timestamps. Class and tier only (not identifying).
     public var description: String {
-        "RecordEnvelope(record: " + header.recordID + ", class: " + header.dataClass.rawValue
-            + ", tier: " + header.privacyTier.rawValue + ", alg: " + header.algorithm.rawValue
-            + ", key: " + wrappedDEK.keyID + "#" + String(wrappedDEK.keyVersion)
-            + ", bytes: " + String(ciphertext.count) + ", payload: <encrypted>)"
+        "RecordEnvelope(class: " + header.dataClass.rawValue + ", tier: " + header.privacyTier.rawValue
+            + ", alg: " + header.algorithm.rawValue + ", keyVersion: " + String(wrappedDEK.keyVersion)
+            + ", id: <redacted>, payload: <encrypted>)"
     }
     public var debugDescription: String { description }
 }
@@ -203,14 +260,14 @@ public struct KeyIdentity: Hashable, Sendable {
 /// A Secure Enclave-backed implementation can satisfy this with non-extractable keys.
 public protocol KeyProvider: Sendable {
     var currentKey: KeyIdentity { get }
-    func wrapDataKey(_ dek: [UInt8], boundTo recordID: String) throws -> WrappedKey
+    func wrapDataKey(_ dek: [UInt8], boundTo recordID: RecordID) throws -> WrappedKey
     func unwrapDataKey(_ wrapped: WrappedKey) throws -> [UInt8]
     /// Creates a new KEK version. Old versions stay available for unwrapping until `forget`.
     func rotate() throws -> KeyIdentity
     func forget(version: UInt32) throws
 }
 
-/// Port: seals and opens record payloads.
+/// Port: seals and opens record payloads. Adapters expose this ONLY behind an authorized facade.
 public protocol EnvelopeSealer: Sendable {
     func seal(plaintext: [UInt8], descriptor: RecordDescriptor) throws -> RecordEnvelope
     func open(_ envelope: RecordEnvelope) throws -> [UInt8]

@@ -1,0 +1,189 @@
+[0/1] Planning build
+Building for debugging...
+[0/2] Write swift-version--58304C5D6DBC2206.txt
+Build complete! (0.08s)
+Test Suite 'All tests' started at 2026-10-19 22:41:15.831.
+Test Suite 'All tests' passed at 2026-10-19 22:41:15.832.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite "Recovery key and error hygiene" started.
+◇ Suite "Module boundary: CryptoKit only in the adapter" started.
+◇ Suite "Key lifecycle" started.
+◇ Suite "AES-256-GCM envelope: adversarial" started.
+◇ Suite "Privacy tiers, floors and data classes" started.
+◇ Suite "Record ids, canonical encoding and headers" started.
+◇ Suite "Mandatory policy enforcement at the vault entry point" started.
+◇ Suite "CivilDate validity — hand-derived fixtures" started.
+◇ Suite "Deny-by-default flow policy against a consent authority" started.
+◇ Suite "CivilDate digits, ordering and redaction" started.
+◇ Suite "Life Path — typed errors and registry" started.
+◇ Suite "Sealed backup: confidentiality, authorization and robustness" started.
+◇ Suite "Life Path — arithmetic properties over the whole supported domain sample" started.
+◇ Suite "Life Path — num.life_path.components.v1 golden fixtures" started.
+◇ Suite "Life Path — num.life_path.digits.v1 golden fixtures" started.
+◇ Suite "Privacy negative tests — XRAICore production sources" started.
+◇ Suite "AES-256-GCM envelope: round trip and structure" started.
+◇ Test "contracts import nothing; adapter imports only CryptoKit/Foundation/contracts; no IO, logging or Keychain tokens in vault modules" started.
+◇ Test "consent-gated classes cannot be sealed without an active grant in the authority; grant unlocks; revocation re-locks" started.
+◇ Test "floors follow SECURITY_DATA_EGRESS_MATRIX_v3.2 and decision 6; no personal class may be public" started.
+◇ Test "integers round-trip big-endian, strings length-prefixed; truncation throws" started.
+◇ Test "record ids are random 128-bit hex, strictly validated, redacted in descriptions" started.
+◇ Test "raw sealer and backup codec are not public API (compile-time boundary, checked by reflection on the facade)" started.
+◇ Test "descriptor construction fails closed below the floor and accepts the floor or higher" started.
+◇ Test "header canonical bytes are deterministic and change with every field; validate() enforces the floor" started.
+◇ Test "tier order is PUBLIC < PRIVATE < SENSITIVE < HIGH" started.
+◇ Test "rejects wrong length and all-zero keys; description is redacted; display round-trips" started.
+◇ Test "wrong key provider cannot open" started.
+◇ Test "rotation re-wraps the DEK, payload bytes unchanged; forgotten old version makes un-rewrapped envelopes unreadable" started.
+◇ Test "family data is third-party information and needs purpose consent" started.
+◇ Test "tampered authenticated metadata fails; a tier DOWNGRADE fails closed before any crypto" started.
+◇ Test "2000-02-29 is valid (divisible by 400)" started.
+◇ Test "a forged receipt presented by the caller has no effect: only the authority is consulted" started.
+◇ Test "a DEK wrapped for one record cannot be swapped into another record" started.
+◇ Test "unsupported format version and malformed lengths are rejected with typed errors" started.
+◇ Test "month 13 and month 0 are invalid" started.
+◇ Test "tampered ciphertext, tag, nonce or wrapped key fails authentication" started.
+◇ Test "valid date but unregistered method → methodUnavailable" started.
+◇ Test "an empty registry makes every method unavailable" started.
+◇ Test "error values and descriptions carry no record id, key id, name or date" started.
+◇ Test "April 31 is invalid" started.
+◇ Test "registry v1 exposes exactly the two BOOT-01 methods" started.
+◇ Test "constant-time equality" started.
+◇ Test "day 0 and day 32 are invalid" started.
+◇ Test "leap-year table" started.
+◇ Test "supported year window is 1583...9999 inclusive" started.
+◇ Test "2024-02-29 valid, 2023-02-29 invalid" started.
+◇ Test "storing parent names requires a purpose-bound grant; storing a birth date does not" started.
+◇ Test "description never contains the birth date (privacy negative test)" started.
+◇ Test "Comparable orders by year, month, day" started.
+◇ Test "provider egress needs an active grant held by the AUTHORITY with matching class, purpose and destination" started.
+◇ Test "reduce_all root equals the digital root of the compound, and both methods agree" started.
+◇ Test "revocation and expiry close the scope from that instant" started.
+◇ Test "metadata leak: backup bytes expose only magic, version, salt, nonce — no record ids, classes, tiers, timestamps, counts, plaintext or recovery key" started.
+◇ Test "every reduction step strictly decreases and ends at the root" started.
+◇ Test "1900-02-29 is invalid (century, not divisible by 400)" started.
+◇ Test "backup inclusion requires user initiation and excludes session-only records" started.
+◇ Test "a caller-held receipt that the authority does not know grants nothing (forged receipt)" started.
+◇ Test "date-only type has exactly three stored properties and no time or zone" started.
+◇ Test "raw personal data never reaches analytics, model training, cloud sync, advertising or crash logs — even with blanket consent" started.
+◇ Test "CivilDate is not Codable in this module (persistence belongs to the vault layer)" started.
+◇ Test "forged body: tier downgrade, duplicate ids, oversize entry count and bad padding inside a correctly-encrypted backup are rejected (fail closed)" started.
+◇ Test "wrong recovery key, corrupted bytes, truncation, trailing bytes, old format version, oversize → rejected; restore requires user initiation" started.
+◇ Test "literal YYYYMMDD digits preserve order and zero padding" started.
+◇ Test "unauthorized export: not user-initiated, session-only record, duplicate id, tampered envelope, foreign envelope" started.
+◇ Test "preserve policy roots are in 1...9 or {11,22,33} and master is set iff root is master" started.
+◇ Test "export → bytes → restore on a NEW device; plaintext recovered; old keys useless; payload ciphertext unchanged" started.
+◇ Test "device vault and user-encrypted backup are the only consent-free destinations" started.
+◇ Test "F7 1999-07-03 → compound 38 → 11 reached at a reduction step (preserved) / → 2" started.
+◇ Test "F6 1969-05-21 → compound 33: preserved as master 33 / reduced to 6" started.
+◇ Test "F8 1955-01-01 → year 20→2, month 1, day 1 → compound 4 → root 4 (differs from digits method 22)" started.
+◇ Test "F10 permutation: 1998-03-06 shares compound 36 with F1 but trace and hash differ" started.
+◇ Test "F1 1998-06-30 → compound 36 → root 9" started.
+◇ Test "F9 2000-02-29 → 2 + 2 + 11(preserved) = 15 → 6; reduce_all: 2 + 2 + 2 = 6" started.
+◇ Test "F2 2000-02-29 (valid leap day) → compound 15 → root 6" started.
+◇ Test "F11 1984-11-22 → 22 + 11 + 22 = 55 → 10 → 1; reduce_all: 4 + 2 + 4 = 10 → 1" started.
+◇ Test "F4 2000-01-08 → compound 11: preserved as master 11 / reduced to 2" started.
+◇ Test "two exports differ in salt, nonce and ciphertext; recovery keys are high entropy; HKDF contexts are separated" started.
+◇ Test "F5 1955-01-01 → compound 22: preserved as master 22 / reduced to 4" started.
+◇ Test "determinism: same inputs give identical trace and hash" started.
+◇ Test "trace hash is an integrity fingerprint: stable, and distinct for distinct inputs/methods" started.
+◇ Test "no production file imports Foundation/Network/OSLog or references IO, logging or networking APIs" started.
+◇ Test "trace description and debug description never contain the birth digits" started.
+◇ Test "types are not Codable here: no serialization path for a DOB in the pure module" started.
+◇ Test "production sources exist for both modules" started.
+◇ Test "nonce strategy: fresh random nonce per seal; same plaintext never repeats nonce or ciphertext" started.
+◇ Test "seal/open round-trips for every consent-free class and ciphertext hides the plaintext" started.
+◇ Test "envelope description is redacted and the type stores no plaintext field" started.
+✘ Test "error values and descriptions carry no record id, key id, name or date" recorded an issue at VaultContractsTests.swift:224:13: Expectation failed: (!s.contains(id.hex) && !s.contains("device") → false) && (!s.contains("1998") → <not evaluated>)
+↳ XRAIVaultContracts.VaultError.privacyTierBelowMinimum(dataClass: XRAIVaultContracts.DataClass.parentsNames, required: XRAIVaultContracts.PrivacyTier.deviceHighSensitivity, got: XRAIVaultContracts.PrivacyTier.publicContent)
+✔ Test "raw sealer and backup codec are not public API (compile-time boundary, checked by reflection on the facade)" passed after 0.003 seconds.
+✔ Test "floors follow SECURITY_DATA_EGRESS_MATRIX_v3.2 and decision 6; no personal class may be public" passed after 0.003 seconds.
+✔ Test "tier order is PUBLIC < PRIVATE < SENSITIVE < HIGH" passed after 0.003 seconds.
+✔ Test "family data is third-party information and needs purpose consent" passed after 0.003 seconds.
+✔ Test "integers round-trip big-endian, strings length-prefixed; truncation throws" passed after 0.003 seconds.
+✔ Test "wrong key provider cannot open" passed after 0.003 seconds.
+✔ Test "2000-02-29 is valid (divisible by 400)" passed after 0.003 seconds.
+✔ Test "rotation re-wraps the DEK, payload bytes unchanged; forgotten old version makes un-rewrapped envelopes unreadable" passed after 0.004 seconds.
+✔ Test "a forged receipt presented by the caller has no effect: only the authority is consulted" passed after 0.004 seconds.
+✔ Test "header canonical bytes are deterministic and change with every field; validate() enforces the floor" passed after 0.004 seconds.
+✔ Test "tampered authenticated metadata fails; a tier DOWNGRADE fails closed before any crypto" passed after 0.004 seconds.
+✔ Test "a DEK wrapped for one record cannot be swapped into another record" passed after 0.004 seconds.
+✔ Test "valid date but unregistered method → methodUnavailable" passed after 0.004 seconds.
+✔ Test "an empty registry makes every method unavailable" passed after 0.004 seconds.
+✔ Test "unsupported format version and malformed lengths are rejected with typed errors" passed after 0.004 seconds.
+✔ Test "consent-gated classes cannot be sealed without an active grant in the authority; grant unlocks; revocation re-locks" passed after 0.004 seconds.
+✔ Test "tampered ciphertext, tag, nonce or wrapped key fails authentication" passed after 0.004 seconds.
+✔ Test "registry v1 exposes exactly the two BOOT-01 methods" passed after 0.004 seconds.
+✔ Test "month 13 and month 0 are invalid" passed after 0.004 seconds.
+✔ Test "rejects wrong length and all-zero keys; description is redacted; display round-trips" passed after 0.004 seconds.
+✔ Test "constant-time equality" passed after 0.004 seconds.
+✔ Test "leap-year table" passed after 0.004 seconds.
+✔ Test "April 31 is invalid" passed after 0.004 seconds.
+✔ Test "storing parent names requires a purpose-bound grant; storing a birth date does not" passed after 0.004 seconds.
+✔ Test "day 0 and day 32 are invalid" passed after 0.004 seconds.
+✔ Test "Comparable orders by year, month, day" passed after 0.004 seconds.
+✔ Test "2024-02-29 valid, 2023-02-29 invalid" passed after 0.004 seconds.
+✔ Test "provider egress needs an active grant held by the AUTHORITY with matching class, purpose and destination" passed after 0.004 seconds.
+✔ Test "revocation and expiry close the scope from that instant" passed after 0.004 seconds.
+✔ Test "supported year window is 1583...9999 inclusive" passed after 0.004 seconds.
+✔ Test "backup inclusion requires user initiation and excludes session-only records" passed after 0.004 seconds.
+✔ Test "a caller-held receipt that the authority does not know grants nothing (forged receipt)" passed after 0.004 seconds.
+✔ Test "description never contains the birth date (privacy negative test)" passed after 0.004 seconds.
+✔ Test "CivilDate is not Codable in this module (persistence belongs to the vault layer)" passed after 0.004 seconds.
+✘ Test "error values and descriptions carry no record id, key id, name or date" failed after 0.005 seconds with 1 issue.
+✔ Test "1900-02-29 is invalid (century, not divisible by 400)" passed after 0.004 seconds.
+✔ Test "date-only type has exactly three stored properties and no time or zone" passed after 0.004 seconds.
+✔ Test "literal YYYYMMDD digits preserve order and zero padding" passed after 0.004 seconds.
+✔ Test "raw personal data never reaches analytics, model training, cloud sync, advertising or crash logs — even with blanket consent" passed after 0.004 seconds.
+✔ Test "every reduction step strictly decreases and ends at the root" passed after 0.004 seconds.
+✔ Test "unauthorized export: not user-initiated, session-only record, duplicate id, tampered envelope, foreign envelope" passed after 0.004 seconds.
+✔ Test "device vault and user-encrypted backup are the only consent-free destinations" passed after 0.004 seconds.
+✔ Test "F7 1999-07-03 → compound 38 → 11 reached at a reduction step (preserved) / → 2" passed after 0.004 seconds.
+✔ Test "F6 1969-05-21 → compound 33: preserved as master 33 / reduced to 6" passed after 0.004 seconds.
+✔ Test "record ids are random 128-bit hex, strictly validated, redacted in descriptions" passed after 0.005 seconds.
+✔ Test "F8 1955-01-01 → year 20→2, month 1, day 1 → compound 4 → root 4 (differs from digits method 22)" passed after 0.004 seconds.
+✔ Test "F1 1998-06-30 → compound 36 → root 9" passed after 0.004 seconds.
+✔ Test "F9 2000-02-29 → 2 + 2 + 11(preserved) = 15 → 6; reduce_all: 2 + 2 + 2 = 6" passed after 0.004 seconds.
+✔ Test "F2 2000-02-29 (valid leap day) → compound 15 → root 6" passed after 0.004 seconds.
+✔ Test "F11 1984-11-22 → 22 + 11 + 22 = 55 → 10 → 1; reduce_all: 4 + 2 + 4 = 10 → 1" passed after 0.004 seconds.
+✔ Test "F4 2000-01-08 → compound 11: preserved as master 11 / reduced to 2" passed after 0.004 seconds.
+✔ Test "determinism: same inputs give identical trace and hash" passed after 0.004 seconds.
+✔ Test "F5 1955-01-01 → compound 22: preserved as master 22 / reduced to 4" passed after 0.004 seconds.
+✔ Test "trace hash is an integrity fingerprint: stable, and distinct for distinct inputs/methods" passed after 0.004 seconds.
+✔ Test "export → bytes → restore on a NEW device; plaintext recovered; old keys useless; payload ciphertext unchanged" passed after 0.005 seconds.
+✔ Test "trace description and debug description never contain the birth digits" passed after 0.004 seconds.
+✔ Test "types are not Codable here: no serialization path for a DOB in the pure module" passed after 0.004 seconds.
+✔ Test "descriptor construction fails closed below the floor and accepts the floor or higher" passed after 0.005 seconds.
+✔ Test "production sources exist for both modules" passed after 0.004 seconds.
+✔ Test "two exports differ in salt, nonce and ciphertext; recovery keys are high entropy; HKDF contexts are separated" passed after 0.005 seconds.
+✔ Test "envelope description is redacted and the type stores no plaintext field" passed after 0.003 seconds.
+✔ Test "seal/open round-trips for every consent-free class and ciphertext hides the plaintext" passed after 0.003 seconds.
+✔ Suite "Mandatory policy enforcement at the vault entry point" passed after 0.005 seconds.
+✔ Suite "Record ids, canonical encoding and headers" passed after 0.006 seconds.
+✔ Suite "AES-256-GCM envelope: adversarial" passed after 0.006 seconds.
+✔ Suite "CivilDate validity — hand-derived fixtures" passed after 0.006 seconds.
+✔ Suite "Key lifecycle" passed after 0.006 seconds.
+✔ Suite "Life Path — typed errors and registry" passed after 0.006 seconds.
+✘ Suite "Recovery key and error hygiene" failed after 0.006 seconds with 1 issue.
+✔ Suite "Deny-by-default flow policy against a consent authority" passed after 0.006 seconds.
+✔ Suite "CivilDate digits, ordering and redaction" passed after 0.006 seconds.
+✔ Suite "Life Path — num.life_path.components.v1 golden fixtures" passed after 0.006 seconds.
+✔ Suite "Privacy tiers, floors and data classes" passed after 0.006 seconds.
+✔ Test "F10 permutation: 1998-03-06 shares compound 36 with F1 but trace and hash differ" passed after 0.004 seconds.
+✔ Suite "Life Path — num.life_path.digits.v1 golden fixtures" passed after 0.006 seconds.
+✔ Test "forged body: tier downgrade, duplicate ids, oversize entry count and bad padding inside a correctly-encrypted backup are rejected (fail closed)" passed after 0.006 seconds.
+✔ Test "no production file imports Foundation/Network/OSLog or references IO, logging or networking APIs" passed after 0.009 seconds.
+✔ Suite "Privacy negative tests — XRAICore production sources" passed after 0.011 seconds.
+✔ Test "nonce strategy: fresh random nonce per seal; same plaintext never repeats nonce or ciphertext" passed after 0.012 seconds.
+✔ Suite "AES-256-GCM envelope: round trip and structure" passed after 0.014 seconds.
+✔ Test "contracts import nothing; adapter imports only CryptoKit/Foundation/contracts; no IO, logging or Keychain tokens in vault modules" passed after 0.016 seconds.
+✔ Suite "Module boundary: CryptoKit only in the adapter" passed after 0.016 seconds.
+✔ Test "metadata leak: backup bytes expose only magic, version, salt, nonce — no record ids, classes, tiers, timestamps, counts, plaintext or recovery key" passed after 0.019 seconds.
+✔ Test "preserve policy roots are in 1...9 or {11,22,33} and master is set iff root is master" passed after 0.079 seconds.
+✔ Test "reduce_all root equals the digital root of the compound, and both methods agree" passed after 0.146 seconds.
+✔ Suite "Life Path — arithmetic properties over the whole supported domain sample" passed after 0.147 seconds.
+✔ Test "wrong recovery key, corrupted bytes, truncation, trailing bytes, old format version, oversize → rejected; restore requires user initiation" passed after 0.207 seconds.
+✔ Suite "Sealed backup: confidentiality, authorization and robustness" passed after 0.207 seconds.
+✘ Test run with 71 tests in 17 suites failed after 0.208 seconds with 1 issue.

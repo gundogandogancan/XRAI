@@ -82,6 +82,38 @@
         "Portable encrypted backup and device migration": 5,
         "Module boundary: CryptoKit only in the adapter": 1
       }
+    },
+    {
+      "run_id": "P02-01H-BUILD",
+      "command": "swift build",
+      "cwd": "Packages/XRAICore",
+      "exit_code": 0,
+      "log": "docs/status/evidence/p02_01h_swift_build.log",
+      "log_sha256": "61cf76d355f484b96a53608dccd22c9fce2251a49557080fe588cc42143dad9b"
+    },
+    {
+      "run_id": "P02-01H-TEST-RUN1",
+      "command": "swift test",
+      "cwd": "Packages/XRAICore",
+      "exit_code": 1,
+      "result": "71 tests, 70 passed, 1 failed (errorHygiene: substring 'device' matched tier names; test narrowed to key id 'device-main')",
+      "log": "docs/status/evidence/p02_01h_swift_test_run1_FAILED_1_of_71.log",
+      "log_sha256": "1a9d832d4070f4a85e9ad832a97ece7f7aec9108031043622a412dfaedfcec15"
+    },
+    {
+      "run_id": "P02-01H-TEST-RUN2",
+      "command": "swift test",
+      "cwd": "Packages/XRAICore",
+      "exit_code": 0,
+      "result": "71 tests in 17 suites passed (35 BOOT-01 + 36 vault)",
+      "log": "docs/status/evidence/p02_01h_swift_test_run2.log",
+      "log_sha256": "76fc6b76ba56abb45f3bdc2db59c4658d1528e18a2fd427c6f5e861cbc51f4b3"
+    },
+    {
+      "run_id": "P02-01H-NUMEROLOGY-REGRESSION",
+      "command": "git diff --stat Packages/XRAICore/Sources/XRAIIdentityTime Sources/XRAINumerology Tests/XRAIIdentityTimeTests Tests/XRAINumerologyTests",
+      "exit_code": 0,
+      "result": "empty diff: pure core untouched"
     }
   ],
   "acceptance_test_mapping": [
@@ -172,10 +204,13 @@
     "num.life_path.digits.v1": "TESTED",
     "num.life_path.components.v1": "TESTED",
     "everything_else": "SPECIFIED / NOT_STARTED",
-    "vault.contracts.v1": "TESTED",
+    "vault.contracts.v1": "TESTED (hardened H1)",
     "vault.aes256gcm.envelope.v1": "TESTED (library; SECURITY_REVIEWED: NO; DEVICE_VERIFIED: NO)",
     "vault.backup.recoverykey.v1": "TESTED (library)",
-    "vault.keychain_provider": "NOT_STARTED"
+    "vault.keychain_provider": "NOT_STARTED",
+    "vault.backup.sealed.v2": "TESTED (library; v1 format retired)",
+    "vault.secure_vault.facade": "TESTED",
+    "vault.consent_authority": "PORT_ONLY (production registry NOT_STARTED)"
   },
   "not_evidence": [
     "docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"

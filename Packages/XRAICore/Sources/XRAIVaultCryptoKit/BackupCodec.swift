@@ -1,38 +1,36 @@
-// Portable backup export/import (decisions 3 and 4). End-to-end encrypted under a key derived from
-// the user's recovery key. Payload ciphertext is never decrypted during export or import; only DEKs
-// are re-wrapped. XRAI never sees or stores the recovery key.
+// Sealed backup export/import (decisions 3–4; hardening V32-02-01H §1, §5).
+// Outer AES-256-GCM envelope under a key derived (HKDF-SHA256, context-separated) from the user's
+// recovery key. All record metadata is inside the ciphertext. XRAI never sees the recovery key.
+// `internal`: callers go through `SecureVault`, which authorizes and verifies first.
 import CryptoKit
 import Foundation
 import XRAIVaultContracts
 
-public enum BackupCodec {
-    static let kekInfo = Array("xrai.backup.kek.v1".utf8)
-    static let macInfo = Array("xrai.backup.mac.v1".utf8)
-    public static let saltBytes = 16
+enum BackupCodec {
+    static let kekInfo = Array("xrai.backup.kek.v2".utf8)      // wraps the per-record DEKs
+    static let outerInfo = Array("xrai.backup.outer.v2".utf8)  // outer body AEAD key
 
-    public static func generateRecoveryKey() throws -> RecoveryKey {
+    static func generateRecoveryKey() throws -> RecoveryKey {
         try RecoveryKey(bytes: SymmetricKey(size: .bits256).withUnsafeBytes { Array($0) })
     }
 
-    static func deriveKeys(recoveryKey: RecoveryKey, salt: [UInt8]) -> (kek: [UInt8], mac: SymmetricKey) {
-        let ikm = SymmetricKey(data: recoveryKey.bytes)
-        let kek = HKDF<SHA256>.deriveKey(inputKeyMaterial: ikm, salt: salt, info: kekInfo, outputByteCount: 32)
-        let mac = HKDF<SHA256>.deriveKey(inputKeyMaterial: ikm, salt: salt, info: macInfo, outputByteCount: 32)
-        return (kek.withUnsafeBytes { Array($0) }, mac)
+    static func randomSalt() -> [UInt8] {
+        var rng = SystemRandomNumberGenerator()
+        return (0..<SealedBackup.saltBytes).map { _ in UInt8.random(in: 0...255, using: &rng) }
     }
 
-    /// Export: unwrap each DEK with the device provider, re-wrap under the backup KEK, MAC the result.
-    public static func export(
-        _ envelopes: [RecordEnvelope],
-        from device: any KeyProvider,
-        recoveryKey: RecoveryKey,
-        nowUnixSeconds: Int64
-    ) throws -> PortableBackup {
-        var salt = [UInt8](repeating: 0, count: saltBytes)
-        var rng = SystemRandomNumberGenerator()
-        for i in 0..<saltBytes { salt[i] = UInt8.random(in: 0...255, using: &rng) }
+    static func deriveKeys(recoveryKey: RecoveryKey, salt: [UInt8]) -> (kek: [UInt8], outer: SymmetricKey) {
+        let ikm = SymmetricKey(data: recoveryKey.bytes)
+        let kek = HKDF<SHA256>.deriveKey(inputKeyMaterial: ikm, salt: salt, info: kekInfo, outputByteCount: 32)
+        let outer = HKDF<SHA256>.deriveKey(inputKeyMaterial: ikm, salt: salt, info: outerInfo, outputByteCount: 32)
+        return (kek.withUnsafeBytes { Array($0) }, outer)
+    }
+
+    /// Caller (SecureVault) has already verified every envelope and authorized the export.
+    static func export(verified envelopes: [RecordEnvelope], from device: any KeyProvider, recoveryKey: RecoveryKey, nowUnixSeconds: Int64) throws -> [UInt8] {
+        let salt = randomSalt()
         let keys = deriveKeys(recoveryKey: recoveryKey, salt: salt)
-        let backupProvider = try InMemoryKeyProvider(keyID: PortableBackup.backupKeyID, material: keys.kek)
+        let backupProvider = try InMemoryKeyProvider(keyID: SealedBackup.backupKeyID, material: keys.kek)
         var entries: [RecordEnvelope] = []
         entries.reserveCapacity(envelopes.count)
         for env in envelopes {
@@ -40,33 +38,36 @@ public enum BackupCodec {
             let w = try backupProvider.wrapDataKey(dek, boundTo: env.header.recordID)
             entries.append(env.replacingWrappedDEK(w))
         }
-        let authenticated = PortableBackup.authenticatedBytes(formatVersion: PortableBackup.currentFormatVersion, salt: salt, createdAtUnixSeconds: nowUnixSeconds, entries: entries)
-        let tag = Array(HMAC<SHA256>.authenticationCode(for: authenticated, using: keys.mac))
-        return PortableBackup(salt: salt, createdAtUnixSeconds: nowUnixSeconds, entries: entries, integrityTag: tag)
+        let body = BackupBody(createdAtUnixSeconds: nowUnixSeconds, entries: entries).encode()
+        let padded = BackupBody.pad(body)
+        let nonce = AES.GCM.Nonce()
+        let nonceBytes = nonce.withUnsafeBytes { Array($0) }
+        let ad = SealedBackup.associatedData(formatVersion: SealedBackup.currentFormatVersion, salt: salt, nonce: nonceBytes)
+        let box = try AES.GCM.seal(padded, using: keys.outer, nonce: nonce, authenticating: ad)
+        return SealedBackup(salt: salt, nonce: nonceBytes, ciphertext: Array(box.ciphertext), tag: Array(box.tag)).encode()
     }
 
-    /// Import on a (new) device: verify MAC, unwrap under the backup KEK, re-wrap under the new device key.
-    public static func restore(
-        _ backup: PortableBackup,
-        recoveryKey: RecoveryKey,
-        into device: any KeyProvider
-    ) throws -> [RecordEnvelope] {
-        guard backup.formatVersion == PortableBackup.currentFormatVersion else { throw VaultError.unsupportedFormat(backup.formatVersion) }
-        let keys = deriveKeys(recoveryKey: recoveryKey, salt: backup.salt)
-        let expected = Array(HMAC<SHA256>.authenticationCode(for: backup.authenticatedBytes, using: keys.mac))
-        guard ConstantTime.equal(expected, backup.integrityTag) else { throw VaultError.backupIntegrityFailed }
-        let backupProvider = try InMemoryKeyProvider(keyID: PortableBackup.backupKeyID, material: keys.kek)
+    /// Decode → outer AEAD open → unpad → body decode (limits, duplicates, tier floors) → re-wrap DEKs
+    /// under the new device key. Returns envelopes still to be payload-verified by the caller.
+    static func restore(bytes: [UInt8], recoveryKey: RecoveryKey, into device: any KeyProvider) throws -> (BackupBody, [RecordEnvelope]) {
+        let sealed = try SealedBackup.decode(bytes)
+        let keys = deriveKeys(recoveryKey: recoveryKey, salt: sealed.salt)
+        let padded: [UInt8]
+        do {
+            let box = try AES.GCM.SealedBox(nonce: AES.GCM.Nonce(data: sealed.nonce), ciphertext: sealed.ciphertext, tag: sealed.tag)
+            padded = Array(try AES.GCM.open(box, using: keys.outer, authenticating: sealed.associatedData))
+        } catch {
+            throw VaultError.backupIntegrityFailed
+        }
+        let body = try BackupBody.decode(try BackupBody.unpad(padded))
+        let backupProvider = try InMemoryKeyProvider(keyID: SealedBackup.backupKeyID, material: keys.kek)
         var out: [RecordEnvelope] = []
-        out.reserveCapacity(backup.entries.count)
-        for env in backup.entries {
+        out.reserveCapacity(body.entries.count)
+        for env in body.entries {
             let dek = try backupProvider.unwrapDataKey(env.wrappedDEK)
             let w = try device.wrapDataKey(dek, boundTo: env.header.recordID)
             out.append(env.replacingWrappedDEK(w))
         }
-        return out
-    }
-
-    public static func restore(bytes: [UInt8], recoveryKey: RecoveryKey, into device: any KeyProvider) throws -> [RecordEnvelope] {
-        try restore(try PortableBackup.decode(bytes), recoveryKey: recoveryKey, into: device)
+        return (body, out)
     }
 }
