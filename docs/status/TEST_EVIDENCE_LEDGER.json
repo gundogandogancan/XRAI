@@ -490,6 +490,30 @@
       "result": "PASS: 12 DataClass cases present in inventory + matrix; every blocker id in the gate report exists in OPEN_BLOCKERS.md; ADR-005..008 present; entitlements carry no application-groups; 8 P03-03 docs cite baseline 713468e",
       "log": "docs/status/evidence/p03_03_check_docs.log",
       "log_sha256": "c51bb110aae2b6bc0738ab275e0d74d8e1f817d5cfd9480b1019fe46a2583191"
+    },
+    {
+      "run_id": "P03-03H-STATIC-SWIFT",
+      "command": "swift test --package-path Packages/XRAICore (macOS host regression; no code changed)",
+      "exit_code": 0,
+      "result": "108 tests in 27 suites passed",
+      "log": "docs/status/evidence/p03_03h_swift_test_macos.log",
+      "log_sha256": "4534269ec1aba8f45080bc761e38cc93414bde7ad1d23cccb65308ee8929ed44"
+    },
+    {
+      "run_id": "P03-03H-STATIC-VALIDATE",
+      "command": "python3 -I validation/validate_package.py",
+      "exit_code": 0,
+      "result": "PASS spec structure; files=4414; methods=19; tests=98; tasks=18",
+      "log": "docs/status/evidence/p03_03h_validate_package.log",
+      "log_sha256": "13a695318cec4f54592e8f899b3cc451a7032ef37fe814272b20f606b630413c"
+    },
+    {
+      "run_id": "P03-03H-STATIC-DOCS",
+      "command": "python3 -I validation/check_p03_03_docs.py (extended for P03-03H)",
+      "exit_code": 0,
+      "result": "PASS: P03-03 checks + H docs cite baseline 7fc3091; every NT-* id referenced resolves to a matrix row (48 rows); threat model T44–T46 present",
+      "log": "docs/status/evidence/p03_03h_check_docs.log",
+      "log_sha256": "a810b673923e4b2f521a8847e3f3cdb901dd6dd282433740b8f0769cbb723bcf"
     }
   ],
   "acceptance_test_mapping": [
@@ -611,7 +635,8 @@
     "app.contrast_gate": "TESTED (measured, both appearances)",
     "app.a11y_audit": "TESTED on 5 screens; contrast type excluded on tab screens (KNOWN_LIMITATION)",
     "app.voiceover_human": "MANUAL_PENDING",
-    "P03-03": "SPECIFIED (design only); no code change; static checks exit 0; DEVICE_VERIFIED: n/a; SECURITY_REVIEWED: NO"
+    "P03-03": "SPECIFIED (design only); no code change; static checks exit 0; DEVICE_VERIFIED: n/a; SECURITY_REVIEWED: NO",
+    "P03-03H": "SPECIFIED (design hardening only); no code change; static checks exit 0; device tests NOT_RUN (nothing executable changed); SECURITY_REVIEWED: NO"
   },
   "not_evidence": [
     "docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"

@@ -176,3 +176,18 @@ DATE:
 SCOPE_APPROVED:
 CHANGES_REQUESTED:
 ```
+
+---
+
+## P03-03H RESULT (2026-10-20) — SECURITY ARCHITECTURE HARDENING, STOP
+
+Reviewer conditionally accepted ADR-BOOT-009 D1 and D7. H1–H6 remediated at design level: permanent deletion ledger with fail-closed digest and no reactivation of known-deleted ids (90-day window withdrawn); key-retirement protocol v2 (freeze, journaled rewrap, inventory digest, generation-bound proof, same-section forget); persisted epoch instead of the token ring, journal-bound consumption, authz never in backups, Keychain anchor; revoke/delete split with explicit-choice suspension; manifest/journal integrity contracts; F-UX-5 made a mandatory gate. Docs: `P03_03H_SECURITY_REMEDIATION_REPORT.md`, `P03_04_IMPLEMENTATION_CONTRACT.md`, `P03_04_NEGATIVE_TEST_ACCEPTANCE_MATRIX.md`; ADR-BOOT-009 Amendment H; threat model v1.7. No Swift code changed; static checks + macOS regression only (see ledger). 
+
+Recommendation for P03-04: CONDITIONAL GO with the scope in `P03_04_IMPLEMENTATION_CONTRACT.md` (library-only `XRAIVaultStore`, fixtures, temp dirs, no app wiring, no real personal data). Waits for independent architecture approval below.
+
+```
+APPROVED_BY:
+DATE:
+SCOPE_APPROVED:
+CHANGES_REQUESTED:
+```

@@ -41,6 +41,23 @@ for name in ("P03_03_DATA_INVENTORY", "P03_03_DATA_LIFECYCLE_MATRIX", "P03_03_CO
     if not p.exists(): problems.append(f"missing {name}.md"); continue
     if "713468e" not in p.read_text(): problems.append(f"{name}.md does not cite the baseline 713468e")
 
+# P03-03H hardening docs: exist, cite their baseline, and every NT-* id in the remediation report exists in the matrix
+for name in ("P03_03H_SECURITY_REMEDIATION_REPORT", "P03_04_IMPLEMENTATION_CONTRACT", "P03_04_NEGATIVE_TEST_ACCEPTANCE_MATRIX"):
+    p = root / f"docs/status/{name}.md"
+    if not p.exists(): problems.append(f"missing {name}.md"); continue
+    if "7fc3091" not in p.read_text(): problems.append(f"{name}.md does not cite the baseline 7fc3091")
+matrix_h = (root / "docs/status/P03_04_NEGATIVE_TEST_ACCEPTANCE_MATRIX.md").read_text()
+matrix_ids = set(re.findall(r"\| (NT-[A-Z0-9]+-\d+) \|", matrix_h))
+for doc in ("P03_03H_SECURITY_REMEDIATION_REPORT", "P03_04_IMPLEMENTATION_CONTRACT"):
+    text = (root / f"docs/status/{doc}.md").read_text()
+    for nid in set(re.findall(r"NT-[A-Z0-9]+-\d+", text)):
+        if nid not in matrix_ids: problems.append(f"{doc}.md references {nid} which is not a row of the acceptance matrix")
+for bid in set(re.findall(r"`([A-Z][A-Z0-9_]{6,})`", (root / "docs/status/P03_03H_SECURITY_REMEDIATION_REPORT.md").read_text())):
+    if bid in ("ROTATION_CROSS_PROCESS", "VAULT_SECURITY_REVIEW") and bid not in blockers: problems.append(f"remediation report names {bid} missing from OPEN_BLOCKERS.md")
+tm = (root / "docs/security/VAULT_THREAT_MODEL_P02.md").read_text()
+for t in ("T44", "T45", "T46"):
+    if f"| {t} |" not in tm: problems.append(f"threat model lacks row {t}")
+
 if problems:
     print("FAIL"); [print(" -", p) for p in problems]; sys.exit(1)
-print(f"PASS P03-03 docs: {len(cases)} data classes cross-checked, blockers resolved, ADRs present, no app groups")
+print(f"PASS P03-03/P03-03H docs: {len(cases)} data classes cross-checked, blockers resolved, ADRs present, no app groups, {len(matrix_ids)} NT rows, T44–T46 present")

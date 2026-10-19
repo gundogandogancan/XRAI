@@ -77,3 +77,8 @@ ADR-005 (envelopes, sealed backup v2) unchanged; ADR-006 (Keychain/SE, accessibi
 
 ## 7. Not decided (UNKNOWN / deferred)
 Attachment size caps; biometric gating per operation; whether the manifest should be sharded above ~10 k records; SQLCipher adoption timing; multi-user devices (one vault per OS user by construction).
+
+---
+
+## Amendment H (2026-10-20, P03-03H)
+Sections 2–5 above are the original P03-03 text and are kept unchanged for history. The following parts are **superseded** by `P03_03H_SECURITY_REMEDIATION_REPORT.md` and `docs/adr/ADR-BOOT-009` Amendment H: `tombstones.v1` (90-day retention) → permanent `system/ledger.v1` with fail-closed digest; `authz.v1` ring → persisted epoch; §3 "interrupted writes", "restore rollback", "cross-process races" → H5 contracts; §5 store proof → retirement protocol v2 (R0–R7). Layout change: `system/{manifest.v1, ledger.v1, authz.v1}`, `orphans/`, Keychain anchor `vault/anchor`. Revoke/delete split per H4.

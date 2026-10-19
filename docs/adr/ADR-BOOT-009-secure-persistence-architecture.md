@@ -18,3 +18,17 @@ Extends ADR-BOOT-005 (envelopes/backup), 006 (Keychain/SE), 007 (cache/rotation/
 
 ## Acceptance
 Becomes ACCEPTED only after review and once P03-04 tests exist (`P03_03_THREAT_AND_NEGATIVE_TEST_PLAN.md` rows N3, N10, N13, N15, N16, N19 move from PLANNED to TESTED).
+
+---
+
+## Amendment H (2026-10-20, P03-03H) — hardening after independent review; original decisions above are kept for history
+
+| original | amended | where |
+|---|---|---|
+| D3 tombstones kept 90 days; older backups may resurrect with user confirmation; corrupt tombstones treated as empty | **permanent deletion ledger** cross-bound to the manifest and the Keychain anchor; fail-closed digest compaction only above 200 000 entries; missing/corrupt ledger → every restore quarantined; a known-deleted id is **never** reactivated under its id; suspicious backups quarantined whole; explicit risk screen; LIMIT: deletions after an old backup's export are unknowable after device loss | `P03_03H_SECURITY_REMEDIATION_REPORT.md` H1 |
+| D5 `KeyRetirementProof` = manifest hash + zero count | **retirement protocol v2** (R0–R7): freeze `minimumWrapVersion`, journaled rewrap incl. system envelopes, full inventory digest, three-way cross-check, proof bound to manifest generation + exclusive section token, retire+forget inside the same section; backups never reference device KEK versions | H2 |
+| D8 consumed-token ring (10 000) + persisted clock mark | **persisted epoch** (increments on every launch and restore), token id = epoch‖counter‖random, in-memory consumed set per epoch, journal begin carries the token id in the same critical section; `authz.v1` never exported; clock mark bound to manifest generation and Keychain anchor | H3 |
+| D4 revoke → 7-day grace then delete | **two operations**: `deleteRecords` (immediate, no grace) and `revokeConsent` (immediate access stop; `suspended` only when the user explicitly chooses it and only for grace-eligible own-authored classes); re-grant never reactivates; `restoreSuspended` is a separate authorized action | H4 |
+| §3 "interrupted writes / cross-process" rows | explicit contracts for atomic replace, durable commit, recovery, manifest rollback detection (generation chain + `authz` + ledger + Keychain anchor), truncated journal, orphans/missing, partial envelopes, symlink/path traversal, advisory single-writer lock, power loss; each with a negative test id | H5, `P03_04_NEGATIVE_TEST_ACCEPTANCE_MATRIX.md` |
+
+Status after Amendment H: still PROPOSED; D1 (record-per-file) and D7 (in-process InteractionGate with stated limit) were conditionally accepted by the reviewer; implementation scope fixed in `P03_04_IMPLEMENTATION_CONTRACT.md`.
