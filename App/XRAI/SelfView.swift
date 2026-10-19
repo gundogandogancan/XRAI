@@ -11,7 +11,7 @@ struct SelfView: View {
         NavigationStack {
             XRPage {
                 XRSectionTitle(text: "Ben")
-                Text("Burada yalnızca sen varsın. Bu sürümde hiçbir şey kaydedilmez.").font(XRFont.secondary).foregroundStyle(XRColor.textSecondary)
+                Text("Burada yalnızca sen varsın. Bu sürümde hiçbir şey diske kaydedilmez; tarih yalnızca uygulama açıkken bellekte durur.").font(XRFont.secondary).foregroundStyle(XRColor.textSecondary)
 
                 LifePathFeatureView()
 
@@ -26,7 +26,7 @@ struct SelfView: View {
                     XRLabeledValue(label: "Cihazda doğrulandı", value: security.deviceVerified ? "Evet" : "Kısmen")
                     XRLabeledValue(label: "Bağımsız güvenlik denetimi", value: security.securityReviewed ? "Evet" : "Hayır")
                     XRLabeledValue(label: "Derleme", value: security.buildIsDebug ? "Debug (test/demo)" : "Release")
-                    Text("Anahtar zincirinde yalnızca şifreleme anahtarları durur; kişisel kayıt yok. Kayıt saklama, izin kaydı ve yedek daha sonra, açık izninle gelir.")
+                    Text("Anahtar zincirinde yalnızca şifreleme anahtarları durur; kişisel kayıt yok. Arka planda tarih bellekte kalır ve uygulama değiştiricide gizlilik perdesi gösterilir; uygulamayı kapatınca tarih silinir; 'Tarihi unut' hemen siler. Kayıt saklama, izin kaydı ve yedek daha sonra, açık izninle gelir.")
                         .font(XRFont.caption).foregroundStyle(XRColor.textSecondary)
                 }
 

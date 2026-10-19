@@ -1,0 +1,61 @@
+{
+  "devicesAndConfigurations" : [
+    {
+      "device" : {
+        "architecture" : "arm64",
+        "deviceId" : "00008120-001A51141A9B401E",
+        "deviceName" : "Dogi (2)",
+        "modelName" : "iPhone 14 Pro Max",
+        "osBuildNumber" : "23G71",
+        "osVersion" : "26.6",
+        "platform" : "iOS"
+      },
+      "expectedFailures" : 0,
+      "failedTests" : 2,
+      "passedTests" : 43,
+      "skippedTests" : 0,
+      "testPlanConfiguration" : {
+        "configurationId" : "1",
+        "configurationName" : "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription" : "XRAI · Built with macOS 26.4",
+  "expectedFailures" : 0,
+  "failedTests" : 2,
+  "finishTime" : 1792448729.222,
+  "passedTests" : 43,
+  "result" : "Failed",
+  "skippedTests" : 0,
+  "startTime" : 1792448529.92,
+  "statistics" : [
+
+  ],
+  "testFailures" : [
+    {
+      "failureText" : "XCTAssertEqual failed: (\"\") is not equal to (\"Yıl\") - G1: draft cleared too",
+      "targetName" : "XRAIUITests",
+      "testIdentifier" : 42,
+      "testIdentifierString" : "OnboardingUITests/testForgetClearsDateAndDraftInBen()",
+      "testIdentifierURL" : "test://com.apple.xcode/XRAI/XRAIUITests/OnboardingUITests/testForgetClearsDateAndDraftInBen",
+      "testName" : "testForgetClearsDateAndDraftInBen()"
+    },
+    {
+      "failureText" : "XCTAssertEqual failed: (\"\") is not equal to (\"Yıl\") - draft year must be empty (placeholder shown)",
+      "targetName" : "XRAIUITests",
+      "testIdentifier" : 43,
+      "testIdentifierString" : "OnboardingUITests/testInvalidDateShowsProblemAndDoesNotAdvance()",
+      "testIdentifierURL" : "test://com.apple.xcode/XRAI/XRAIUITests/OnboardingUITests/testInvalidDateShowsProblemAndDoesNotAdvance",
+      "testName" : "testInvalidDateShowsProblemAndDoesNotAdvance()"
+    }
+  ],
+  "title" : "Test - XRAI",
+  "topInsights" : [
+    {
+      "category" : "Longest Test Runs",
+      "impact" : "15% of duration",
+      "text" : "1 longest test run with outlier durations exceeding 0.51s (three standard deviations)"
+    }
+  ],
+  "totalTestCount" : 45
+}

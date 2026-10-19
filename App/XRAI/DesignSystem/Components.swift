@@ -7,7 +7,7 @@ struct XRPrimaryButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(XRFont.heading)
-            .foregroundStyle(Color.white)
+            .foregroundStyle(XRColor.onAccent)
             .frame(maxWidth: .infinity, minHeight: XRHit.min + 6)
             .background(XRColor.accent.opacity(isEnabled ? (configuration.isPressed ? 0.85 : 1) : 0.45))
             .clipShape(RoundedRectangle(cornerRadius: XRRadius.control, style: .continuous))
@@ -54,21 +54,38 @@ struct XRCard<Content: View>: View {
 
 /// Epistemic class label (constitution §73): every result says what kind of knowledge it is.
 struct XREpistemicBadge: View {
-    enum Kind { case exactMath, symbolic, userReport, notBuilt }
-    let kind: Kind
-    private var text: LocalizedStringKey {
-        switch kind {
-        case .exactMath: return "Kesin matematik"
-        case .symbolic: return "Sembolik gelenek"
-        case .userReport: return "Senin beyanın"
-        case .notBuilt: return "Henüz yok"
+    /// Five classes that must never blend (constitution §73, P03-02 G3):
+    /// exact math · symbolic tradition · the user's own report · a system-offered invitation · not built.
+    enum Kind: CaseIterable, Equatable {
+        case exactMath, symbolic, userReport, systemInvitation, notBuilt
+        var text: LocalizedStringKey {
+            switch self {
+            case .exactMath: return "Kesin matematik"
+            case .symbolic: return "Sembolik gelenek"
+            case .userReport: return "Senin beyanın"
+            case .systemInvitation: return "Sistem daveti"
+            case .notBuilt: return "Henüz yok"
+            }
+        }
+        /// Plain string for tests and VoiceOver composition.
+        var rawLabel: String {
+            switch self {
+            case .exactMath: return "Kesin matematik"
+            case .symbolic: return "Sembolik gelenek"
+            case .userReport: return "Senin beyanın"
+            case .systemInvitation: return "Sistem daveti"
+            case .notBuilt: return "Henüz yok"
+            }
         }
     }
+    let kind: Kind
+    private var text: LocalizedStringKey { kind.text }
     private var color: Color {
         switch kind {
         case .exactMath: return XRColor.sage
         case .symbolic: return XRColor.gold
         case .userReport: return XRColor.accent
+        case .systemInvitation: return XRColor.textSecondary
         case .notBuilt: return XRColor.textSecondary
         }
     }
@@ -80,6 +97,7 @@ struct XREpistemicBadge: View {
             .background(color.opacity(0.12))
             .clipShape(Capsule())
             .accessibilityLabel(Text("Bilgi sınıfı: ") + Text(text))
+            .accessibilityIdentifier("badge." + String(describing: kind))
     }
 }
 
@@ -129,6 +147,26 @@ struct XRLogo: View {
 struct XRPage<Content: View>: View {
     @ViewBuilder var content: Content
     var body: some View {
+        scroll
+            .background(XRColor.background.ignoresSafeArea())
+            .scrollDismissesKeyboard(.interactively)
+            // F-UX-2: breathing room under the last card so the floating tab bar never covers it; a
+            // relative content margin, not a device-specific number.
+            .contentMargins(.bottom, XRSpace.xxl, for: .scrollContent)
+    }
+
+    /// iOS 26 glass bars let content show through them, which lowers the measured contrast of text
+    /// passing underneath (caught by the accessibility audit on Bugün). A hard bottom edge keeps the
+    /// bar region opaque so text is either fully visible or fully hidden, never mixed.
+    @ViewBuilder private var scroll: some View {
+        if #available(iOS 26.0, *) {
+            baseScroll.scrollEdgeEffectStyle(.hard, for: .bottom)
+        } else {
+            baseScroll
+        }
+    }
+
+    private var baseScroll: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: XRSpace.l) { content }
                 .padding(.horizontal, XRSpace.page)
@@ -136,8 +174,39 @@ struct XRPage<Content: View>: View {
                 .frame(maxWidth: 640)
                 .frame(maxWidth: .infinity)
         }
-        .background(XRColor.background.ignoresSafeArea())
-        .scrollDismissesKeyboard(.interactively)
+    }
+}
+
+
+/// Label above a value, for values that must stay on their own readable line (F-UX-3).
+struct XRStackedValue: View {
+    let label: LocalizedStringKey
+    let value: String
+    var mono = true
+    var body: some View {
+        VStack(alignment: .leading, spacing: XRSpace.xs) {
+            Text(label).font(XRFont.caption).foregroundStyle(XRColor.textSecondary)
+            Text(value).font(mono ? XRFont.mono : XRFont.body).foregroundStyle(XRColor.text)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .accessibilityElement(children: .combine)
+    }
+}
+
+/// Covers personal content while the scene is inactive so the app-switcher snapshot shows the brand, not the date (G2).
+struct PrivacyShieldView: View {
+    var body: some View {
+        ZStack {
+            XRColor.background.ignoresSafeArea()
+            VStack(spacing: XRSpace.m) {
+                XRLogo(size: 96)
+                Text("XRAI").font(XRFont.title).foregroundStyle(XRColor.text)
+                Text("Gizlilik perdesi: içerik uygulama etkinken görünür.").font(XRFont.caption).foregroundStyle(XRColor.textSecondary)
+            }
+        }
+        .accessibilityIdentifier("privacy.shield")
+        .accessibilityLabel("Gizlilik perdesi")
     }
 }
 

@@ -19,11 +19,15 @@ struct XRAIApp: App {
 
     var body: some Scene {
         WindowGroup {
-            Group {
+            ZStack {
                 if session.onboardingCompleted {
                     RootTabView()
                 } else {
                     OnboardingView(flow: onboarding)
+                }
+                // G2: cover personal content while inactive (app switcher snapshot, incoming call, control centre).
+                if PrivacyShieldPolicy.shouldShield(phase: scenePhase, holdsPersonalData: session.holdsPersonalData) {
+                    PrivacyShieldView().transition(.opacity)
                 }
             }
             .environment(security)

@@ -27,7 +27,8 @@ Vocabulary: `BLOCKED` (cannot proceed without an external fact/right/decision), 
 | SIM_SE_IS_HOST_MAC | note | — | On Apple-silicon Macs the Simulator proxies the host's Secure Enclave; simulator SE results are NOT iPhone hardware evidence. |
 | REINSTALL_KEY_POLICY | P03 | DESIGN | on fresh install with no store: adopt key set explicitly or `wipeAllKeys()`; user told that device-only keys need the recovery-key backup. |
 | APP_ICON_AND_LAUNCH | P03-01 | RESOLVED_TODAY | AppIcon, LaunchLogo/LaunchBackground, tr/en string catalog. |
-| UX_POLISH_P03_02 | P03-02 | OPEN | F-UX-1 skip link below the fold at accessibility sizes; F-UX-2 floating tab bar overlaps last card; F-UX-3 trace date wraps; automated contrast/a11y gates; VoiceOver + Reduce Motion manual checklist; English proofreading; SE/landscape layouts. |
+| UX_POLISH_P03_02 | P03-02 | RESOLVED_TODAY (partially) | F-UX-1/2/3 fixed and asserted; contrast + a11y gates automated; Reduce Motion run; English agent-proofread. Still open: F-UX-4 quiet-button affordance, SE-class layout (no simulator), native English review, human VoiceOver pass (MANUAL_PENDING), app-switcher snapshot visual check. |
+| TABBAR_CONTRAST_AUDIT | known limitation | NOTE | iOS 26 translucent floating tab bar blends scrolled content; XCUI `.contrast` audit excluded on tab screens; token pairs measured separately. |
 | ONBOARDING_FLAG_IN_DEFAULTS | pre-persistence | NOTE | the only persisted value is the non-personal onboarding flag in UserDefaults (test-asserted); moves to a preferences layer with the vault store. |
 | AUTHZ_ISSUER_UI_BINDING | pre-persistence | OPEN | `AuthorizationIssuer.issue()` must be callable only from trusted user-interaction paths; no integration proves tokens come from real user actions yet. |
 | DELETION_GRANT_VALIDATION | pre-persistence | OPEN | store layer must validate/consume `DeletionGrant`. |

@@ -384,6 +384,88 @@
       "command": "xcresulttool export attachments",
       "exit_code": 0,
       "result": "docs/status/evidence/screenshots/{simulator-light,simulator-dark,device}: 18 PNG each"
+    },
+    {
+      "run_id": "P03-02-MAC",
+      "command": "swift test --package-path Packages/XRAICore",
+      "exit_code": 0,
+      "result": "108/108; package unchanged",
+      "log": "docs/status/evidence/p03_02_swift_test_macos.log",
+      "log_sha256": "83fcf5c48c0a0367996fae76ba7808761301ac03bba1a9853b5dd771a617bdb5"
+    },
+    {
+      "run_id": "P03-02-SIM-BUILD",
+      "command": "xcodebuild build-for-testing … iPhone 17 Simulator (final code)",
+      "exit_code": 0,
+      "result": "TEST BUILD SUCCEEDED",
+      "log": "docs/status/evidence/p03_02_xcodebuild_sim_build_for_testing.log",
+      "log_sha256": "1b75eb370c0921f8ac6bcec596faaf0f85d0067070858ef15378c06b560e878a"
+    },
+    {
+      "run_id": "P03-02-SIM-FINAL",
+      "command": "xcodebuild test-without-building … iPhone 17 Simulator (light)",
+      "exit_code": 0,
+      "result": "45/45: 38 hosted (12 new: lifecycle, privacy semantics, epistemic, contrast, motion) + 7 UI (incl. accessibility audit, forget flow)",
+      "log": "docs/status/evidence/p03_02_xcodebuild_sim_tests_final.log",
+      "log_sha256": "f4b433c2ce2727c5b9794a5709f46eb2d2c7a3c5a75d718790a771feb7a533cf"
+    },
+    {
+      "run_id": "P03-02-SIM-DARK",
+      "command": "simctl appearance dark; -only-testing:XRAIUITests",
+      "exit_code": 0,
+      "result": "7/7; 19 dark screenshots",
+      "log": "docs/status/evidence/p03_02_xcodebuild_sim_dark_ui.log",
+      "log_sha256": "f9c277e18a6205135e6e9826fb217fc6f8627c5d4f5559d4824c9050dbba1f1b"
+    },
+    {
+      "run_id": "P03-02-SIM-REDUCE-MOTION",
+      "command": "ReduceMotionEnabled=true; two UI flows",
+      "exit_code": 0,
+      "result": "2/2",
+      "log": "docs/status/evidence/p03_02_xcodebuild_sim_reduce_motion_ui.log",
+      "log_sha256": "6c026bdfbc16088908ac0d591682644937ff4da12fa6bc545aa3af30b9514dec"
+    },
+    {
+      "run_id": "P03-02-DEVICE-RUN1",
+      "command": "xcodebuild test … iPhone 14 Pro Max (pre-audit-fix build)",
+      "exit_code": 65,
+      "result": "42/45 (audit findings later fixed)",
+      "log": "docs/status/evidence/p03_02_xcodebuild_device_run1_pre_audit_fix_3_FAIL.log",
+      "log_sha256": "8048811ad73957ee7222f52a95d17ff07783c330762b83d8642d288fb3581d58"
+    },
+    {
+      "run_id": "P03-02-DEVICE-RUN2",
+      "command": "xcodebuild test … iPhone 14 Pro Max (final app code)",
+      "exit_code": 65,
+      "result": "43/45; two failures = fragile assertion (empty field value '' on device vs placeholder on Simulator)",
+      "log": "docs/status/evidence/p03_02_xcodebuild_device_run2_2_FAIL_placeholder_assert.log",
+      "log_sha256": "5eeba1a85cced3d913316dbbabf8f3f2d6883f0c09f80aa1533d11abc99a0950"
+    },
+    {
+      "run_id": "P03-02-DEVICE-RUN3",
+      "command": "same, the two tests with the device-robust assertion",
+      "exit_code": 0,
+      "result": "2/2",
+      "log": "docs/status/evidence/p03_02_xcodebuild_device_run3_two_tests.log",
+      "log_sha256": "d62cbd9421ffad9dc10bf2772c23ae3a6b6c6feaa394d2bca438e40fd3c55e15"
+    },
+    {
+      "run_id": "P03-02-SIM-TWO-TESTS",
+      "command": "Simulator, the two tests with the final assertion",
+      "exit_code": 0,
+      "result": "2/2",
+      "log": "docs/status/evidence/p03_02_xcodebuild_sim_two_tests_final_assertion.log",
+      "log_sha256": "d7787c17442a8b794096669ca94af894f28c439c722992fa1197ba26ca24d2c2"
+    },
+    {
+      "run_id": "P03-02-GATES",
+      "command": "ContrastTests + performAccessibilityAudit",
+      "exit_code": 0,
+      "result": "contrast: 22 pairs measured, 2 real defects fixed; audit: no issues on 5 screens (Simulator + device) with .contrast excluded on tab screens (documented limitation)",
+      "log": "docs/status/evidence/p03_02_contrast_ratios_measured.txt",
+      "log_sha256": "9ae197ed54d25301b48313dee7a00d16267a93d4b64cb9feb0652ed34e18462b",
+      "audit_simulator": "docs/status/evidence/p03_02_a11y_audit_simulator.txt",
+      "audit_device": "docs/status/evidence/p03_02_a11y_audit_device.txt"
     }
   ],
   "acceptance_test_mapping": [
@@ -497,8 +579,14 @@
     "app.design_system": "CODED (tokens, components, dark/light, Dynamic Type, Reduce Motion) — visual QA by screenshots, no automated contrast gate yet",
     "app.onboarding": "CODED + TESTED (models + UI, simulator + device)",
     "app.lifepath_feature": "CODED + TESTED (uses NumerologyLifePath; nothing stored)",
-    "app.localization": "tr source + en catalog (63 strings); not yet proofread by a native English reviewer",
-    "app.launch_screen": "CODED (LaunchLogo + LaunchBackground)"
+    "app.localization": "tr source + 69 en strings, agent-proofread only",
+    "app.launch_screen": "CODED (LaunchLogo + LaunchBackground)",
+    "app.data_lifecycle": "TESTED (forgetAll, draft never outlives onboarding)",
+    "app.privacy_shield": "CODED + policy TESTED; snapshot visual MANUAL_PENDING",
+    "app.epistemic_classes": "5 classes TESTED",
+    "app.contrast_gate": "TESTED (measured, both appearances)",
+    "app.a11y_audit": "TESTED on 5 screens; contrast type excluded on tab screens (KNOWN_LIMITATION)",
+    "app.voiceover_human": "MANUAL_PENDING"
   },
   "not_evidence": [
     "docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"

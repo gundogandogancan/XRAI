@@ -1,6 +1,7 @@
 // Onboarding state machine (testable, no UI) + the SwiftUI flow.
 // Steps: welcome → whatItDoes → privacy → birthDate (optional) → preview (only if the user opted in) → done.
-// Nothing entered here is written to disk.
+// Nothing entered here is written to disk. The form draft lives in SessionState (one copy) and is
+// cleared when onboarding finishes, whether or not a date was confirmed (P03-02 G1).
 import Observation
 import SwiftUI
 import XRAIIdentityTime
@@ -13,9 +14,6 @@ final class OnboardingFlow {
     private(set) var step: Step = .welcome
     private(set) var finished = false
     private(set) var previewOptedIn = false
-    var year = ""
-    var month = ""
-    var day = ""
     private(set) var problem: BirthDateInput.Problem?
 
     let session: SessionState
@@ -28,7 +26,7 @@ final class OnboardingFlow {
         case .welcome: step = .whatItDoes
         case .whatItDoes: step = .privacy
         case .privacy: step = .birthDate
-        case .birthDate: finish()                 // "continue without a date"
+        case .birthDate: finish()                 // "continue without a date": unconfirmed text is dropped
         case .preview: finish()
         }
     }
@@ -41,9 +39,9 @@ final class OnboardingFlow {
     /// Skip everything: usable app, no personal data.
     func skip() { finish() }
 
-    /// Explicit opt-in: validate, store in memory only, show the preview.
+    /// Explicit opt-in: validate, store the DATE in memory only, show the preview.
     func computePreview() {
-        switch BirthDateInput.parse(year: year, month: month, day: day) {
+        switch BirthDateInput.parse(session.draft) {
         case .success(let d):
             problem = nil
             session.setBirthDate(d)
@@ -55,6 +53,8 @@ final class OnboardingFlow {
     }
 
     private func finish() {
+        session.clearDraft()                      // form text never outlives onboarding
+        problem = nil
         finished = true
         session.completeOnboarding()
     }
@@ -66,11 +66,18 @@ struct OnboardingView: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            // Decorative for assistive tech (the audit flags it as a tiny control); the step count is
+            // exposed on the page as text instead.
             ProgressView(value: flow.progress)
                 .tint(XRColor.accent)
                 .padding(.horizontal, XRSpace.page)
                 .padding(.top, XRSpace.s)
-                .accessibilityLabel("Onboarding ilerlemesi")
+                .accessibilityHidden(true)
+            Text("Adım \(flow.step.rawValue + 1) / \(OnboardingFlow.Step.allCases.count)")
+                .font(XRFont.caption).foregroundStyle(XRColor.textSecondary)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .padding(.horizontal, XRSpace.page)
+                .accessibilityLabel("Tanıtım adımı \(flow.step.rawValue + 1), toplam \(OnboardingFlow.Step.allCases.count)")
             XRPage {
                 switch flow.step {
                 case .welcome: welcome
@@ -81,21 +88,50 @@ struct OnboardingView: View {
                 }
             }
             .animation(motion.standard, value: flow.step)
+            // Actions pinned above the home indicator at every Dynamic Type size (F-UX-1):
+            // "Şimdilik atla" is always visible next to "Başla", never below the fold.
+            .safeAreaInset(edge: .bottom) { actions }
         }
         .background(XRColor.background.ignoresSafeArea())
     }
 
+    @ViewBuilder private var actions: some View {
+        VStack(spacing: XRSpace.s) {
+            switch flow.step {
+            case .welcome:
+                Button("Başla") { flow.next() }.buttonStyle(XRPrimaryButtonStyle()).accessibilityIdentifier("onboarding.start")
+                Button("Şimdilik atla") { flow.skip() }.buttonStyle(XRSecondaryButtonStyle()).accessibilityIdentifier("onboarding.skip")
+            case .whatItDoes:
+                Button("Devam") { flow.next() }.buttonStyle(XRPrimaryButtonStyle()).accessibilityIdentifier("onboarding.next.whatItDoes")
+                Button("Geri") { flow.back() }.buttonStyle(XRQuietButtonStyle()).frame(maxWidth: .infinity).accessibilityIdentifier("onboarding.back.whatItDoes")
+            case .privacy:
+                Button("Anladım, devam") { flow.next() }.buttonStyle(XRPrimaryButtonStyle()).accessibilityIdentifier("onboarding.next.privacy")
+                Button("Geri") { flow.back() }.buttonStyle(XRQuietButtonStyle()).frame(maxWidth: .infinity).accessibilityIdentifier("onboarding.back.privacy")
+            case .birthDate:
+                Button("Önizlemeyi hesapla") { flow.computePreview() }.buttonStyle(XRPrimaryButtonStyle()).accessibilityIdentifier("onboarding.compute")
+                Button("Tarih girmeden devam et") { flow.next() }.buttonStyle(XRSecondaryButtonStyle()).accessibilityIdentifier("onboarding.continueWithoutDate")
+                Button("Geri") { flow.back() }.buttonStyle(XRQuietButtonStyle()).frame(maxWidth: .infinity).accessibilityIdentifier("onboarding.back.birthDate")
+            case .preview:
+                Button("Uygulamaya geç") { flow.next() }.buttonStyle(XRPrimaryButtonStyle()).accessibilityIdentifier("onboarding.finish")
+            }
+        }
+        .padding(.horizontal, XRSpace.page)
+        .padding(.top, XRSpace.m)
+        .padding(.bottom, XRSpace.s)
+        .frame(maxWidth: 640)
+        .frame(maxWidth: .infinity)
+        .background(XRColor.background.opacity(0.96))
+    }
+
     private var welcome: some View {
         VStack(alignment: .leading, spacing: XRSpace.xl) {
-            HStack { Spacer(); XRLogo(size: 112); Spacer() }.padding(.top, XRSpace.xxl)
+            HStack { Spacer(); XRLogo(size: 112); Spacer() }.padding(.top, XRSpace.xl)
             VStack(alignment: .leading, spacing: XRSpace.s) {
                 Text("XRAI").font(XRFont.display).foregroundStyle(XRColor.text).accessibilityAddTraits(.isHeader)
                 Text("Kendini keşfet. Kendi hızında, kendi cihazında.").font(XRFont.title).foregroundStyle(XRColor.text)
                 Text("Kim olduğunu, seni neyin harekete geçirdiğini ve bugün atabileceğin tek anlamlı adımı birlikte araştırırız. Yorumlar pencere açar; kararı sen verirsin.")
                     .font(XRFont.body).foregroundStyle(XRColor.textSecondary)
             }
-            Button("Başla") { flow.next() }.buttonStyle(XRPrimaryButtonStyle()).accessibilityIdentifier("onboarding.start")
-            Button("Şimdilik atla") { flow.skip() }.buttonStyle(XRQuietButtonStyle()).frame(maxWidth: .infinity).accessibilityIdentifier("onboarding.skip")
         }
     }
 
@@ -105,8 +141,8 @@ struct OnboardingView: View {
             XRCard(tint: XRColor.sage.opacity(0.5)) {
                 Text("Bu sürümde yapar").font(XRFont.heading).foregroundStyle(XRColor.text)
                 bullet("Doğum tarihinden Yaşam Yolu sayısını çevrimdışı, adım adım hesaplar.")
-                bullet("Hangi bilginin matematik, hangisinin gelenek, hangisinin senin beyanın olduğunu her zaman ayırır.")
-                bullet("Hiçbir kişisel veriyi diske yazmaz; tarih yalnızca bu oturumda bellekte kalır.")
+                bullet("Hangi bilginin matematik, hangisinin gelenek, hangisinin senin beyanın, hangisinin sistemin daveti olduğunu her zaman ayırır.")
+                bullet("Hiçbir kişisel veriyi diske yazmaz.")
             }
             XRCard {
                 Text("Henüz yapmaz").font(XRFont.heading).foregroundStyle(XRColor.text)
@@ -115,8 +151,6 @@ struct OnboardingView: View {
                 bullet("Rehber sohbeti ve yorum üretimi (planlı; hiçbir model bağlı değil).")
                 Text("Planlanan hiçbir şey tamamlanmış gibi gösterilmez.").font(XRFont.caption).foregroundStyle(XRColor.textSecondary)
             }
-            Button("Devam") { flow.next() }.buttonStyle(XRPrimaryButtonStyle()).accessibilityIdentifier("onboarding.next.whatItDoes")
-            Button("Geri") { flow.back() }.buttonStyle(XRQuietButtonStyle()).frame(maxWidth: .infinity)
         }
     }
 
@@ -125,25 +159,22 @@ struct OnboardingView: View {
             XRSectionTitle(text: "Verilerin senin kontrolünde")
             XRCard {
                 bullet("Her şey cihazında çalışır. Bulut, analitik veya dış yapay zekâ bağlantısı yok.")
-                bullet("Bu sürümde kişisel veri diske kaydedilmez. Uygulamayı kapatınca girdiğin tarih silinir.")
+                bullet("Bu sürümde kişisel veri diske kaydedilmez. Girdiğin tarih yalnızca uygulama açıkken bellekte durur.")
+                bullet("Uygulamayı arka plana alırsan tarih bellekte kalmaya devam eder; ekran görüntüsü yerine bir gizlilik perdesi gösterilir. Uygulamayı tamamen kapatınca tarih silinir. 'Tarihi unut' ise hemen siler.")
                 bullet("Cihazın anahtar zincirinde yalnızca şifreleme anahtarları durur; kişisel kayıt değil. Kalıcı şifreli kasa daha sonra, senin açık izninle gelecek.")
                 bullet("Yedekleme ve kurtarma anahtarı henüz çalışmıyor. Geldiğinde kural şu olacak: kurtarma anahtarını kaybedersen yedeğini kimse açamaz, XRAI dahil.")
                 bullet("İstediğin an vazgeçebilir, veriyi unutturabilir veya uygulamayı kullanmayı bırakabilirsin.")
             }
-            Button("Anladım, devam") { flow.next() }.buttonStyle(XRPrimaryButtonStyle()).accessibilityIdentifier("onboarding.next.privacy")
-            Button("Geri") { flow.back() }.buttonStyle(XRQuietButtonStyle()).frame(maxWidth: .infinity)
         }
     }
 
     private var birthDate: some View {
-        VStack(alignment: .leading, spacing: XRSpace.l) {
+        @Bindable var session = flow.session
+        return VStack(alignment: .leading, spacing: XRSpace.l) {
             XRSectionTitle(text: "Doğum tarihin (isteğe bağlı)")
-            Text("İstersen Yaşam Yolu sayını hemen görebilirsin. Bu yalnızca rakam aritmetiğidir; kişilik, sağlık ya da kader anlamı taşımaz. Tarih kaydedilmez.")
+            Text("İstersen Yaşam Yolu sayını hemen görebilirsin. Bu yalnızca rakam aritmetiğidir; kişilik, sağlık ya da kader anlamı taşımaz. Tarih diske kaydedilmez; onaylamadan çıkarsan yazdıkların da silinir.")
                 .font(XRFont.body).foregroundStyle(XRColor.textSecondary)
-            DateFields(year: $flow.year, month: $flow.month, day: $flow.day, problem: flow.problem)
-            Button("Önizlemeyi hesapla") { flow.computePreview() }.buttonStyle(XRPrimaryButtonStyle()).accessibilityIdentifier("onboarding.compute")
-            Button("Tarih girmeden devam et") { flow.next() }.buttonStyle(XRSecondaryButtonStyle()).accessibilityIdentifier("onboarding.continueWithoutDate")
-            Button("Geri") { flow.back() }.buttonStyle(XRQuietButtonStyle()).frame(maxWidth: .infinity)
+            DateFields(year: $session.draft.year, month: $session.draft.month, day: $session.draft.day, problem: flow.problem)
         }
     }
 
@@ -155,7 +186,6 @@ struct OnboardingView: View {
             }
             Text("Bu bir başlangıç noktası, bir hüküm değil. Ben sekmesinden yöntemi değiştirebilir, izi inceleyebilir veya tarihi unutturabilirsin.")
                 .font(XRFont.secondary).foregroundStyle(XRColor.textSecondary)
-            Button("Uygulamaya geç") { flow.next() }.buttonStyle(XRPrimaryButtonStyle()).accessibilityIdentifier("onboarding.finish")
         }
     }
 
@@ -185,6 +215,7 @@ struct DateFields: View {
                 Text(BirthDateInput.message(for: problem))
                     .font(XRFont.caption).foregroundStyle(problem == .empty ? XRColor.textSecondary : XRColor.danger)
                     .accessibilityIdentifier("date.problem")
+                    .accessibilityLabel(Text("Tarih hatası: ") + Text(BirthDateInput.message(for: problem)))
             }
         }
     }

@@ -1,0 +1,990 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test-without-building -project /Users/dogancangundogan/ProjectXrai/XRAI.xcodeproj -scheme XRAI -destination "platform=iOS Simulator,name=iPhone 17" -derivedDataPath /private/tmp/claude-501/-Users-dogancangundogan-ProjectXrai/fd9c625e-16e5-48b0-ac59-d611e0d88337/scratchpad/dd-app -resultBundlePath /private/tmp/claude-501/-Users-dogancangundogan-ProjectXrai/fd9c625e-16e5-48b0-ac59-d611e0d88337/scratchpad/p03_02_sim.xcresult
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  XRAICore: /Users/dogancangundogan/ProjectXrai/Packages/XRAICore
+
+Writing result bundle at path:
+	/private/tmp/claude-501/-Users-dogancangundogan-ProjectXrai/fd9c625e-16e5-48b0-ac59-d611e0d88337/scratchpad/p03_02_sim.xcresult
+
+Test Suite 'All tests' started at 2026-10-20 01:07:20.982.
+Test Suite 'All tests' passed at 2026-10-20 01:07:20.983.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64-apple-ios13.0-simulator
+◇ Suite "Keychain mode selection and fail-closed behaviour" started.
+◇ Suite "P03-00F F3 — cache fails closed when the time source fails; TTL is monotonic" started.
+◇ Suite "G5 — measured contrast of the real light/dark token pairs (WCAG 2.x)" started.
+◇ Suite "G3 — epistemic classes never blend" started.
+◇ Suite "Hosted: production keychain configuration inside the app" started.
+◇ Suite "G1 — data lifecycle: one central forget, nothing lingers" started.
+◇ Suite "Onboarding flow model" started.
+◇ Suite "G5 — Reduce Motion" started.
+◇ Suite "Key cache (P03-00 §3)" started.
+◇ Suite "G2 — privacy semantics: background keeps memory, relaunch forgets, shield policy" started.
+◇ Suite "Keychain key lifecycle" started.
+◇ Suite "Isolation of test doubles and debug surface from production" started.
+◇ Suite "P03-00F F4 — in-process rotation serialization; cross-process is BLOCKED" started.
+◇ Test "negative: forgetAll never touches the onboarding flag, and resetOnboarding never touches personal data" started.
+◇ Test "text pairs reach AA 4.5:1 and UI accents reach 3:1 in BOTH appearances; ratios recorded" started.
+◇ Test "production configuration never falls back: without a keychain entitlement it fails closed; inside a signed host it uses the data-protection keychain" started.
+◇ Test "time source failure purges the cache and refuses the operation; a stale KEK is never served; recovery after the source returns" started.
+◇ Test "SecurityStatus bootstrap reports a ready, production-grade key state and the self-test passes without persisting anything" started.
+◇ Test "the onboarding flow and the feature share ONE draft: forgetting from the feature empties the onboarding form too" started.
+◇ Test "start: steps advance in order and nothing is set before the user opts in" started.
+◇ Test "five distinct classes with distinct, non-empty labels; the system invitation is not the user's report" started.
+◇ Test "G1: continue without a date drops the unconfirmed draft text" started.
+◇ Test "production config opens the data-protection keychain; protection is device-bound, SE-wrapped only where hardware exists" started.
+◇ Test "forgetAll clears the confirmed date AND every draft field; preferences stay; recompute works afterwards" started.
+◇ Test "invalid date: typed problem, no date set, stays on the date step" started.
+◇ Test "skip from welcome: app usable, onboarding completed, no personal data anywhere" started.
+◇ Test "relaunch: the onboarding flag persists, the birth date and draft do not; the defaults suite holds only the flag" started.
+◇ Test "shield policy: shown only when inactive AND personal data is held" started.
+◇ Test "background → foreground inside one process keeps the in-memory date (and the UI says so) while the key cache is purged" started.
+◇ Test "valid date: explicit opt-in sets the in-memory date, shows the preview, trace matches the engine; finishing clears the draft but keeps the date" started.
+◇ Test "with Reduce Motion the design system returns no animation; otherwise a short ease" started.
+◇ Test "a cached KEK survives deletion of its item only until TTL or purge; purge on lock makes the loss immediate" started.
+◇ Test "XRAIVaultKeychain imports no testing module, is the only Security importer, has no debug hooks or forbidden IO; in-memory provider is test-only" started.
+◇ Test "create, reuse across provider instances (app relaunch), and isolation between key ids and services" started.
+◇ Test "two instances rotating concurrently in one process: versions strictly monotonic, no conflicts, pointer consistent" started.
+⎙ Attached 'contrast-ratios.txt' to "text pairs reach AA 4.5:1 and UI accents reach 3:1 in BOTH appearances; ratios recorded".
+✔ Test "five distinct classes with distinct, non-empty labels; the system invitation is not the user's report" passed after 0.001 seconds.
+✔ Test "with Reduce Motion the design system returns no animation; otherwise a short ease" passed after 0.001 seconds.
+✔ Test "text pairs reach AA 4.5:1 and UI accents reach 3:1 in BOTH appearances; ratios recorded" passed after 0.001 seconds.
+✔ Suite "G3 — epistemic classes never blend" passed after 0.010 seconds.
+✔ Suite "G5 — Reduce Motion" passed after 0.010 seconds.
+✔ Suite "G5 — measured contrast of the real light/dark token pairs (WCAG 2.x)" passed after 0.010 seconds.
+✔ Test "SecurityStatus bootstrap reports a ready, production-grade key state and the self-test passes without persisting anything" passed after 0.009 seconds.
+✔ Test "XRAIVaultKeychain imports no testing module, is the only Security importer, has no debug hooks or forbidden IO; in-memory provider is test-only" passed after 0.015 seconds.
+✔ Suite "Isolation of test doubles and debug surface from production" passed after 0.024 seconds.
+✔ Test "production configuration never falls back: without a keychain entitlement it fails closed; inside a signed host it uses the data-protection keychain" passed after 0.017 seconds.
+◇ Test "test configuration reports its true protection level; the provider never claims hardware it does not have" started.
+✔ Test "negative: forgetAll never touches the onboarding flag, and resetOnboarding never touches personal data" passed after 0.018 seconds.
+✔ Test "the onboarding flow and the feature share ONE draft: forgetting from the feature empties the onboarding form too" passed after 0.018 seconds.
+✔ Test "start: steps advance in order and nothing is set before the user opts in" passed after 0.039 seconds.
+✔ Test "time source failure purges the cache and refuses the operation; a stale KEK is never served; recovery after the source returns" passed after 0.040 seconds.
+◇ Test "a time source that goes backwards (impossible for monotonic, simulated) does not extend the TTL" started.
+✔ Test "skip from welcome: app usable, onboarding completed, no personal data anywhere" passed after 0.040 seconds.
+✔ Test "G1: continue without a date drops the unconfirmed draft text" passed after 0.040 seconds.
+✔ Test "invalid date: typed problem, no date set, stays on the date step" passed after 0.040 seconds.
+✔ Test "shield policy: shown only when inactive AND personal data is held" passed after 0.040 seconds.
+✔ Test "relaunch: the onboarding flag persists, the birth date and draft do not; the defaults suite holds only the flag" passed after 0.040 seconds.
+✔ Test "valid date: explicit opt-in sets the in-memory date, shows the preview, trace matches the engine; finishing clears the draft but keeps the date" passed after 0.040 seconds.
+✔ Test "background → foreground inside one process keeps the in-memory date (and the UI says so) while the key cache is purged" passed after 0.040 seconds.
+✔ Test "forgetAll clears the confirmed date AND every draft field; preferences stay; recompute works afterwards" passed after 0.041 seconds.
+✔ Suite "G2 — privacy semantics: background keeps memory, relaunch forgets, shield policy" passed after 0.050 seconds.
+✔ Suite "Onboarding flow model" passed after 0.050 seconds.
+✔ Suite "G1 — data lifecycle: one central forget, nothing lingers" passed after 0.050 seconds.
+✔ Test "test configuration reports its true protection level; the provider never claims hardware it does not have" passed after 0.025 seconds.
+◇ Test "Secure Enclave REQUIRED fails closed where the enclave is absent and works where present (no silent downgrade)" started.
+✔ Test "a cached KEK survives deletion of its item only until TTL or purge; purge on lock makes the loss immediate" passed after 0.048 seconds.
+◇ Test "cache disabled: every operation hits the keychain, so deletion is visible immediately" started.
+✔ Test "production config opens the data-protection keychain; protection is device-bound, SE-wrapped only where hardware exists" passed after 0.049 seconds.
+✔ Suite "Hosted: production keychain configuration inside the app" passed after 0.059 seconds.
+✔ Test "a time source that goes backwards (impossible for monotonic, simulated) does not extend the TTL" passed after 0.011 seconds.
+◇ Test "the production uptime source is monotonic and positive" started.
+✔ Test "the production uptime source is monotonic and positive" passed after 0.001 seconds.
+✔ Suite "P03-00F F3 — cache fails closed when the time source fails; TTL is monotonic" passed after 0.061 seconds.
+✔ Test "create, reuse across provider instances (app relaunch), and isolation between key ids and services" passed after 0.054 seconds.
+◇ Test "rotation: new item before pointer move; old records open; rewrap moves them; forget needs retire (two-phase); relaunch sees the new version" started.
+✔ Test "Secure Enclave REQUIRED fails closed where the enclave is absent and works where present (no silent downgrade)" passed after 0.012 seconds.
+◇ Test "OSStatus mapping is typed and identifier-free" started.
+✔ Test "OSStatus mapping is typed and identifier-free" passed after 0.001 seconds.
+✔ Suite "Keychain mode selection and fail-closed behaviour" passed after 0.068 seconds.
+✔ Test "cache disabled: every operation hits the keychain, so deletion is visible immediately" passed after 0.016 seconds.
+◇ Test "another instance's stale cache after retire+forget: access persists only until its TTL/purge (documented), then fails closed" started.
+✔ Test "rotation: new item before pointer move; old records open; rewrap moves them; forget needs retire (two-phase); relaunch sees the new version" passed after 0.024 seconds.
+◇ Test "two instances on one service: a stale instance refreshes the pointer, never wraps under a stale version, and rotates to the next version instead of conflicting" started.
+✔ Test "another instance's stale cache after retire+forget: access persists only until its TTL/purge (documented), then fails closed" passed after 0.018 seconds.
+✔ Suite "Key cache (P03-00 §3)" passed after 0.092 seconds.
+✔ Test "two instances on one service: a stale instance refreshes the pointer, never wraps under a stale version, and rotates to the next version instead of conflicting" passed after 0.016 seconds.
+◇ Test "interrupted rotation: a READABLE orphan is adopted by the next rotation; an UNREADABLE orphan blocks rotation until repaired; orphans never unwrap" started.
+✔ Test "interrupted rotation: a READABLE orphan is adopted by the next rotation; an UNREADABLE orphan blocks rotation until repaired; orphans never unwrap" passed after 0.019 seconds.
+◇ Test "same key id with different material (conflict) is never overwritten" started.
+✔ Test "two instances rotating concurrently in one process: versions strictly monotonic, no conflicts, pointer consistent" passed after 0.120 seconds.
+✔ Suite "P03-00F F4 — in-process rotation serialization; cross-process is BLOCKED" passed after 0.129 seconds.
+✔ Test "same key id with different material (conflict) is never overwritten" passed after 0.007 seconds.
+◇ Test "corrupted keychain entry fails closed on relaunch and on unwrap; a missing item (passcode removed → OS deleted it) fails closed" started.
+✔ Test "corrupted keychain entry fails closed on relaunch and on unwrap; a missing item (passcode removed → OS deleted it) fails closed" passed after 0.015 seconds.
+◇ Test "mode mismatch between stored meta and configuration fails closed (no silent downgrade of protection)" started.
+✔ Test "mode mismatch between stored meta and configuration fails closed (no silent downgrade of protection)" passed after 0.005 seconds.
+◇ Test "wipe requires an explicit confirmation naming the key id; afterwards a new provider starts a fresh key set" started.
+✔ Test "wipe requires an explicit confirmation naming the key id; afterwards a new provider starts a fresh key set" passed after 0.011 seconds.
+◇ Test "concurrent wrap/unwrap/rotate on one provider: no crash, every unwrap succeeds or fails typed, versions stay monotonic" started.
+✔ Test "concurrent wrap/unwrap/rotate on one provider: no crash, every unwrap succeeds or fails typed, versions stay monotonic" passed after 0.019 seconds.
+◇ Test "end-to-end: SecureVault over the Keychain provider — seal, backup, restore on a second key set" started.
+✔ Test "end-to-end: SecureVault over the Keychain provider — seal, backup, restore on a second key set" passed after 0.008 seconds.
+✔ Suite "Keychain key lifecycle" passed after 0.191 seconds.
+✔ Test run with 38 tests in 13 suites passed after 0.192 seconds.
+2026-10-20 01:07:22.038868+0300 XRAIUITests-Runner[61298:7540286] [Default] Running tests...
+    t =      nans Interface orientation changed to Portrait
+Test Suite 'All tests' started at 2026-10-20 01:07:22.666.
+Test Suite 'XRAIUITests.xctest' started at 2026-10-20 01:07:22.667.
+Test Suite 'OnboardingUITests' started at 2026-10-20 01:07:22.667.
+Test Case '-[XRAIUITests.OnboardingUITests testAccessibilityAuditOnKeyScreens]' started.
+    t =     0.00s Start Test at 2026-10-20 01:07:22.667
+    t =     0.03s Set Up
+    t =     0.03s Open com.xrai.app
+    t =     0.03s     Launch com.xrai.app
+2026-10-20 01:07:22.841 xcodebuild[61290:7539696] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+2026-10-20 01:07:22.841 xcodebuild[61290:7539696] [MT] IDELaunchParametersSnapshot: no debugger version
+objc[61298]: Class UIAccessibilityLoaderWebShared is implemented in both /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebCore.axbundle/WebCore (0x108388310) and /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebKit.axbundle/WebKit (0x107c0c398). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+    t =     0.38s         Setting up automation session
+    t =     0.93s         Wait for com.xrai.app to idle
+    t =     5.02s Added attachment named 'a11y-audit-welcome'
+    t =     5.02s Waiting 15.0s for "onboarding.start" Any to exist
+    t =     6.04s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.start" Any`
+    t =     6.04s         Checking existence of `"onboarding.start" Any`
+    t =     7.09s Checking `Expect predicate `isHittable == 1` for object "onboarding.start" Any`
+    t =     7.09s     Find the "onboarding.start" Any
+    t =     7.12s Tap "onboarding.start" Button
+    t =     7.12s     Wait for com.xrai.app to idle
+    t =     7.12s     Find the "onboarding.start" Button
+    t =     7.14s     Check for interrupting elements affecting "onboarding.start" Button
+    t =     7.15s     Synthesize event
+    t =     7.44s     Wait for com.xrai.app to idle
+    t =     7.44s Waiting 15.0s for "onboarding.next.whatItDoes" Any to exist
+    t =     8.47s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.next.whatItDoes" Any`
+    t =     8.47s         Checking existence of `"onboarding.next.whatItDoes" Any`
+    t =     9.51s Checking `Expect predicate `isHittable == 1` for object "onboarding.next.whatItDoes" Any`
+    t =     9.51s     Find the "onboarding.next.whatItDoes" Any
+    t =     9.55s Tap "onboarding.next.whatItDoes" Button
+    t =     9.55s     Wait for com.xrai.app to idle
+    t =     9.56s     Find the "onboarding.next.whatItDoes" Button
+    t =     9.57s     Check for interrupting elements affecting "onboarding.next.whatItDoes" Button
+    t =     9.59s     Synthesize event
+    t =     9.87s     Wait for com.xrai.app to idle
+    t =     9.87s Waiting 15.0s for "onboarding.next.privacy" Any to exist
+    t =    10.90s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.next.privacy" Any`
+    t =    10.90s         Checking existence of `"onboarding.next.privacy" Any`
+    t =    11.94s Checking `Expect predicate `isHittable == 1` for object "onboarding.next.privacy" Any`
+    t =    11.95s     Find the "onboarding.next.privacy" Any
+    t =    11.98s Tap "onboarding.next.privacy" Button
+    t =    11.98s     Wait for com.xrai.app to idle
+    t =    11.98s     Find the "onboarding.next.privacy" Button
+    t =    11.99s     Check for interrupting elements affecting "onboarding.next.privacy" Button
+    t =    12.01s     Synthesize event
+    t =    12.29s     Wait for com.xrai.app to idle
+    t =    15.21s Added attachment named 'a11y-audit-birthdate'
+    t =    15.21s Waiting 5.0s for "date.year" TextField to exist
+    t =    16.24s     Checking `Expect predicate `existsNoRetry == 1` for object "date.year" TextField`
+    t =    16.25s         Checking existence of `"date.year" TextField`
+    t =    16.26s Tap "date.year" TextField
+    t =    16.26s     Wait for com.xrai.app to idle
+    t =    16.27s     Find the "date.year" TextField
+    t =    16.28s     Check for interrupting elements affecting "date.year" TextField
+    t =    16.29s     Synthesize event
+    t =    16.58s     Wait for com.xrai.app to idle
+    t =    16.95s Type '1998' into "date.year" TextField
+    t =    16.95s     Wait for com.xrai.app to idle
+    t =    16.95s     Find the "date.year" TextField
+    t =    16.98s     Check for interrupting elements affecting "date.year" TextField
+    t =    17.00s     Synthesize event
+    t =    17.26s     Wait for com.xrai.app to idle
+    t =    17.26s Tap "date.month" TextField
+    t =    17.26s     Wait for com.xrai.app to idle
+    t =    17.27s     Find the "date.month" TextField
+    t =    17.29s     Check for interrupting elements affecting "date.month" TextField
+    t =    17.31s     Synthesize event
+    t =    17.59s     Wait for com.xrai.app to idle
+    t =    17.59s Type '6' into "date.month" TextField
+    t =    17.60s     Wait for com.xrai.app to idle
+    t =    17.60s     Find the "date.month" TextField
+    t =    17.62s     Check for interrupting elements affecting "date.month" TextField
+    t =    17.63s     Synthesize event
+    t =    17.84s     Wait for com.xrai.app to idle
+    t =    17.85s Tap "date.day" TextField
+    t =    17.85s     Wait for com.xrai.app to idle
+    t =    17.85s     Find the "date.day" TextField
+    t =    17.87s     Check for interrupting elements affecting "date.day" TextField
+    t =    17.89s     Synthesize event
+    t =    18.17s     Wait for com.xrai.app to idle
+    t =    18.17s Type '30' into "date.day" TextField
+    t =    18.17s     Wait for com.xrai.app to idle
+    t =    18.17s     Find the "date.day" TextField
+    t =    18.19s     Check for interrupting elements affecting "date.day" TextField
+    t =    18.21s     Synthesize event
+    t =    18.44s     Wait for com.xrai.app to idle
+    t =    18.44s Waiting 15.0s for "onboarding.compute" Any to exist
+    t =    19.47s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.compute" Any`
+    t =    19.47s         Checking existence of `"onboarding.compute" Any`
+    t =    20.52s Checking `Expect predicate `isHittable == 1` for object "onboarding.compute" Any`
+    t =    20.52s     Find the "onboarding.compute" Any
+    t =    20.56s Tap "onboarding.compute" Button
+    t =    20.56s     Wait for com.xrai.app to idle
+    t =    20.57s     Find the "onboarding.compute" Button
+    t =    20.58s     Check for interrupting elements affecting "onboarding.compute" Button
+    t =    20.60s     Synthesize event
+    t =    20.89s     Wait for com.xrai.app to idle
+    t =    23.83s Added attachment named 'a11y-audit-preview'
+    t =    23.83s Waiting 15.0s for "onboarding.finish" Any to exist
+    t =    24.86s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.finish" Any`
+    t =    24.86s         Checking existence of `"onboarding.finish" Any`
+    t =    25.93s Checking `Expect predicate `isHittable == 1` for object "onboarding.finish" Any`
+    t =    25.93s     Find the "onboarding.finish" Any
+    t =    25.95s Tap "onboarding.finish" Button
+    t =    25.95s     Wait for com.xrai.app to idle
+    t =    25.96s     Find the "onboarding.finish" Button
+    t =    25.97s     Check for interrupting elements affecting "onboarding.finish" Button
+    t =    25.98s     Synthesize event
+    t =    26.26s     Wait for com.xrai.app to idle
+    t =    29.30s Added attachment named 'a11y-audit-today'
+    t =    29.30s Tap Button (Element at index 1)
+    t =    29.30s     Wait for com.xrai.app to idle
+    t =    29.30s     Find the Button (Element at index 1)
+    t =    29.32s     Check for interrupting elements affecting "person" Button
+    t =    29.33s     Synthesize event
+    t =    29.62s     Wait for com.xrai.app to idle
+    t =    30.61s Waiting 5.0s for "lifepath.trace" StaticText to exist
+    t =    31.64s     Checking `Expect predicate `existsNoRetry == 1` for object "lifepath.trace" StaticText`
+    t =    31.64s         Checking existence of `"lifepath.trace" StaticText`
+    t =    34.77s Added attachment named 'a11y-audit-ben'
+    t =    34.77s Tear Down
+Test Case '-[XRAIUITests.OnboardingUITests testAccessibilityAuditOnKeyScreens]' passed (35.027 seconds).
+Test Case '-[XRAIUITests.OnboardingUITests testBackgroundAndForegroundKeepsSession]' started.
+    t =     0.00s Start Test at 2026-10-20 01:07:57.696
+    t =     0.02s Set Up
+    t =     0.02s Open com.xrai.app
+    t =     0.02s     Launch com.xrai.app
+    t =     0.02s         Terminate com.xrai.app:61301
+2026-10-20 01:07:58.775 xcodebuild[61290:7539696] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+2026-10-20 01:07:58.775 xcodebuild[61290:7539696] [MT] IDELaunchParametersSnapshot: no debugger version
+    t =     1.28s         Setting up automation session
+    t =     1.83s         Wait for com.xrai.app to idle
+    t =     2.99s Waiting 15.0s for "onboarding.start" Any to exist
+    t =     4.02s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.start" Any`
+    t =     4.02s         Checking existence of `"onboarding.start" Any`
+    t =     5.09s Checking `Expect predicate `isHittable == 1` for object "onboarding.start" Any`
+    t =     5.09s     Find the "onboarding.start" Any
+    t =     5.12s Tap "onboarding.start" Button
+    t =     5.12s     Wait for com.xrai.app to idle
+    t =     5.12s     Find the "onboarding.start" Button
+    t =     5.13s     Check for interrupting elements affecting "onboarding.start" Button
+    t =     5.15s     Synthesize event
+    t =     5.43s     Wait for com.xrai.app to idle
+    t =     5.44s Waiting 15.0s for "onboarding.next.whatItDoes" Any to exist
+    t =     6.45s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.next.whatItDoes" Any`
+    t =     6.45s         Checking existence of `"onboarding.next.whatItDoes" Any`
+    t =     7.49s Checking `Expect predicate `isHittable == 1` for object "onboarding.next.whatItDoes" Any`
+    t =     7.49s     Find the "onboarding.next.whatItDoes" Any
+    t =     7.52s Tap "onboarding.next.whatItDoes" Button
+    t =     7.52s     Wait for com.xrai.app to idle
+    t =     7.52s     Find the "onboarding.next.whatItDoes" Button
+    t =     7.53s     Check for interrupting elements affecting "onboarding.next.whatItDoes" Button
+    t =     7.55s     Synthesize event
+    t =     7.84s     Wait for com.xrai.app to idle
+    t =     7.84s Waiting 15.0s for "onboarding.next.privacy" Any to exist
+    t =     8.87s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.next.privacy" Any`
+    t =     8.87s         Checking existence of `"onboarding.next.privacy" Any`
+    t =     9.89s Checking `Expect predicate `isHittable == 1` for object "onboarding.next.privacy" Any`
+    t =     9.89s     Find the "onboarding.next.privacy" Any
+    t =     9.92s Tap "onboarding.next.privacy" Button
+    t =     9.92s     Wait for com.xrai.app to idle
+    t =     9.92s     Find the "onboarding.next.privacy" Button
+    t =     9.93s     Check for interrupting elements affecting "onboarding.next.privacy" Button
+    t =     9.95s     Synthesize event
+    t =    10.23s     Wait for com.xrai.app to idle
+    t =    10.24s Waiting 5.0s for "date.year" TextField to exist
+    t =    11.26s     Checking `Expect predicate `existsNoRetry == 1` for object "date.year" TextField`
+    t =    11.26s         Checking existence of `"date.year" TextField`
+    t =    11.28s Tap "date.year" TextField
+    t =    11.28s     Wait for com.xrai.app to idle
+    t =    11.28s     Find the "date.year" TextField
+    t =    11.30s     Check for interrupting elements affecting "date.year" TextField
+    t =    11.31s     Synthesize event
+    t =    11.60s     Wait for com.xrai.app to idle
+    t =    11.94s Type '2000' into "date.year" TextField
+    t =    11.94s     Wait for com.xrai.app to idle
+    t =    11.95s     Find the "date.year" TextField
+    t =    11.98s     Check for interrupting elements affecting "date.year" TextField
+    t =    11.99s     Synthesize event
+    t =    12.26s     Wait for com.xrai.app to idle
+    t =    12.26s Tap "date.month" TextField
+    t =    12.26s     Wait for com.xrai.app to idle
+    t =    12.27s     Find the "date.month" TextField
+    t =    12.29s     Check for interrupting elements affecting "date.month" TextField
+    t =    12.31s     Synthesize event
+    t =    12.60s     Wait for com.xrai.app to idle
+    t =    12.60s Type '2' into "date.month" TextField
+    t =    12.60s     Wait for com.xrai.app to idle
+    t =    12.60s     Find the "date.month" TextField
+    t =    12.62s     Check for interrupting elements affecting "date.month" TextField
+    t =    12.64s     Synthesize event
+    t =    12.85s     Wait for com.xrai.app to idle
+    t =    12.85s Tap "date.day" TextField
+    t =    12.85s     Wait for com.xrai.app to idle
+    t =    12.86s     Find the "date.day" TextField
+    t =    12.88s     Check for interrupting elements affecting "date.day" TextField
+    t =    12.90s     Synthesize event
+    t =    13.18s     Wait for com.xrai.app to idle
+    t =    13.19s Type '29' into "date.day" TextField
+    t =    13.19s     Wait for com.xrai.app to idle
+    t =    13.19s     Find the "date.day" TextField
+    t =    13.21s     Check for interrupting elements affecting "date.day" TextField
+    t =    13.22s     Synthesize event
+    t =    13.46s     Wait for com.xrai.app to idle
+    t =    13.46s Waiting 15.0s for "onboarding.compute" Any to exist
+    t =    14.48s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.compute" Any`
+    t =    14.48s         Checking existence of `"onboarding.compute" Any`
+    t =    15.54s Checking `Expect predicate `isHittable == 1` for object "onboarding.compute" Any`
+    t =    15.54s     Find the "onboarding.compute" Any
+    t =    15.57s Tap "onboarding.compute" Button
+    t =    15.57s     Wait for com.xrai.app to idle
+    t =    15.57s     Find the "onboarding.compute" Button
+    t =    15.58s     Check for interrupting elements affecting "onboarding.compute" Button
+    t =    15.60s     Synthesize event
+    t =    15.88s     Wait for com.xrai.app to idle
+    t =    15.89s Waiting 15.0s for "onboarding.finish" Any to exist
+    t =    16.91s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.finish" Any`
+    t =    16.91s         Checking existence of `"onboarding.finish" Any`
+    t =    17.95s Checking `Expect predicate `isHittable == 1` for object "onboarding.finish" Any`
+    t =    17.95s     Find the "onboarding.finish" Any
+    t =    17.98s Tap "onboarding.finish" Button
+    t =    17.98s     Wait for com.xrai.app to idle
+    t =    17.99s     Find the "onboarding.finish" Button
+    t =    18.00s     Check for interrupting elements affecting "onboarding.finish" Button
+    t =    18.02s     Synthesize event
+    t =    18.30s     Wait for com.xrai.app to idle
+    t =    18.30s Waiting 5.0s for "lifepath.root" StaticText to exist
+    t =    19.33s     Checking `Expect predicate `existsNoRetry == 1` for object "lifepath.root" StaticText`
+    t =    19.33s         Checking existence of `"lifepath.root" StaticText`
+    t =    19.38s Pressing Home button
+    t =    21.85s Open com.xrai.app
+    t =    21.85s     Activate com.xrai.app
+    t =    21.88s         Wait for com.xrai.app to idle
+    t =    21.88s Waiting 5.0s for "lifepath.root" StaticText to exist
+    t =    22.91s     Checking `Expect predicate `existsNoRetry == 1` for object "lifepath.root" StaticText`
+    t =    22.91s         Checking existence of `"lifepath.root" StaticText`
+    t =    22.94s Find the Target Application 'com.xrai.app'
+    t =    23.03s Added attachment named '11-after-foreground'
+    t =    23.03s Terminate com.xrai.app:61377
+    t =    24.07s Open com.xrai.app
+    t =    24.07s     Launch com.xrai.app
+2026-10-20 01:08:21.764 xcodebuild[61290:7539696] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+2026-10-20 01:08:21.764 xcodebuild[61290:7539696] [MT] IDELaunchParametersSnapshot: no debugger version
+    t =    24.28s         Setting up automation session
+    t =    24.79s         Wait for com.xrai.app to idle
+    t =    26.04s Waiting 10.0s for TabBar (First Match) to exist
+    t =    27.07s     Checking `Expect predicate `existsNoRetry == 1` for object TabBar (First Match)`
+    t =    27.07s         Checking existence of `TabBar (First Match)`
+    t =    27.12s Checking existence of `"lifepath.root" StaticText`
+    t =    27.15s Find the Target Application 'com.xrai.app'
+    t =    27.22s Added attachment named '12-after-relaunch'
+    t =    27.22s Tear Down
+Test Case '-[XRAIUITests.OnboardingUITests testBackgroundAndForegroundKeepsSession]' passed (27.504 seconds).
+Test Case '-[XRAIUITests.OnboardingUITests testDynamicTypeLargeSkipIsVisibleAndLastCardReachable]' started.
+    t =     0.00s Start Test at 2026-10-20 01:08:25.200
+    t =     0.02s Set Up
+    t =     0.02s Open com.xrai.app
+    t =     0.02s     Launch com.xrai.app
+    t =     0.02s         Terminate com.xrai.app:61404
+2026-10-20 01:08:26.272 xcodebuild[61290:7539696] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+2026-10-20 01:08:26.272 xcodebuild[61290:7539696] [MT] IDELaunchParametersSnapshot: no debugger version
+    t =     1.28s         Setting up automation session
+    t =     1.77s         Wait for com.xrai.app to idle
+    t =     2.92s Waiting 10.0s for "onboarding.skip" Any to exist
+    t =     3.94s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.skip" Any`
+    t =     3.94s         Checking existence of `"onboarding.skip" Any`
+    t =     3.99s Find the "onboarding.skip" Any
+    t =     4.01s Find the Target Application 'com.xrai.app'
+    t =     4.07s Added attachment named '13-welcome-accessibilityL'
+    t =     4.07s Tap "onboarding.skip" Button
+    t =     4.07s     Wait for com.xrai.app to idle
+    t =     4.07s     Find the "onboarding.skip" Button
+    t =     4.08s     Check for interrupting elements affecting "onboarding.skip" Button
+    t =     4.09s     Synthesize event
+    t =     4.38s     Wait for com.xrai.app to idle
+    t =     4.38s Waiting 5.0s for TabBar (First Match) to exist
+    t =     5.40s     Checking `Expect predicate `existsNoRetry == 1` for object TabBar (First Match)`
+    t =     5.40s         Checking existence of `TabBar (First Match)`
+    t =     5.41s Tap Button (Element at index 1)
+    t =     5.41s     Wait for com.xrai.app to idle
+    t =     5.42s     Find the Button (Element at index 1)
+    t =     5.45s     Check for interrupting elements affecting "person" Button
+    t =     5.46s     Synthesize event
+    t =     5.75s     Wait for com.xrai.app to idle
+    t =     6.75s Waiting 5.0s for "prefs.resetOnboarding" Any to exist
+    t =     7.75s     Checking `Expect predicate `existsNoRetry == 1` for object "prefs.resetOnboarding" Any`
+    t =     7.75s         Checking existence of `"prefs.resetOnboarding" Any`
+    t =     7.85s Find the "prefs.resetOnboarding" Any
+    t =     7.91s Swipe up Target Application 'com.xrai.app'
+    t =     7.91s     Wait for com.xrai.app to idle
+    t =     7.91s     Find the Target Application 'com.xrai.app'
+    t =     7.92s     Check for interrupting elements affecting "XRAI" Application
+    t =     7.94s     Synthesize event
+    t =     8.36s     Wait for com.xrai.app to idle
+    t =    10.46s Find the "prefs.resetOnboarding" Button
+    t =    10.54s Swipe up Target Application 'com.xrai.app'
+    t =    10.54s     Wait for com.xrai.app to idle
+    t =    10.54s     Find the Target Application 'com.xrai.app'
+    t =    10.55s     Check for interrupting elements affecting "XRAI" Application
+    t =    10.57s     Synthesize event
+    t =    10.99s     Wait for com.xrai.app to idle
+    t =    13.09s Find the "prefs.resetOnboarding" Button
+    t =    13.16s Swipe up Target Application 'com.xrai.app'
+    t =    13.16s     Wait for com.xrai.app to idle
+    t =    13.16s     Find the Target Application 'com.xrai.app'
+    t =    13.18s     Check for interrupting elements affecting "XRAI" Application
+    t =    13.19s     Synthesize event
+    t =    13.61s     Wait for com.xrai.app to idle
+    t =    15.71s Find the "prefs.resetOnboarding" Button
+    t =    15.78s Find the "prefs.resetOnboarding" Button
+    t =    15.84s Find the "prefs.resetOnboarding" Button
+    t =    15.91s Find the "prefs.resetOnboarding" Button
+    t =    15.97s Find the "prefs.resetOnboarding" Button
+    t =    16.03s Find the "prefs.resetOnboarding" Button
+    t =    16.09s Find the Target Application 'com.xrai.app'
+    t =    16.17s Added attachment named '14-ben-accessibilityL-bottom'
+    t =    16.17s Tear Down
+Test Case '-[XRAIUITests.OnboardingUITests testDynamicTypeLargeSkipIsVisibleAndLastCardReachable]' passed (16.424 seconds).
+Test Case '-[XRAIUITests.OnboardingUITests testForgetClearsDateAndDraftInBen]' started.
+    t =     0.00s Start Test at 2026-10-20 01:08:41.624
+    t =     0.02s Set Up
+    t =     0.02s Open com.xrai.app
+    t =     0.02s     Launch com.xrai.app
+    t =     0.02s         Terminate com.xrai.app:61414
+2026-10-20 01:08:42.665 xcodebuild[61290:7539696] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+2026-10-20 01:08:42.665 xcodebuild[61290:7539696] [MT] IDELaunchParametersSnapshot: no debugger version
+    t =     1.25s         Setting up automation session
+    t =     1.77s         Wait for com.xrai.app to idle
+    t =     2.93s Waiting 15.0s for "onboarding.start" Any to exist
+    t =     3.95s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.start" Any`
+    t =     3.95s         Checking existence of `"onboarding.start" Any`
+    t =     5.01s Checking `Expect predicate `isHittable == 1` for object "onboarding.start" Any`
+    t =     5.01s     Find the "onboarding.start" Any
+    t =     5.05s Tap "onboarding.start" Button
+    t =     5.05s     Wait for com.xrai.app to idle
+    t =     5.05s     Find the "onboarding.start" Button
+    t =     5.06s     Check for interrupting elements affecting "onboarding.start" Button
+    t =     5.07s     Synthesize event
+    t =     5.36s     Wait for com.xrai.app to idle
+    t =     5.37s Waiting 15.0s for "onboarding.next.whatItDoes" Any to exist
+    t =     6.39s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.next.whatItDoes" Any`
+    t =     6.39s         Checking existence of `"onboarding.next.whatItDoes" Any`
+    t =     7.42s Checking `Expect predicate `isHittable == 1` for object "onboarding.next.whatItDoes" Any`
+    t =     7.42s     Find the "onboarding.next.whatItDoes" Any
+    t =     7.45s Tap "onboarding.next.whatItDoes" Button
+    t =     7.45s     Wait for com.xrai.app to idle
+    t =     7.45s     Find the "onboarding.next.whatItDoes" Button
+    t =     7.46s     Check for interrupting elements affecting "onboarding.next.whatItDoes" Button
+    t =     7.48s     Synthesize event
+    t =     7.77s     Wait for com.xrai.app to idle
+    t =     7.77s Waiting 15.0s for "onboarding.next.privacy" Any to exist
+    t =     8.79s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.next.privacy" Any`
+    t =     8.79s         Checking existence of `"onboarding.next.privacy" Any`
+    t =     9.83s Checking `Expect predicate `isHittable == 1` for object "onboarding.next.privacy" Any`
+    t =     9.83s     Find the "onboarding.next.privacy" Any
+    t =     9.86s Tap "onboarding.next.privacy" Button
+    t =     9.86s     Wait for com.xrai.app to idle
+    t =     9.86s     Find the "onboarding.next.privacy" Button
+    t =     9.87s     Check for interrupting elements affecting "onboarding.next.privacy" Button
+    t =     9.89s     Synthesize event
+    t =    10.17s     Wait for com.xrai.app to idle
+    t =    10.18s Waiting 5.0s for "date.year" TextField to exist
+    t =    11.20s     Checking `Expect predicate `existsNoRetry == 1` for object "date.year" TextField`
+    t =    11.20s         Checking existence of `"date.year" TextField`
+    t =    11.22s Tap "date.year" TextField
+    t =    11.22s     Wait for com.xrai.app to idle
+    t =    11.22s     Find the "date.year" TextField
+    t =    11.23s     Check for interrupting elements affecting "date.year" TextField
+    t =    11.24s     Synthesize event
+    t =    11.52s     Wait for com.xrai.app to idle
+    t =    11.88s Type '1998' into "date.year" TextField
+    t =    11.88s     Wait for com.xrai.app to idle
+    t =    11.89s     Find the "date.year" TextField
+    t =    11.91s     Check for interrupting elements affecting "date.year" TextField
+    t =    11.93s     Synthesize event
+    t =    12.20s     Wait for com.xrai.app to idle
+    t =    12.20s Tap "date.month" TextField
+    t =    12.20s     Wait for com.xrai.app to idle
+    t =    12.20s     Find the "date.month" TextField
+    t =    12.22s     Check for interrupting elements affecting "date.month" TextField
+    t =    12.23s     Synthesize event
+    t =    12.52s     Wait for com.xrai.app to idle
+    t =    12.52s Type '6' into "date.month" TextField
+    t =    12.52s     Wait for com.xrai.app to idle
+    t =    12.52s     Find the "date.month" TextField
+    t =    12.54s     Check for interrupting elements affecting "date.month" TextField
+    t =    12.55s     Synthesize event
+    t =    12.77s     Wait for com.xrai.app to idle
+    t =    12.78s Tap "date.day" TextField
+    t =    12.78s     Wait for com.xrai.app to idle
+    t =    12.78s     Find the "date.day" TextField
+    t =    12.80s     Check for interrupting elements affecting "date.day" TextField
+    t =    12.82s     Synthesize event
+    t =    13.11s     Wait for com.xrai.app to idle
+    t =    13.11s Type '30' into "date.day" TextField
+    t =    13.11s     Wait for com.xrai.app to idle
+    t =    13.11s     Find the "date.day" TextField
+    t =    13.13s     Check for interrupting elements affecting "date.day" TextField
+    t =    13.15s     Synthesize event
+    t =    13.38s     Wait for com.xrai.app to idle
+    t =    13.38s Waiting 15.0s for "onboarding.compute" Any to exist
+    t =    14.39s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.compute" Any`
+    t =    14.39s         Checking existence of `"onboarding.compute" Any`
+    t =    15.45s Checking `Expect predicate `isHittable == 1` for object "onboarding.compute" Any`
+    t =    15.45s     Find the "onboarding.compute" Any
+    t =    15.49s Tap "onboarding.compute" Button
+    t =    15.49s     Wait for com.xrai.app to idle
+    t =    15.49s     Find the "onboarding.compute" Button
+    t =    15.51s     Check for interrupting elements affecting "onboarding.compute" Button
+    t =    15.53s     Synthesize event
+    t =    15.80s     Wait for com.xrai.app to idle
+    t =    15.81s Waiting 15.0s for "onboarding.finish" Any to exist
+    t =    16.82s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.finish" Any`
+    t =    16.82s         Checking existence of `"onboarding.finish" Any`
+    t =    17.86s Checking `Expect predicate `isHittable == 1` for object "onboarding.finish" Any`
+    t =    17.86s     Find the "onboarding.finish" Any
+    t =    17.89s Tap "onboarding.finish" Button
+    t =    17.89s     Wait for com.xrai.app to idle
+    t =    17.89s     Find the "onboarding.finish" Button
+    t =    17.91s     Check for interrupting elements affecting "onboarding.finish" Button
+    t =    17.92s     Synthesize event
+    t =    18.21s     Wait for com.xrai.app to idle
+    t =    18.21s Tap Button (Element at index 1)
+    t =    18.21s     Wait for com.xrai.app to idle
+    t =    18.21s     Find the Button (Element at index 1)
+    t =    18.24s     Check for interrupting elements affecting "person" Button
+    t =    18.26s     Synthesize event
+    t =    18.54s     Wait for com.xrai.app to idle
+    t =    19.54s Waiting 5.0s for "lifepath.trace" StaticText to exist
+    t =    20.56s     Checking `Expect predicate `existsNoRetry == 1` for object "lifepath.trace" StaticText`
+    t =    20.56s         Checking existence of `"lifepath.trace" StaticText`
+    t =    20.62s Waiting 15.0s for "lifepath.forget" Any to exist
+    t =    21.64s     Checking `Expect predicate `existsNoRetry == 1` for object "lifepath.forget" Any`
+    t =    21.64s         Checking existence of `"lifepath.forget" Any`
+    t =    22.72s Checking `Expect predicate `isHittable == 1` for object "lifepath.forget" Any`
+    t =    22.72s     Find the "lifepath.forget" Any
+    t =    22.81s Tap "lifepath.forget" Button
+    t =    22.81s     Wait for com.xrai.app to idle
+    t =    22.81s     Find the "lifepath.forget" Button
+    t =    22.87s     Check for interrupting elements affecting "lifepath.forget" Button
+    t =    22.90s     Synthesize event
+    t =    23.18s     Wait for com.xrai.app to idle
+    t =    23.18s Checking existence of `"lifepath.root" StaticText`
+    t =    23.21s Waiting 5.0s for "date.year" TextField to exist
+    t =    24.24s     Checking `Expect predicate `existsNoRetry == 1` for object "date.year" TextField`
+    t =    24.24s         Checking existence of `"date.year" TextField`
+    t =    24.28s Find the "date.year" TextField
+    t =    24.30s Find the Target Application 'com.xrai.app'
+    t =    24.38s Added attachment named '15-after-forget'
+    t =    24.38s Waiting 5.0s for "date.year" TextField to exist
+    t =    25.40s     Checking `Expect predicate `existsNoRetry == 1` for object "date.year" TextField`
+    t =    25.40s         Checking existence of `"date.year" TextField`
+    t =    25.44s Tap "date.year" TextField
+    t =    25.44s     Wait for com.xrai.app to idle
+    t =    25.45s     Find the "date.year" TextField
+    t =    25.47s     Check for interrupting elements affecting "date.year" TextField
+    t =    25.49s     Synthesize event
+    t =    25.78s     Wait for com.xrai.app to idle
+    t =    26.01s Type '1955' into "date.year" TextField
+    t =    26.01s     Wait for com.xrai.app to idle
+    t =    26.02s     Find the "date.year" TextField
+    t =    26.05s     Check for interrupting elements affecting "date.year" TextField
+    t =    26.07s     Synthesize event
+    t =    26.33s     Wait for com.xrai.app to idle
+    t =    26.34s Tap "date.month" TextField
+    t =    26.34s     Wait for com.xrai.app to idle
+    t =    26.34s     Find the "date.month" TextField
+    t =    26.38s     Check for interrupting elements affecting "date.month" TextField
+    t =    26.40s     Synthesize event
+    t =    26.69s     Wait for com.xrai.app to idle
+    t =    26.70s Type '1' into "date.month" TextField
+    t =    26.70s     Wait for com.xrai.app to idle
+    t =    26.70s     Find the "date.month" TextField
+    t =    26.73s     Check for interrupting elements affecting "date.month" TextField
+    t =    26.76s     Synthesize event
+    t =    26.97s     Wait for com.xrai.app to idle
+    t =    26.98s Tap "date.day" TextField
+    t =    26.98s     Wait for com.xrai.app to idle
+    t =    26.98s     Find the "date.day" TextField
+    t =    27.02s     Check for interrupting elements affecting "date.day" TextField
+    t =    27.04s     Synthesize event
+    t =    27.33s     Wait for com.xrai.app to idle
+    t =    27.33s Type '1' into "date.day" TextField
+    t =    27.33s     Wait for com.xrai.app to idle
+    t =    27.34s     Find the "date.day" TextField
+    t =    27.37s     Check for interrupting elements affecting "date.day" TextField
+    t =    27.40s     Synthesize event
+    t =    27.61s     Wait for com.xrai.app to idle
+    t =    27.62s Waiting 15.0s for "lifepath.compute" Any to exist
+    t =    28.63s     Checking `Expect predicate `existsNoRetry == 1` for object "lifepath.compute" Any`
+    t =    28.63s         Checking existence of `"lifepath.compute" Any`
+    t =    29.74s Checking `Expect predicate `isHittable == 1` for object "lifepath.compute" Any`
+    t =    29.74s     Find the "lifepath.compute" Any
+    t =    29.84s Tap "lifepath.compute" Button
+    t =    29.84s     Wait for com.xrai.app to idle
+    t =    29.84s     Find the "lifepath.compute" Button
+    t =    29.90s     Check for interrupting elements affecting "lifepath.compute" Button
+    t =    29.93s     Synthesize event
+    t =    30.22s     Wait for com.xrai.app to idle
+    t =    30.22s Waiting 5.0s for "lifepath.root" StaticText to exist
+    t =    31.25s     Checking `Expect predicate `existsNoRetry == 1` for object "lifepath.root" StaticText`
+    t =    31.25s         Checking existence of `"lifepath.root" StaticText`
+    t =    31.29s Find the "lifepath.root" StaticText
+    t =    31.31s Tap Button (Element at index 0)
+    t =    31.31s     Wait for com.xrai.app to idle
+    t =    31.31s     Find the Button (Element at index 0)
+    t =    31.34s     Check for interrupting elements affecting "sun.max" Button
+    t =    31.36s     Synthesize event
+    t =    31.64s     Wait for com.xrai.app to idle
+    t =    32.97s Waiting 5.0s for "lifepath.root" StaticText to exist
+    t =    34.00s     Checking `Expect predicate `existsNoRetry == 1` for object "lifepath.root" StaticText`
+    t =    34.00s         Checking existence of `"lifepath.root" StaticText`
+    t =    34.04s Tear Down
+Test Case '-[XRAIUITests.OnboardingUITests testForgetClearsDateAndDraftInBen]' passed (34.276 seconds).
+Test Case '-[XRAIUITests.OnboardingUITests testInvalidDateShowsProblemAndDoesNotAdvance]' started.
+    t =     0.00s Start Test at 2026-10-20 01:09:15.901
+    t =     0.01s Set Up
+    t =     0.02s Open com.xrai.app
+    t =     0.02s     Launch com.xrai.app
+    t =     0.02s         Terminate com.xrai.app:61455
+2026-10-20 01:09:16.956 xcodebuild[61290:7539696] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+2026-10-20 01:09:16.956 xcodebuild[61290:7539696] [MT] IDELaunchParametersSnapshot: no debugger version
+    t =     1.26s         Setting up automation session
+    t =     1.79s         Wait for com.xrai.app to idle
+    t =     2.94s Waiting 15.0s for "onboarding.start" Any to exist
+    t =     3.96s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.start" Any`
+    t =     3.96s         Checking existence of `"onboarding.start" Any`
+    t =     5.04s Checking `Expect predicate `isHittable == 1` for object "onboarding.start" Any`
+    t =     5.04s     Find the "onboarding.start" Any
+    t =     5.07s Tap "onboarding.start" Button
+    t =     5.07s     Wait for com.xrai.app to idle
+    t =     5.08s     Find the "onboarding.start" Button
+    t =     5.09s     Check for interrupting elements affecting "onboarding.start" Button
+    t =     5.10s     Synthesize event
+    t =     5.39s     Wait for com.xrai.app to idle
+    t =     5.39s Waiting 15.0s for "onboarding.next.whatItDoes" Any to exist
+    t =     6.39s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.next.whatItDoes" Any`
+    t =     6.39s         Checking existence of `"onboarding.next.whatItDoes" Any`
+    t =     7.43s Checking `Expect predicate `isHittable == 1` for object "onboarding.next.whatItDoes" Any`
+    t =     7.43s     Find the "onboarding.next.whatItDoes" Any
+    t =     7.45s Tap "onboarding.next.whatItDoes" Button
+    t =     7.45s     Wait for com.xrai.app to idle
+    t =     7.45s     Find the "onboarding.next.whatItDoes" Button
+    t =     7.46s     Check for interrupting elements affecting "onboarding.next.whatItDoes" Button
+    t =     7.48s     Synthesize event
+    t =     7.76s     Wait for com.xrai.app to idle
+    t =     7.77s Waiting 15.0s for "onboarding.next.privacy" Any to exist
+    t =     8.77s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.next.privacy" Any`
+    t =     8.78s         Checking existence of `"onboarding.next.privacy" Any`
+    t =     9.79s Checking `Expect predicate `isHittable == 1` for object "onboarding.next.privacy" Any`
+    t =     9.79s     Find the "onboarding.next.privacy" Any
+    t =     9.82s Tap "onboarding.next.privacy" Button
+    t =     9.82s     Wait for com.xrai.app to idle
+    t =     9.82s     Find the "onboarding.next.privacy" Button
+    t =     9.84s     Check for interrupting elements affecting "onboarding.next.privacy" Button
+    t =     9.85s     Synthesize event
+    t =    10.14s     Wait for com.xrai.app to idle
+    t =    10.14s Waiting 5.0s for "date.year" TextField to exist
+    t =    11.16s     Checking `Expect predicate `existsNoRetry == 1` for object "date.year" TextField`
+    t =    11.16s         Checking existence of `"date.year" TextField`
+    t =    11.18s Tap "date.year" TextField
+    t =    11.18s     Wait for com.xrai.app to idle
+    t =    11.18s     Find the "date.year" TextField
+    t =    11.20s     Check for interrupting elements affecting "date.year" TextField
+    t =    11.21s     Synthesize event
+    t =    11.50s     Wait for com.xrai.app to idle
+    t =    11.84s Type '1900' into "date.year" TextField
+    t =    11.84s     Wait for com.xrai.app to idle
+    t =    11.84s     Find the "date.year" TextField
+    t =    11.85s     Check for interrupting elements affecting "date.year" TextField
+    t =    11.86s     Synthesize event
+    t =    12.13s     Wait for com.xrai.app to idle
+    t =    12.13s Tap "date.month" TextField
+    t =    12.13s     Wait for com.xrai.app to idle
+    t =    12.14s     Find the "date.month" TextField
+    t =    12.16s     Check for interrupting elements affecting "date.month" TextField
+    t =    12.17s     Synthesize event
+    t =    12.46s     Wait for com.xrai.app to idle
+    t =    12.47s Type '2' into "date.month" TextField
+    t =    12.47s     Wait for com.xrai.app to idle
+    t =    12.47s     Find the "date.month" TextField
+    t =    12.49s     Check for interrupting elements affecting "date.month" TextField
+    t =    12.50s     Synthesize event
+    t =    12.71s     Wait for com.xrai.app to idle
+    t =    12.72s Tap "date.day" TextField
+    t =    12.72s     Wait for com.xrai.app to idle
+    t =    12.72s     Find the "date.day" TextField
+    t =    12.74s     Check for interrupting elements affecting "date.day" TextField
+    t =    12.76s     Synthesize event
+    t =    13.05s     Wait for com.xrai.app to idle
+    t =    13.05s Type '29' into "date.day" TextField
+    t =    13.05s     Wait for com.xrai.app to idle
+    t =    13.05s     Find the "date.day" TextField
+    t =    13.07s     Check for interrupting elements affecting "date.day" TextField
+    t =    13.09s     Synthesize event
+    t =    13.32s     Wait for com.xrai.app to idle
+    t =    13.33s Waiting 15.0s for "onboarding.compute" Any to exist
+    t =    14.33s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.compute" Any`
+    t =    14.33s         Checking existence of `"onboarding.compute" Any`
+    t =    15.38s Checking `Expect predicate `isHittable == 1` for object "onboarding.compute" Any`
+    t =    15.39s     Find the "onboarding.compute" Any
+    t =    15.43s Tap "onboarding.compute" Button
+    t =    15.43s     Wait for com.xrai.app to idle
+    t =    15.43s     Find the "onboarding.compute" Button
+    t =    15.45s     Check for interrupting elements affecting "onboarding.compute" Button
+    t =    15.47s     Synthesize event
+    t =    15.75s     Wait for com.xrai.app to idle
+    t =    15.76s Waiting 5.0s for "date.problem" StaticText to exist
+    t =    16.78s     Checking `Expect predicate `existsNoRetry == 1` for object "date.problem" StaticText`
+    t =    16.78s         Checking existence of `"date.problem" StaticText`
+    t =    16.80s Checking existence of `"lifepath.root" StaticText`
+    t =    16.82s Find the Target Application 'com.xrai.app'
+    t =    16.89s Added attachment named '10-invalid-date'
+    t =    16.89s Waiting 15.0s for "onboarding.continueWithoutDate" Any to exist
+    t =    17.91s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.continueWithoutDate" Any`
+    t =    17.91s         Checking existence of `"onboarding.continueWithoutDate" Any`
+    t =    18.96s Checking `Expect predicate `isHittable == 1` for object "onboarding.continueWithoutDate" Any`
+    t =    18.96s     Find the "onboarding.continueWithoutDate" Any
+    t =    19.00s Tap "onboarding.continueWithoutDate" Button
+    t =    19.00s     Wait for com.xrai.app to idle
+    t =    19.00s     Find the "onboarding.continueWithoutDate" Button
+    t =    19.02s     Check for interrupting elements affecting "onboarding.continueWithoutDate" Button
+    t =    19.04s     Synthesize event
+    t =    19.32s     Wait for com.xrai.app to idle
+    t =    19.32s Waiting 5.0s for TabBar (First Match) to exist
+    t =    20.34s     Checking `Expect predicate `existsNoRetry == 1` for object TabBar (First Match)`
+    t =    20.34s         Checking existence of `TabBar (First Match)`
+    t =    20.36s Tap Button (Element at index 1)
+    t =    20.36s     Wait for com.xrai.app to idle
+    t =    20.36s     Find the Button (Element at index 1)
+    t =    20.38s     Check for interrupting elements affecting "person" Button
+    t =    20.40s     Synthesize event
+    t =    20.68s     Wait for com.xrai.app to idle
+    t =    22.14s Waiting 5.0s for "date.year" TextField to exist
+    t =    23.15s     Checking `Expect predicate `existsNoRetry == 1` for object "date.year" TextField`
+    t =    23.15s         Checking existence of `"date.year" TextField`
+    t =    23.20s Find the "date.year" TextField
+    t =    23.22s Tear Down
+Test Case '-[XRAIUITests.OnboardingUITests testInvalidDateShowsProblemAndDoesNotAdvance]' passed (23.506 seconds).
+Test Case '-[XRAIUITests.OnboardingUITests testSkipFromWelcome]' started.
+    t =     0.00s Start Test at 2026-10-20 01:09:39.408
+    t =     0.02s Set Up
+    t =     0.02s Open com.xrai.app
+    t =     0.02s     Launch com.xrai.app
+    t =     0.02s         Terminate com.xrai.app:61504
+2026-10-20 01:09:40.472 xcodebuild[61290:7539696] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+2026-10-20 01:09:40.472 xcodebuild[61290:7539696] [MT] IDELaunchParametersSnapshot: no debugger version
+    t =     1.27s         Setting up automation session
+    t =     1.78s         Wait for com.xrai.app to idle
+    t =     2.94s Waiting 15.0s for "onboarding.skip" Any to exist
+    t =     3.95s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.skip" Any`
+    t =     3.95s         Checking existence of `"onboarding.skip" Any`
+    t =     5.02s Checking `Expect predicate `isHittable == 1` for object "onboarding.skip" Any`
+    t =     5.02s     Find the "onboarding.skip" Any
+    t =     5.04s Tap "onboarding.skip" Button
+    t =     5.04s     Wait for com.xrai.app to idle
+    t =     5.05s     Find the "onboarding.skip" Button
+    t =     5.05s     Check for interrupting elements affecting "onboarding.skip" Button
+    t =     5.07s     Synthesize event
+    t =     5.35s     Wait for com.xrai.app to idle
+    t =     5.35s Waiting 5.0s for TabBar (First Match) to exist
+    t =     6.38s     Checking `Expect predicate `existsNoRetry == 1` for object TabBar (First Match)`
+    t =     6.38s         Checking existence of `TabBar (First Match)`
+    t =     6.39s Waiting 5.0s for "today.empty" Any to exist
+    t =     7.40s     Checking `Expect predicate `existsNoRetry == 1` for object "today.empty" Any`
+    t =     7.40s         Checking existence of `"today.empty" Any`
+    t =     7.48s Find the Target Application 'com.xrai.app'
+    t =     7.55s Added attachment named '08-skipped-today-empty'
+    t =     7.55s Tap Button (Element at index 0)
+    t =     7.55s     Wait for com.xrai.app to idle
+    t =     7.55s     Find the Button (Element at index 0)
+    t =     7.56s     Check for interrupting elements affecting "sun.max" Button
+    t =     7.57s     Synthesize event
+    t =     7.86s     Wait for com.xrai.app to idle
+    t =     9.34s Find the Target Application 'com.xrai.app'
+    t =     9.44s Added attachment named '09-tab-0'
+    t =     9.44s Tap Button (Element at index 1)
+    t =     9.44s     Wait for com.xrai.app to idle
+    t =     9.44s     Find the Button (Element at index 1)
+    t =     9.45s     Check for interrupting elements affecting "person" Button
+    t =     9.46s     Synthesize event
+    t =     9.75s     Wait for com.xrai.app to idle
+    t =    11.12s Find the Target Application 'com.xrai.app'
+    t =    11.23s Added attachment named '09-tab-1'
+    t =    11.24s Tap Button (Element at index 2)
+    t =    11.24s     Wait for com.xrai.app to idle
+    t =    11.24s     Find the Button (Element at index 2)
+    t =    11.25s     Check for interrupting elements affecting "book" Button
+    t =    11.27s     Synthesize event
+    t =    11.56s     Wait for com.xrai.app to idle
+    t =    12.92s Find the Target Application 'com.xrai.app'
+    t =    13.02s Added attachment named '09-tab-2'
+    t =    13.02s Tap Button (Element at index 3)
+    t =    13.02s     Wait for com.xrai.app to idle
+    t =    13.03s     Find the Button (Element at index 3)
+    t =    13.04s     Check for interrupting elements affecting "point.topleft.down.to.point.bottomright.curvepath" Button
+    t =    13.05s     Synthesize event
+    t =    13.33s     Wait for com.xrai.app to idle
+    t =    14.75s Find the Target Application 'com.xrai.app'
+    t =    14.86s Added attachment named '09-tab-3'
+    t =    14.86s Tap Button (Element at index 4)
+    t =    14.86s     Wait for com.xrai.app to idle
+    t =    14.86s     Find the Button (Element at index 4)
+    t =    14.87s     Check for interrupting elements affecting "sparkle" Button
+    t =    14.88s     Synthesize event
+    t =    15.16s     Wait for com.xrai.app to idle
+    t =    16.59s Find the Target Application 'com.xrai.app'
+    t =    16.69s Added attachment named '09-tab-4'
+    t =    16.69s Tear Down
+Test Case '-[XRAIUITests.OnboardingUITests testSkipFromWelcome]' passed (16.950 seconds).
+Test Case '-[XRAIUITests.OnboardingUITests testStartThroughAllStepsWithValidDate]' started.
+    t =     0.00s Start Test at 2026-10-20 01:09:56.358
+    t =     0.02s Set Up
+    t =     0.02s Open com.xrai.app
+    t =     0.02s     Launch com.xrai.app
+    t =     0.02s         Terminate com.xrai.app:61538
+2026-10-20 01:09:57.413 xcodebuild[61290:7539696] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+2026-10-20 01:09:57.413 xcodebuild[61290:7539696] [MT] IDELaunchParametersSnapshot: no debugger version
+    t =     1.26s         Setting up automation session
+    t =     1.78s         Wait for com.xrai.app to idle
+    t =     2.94s Find the Target Application 'com.xrai.app'
+    t =     3.06s Added attachment named '01-welcome'
+    t =     3.06s Waiting 15.0s for "onboarding.start" Any to exist
+    t =     4.09s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.start" Any`
+    t =     4.10s         Checking existence of `"onboarding.start" Any`
+    t =     5.15s Checking `Expect predicate `isHittable == 1` for object "onboarding.start" Any`
+    t =     5.15s     Find the "onboarding.start" Any
+    t =     5.18s Tap "onboarding.start" Button
+    t =     5.18s     Wait for com.xrai.app to idle
+    t =     5.18s     Find the "onboarding.start" Button
+    t =     5.20s     Check for interrupting elements affecting "onboarding.start" Button
+    t =     5.21s     Synthesize event
+    t =     5.50s     Wait for com.xrai.app to idle
+    t =     5.50s Find the Target Application 'com.xrai.app'
+    t =     5.58s Added attachment named '02-what-it-does'
+    t =     5.58s Waiting 15.0s for "onboarding.next.whatItDoes" Any to exist
+    t =     6.64s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.next.whatItDoes" Any`
+    t =     6.64s         Checking existence of `"onboarding.next.whatItDoes" Any`
+    t =     7.73s Checking `Expect predicate `isHittable == 1` for object "onboarding.next.whatItDoes" Any`
+    t =     7.73s     Find the "onboarding.next.whatItDoes" Any
+    t =     7.76s Tap "onboarding.next.whatItDoes" Button
+    t =     7.76s     Wait for com.xrai.app to idle
+    t =     7.76s     Find the "onboarding.next.whatItDoes" Button
+    t =     7.77s     Check for interrupting elements affecting "onboarding.next.whatItDoes" Button
+    t =     7.79s     Synthesize event
+    t =     8.08s     Wait for com.xrai.app to idle
+    t =     8.08s Find the Target Application 'com.xrai.app'
+    t =     8.18s Added attachment named '03-privacy'
+    t =     8.18s Waiting 15.0s for "onboarding.next.privacy" Any to exist
+    t =     9.21s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.next.privacy" Any`
+    t =     9.21s         Checking existence of `"onboarding.next.privacy" Any`
+    t =    10.28s Checking `Expect predicate `isHittable == 1` for object "onboarding.next.privacy" Any`
+    t =    10.28s     Find the "onboarding.next.privacy" Any
+    t =    10.30s Tap "onboarding.next.privacy" Button
+    t =    10.30s     Wait for com.xrai.app to idle
+    t =    10.30s     Find the "onboarding.next.privacy" Button
+    t =    10.31s     Check for interrupting elements affecting "onboarding.next.privacy" Button
+    t =    10.33s     Synthesize event
+    t =    10.62s     Wait for com.xrai.app to idle
+    t =    10.62s Find the Target Application 'com.xrai.app'
+    t =    10.72s Added attachment named '04-birthdate'
+    t =    10.72s Waiting 5.0s for "date.year" TextField to exist
+    t =    11.76s     Checking `Expect predicate `existsNoRetry == 1` for object "date.year" TextField`
+    t =    11.76s         Checking existence of `"date.year" TextField`
+    t =    11.78s Tap "date.year" TextField
+    t =    11.78s     Wait for com.xrai.app to idle
+    t =    11.79s     Find the "date.year" TextField
+    t =    11.79s     Check for interrupting elements affecting "date.year" TextField
+    t =    11.80s     Synthesize event
+    t =    12.09s     Wait for com.xrai.app to idle
+    t =    12.45s Type '1998' into "date.year" TextField
+    t =    12.45s     Wait for com.xrai.app to idle
+    t =    12.45s     Find the "date.year" TextField
+    t =    12.48s     Check for interrupting elements affecting "date.year" TextField
+    t =    12.50s     Synthesize event
+    t =    12.77s     Wait for com.xrai.app to idle
+    t =    12.77s Tap "date.month" TextField
+    t =    12.77s     Wait for com.xrai.app to idle
+    t =    12.77s     Find the "date.month" TextField
+    t =    12.80s     Check for interrupting elements affecting "date.month" TextField
+    t =    12.81s     Synthesize event
+    t =    13.10s     Wait for com.xrai.app to idle
+    t =    13.10s Type '6' into "date.month" TextField
+    t =    13.10s     Wait for com.xrai.app to idle
+    t =    13.11s     Find the "date.month" TextField
+    t =    13.12s     Check for interrupting elements affecting "date.month" TextField
+    t =    13.14s     Synthesize event
+    t =    13.35s     Wait for com.xrai.app to idle
+    t =    13.35s Tap "date.day" TextField
+    t =    13.35s     Wait for com.xrai.app to idle
+    t =    13.36s     Find the "date.day" TextField
+    t =    13.38s     Check for interrupting elements affecting "date.day" TextField
+    t =    13.40s     Synthesize event
+    t =    13.69s     Wait for com.xrai.app to idle
+    t =    13.69s Type '30' into "date.day" TextField
+    t =    13.69s     Wait for com.xrai.app to idle
+    t =    13.70s     Find the "date.day" TextField
+    t =    13.71s     Check for interrupting elements affecting "date.day" TextField
+    t =    13.73s     Synthesize event
+    t =    13.96s     Wait for com.xrai.app to idle
+    t =    13.96s Waiting 15.0s for "onboarding.compute" Any to exist
+    t =    15.02s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.compute" Any`
+    t =    15.02s         Checking existence of `"onboarding.compute" Any`
+    t =    16.09s Checking `Expect predicate `isHittable == 1` for object "onboarding.compute" Any`
+    t =    16.09s     Find the "onboarding.compute" Any
+    t =    16.13s Tap "onboarding.compute" Button
+    t =    16.13s     Wait for com.xrai.app to idle
+    t =    16.13s     Find the "onboarding.compute" Button
+    t =    16.15s     Check for interrupting elements affecting "onboarding.compute" Button
+    t =    16.17s     Synthesize event
+    t =    16.46s     Wait for com.xrai.app to idle
+    t =    16.46s Waiting 5.0s for "lifepath.root" StaticText to exist
+    t =    17.49s     Checking `Expect predicate `existsNoRetry == 1` for object "lifepath.root" StaticText`
+    t =    17.49s         Checking existence of `"lifepath.root" StaticText`
+    t =    17.51s Find the "lifepath.root" StaticText
+    t =    17.52s Find the Target Application 'com.xrai.app'
+    t =    17.59s Added attachment named '05-preview'
+    t =    17.59s Waiting 15.0s for "onboarding.finish" Any to exist
+    t =    18.64s     Checking `Expect predicate `existsNoRetry == 1` for object "onboarding.finish" Any`
+    t =    18.64s         Checking existence of `"onboarding.finish" Any`
+    t =    19.72s Checking `Expect predicate `isHittable == 1` for object "onboarding.finish" Any`
+    t =    19.72s     Find the "onboarding.finish" Any
+    t =    19.75s Tap "onboarding.finish" Button
+    t =    19.75s     Wait for com.xrai.app to idle
+    t =    19.75s     Find the "onboarding.finish" Button
+    t =    19.77s     Check for interrupting elements affecting "onboarding.finish" Button
+    t =    19.78s     Synthesize event
+    t =    20.07s     Wait for com.xrai.app to idle
+    t =    20.07s Waiting 5.0s for "lifepath.root" StaticText to exist
+    t =    21.10s     Checking `Expect predicate `existsNoRetry == 1` for object "lifepath.root" StaticText`
+    t =    21.10s         Checking existence of `"lifepath.root" StaticText`
+    t =    21.15s Waiting 5.0s for "badge.systemInvitation" Any to exist
+    t =    22.17s     Checking `Expect predicate `existsNoRetry == 1` for object "badge.systemInvitation" Any`
+    t =    22.17s         Checking existence of `"badge.systemInvitation" Any`
+    t =    22.22s Find the Target Application 'com.xrai.app'
+    t =    22.29s Added attachment named '06-today-with-lifepath'
+    t =    22.29s Tap Button (Element at index 1)
+    t =    22.29s     Wait for com.xrai.app to idle
+    t =    22.29s     Find the Button (Element at index 1)
+    t =    22.30s     Check for interrupting elements affecting "person" Button
+    t =    22.32s     Synthesize event
+    t =    22.61s     Wait for com.xrai.app to idle
+    t =    23.60s Waiting 5.0s for "lifepath.trace" StaticText to exist
+    t =    24.65s     Checking `Expect predicate `existsNoRetry == 1` for object "lifepath.trace" StaticText`
+    t =    24.65s         Checking existence of `"lifepath.trace" StaticText`
+    t =    24.71s Find the Target Application 'com.xrai.app'
+    t =    24.78s Added attachment named '07-ben-trace'
+    t =    24.79s Tear Down
+Test Case '-[XRAIUITests.OnboardingUITests testStartThroughAllStepsWithValidDate]' passed (25.025 seconds).
+Test Suite 'OnboardingUITests' passed at 2026-10-20 01:10:21.383.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 178.712 (178.717) seconds
+Test Suite 'XRAIUITests.xctest' passed at 2026-10-20 01:10:21.384.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 178.712 (178.717) seconds
+Test Suite 'All tests' passed at 2026-10-20 01:10:21.384.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 178.712 (178.718) seconds
+2026-10-20 01:10:21.738 xcodebuild[61290:7539696] [MT] IDETestOperationsObserverDebug: 182.862 elapsed -- Testing started completed.
+2026-10-20 01:10:21.738 xcodebuild[61290:7539696] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-10-20 01:10:21.738 xcodebuild[61290:7539696] [MT] IDETestOperationsObserverDebug: 182.862 sec, +182.862 sec -- end
+
+Test session results, code coverage, and logs:
+	/tmp/claude-501/-Users-dogancangundogan-ProjectXrai/fd9c625e-16e5-48b0-ac59-d611e0d88337/scratchpad/p03_02_sim.xcresult
+
+** TEST EXECUTE SUCCEEDED **
+
+Testing started

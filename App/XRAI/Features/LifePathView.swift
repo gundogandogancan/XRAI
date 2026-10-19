@@ -18,6 +18,8 @@ struct LifePathCard: View {
                 Text(String(trace.root))
                     .font(.system(.largeTitle, design: .rounded).weight(.bold))
                     .foregroundStyle(XRColor.accent)
+                    .lineLimit(1)
+                    .fixedSize(horizontal: true, vertical: true)
                     .accessibilityLabel("Kök sayı \(trace.root)")
                     .accessibilityIdentifier("lifepath.root")
                 if let m = trace.masterNumber {
@@ -37,9 +39,6 @@ struct LifePathCard: View {
 /// Full feature view (Ben tab): date entry, method/policy, trace, symbolic section honestly absent.
 struct LifePathFeatureView: View {
     @Environment(SessionState.self) private var session
-    @State private var year = ""
-    @State private var month = ""
-    @State private var day = ""
     @State private var problem: BirthDateInput.Problem?
 
     var body: some View {
@@ -49,8 +48,8 @@ struct LifePathFeatureView: View {
                 LifePathCard(trace: t)
                 XRCard {
                     Text("Hesaplama izi").font(XRFont.heading).foregroundStyle(XRColor.text)
-                    Text("Tarih (yalnız bellekte): \(d.isoString)").font(XRFont.mono).foregroundStyle(XRColor.textSecondary)
-                    Text("Rakamlar: " + t.rawDigits.map(String.init).joined(separator: " ")).font(XRFont.mono).foregroundStyle(XRColor.text)
+                    XRStackedValue(label: "Tarih (yalnız bellekte, diske yazılmaz)", value: d.isoString)
+                    XRStackedValue(label: "Rakamlar", value: t.rawDigits.map(String.init).joined(separator: " "))
                     if let cts = t.componentTraces {
                         ForEach(cts, id: \.component) { c in
                             Text("\(c.component.rawValue): \(c.reduction.compound) → \(c.reduction.root)").font(XRFont.mono).foregroundStyle(XRColor.text)
@@ -68,8 +67,10 @@ struct LifePathFeatureView: View {
                         get: { session.masterPolicy == .preserve11_22_33 },
                         set: { session.masterPolicy = $0 ? .preserve11_22_33 : .reduceAll }
                     )).tint(XRColor.accent)
-                    Button("Tarihi unut") { session.forgetBirthDate(); year = ""; month = ""; day = "" }
+                    Button("Tarihi unut") { session.forgetAll(); problem = nil }
                         .buttonStyle(XRSecondaryButtonStyle()).accessibilityIdentifier("lifepath.forget")
+                    Text("Unutmak, tarihi ve yazdığın taslağı hemen bellekten çıkarır. Arka planda beklerken ise tarih bellekte kalır; uygulamayı kapatınca silinir.")
+                        .font(XRFont.caption).foregroundStyle(XRColor.textSecondary)
                 }
                 XRCard {
                     HStack {
@@ -83,10 +84,10 @@ struct LifePathFeatureView: View {
             } else {
                 XRCard {
                     Text("Yaşam Yolu hesabı").font(XRFont.heading).foregroundStyle(XRColor.text)
-                    Text("İsteğe bağlı. Tarih yalnızca bu oturumda bellekte tutulur, diske yazılmaz.").font(XRFont.secondary).foregroundStyle(XRColor.textSecondary)
-                    DateFields(year: $year, month: $month, day: $day, problem: problem)
+                    Text("İsteğe bağlı. Tarih yalnızca uygulama açıkken bellekte tutulur, diske yazılmaz.").font(XRFont.secondary).foregroundStyle(XRColor.textSecondary)
+                    DateFields(year: $session.draft.year, month: $session.draft.month, day: $session.draft.day, problem: problem)
                     Button("Hesapla") {
-                        switch BirthDateInput.parse(year: year, month: month, day: day) {
+                        switch BirthDateInput.parse(session.draft) {
                         case .success(let d): problem = nil; session.setBirthDate(d)
                         case .failure(let p): problem = p
                         }

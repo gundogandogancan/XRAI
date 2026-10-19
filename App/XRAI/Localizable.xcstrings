@@ -57,7 +57,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Discover yourself. At your pace, on your device."
+            "value": "Discover yourself. At your own pace, on your own device."
           }
         }
       }
@@ -117,7 +117,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "What XRAI does and does not do"
+            "value": "What XRAI does — and does not do"
           }
         }
       }
@@ -127,7 +127,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "In this version it does"
+            "value": "What this version does"
           }
         }
       }
@@ -147,7 +147,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your data stays under your control"
+            "value": "Your data stays in your control"
           }
         }
       }
@@ -157,7 +157,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your birth date (optional)"
+            "value": "Your date of birth (optional)"
           }
         }
       }
@@ -197,7 +197,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Go to the app"
+            "value": "Open the app"
           }
         }
       }
@@ -277,7 +277,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Master number rule"
+            "value": "Master-number rule"
           }
         }
       }
@@ -327,7 +327,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Exact math"
+            "value": "Exact mathematics"
           }
         }
       }
@@ -347,7 +347,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your own report"
+            "value": "Your own words"
           }
         }
       }
@@ -357,7 +357,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Not built yet"
+            "value": "Not yet built"
           }
         }
       }
@@ -427,7 +427,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Persisted personal data"
+            "value": "Personal data on disk"
           }
         }
       }
@@ -457,7 +457,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Device verified"
+            "value": "Verified on device"
           }
         }
       }
@@ -527,7 +527,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mini lessons and experiments"
+            "value": "Short lessons and experiments"
           }
         }
       }
@@ -587,7 +587,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Month must be between 1 and 12."
+            "value": "The month must be between 1 and 12."
           }
         }
       }
@@ -597,7 +597,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Year must be between 1583 and 9999."
+            "value": "The year must be between 1583 and 9999."
           }
         }
       }
@@ -607,7 +607,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enter year, month and day as numbers."
+            "value": "Enter the year, month and day as numbers."
           }
         }
       }
@@ -627,7 +627,67 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This is a calculation, not an interpretation. Symbolic meaning has not been added yet."
+            "value": "This is a calculation, not an interpretation. No symbolic meaning has been added yet."
+          }
+        }
+      }
+    },
+    "Sistem daveti": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System invitation"
+          }
+        }
+      }
+    },
+    "Tarih (yalnız bellekte, diske yazılmaz)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date (in memory only, never written to disk)"
+          }
+        }
+      }
+    },
+    "Rakamlar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Digits"
+          }
+        }
+      }
+    },
+    "Tanıtım ilerlemesi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Introduction progress"
+          }
+        }
+      }
+    },
+    "Gizlilik perdesi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy shield"
+          }
+        }
+      }
+    },
+    "Gizlilik perdesi: içerik uygulama etkinken görünür.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy shield: content is shown while the app is active."
           }
         }
       }

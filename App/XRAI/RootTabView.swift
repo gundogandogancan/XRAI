@@ -32,9 +32,9 @@ struct TodayView: View {
                     LifePathCard(trace: t)
                     XRCard {
                         Text("Bugünün daveti").font(XRFont.heading).foregroundStyle(XRColor.text)
-                        Text("Bu sayıyı bir cevap gibi değil, bir soru gibi tut: bugün hangi küçük şeyi gerçekten yapmak istersin? Cevabı yazmana gerek yok; bu sürümde hiçbir şey kaydedilmez.")
+                        Text("XRAI'nın bir sorusu: bu sayıyı bir cevap gibi değil, bir soru gibi tut — bugün hangi küçük şeyi gerçekten yapmak istersin? Cevabı yazmana gerek yok; bu sürümde hiçbir şey kaydedilmez.")
                             .font(XRFont.body).foregroundStyle(XRColor.textSecondary)
-                        XREpistemicBadge(kind: .userReport)
+                        XREpistemicBadge(kind: .systemInvitation)
                     }
                 } else {
                     XRCard {

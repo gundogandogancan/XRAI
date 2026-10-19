@@ -18,12 +18,15 @@ enum XRColor {
     static let surface = dynamic(light: hex(0xFFFFFF), dark: hex(0x181526))
     /// Subtle separators / inset fields.
     static let surfaceSecondary = dynamic(light: hex(0xF1EDE6), dark: hex(0x221E33))
-    static let border = dynamic(light: hex(0xE3DED5), dark: hex(0x2E2942))
+    static let border = dynamic(light: hex(0xE3DED5), dark: hex(0x3B3556))   // dark raised for ≥1.3:1 on surface (measured)
     /// Primary text (AA+ on background and surface).
     static let text = dynamic(light: hex(0x1A1724), dark: hex(0xF3F0FA))
     static let textSecondary = dynamic(light: hex(0x5E586E), dark: hex(0xB5AFC6))
     /// Violet accent: the brand's lens colour.
     static let accent = dynamic(light: hex(0x6A48D7), dark: hex(0xA78BFF))
+    /// Text/icon colour ON the accent (primary buttons): white in light, near-black in dark — the
+    /// measured white-on-lavender ratio in dark mode was 2.70:1, below AA.
+    static let onAccent = dynamic(light: hex(0xFFFFFF), dark: hex(0x0E0C14))
     static let accentSoft = dynamic(light: hex(0xEDE7FF), dark: hex(0x2A2345))
     /// Restrained gold for the one meaningful highlight per screen.
     static let gold = dynamic(light: hex(0x8F6F1F), dark: hex(0xD9BC72))
