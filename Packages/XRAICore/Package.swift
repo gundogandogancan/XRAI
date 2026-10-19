@@ -38,9 +38,15 @@ let package = Package(
             name: "XRAIVaultCryptoKit",
             dependencies: ["XRAIVaultContracts"]
         ),
+        // Development/test doubles (in-memory keys, consent registry, manual clock).
+        // RULE: no non-test target may ever depend on XRAIVaultTesting (test-enforced).
+        .target(
+            name: "XRAIVaultTesting",
+            dependencies: ["XRAIVaultContracts"]
+        ),
         .testTarget(
             name: "XRAIVaultTests",
-            dependencies: ["XRAIVaultContracts", "XRAIVaultCryptoKit"]
+            dependencies: ["XRAIVaultContracts", "XRAIVaultCryptoKit", "XRAIVaultTesting"]
         ),
     ],
     swiftLanguageModes: [.v6]

@@ -14,6 +14,11 @@ public enum VaultError: Error, Equatable, Sendable {
     case invalidRecordID
     case privacyTierBelowMinimum(dataClass: DataClass, required: PrivacyTier, got: PrivacyTier)
     case notAuthorized(DenialReason)
+    case authorizationInvalid(AuthorizationFailure)
+    /// The trusted clock reports time moved backwards beyond tolerance; no authority can be gained.
+    case clockRegressed
+    /// A consent-gated record without an active grant for its purpose (e.g. after restore).
+    case quarantined(DenialReason)
     case duplicateRecordID
     case limitExceeded(String)
     /// An envelope offered for export did not verify (tampered or mismatched); export refused.
@@ -72,19 +77,27 @@ extension RecordID: CustomStringConvertible, CustomDebugStringConvertible {
 /// What a caller knows about a record before sealing it. Construction fails closed when the tier is
 /// below the class floor. Key identity is NOT part of this: keys may rotate without re-encrypting.
 public struct RecordDescriptor: Hashable, Sendable {
+    public static let maxPurposeLength = 128
+
     public let recordID: RecordID
     public let dataClass: DataClass
     public let privacyTier: PrivacyTier
     public let retention: RetentionClass
+    /// The purpose the user consented to for this record (empty for consent-free classes).
+    /// Bound into the authenticated header so a record can never be read under another purpose.
+    public let consentPurpose: String
     public let createdAtUnixSeconds: Int64
 
-    public init(recordID: RecordID = RecordID(), dataClass: DataClass, privacyTier: PrivacyTier? = nil, retention: RetentionClass, createdAtUnixSeconds: Int64) throws {
+    public init(recordID: RecordID = RecordID(), dataClass: DataClass, privacyTier: PrivacyTier? = nil, retention: RetentionClass, consentPurpose: String = "", createdAtUnixSeconds: Int64) throws {
         let tier = privacyTier ?? dataClass.minimumTier
         try VaultPolicy.validateTier(tier, for: dataClass)
+        guard consentPurpose.utf8.count <= RecordDescriptor.maxPurposeLength else { throw VaultError.limitExceeded("purpose length") }
+        if dataClass.requiresPurposeConsentToStore && consentPurpose.isEmpty { throw VaultError.notAuthorized(.consentRequired) }
         self.recordID = recordID
         self.dataClass = dataClass
         self.privacyTier = tier
         self.retention = retention
+        self.consentPurpose = consentPurpose
         self.createdAtUnixSeconds = createdAtUnixSeconds
     }
 }
@@ -92,7 +105,8 @@ public struct RecordDescriptor: Hashable, Sendable {
 /// Versioned, authenticated metadata. Its canonical bytes are the AEAD associated data for the
 /// payload, so any change to any field makes `open` fail. Validated again on every read and import.
 public struct EnvelopeHeader: Hashable, Sendable {
-    public static let currentFormatVersion: UInt16 = 1
+    /// v2 (H2): adds the authenticated `consentPurpose`. v1 envelopes are rejected (none were ever persisted).
+    public static let currentFormatVersion: UInt16 = 2
 
     public let formatVersion: UInt16
     public let algorithm: EnvelopeAlgorithm
@@ -100,6 +114,7 @@ public struct EnvelopeHeader: Hashable, Sendable {
     public let dataClass: DataClass
     public let privacyTier: PrivacyTier
     public let retention: RetentionClass
+    public let consentPurpose: String
     public let createdAtUnixSeconds: Int64
 
     public init(formatVersion: UInt16 = EnvelopeHeader.currentFormatVersion, algorithm: EnvelopeAlgorithm, descriptor d: RecordDescriptor) {
@@ -109,25 +124,29 @@ public struct EnvelopeHeader: Hashable, Sendable {
         self.dataClass = d.dataClass
         self.privacyTier = d.privacyTier
         self.retention = d.retention
+        self.consentPurpose = d.consentPurpose
         self.createdAtUnixSeconds = d.createdAtUnixSeconds
     }
 
     /// Unchecked constructor for decoding and adversarial tests; callers must run `validate()`.
-    public init(formatVersion: UInt16, algorithm: EnvelopeAlgorithm, recordID: RecordID, dataClass: DataClass, privacyTier: PrivacyTier, retention: RetentionClass, createdAtUnixSeconds: Int64) {
+    public init(formatVersion: UInt16, algorithm: EnvelopeAlgorithm, recordID: RecordID, dataClass: DataClass, privacyTier: PrivacyTier, retention: RetentionClass, consentPurpose: String, createdAtUnixSeconds: Int64) {
         self.formatVersion = formatVersion
         self.algorithm = algorithm
         self.recordID = recordID
         self.dataClass = dataClass
         self.privacyTier = privacyTier
         self.retention = retention
+        self.consentPurpose = consentPurpose
         self.createdAtUnixSeconds = createdAtUnixSeconds
     }
 
-    /// Fail-closed structural validation: supported version/algorithm and tier floor.
+    /// Fail-closed structural validation: supported version/algorithm, tier floor, purpose rules.
     public func validate() throws {
         guard formatVersion == EnvelopeHeader.currentFormatVersion else { throw VaultError.unsupportedFormat(formatVersion) }
         guard algorithm == .aes256gcm else { throw VaultError.unsupportedAlgorithm(algorithm.rawValue) }
         try VaultPolicy.validateTier(privacyTier, for: dataClass)
+        guard consentPurpose.utf8.count <= RecordDescriptor.maxPurposeLength else { throw VaultError.limitExceeded("purpose length") }
+        if dataClass.requiresPurposeConsentToStore && consentPurpose.isEmpty { throw VaultError.notAuthorized(.consentRequired) }
     }
 
     public func canonicalBytes() -> [UInt8] {
@@ -144,6 +163,7 @@ public struct EnvelopeHeader: Hashable, Sendable {
         e.appendString(dataClass.rawValue)
         e.appendString(privacyTier.rawValue)
         e.appendString(retention.rawValue)
+        e.appendString(consentPurpose)
         e.appendI64(createdAtUnixSeconds)
     }
 
@@ -156,8 +176,9 @@ public struct EnvelopeHeader: Hashable, Sendable {
         guard let dc = DataClass(rawValue: try d.readString()) else { throw VaultError.backupCorrupted(reason: "data class") }
         guard let tier = PrivacyTier(rawValue: try d.readString()) else { throw VaultError.backupCorrupted(reason: "tier") }
         guard let ret = RetentionClass(rawValue: try d.readString()) else { throw VaultError.backupCorrupted(reason: "retention") }
+        let purpose = try d.readString()
         let t = try d.readI64()
-        let h = EnvelopeHeader(formatVersion: v, algorithm: alg, recordID: rid, dataClass: dc, privacyTier: tier, retention: ret, createdAtUnixSeconds: t)
+        let h = EnvelopeHeader(formatVersion: v, algorithm: alg, recordID: rid, dataClass: dc, privacyTier: tier, retention: ret, consentPurpose: purpose, createdAtUnixSeconds: t)
         try h.validate()
         return h
     }

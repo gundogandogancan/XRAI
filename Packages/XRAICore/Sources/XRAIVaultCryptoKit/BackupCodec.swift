@@ -1,4 +1,4 @@
-// Sealed backup export/import (decisions 3–4; hardening V32-02-01H §1, §5).
+// Sealed backup export/import (decisions 3–4; hardening V32-02-01H §1, §5; H2 G4).
 // Outer AES-256-GCM envelope under a key derived (HKDF-SHA256, context-separated) from the user's
 // recovery key. All record metadata is inside the ciphertext. XRAI never sees the recovery key.
 // `internal`: callers go through `SecureVault`, which authorizes and verifies first.
@@ -27,19 +27,26 @@ enum BackupCodec {
     }
 
     /// Caller (SecureVault) has already verified every envelope and authorized the export.
+    /// Size limit (G4): the padded body is measured BEFORE sealing; export is refused above
+    /// `BackupLimits.maxBackupBytes`. Memory: the whole backup is built in memory (≈2× its size);
+    /// streaming export is deferred until a persistence layer exists.
     static func export(verified envelopes: [RecordEnvelope], from device: any KeyProvider, recoveryKey: RecoveryKey, nowUnixSeconds: Int64) throws -> [UInt8] {
         let salt = randomSalt()
         let keys = deriveKeys(recoveryKey: recoveryKey, salt: salt)
-        let backupProvider = try InMemoryKeyProvider(keyID: SealedBackup.backupKeyID, material: keys.kek)
+        let backupWrapper = try GCMKeyWrapper(keyID: SealedBackup.backupKeyID, version: 1, material: keys.kek)
         var entries: [RecordEnvelope] = []
         entries.reserveCapacity(envelopes.count)
+        var runningBytes = 0
         for env in envelopes {
+            runningBytes += env.ciphertext.count + 256
+            guard runningBytes <= BackupLimits.maxBackupBytes else { throw VaultError.limitExceeded("backup size") }
             let dek = try device.unwrapDataKey(env.wrappedDEK)
-            let w = try backupProvider.wrapDataKey(dek, boundTo: env.header.recordID)
+            let w = try backupWrapper.wrap(dek, boundTo: env.header.recordID)
             entries.append(env.replacingWrappedDEK(w))
         }
         let body = BackupBody(createdAtUnixSeconds: nowUnixSeconds, entries: entries).encode()
         let padded = BackupBody.pad(body)
+        guard padded.count + 64 <= BackupLimits.maxBackupBytes else { throw VaultError.limitExceeded("backup size") }
         let nonce = AES.GCM.Nonce()
         let nonceBytes = nonce.withUnsafeBytes { Array($0) }
         let ad = SealedBackup.associatedData(formatVersion: SealedBackup.currentFormatVersion, salt: salt, nonce: nonceBytes)
@@ -60,11 +67,11 @@ enum BackupCodec {
             throw VaultError.backupIntegrityFailed
         }
         let body = try BackupBody.decode(try BackupBody.unpad(padded))
-        let backupProvider = try InMemoryKeyProvider(keyID: SealedBackup.backupKeyID, material: keys.kek)
+        let backupWrapper = try GCMKeyWrapper(keyID: SealedBackup.backupKeyID, version: 1, material: keys.kek)
         var out: [RecordEnvelope] = []
         out.reserveCapacity(body.entries.count)
         for env in body.entries {
-            let dek = try backupProvider.unwrapDataKey(env.wrappedDEK)
+            let dek = try backupWrapper.unwrap(env.wrappedDEK)
             let w = try device.wrapDataKey(dek, boundTo: env.header.recordID)
             out.append(env.replacingWrappedDEK(w))
         }

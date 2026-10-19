@@ -1,80 +1,157 @@
-// SecureVault — the single authorized entry point of the vault library (V32-02-01H §2, §3, §5).
-// Every seal/open/export/restore passes policy, consent-authority and tier-floor checks first.
+// SecureVault — the single authorized entry point of the vault library (V32-02-01H §2–§5, H2 G1–G4).
+//
+// Access contract (every call):
+//   1. an OperationAuthorization is consumed from the trusted issuer (single use, in window, scope match);
+//   2. time comes from the trusted VaultClock, never from parameters;
+//   3. consent-gated classes need an ACTIVE grant for the purpose bound into the record;
+//   4. headers are validated (version, algorithm, tier floor, purpose) before any cryptography.
+// User reads return plaintext. Maintenance operations never do. Export and delete are explicit
+// user-rights paths that do not depend on consent being active (the user owns the data), but
+// restore quarantines consent-gated records whose grant is no longer active.
+//
 // Still NO persistence: envelopes are returned to the caller; storing them is P02-02+.
+// Access control here is NOT an OS boundary; see docs/security/VAULT_THREAT_MODEL_P02.md T23–T26.
 import CryptoKit
 import Foundation
 import XRAIVaultContracts
 
 public struct SecureVault: Sendable {
-    public let keyProvider: any KeyProvider
-    public let consentAuthority: any ConsentAuthority
+    // Composition root wiring. Nothing is public: callers cannot reach the key provider or the
+    // raw sealer through a vault instance.
+    private let keyProvider: any KeyProvider
+    private let consentAuthority: any ConsentAuthority
+    private let clock: any VaultClock
+    private let authorizations: any AuthorizationValidator
     private let sealer: AESGCMEnvelopeSealer
 
-    public init(keyProvider: any KeyProvider, consentAuthority: any ConsentAuthority) {
+    /// The composition root constructs this once, injecting production ports. `InMemoryKeyProvider`
+    /// lives in the `XRAIVaultTesting` target and is not available to production modules.
+    public init(keyProvider: any KeyProvider, consentAuthority: any ConsentAuthority, clock: any VaultClock, authorizations: any AuthorizationValidator) {
         self.keyProvider = keyProvider
         self.consentAuthority = consentAuthority
+        self.clock = clock
+        self.authorizations = authorizations
         self.sealer = AESGCMEnvelopeSealer(keyProvider: keyProvider)
     }
 
-    // MARK: Records
+    /// Key identity only (no material), for status screens and audits.
+    public var currentKeyIdentity: KeyIdentity { keyProvider.currentKey }
 
-    /// Seals a record. Denied unless: tier ≥ class floor (descriptor already enforces), and for
-    /// consent-gated classes the authority holds an active grant for (class, purpose, deviceVault).
-    public func seal(plaintext: [UInt8], descriptor: RecordDescriptor, purpose: String, nowUnixSeconds now: Int64) throws -> RecordEnvelope {
+    // MARK: Authorization helpers
+
+    private func authorize(_ token: OperationAuthorization, for op: OperationScope, recordID: RecordID?, purpose: String?) throws -> (OperationAuthorization, Int64) {
+        let now = try clock.now()
+        let trusted = try authorizations.consume(tokenID: token.id, atUnixSeconds: now)
+        guard trusted.scope.covers(op, recordID: recordID) else { throw VaultError.authorizationInvalid(.scopeMismatch) }
+        if let purpose, trusted.purpose != purpose { throw VaultError.authorizationInvalid(.purposeMismatch) }
+        return (trusted, now)
+    }
+
+    private func requireActiveConsent(_ header: EnvelopeHeader, now: Int64) throws {
+        if case .denied(let reason) = VaultPolicy.mayRead(header.dataClass, consentPurpose: header.consentPurpose, authority: consentAuthority, atUnixSeconds: now) {
+            throw VaultError.notAuthorized(reason)
+        }
+    }
+
+    // MARK: User operations (plaintext in / out)
+
+    /// Seals a record. Requires a `.write(class)` token whose purpose equals the descriptor's
+    /// consent purpose, and for consent-gated classes an active grant at the trusted time.
+    public func seal(plaintext: [UInt8], descriptor: RecordDescriptor, authorization: OperationAuthorization) throws -> RecordEnvelope {
         try VaultPolicy.validateTier(descriptor.privacyTier, for: descriptor.dataClass)
-        if case .denied(let reason) = VaultPolicy.mayStore(descriptor.dataClass, purpose: purpose, authority: consentAuthority, atUnixSeconds: now) {
+        let (_, now) = try authorize(authorization, for: .write(descriptor.dataClass), recordID: descriptor.recordID, purpose: descriptor.consentPurpose)
+        if case .denied(let reason) = VaultPolicy.mayStore(descriptor.dataClass, purpose: descriptor.consentPurpose, authority: consentAuthority, atUnixSeconds: now) {
             throw VaultError.notAuthorized(reason)
         }
         return try sealer.seal(plaintext: plaintext, descriptor: descriptor)
     }
 
-    /// Opens a record after re-validating its header (version, algorithm, tier floor).
-    public func open(_ envelope: RecordEnvelope) throws -> [UInt8] {
+    /// Reads plaintext. Requires a `.read` token covering the record with purpose equal to the
+    /// record's bound purpose, and an active grant for consent-gated classes (revoked/expired → denied).
+    public func open(_ envelope: RecordEnvelope, authorization: OperationAuthorization) throws -> [UInt8] {
         try envelope.header.validate()
+        let (_, now) = try authorize(authorization, for: .read(recordIDs: nil), recordID: envelope.header.recordID, purpose: envelope.header.consentPurpose)
+        try requireActiveConsent(envelope.header, now: now)
         return try sealer.open(envelope)
     }
 
-    /// Verifies integrity without returning plaintext (plaintext is decrypted and discarded).
-    public func verify(_ envelope: RecordEnvelope) throws {
-        _ = try open(envelope)
+    // MARK: Maintenance operations (never return plaintext)
+
+    /// Technical integrity check. Requires `.maintenance(.integrityCheck)`; no consent needed because
+    /// no plaintext leaves the vault.
+    public func verify(_ envelope: RecordEnvelope, maintenance: OperationAuthorization) throws {
+        try envelope.header.validate()
+        _ = try authorize(maintenance, for: .maintenance(.integrityCheck), recordID: nil, purpose: nil)
+        _ = try sealer.open(envelope)
     }
 
-    public func rewrap(_ envelope: RecordEnvelope) throws -> RecordEnvelope { try sealer.rewrap(envelope) }
+    /// Re-wraps the DEK under the current key AFTER verifying payload integrity (G4).
+    public func rewrap(_ envelope: RecordEnvelope, maintenance: OperationAuthorization) throws -> RecordEnvelope {
+        try envelope.header.validate()
+        _ = try authorize(maintenance, for: .maintenance(.rewrap), recordID: nil, purpose: nil)
+        return try sealer.rewrap(envelope)
+    }
 
-    // MARK: Backup (user-initiated only)
+    // MARK: User rights: export, restore, delete
 
-    /// Exports a sealed backup. Refused unless `userInitiated`, every record passes `mayBackup`
-    /// (no session-only records), record ids are unique, and every envelope verifies under the
-    /// device key (a tampered or foreign envelope is never silently exported).
-    public func exportBackup(_ envelopes: [RecordEnvelope], recoveryKey: RecoveryKey, userInitiated: Bool, nowUnixSeconds now: Int64) throws -> [UInt8] {
-        guard userInitiated else { throw VaultError.notAuthorized(.userInitiationRequired) }
+    /// Data portability. Requires an `.exportBackup` token. Every envelope must verify under the
+    /// device key; duplicates, session-only records and foreign/tampered envelopes are refused.
+    public func exportBackup(_ envelopes: [RecordEnvelope], recoveryKey: RecoveryKey, authorization: OperationAuthorization) throws -> [UInt8] {
+        let (_, now) = try authorize(authorization, for: .exportBackup, recordID: nil, purpose: nil)
         guard envelopes.count <= BackupLimits.maxEntries else { throw VaultError.limitExceeded("entry count") }
         var seen = Set<String>()
-        for env in envelopes {
-            try env.header.validate()
-            if case .denied(let reason) = VaultPolicy.mayBackup(env.header.dataClass, retention: env.header.retention, userInitiated: userInitiated) {
-                throw VaultError.notAuthorized(reason)
-            }
-            guard seen.insert(env.header.recordID.hex).inserted else { throw VaultError.duplicateRecordID }
-            try BackupBody.validateLimits(env)
-            do { try verify(env) } catch { throw VaultError.envelopeIntegrityFailed }
-        }
-        return try BackupCodec.export(verified: envelopes, from: keyProvider, recoveryKey: recoveryKey, nowUnixSeconds: now)
-    }
-
-    /// Restores a sealed backup onto THIS device's keys. Refused unless `userInitiated`. Every
-    /// restored envelope is payload-verified under the new keys before it is returned (fail closed).
-    public func restoreBackup(bytes: [UInt8], recoveryKey: RecoveryKey, userInitiated: Bool) throws -> [RecordEnvelope] {
-        guard userInitiated else { throw VaultError.notAuthorized(.userInitiationRequired) }
-        let (_, envelopes) = try BackupCodec.restore(bytes: bytes, recoveryKey: recoveryKey, into: keyProvider)
         for env in envelopes {
             try env.header.validate()
             if case .denied(let reason) = VaultPolicy.mayBackup(env.header.dataClass, retention: env.header.retention, userInitiated: true) {
                 throw VaultError.notAuthorized(reason)
             }
-            do { try verify(env) } catch { throw VaultError.backupIntegrityFailed }
+            guard seen.insert(env.header.recordID.hex).inserted else { throw VaultError.duplicateRecordID }
+            try BackupBody.validateLimits(env)
+            do { _ = try sealer.open(env) } catch { throw VaultError.envelopeIntegrityFailed }
         }
-        return envelopes
+        return try BackupCodec.export(verified: envelopes, from: keyProvider, recoveryKey: recoveryKey, nowUnixSeconds: now)
+    }
+
+    /// Restores onto THIS device's keys. Requires a `.restoreBackup` token. Every envelope is
+    /// payload-verified. Consent-gated records whose grant is not active NOW are returned as
+    /// quarantined, never silently re-enabled (G4).
+    public func restoreBackup(bytes: [UInt8], recoveryKey: RecoveryKey, authorization: OperationAuthorization) throws -> RestoreResult {
+        let (_, now) = try authorize(authorization, for: .restoreBackup, recordID: nil, purpose: nil)
+        let (_, envelopes) = try BackupCodec.restore(bytes: bytes, recoveryKey: recoveryKey, into: keyProvider)
+        var active: [RecordEnvelope] = []
+        var quarantined: [QuarantinedRecord] = []
+        for env in envelopes {
+            try env.header.validate()
+            if case .denied(let reason) = VaultPolicy.mayBackup(env.header.dataClass, retention: env.header.retention, userInitiated: true) {
+                throw VaultError.notAuthorized(reason)
+            }
+            do { _ = try sealer.open(env) } catch { throw VaultError.backupIntegrityFailed }
+            if case .denied(let reason) = VaultPolicy.mayRead(env.header.dataClass, consentPurpose: env.header.consentPurpose, authority: consentAuthority, atUnixSeconds: now) {
+                quarantined.append(QuarantinedRecord(envelope: env, reason: reason))
+            } else {
+                active.append(env)
+            }
+        }
+        return RestoreResult(active: active, quarantined: quarantined)
+    }
+
+    /// Releases a quarantined record after the user granted consent again. Requires a
+    /// `.releaseQuarantine` token and an active grant for the record's purpose NOW.
+    public func releaseQuarantine(_ record: QuarantinedRecord, authorization: OperationAuthorization) throws -> RecordEnvelope {
+        try record.envelope.header.validate()
+        let (_, now) = try authorize(authorization, for: .releaseQuarantine, recordID: nil, purpose: nil)
+        if case .denied(let reason) = VaultPolicy.mayRead(record.envelope.header.dataClass, consentPurpose: record.envelope.header.consentPurpose, authority: consentAuthority, atUnixSeconds: now) {
+            throw VaultError.quarantined(reason)
+        }
+        _ = try sealer.open(record.envelope)
+        return record.envelope
+    }
+
+    /// User deletion right. Requires a `.delete(recordIDs)` token covering the ids. The store layer
+    /// (future) must consume the returned grant; consent state never blocks deletion.
+    public func authorizeDeletion(of recordIDs: Set<RecordID>, authorization: OperationAuthorization) throws -> DeletionGrant {
+        let (_, now) = try authorize(authorization, for: .delete(recordIDs: recordIDs), recordID: nil, purpose: nil)
+        return DeletionGrant(recordIDs: recordIDs, authorizedAtUnixSeconds: now)
     }
 
     public static func generateRecoveryKey() throws -> RecoveryKey { try BackupCodec.generateRecoveryKey() }

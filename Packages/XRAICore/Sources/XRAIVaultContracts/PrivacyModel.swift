@@ -184,6 +184,12 @@ public enum VaultPolicy {
         return .allowed
     }
 
+    /// Reading plaintext of a stored record: a consent-gated class needs an ACTIVE grant for the
+    /// purpose bound into the record. A revoked or expired grant blocks reading (G1).
+    public static func mayRead(_ dataClass: DataClass, consentPurpose: String, authority: any ConsentAuthority, atUnixSeconds now: Int64) -> PolicyDecision {
+        mayStore(dataClass, purpose: consentPurpose, authority: authority, atUnixSeconds: now)
+    }
+
     /// Including a record in a user-held encrypted backup.
     public static func mayBackup(_ dataClass: DataClass, retention: RetentionClass, userInitiated: Bool) -> PolicyDecision {
         guard userInitiated else { return .denied(reason: .userInitiationRequired) }

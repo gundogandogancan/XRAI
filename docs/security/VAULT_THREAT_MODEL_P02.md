@@ -1,4 +1,4 @@
-# XRAI Vault — Threat model v1.1 (P02, V32-02-01 + V32-02-01H hardening, 2026-10-19)
+# XRAI Vault — Threat model v1.2 (P02, V32-02-01 + H1 + H2 authorization gate, 2026-10-19)
 
 **Scope:** the on-device personal vault (encrypted records of birth data, names, optional family data, psychometrics, journals, goals, evidence, consent receipts) and the optional user-held encrypted backup. **Out of scope here:** UI, network broker, model router, StoreKit (own threat models later). **Status:** design + library-level tests; **no device verification, no independent security review yet.** Nothing in this document claims the vault is unbreakable (constitution §83: "No 'unbreakable' promise").
 
@@ -33,7 +33,11 @@ B1 process boundary of the app (other apps, extensions, keyboards, clipboard) ·
 | T19 | Policy bypass by calling crypto directly; forged/stale/revoked consent receipts | `SecureVault` is the only public path; raw sealer/codec internal (test-enforced); `ConsentAuthority` port is the sole source of grants; revocation/expiry honoured at the instant. | TESTED (`EnforcementTests`, `PolicyTests`) |
 | T20 | Privacy-tier downgrade at creation, read or import | Class floors; throwing descriptor; `validate()` on seal/open/rewrap/decode. | TESTED (`descriptorFloor`, `tamperHeader`, `forgedBody` #1) |
 | T21 | Identifier/metadata leakage through descriptions, errors, logs | Random `RecordID`, redacted descriptions, identifier-free `VaultError`, crash logs hard-denied. | TESTED (`errorHygiene`, `redaction`, `hardRules`) |
-| T22 | Resource exhaustion / malformed backup on import; corrupted or foreign envelope laundered into a backup on export | `BackupLimits` (256 MiB, 100k entries, field lengths), duplicate ids, binding check, padding check, payload verification on both export and restore. | TESTED (`unauthorizedExport`, `forgedBody`, `corruptedOrWrongKey`) |
+| T22 | Resource exhaustion / malformed backup on import; corrupted or foreign envelope laundered into a backup on export | `BackupLimits` (256 MiB, 100k entries, field lengths), duplicate ids, binding check, padding check, payload verification on both export and restore; export size measured before sealing. | TESTED (`unauthorizedExport`, `forgedBody`, `corruptedOrWrongKey`, `saltsAndLimits`) |
+| T23 | Same-process code calls the key provider or raw crypto directly, bypassing policy | Vault ports private; raw sealer/codec/wrapper internal; dev doubles in a separate never-linked target; compile-negative test. **Residual:** `KeyProvider`/`ConsentAuthority` are public protocols; Swift access control is not a boundary against malicious in-process code or `@testable`. Real isolation needs SE non-extractable keys (P02-02). | PARTIAL, residual documented |
+| T24 | Reading a record after consent was revoked/expired, or under another purpose | `consentPurpose` authenticated in the header; `open` needs a purpose-matching token and an active grant at trusted time. | TESTED (`ReadAccessTests`) |
+| T25 | Caller forges time or "user initiated" flags; replays or widens a token; uses a stale clock | `VaultClock` port + monotonic guard; issuer-held token copies, single use, TTL ≤ 300 s, replay rejected. **Residual:** per-process high-water mark; rollback before first observation undetectable; not an OS boundary. | TESTED (`ClockAndTokenTests`) |
+| T26 | Old backup silently re-enables sensitive records whose consent was revoked; corrupted record re-wrapped as valid | Quarantine on restore, release only with fresh grant + token; `rewrap` verifies payload first. | TESTED (`IntegrityAndQuarantineTests`) |
 
 ## Residual risks stated honestly
 - Keys live in process memory while in use; a compromised OS or a debugger can read them.
@@ -44,4 +48,4 @@ B1 process boundary of the app (other apps, extensions, keyboards, clipboard) ·
 - No independent security review or penetration test has happened. Statuses are library TESTED, not SECURITY_REVIEWED.
 
 ## Test-to-threat map
-`VaultContractsTests.swift` → T6, T9, T10, T14, T19, T20, T21 · `VaultCryptoTests.swift` → T1–T5, T7, T8, T11, T13, T14, T18–T22 · `PrivacyNegativeTests.swift` (BOOT-01) → T11 for pure math modules.
+`VaultContractsTests.swift` → T6, T9, T10, T14, T19, T20, T21 · `VaultCryptoTests.swift` → T1–T5, T7, T8, T11, T13, T14, T18–T22 · `AuthorizationGateTests.swift` → T24, T25, T26 · `CompositionBoundaryTests.swift` → T13, T23 · `PrivacyNegativeTests.swift` (BOOT-01) → T11 for pure math modules.

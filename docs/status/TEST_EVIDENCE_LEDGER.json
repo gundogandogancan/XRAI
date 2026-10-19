@@ -114,6 +114,38 @@
       "command": "git diff --stat Packages/XRAICore/Sources/XRAIIdentityTime Sources/XRAINumerology Tests/XRAIIdentityTimeTests Tests/XRAINumerologyTests",
       "exit_code": 0,
       "result": "empty diff: pure core untouched"
+    },
+    {
+      "run_id": "P02-01H2-BUILD",
+      "command": "swift build",
+      "cwd": "Packages/XRAICore",
+      "exit_code": 0,
+      "log": "docs/status/evidence/p02_01h2_swift_build.log",
+      "log_sha256": "8bcfbe88bbc631d98d29e7bf42026deb2b2846e4ca090a58c36a01c9b4229f3a"
+    },
+    {
+      "run_id": "P02-01H2-TEST-RUN1",
+      "command": "swift test",
+      "cwd": "Packages/XRAICore",
+      "exit_code": 1,
+      "result": "81 tests, 79 passed, 3 issues (replay error kind; source-scan comment false positive); compile-negative passed",
+      "log": "docs/status/evidence/p02_01h2_swift_test_run1_FAILED_3_issues.log",
+      "log_sha256": "f39d64788bb40b63686c61c618bfbe7f9419628086d8830d9288a1b5093874df"
+    },
+    {
+      "run_id": "P02-01H2-TEST-RUN2",
+      "command": "swift test",
+      "cwd": "Packages/XRAICore",
+      "exit_code": 0,
+      "result": "81 tests in 19 suites passed (35 BOOT-01 + 46 vault incl. compile-negative)",
+      "log": "docs/status/evidence/p02_01h2_swift_test_run2.log",
+      "log_sha256": "cd2feec0fa576f15fcef7975cf321cb472905d50a280b10e6af932c009b3652d"
+    },
+    {
+      "run_id": "P02-01H2-NUMEROLOGY-REGRESSION",
+      "command": "git diff --stat on XRAIIdentityTime/XRAINumerology sources and tests",
+      "exit_code": 0,
+      "result": "empty diff"
     }
   ],
   "acceptance_test_mapping": [
@@ -210,7 +242,13 @@
     "vault.keychain_provider": "NOT_STARTED",
     "vault.backup.sealed.v2": "TESTED (library; v1 format retired)",
     "vault.secure_vault.facade": "TESTED",
-    "vault.consent_authority": "PORT_ONLY (production registry NOT_STARTED)"
+    "vault.consent_authority": "PORT_ONLY (production registry NOT_STARTED)",
+    "vault.access_contract.h2": "TESTED (library)",
+    "vault.authorization_issuer": "TESTED (not an OS boundary)",
+    "vault.clock_guard": "TESTED (per-process)",
+    "vault.quarantine": "TESTED",
+    "vault.compile_negative_boundary": "TESTED with swiftc",
+    "vault.envelope.header": "v2 (consentPurpose authenticated)"
   },
   "not_evidence": [
     "docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"

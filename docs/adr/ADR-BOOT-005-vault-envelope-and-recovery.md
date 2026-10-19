@@ -32,3 +32,14 @@ The vault can seal, open, rotate, export and restore at the library level with a
 4. **Identifier hygiene.** `RecordID` = 128-bit CSPRNG hex, strictly parsed, redacted; envelope description and `VaultError` carry no record/key identifiers; `crashLogs` is hard-denied for raw personal data.
 5. **Export/import robustness.** Export verifies every envelope's payload and binding and rejects duplicates; import enforces `BackupLimits` (file size, entry count, field lengths), duplicate ids, binding, padding, and verifies every payload under the new device keys before returning.
 Status unchanged: library TESTED (71/71); SECURITY_REVIEWED: NO; DEVICE_VERIFIED: NO.
+
+## Amendment H2 — V32-02-01H2 authorization gate (2026-10-19, after ChatGPT review of commit 026bbca)
+
+1. **Access contract.** Every `SecureVault` operation consumes a scoped, short-lived (≤ 300 s), single-use `OperationAuthorization` issued by the application layer's `AuthorizationIssuer`; the vault trusts only the issuer's stored copy (looked up by id). Scopes: `write(class)`, `read(recordIDs?)`, `exportBackup`, `restoreBackup`, `releaseQuarantine`, `delete(ids)`, `maintenance(integrityCheck|rewrap)`.
+2. **Purpose binding.** `consentPurpose` is part of the authenticated envelope header (format v2; v1 retired, none persisted). Reading a consent-gated record requires a token with the same purpose and an active grant for that purpose at the trusted time; revocation/expiry block reads immediately.
+3. **Separation.** Maintenance (`verify`, `rewrap`) never returns plaintext and needs no consent. Export and deletion are user-rights paths independent of consent state. `rewrap` verifies integrity first.
+4. **Trusted time.** `VaultClock` port; `SystemClock` + `MonotonicGuardClock` (tolerance 300 s). Caller-supplied time removed. Limits documented.
+5. **Quarantine.** Restore returns `RestoreResult{active, quarantined}`; consent-gated records without an active grant are quarantined and released only with a fresh grant plus a `releaseQuarantine` token.
+6. **Composition boundary.** Vault ports are private; `InMemoryKeyProvider`/`InMemoryConsentAuthority`/`ManualClock` live in `XRAIVaultTesting` (never a production dependency; manifest test). Compile-negative test proves the raw sealer, codec, wrapper, private properties and the in-memory provider are unreachable from external modules.
+7. **Honesty.** None of this is an OS security boundary; malicious same-process code is out of scope until Keychain/Secure Enclave non-extractable keys (P02-02).
+Status: library TESTED (81/81); SECURITY_REVIEWED: NO; DEVICE_VERIFIED: NO.

@@ -1,0 +1,2 @@
+# XRAI consent and zero egress
+Read `SECURITY_DATA_EGRESS_MATRIX_v3.2.json`; state exact input purpose and permission; verify Keychain vault, WAL/temp/index/backups, no third-party/default network; retain delete/export/invalidation audit. Mock `NetworkEgressBroker` deny by default, negative test and threat model. Never upload PDFs, journals, DOB, family names or medical attributes without specific authorization.

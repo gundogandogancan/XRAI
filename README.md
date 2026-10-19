@@ -16,7 +16,7 @@ Local-first, native iOS **Personal Life Intelligence** app: exact mathematics wh
 | `docs/adr/` | repo-level ADRs |
 | `docs/tools/` | tool/skill/agent install ledger and pins |
 | `docs/audits/` | prior audit notes |
-| `Packages/XRAICore` | pure Swift core: `XRAIIdentityTime` (CivilDate), `XRAINumerology` (Life Path), `XRAIVaultContracts` (privacy policy, envelope/backup contracts), `XRAIVaultCryptoKit` (AES-256-GCM adapter, the only CryptoKit module) |
+| `Packages/XRAICore` | pure Swift core: `XRAIIdentityTime` (CivilDate), `XRAINumerology` (Life Path), `XRAIVaultContracts` (privacy policy, envelope/backup contracts), `XRAIVaultCryptoKit` (AES-256-GCM adapter + `SecureVault` access contract, the only production CryptoKit module), `XRAIVaultTesting` (in-memory doubles, tests only) |
 | `docs/security/` | threat models |
 | `brand/` | logo source and derived PNG |
 | `baseline/` | immutable v3.1 package ZIP (contains v3.0) |
