@@ -1,0 +1,281 @@
+Building for debugging...
+[0/2] Write swift-version--58304C5D6DBC2206.txt
+Build complete! (0.10s)
+Test Suite 'All tests' started at 2026-10-20 01:49:57.047.
+Test Suite 'All tests' passed at 2026-10-20 01:49:57.049.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.002) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite "G2 — composition root and module boundary" started.
+◇ Suite "Key lifecycle" started.
+◇ Suite "CivilDate digits, ordering and redaction" started.
+◇ Suite "AES-256-GCM envelope: adversarial" started.
+◇ Suite "Deny-by-default flow policy against a consent authority" started.
+◇ Suite "CivilDate validity — hand-derived fixtures" started.
+◇ Suite "Privacy negative tests — XRAICore production sources" started.
+◇ Suite "Life Path — typed errors and registry" started.
+◇ Suite "AES-256-GCM envelope: round trip and structure" started.
+◇ Suite "P03-00F F3 — cache fails closed when the time source fails; TTL is monotonic" started.
+◇ Suite "GATE 0B — quarantine is enforced by the trusted registry" started.
+◇ Suite "Life Path — arithmetic properties over the whole supported domain sample" started.
+◇ Suite "Life Path — num.life_path.components.v1 golden fixtures" started.
+◇ Suite "Privacy tiers, floors and data classes" started.
+◇ Suite "G4 — integrity before rewrap; quarantine on restore" started.
+◇ Suite "Keychain key lifecycle" started.
+◇ Suite "P03-00F F4 — in-process rotation serialization; cross-process is BLOCKED" started.
+◇ Suite "Life Path — num.life_path.digits.v1 golden fixtures" started.
+◇ Suite "GATE 0A — effective time never goes backwards" started.
+◇ Suite "Sealed backup: confidentiality, authorization and robustness" started.
+◇ Suite "Isolation of test doubles and debug surface from production" started.
+◇ Suite "G1 — unauthorized decryption is impossible through the facade" started.
+◇ Suite "Recovery key, operation scopes and error hygiene" started.
+◇ Suite "G3 — trusted clock and operation tokens" started.
+◇ Suite "Key cache (P03-00 §3)" started.
+◇ Suite "Record ids, canonical encoding and headers" started.
+◇ Suite "Keychain mode selection and fail-closed behaviour" started.
+◇ Test "public surface of SecureVault exposes no key provider, sealer or codec (reflection + source)" started.
+◇ Test "raw personal data never reaches analytics, model training, cloud sync, advertising or crash logs — even with blanket consent" started.
+◇ Test "revocation and expiry close the scope from that instant, for store and for read" started.
+◇ Test "device vault and user-encrypted backup are the only consent-free destinations" started.
+◇ Test "month 13 and month 0 are invalid" started.
+◇ Test "provider egress needs an active grant held by the AUTHORITY with matching class, purpose and destination" started.
+◇ Test "leap-year table" started.
+◇ Test "2000-02-29 is valid (divisible by 400)" started.
+◇ Test "compile-negative: external code cannot reach AESGCMEnvelopeSealer, BackupCodec, GCMKeyWrapper, SecureVault.keyProvider, or InMemoryKeyProvider via the adapter" started.
+◇ Test "types are not Codable here: no serialization path for a DOB in the pure module" started.
+◇ Test "Package.swift: no non-test target depends on XRAIVaultTesting; only the adapter and the testing target may import CryptoKit" started.
+◇ Test "rotation re-wraps the DEK (maintenance token), payload bytes unchanged; forgotten old version makes un-rewrapped envelopes unreadable" started.
+◇ Test "April 31 is invalid" started.
+◇ Test "day 0 and day 32 are invalid" started.
+◇ Test "supported year window is 1583...9999 inclusive" started.
+◇ Test "trace description and debug description never contain the birth digits" started.
+◇ Test "no production file imports Foundation/Network/OSLog or references IO, logging or networking APIs" started.
+◇ Test "2024-02-29 valid, 2023-02-29 invalid" started.
+◇ Test "production sources exist for both modules" started.
+◇ Test "backup inclusion requires user initiation and excludes session-only records" started.
+◇ Test "unsupported format version (incl. retired v1) and malformed lengths are rejected with typed errors" started.
+◇ Test "1900-02-29 is invalid (century, not divisible by 400)" started.
+◇ Test "trace hash is an integrity fingerprint: stable, and distinct for distinct inputs/methods" started.
+◇ Test "a caller-held receipt that the authority does not know grants nothing (forged receipt)" started.
+◇ Test "a DEK wrapped for one record cannot be swapped into another record" started.
+◇ Test "direct open() of a quarantined envelope is refused even after consent is re-granted; release needs token AND grant" started.
+◇ Test "envelope description is redacted and the type stores no plaintext field" started.
+◇ Test "tampered ciphertext, tag, nonce or wrapped key fails authentication" started.
+◇ Test "literal YYYYMMDD digits preserve order and zero padding" started.
+◇ Test "wrong key provider cannot open" started.
+◇ Test "the same envelope value restored into a vault whose registry is pre-marked stays quarantined; the registry, not the value, is the source of truth" started.
+◇ Test "family data is third-party information and needs purpose consent" started.
+◇ Test "preserve policy roots are in 1...9 or {11,22,33} and master is set iff root is master" started.
+◇ Test "reduce_all root equals the digital root of the compound, and both methods agree" started.
+◇ Test "valid date but unregistered method → methodUnavailable" started.
+◇ Test "seal/open round-trips for every class (consent granted where required) and ciphertext hides the plaintext" started.
+◇ Test "Comparable orders by year, month, day" started.
+◇ Test "an empty registry makes every method unavailable" started.
+◇ Test "registry v1 exposes exactly the two BOOT-01 methods" started.
+◇ Test "CivilDate is not Codable in this module (persistence belongs to the vault layer)" started.
+◇ Test "F11 1984-11-22 → 22 + 11 + 22 = 55 → 10 → 1; reduce_all: 4 + 2 + 4 = 10 → 1" started.
+◇ Test "a corrupted envelope cannot be re-wrapped as if valid" started.
+◇ Test "release with a valid token but WITHOUT an active grant is refused and the record stays quarantined" started.
+◇ Test "F5 1955-01-01 → compound 22: preserved as master 22 / reduced to 4" started.
+◇ Test "descriptor construction fails closed below the floor; consent-gated classes need a non-empty purpose" started.
+◇ Test "date-only type has exactly three stored properties and no time or zone" started.
+◇ Test "F7 1999-07-03 → compound 38 → 11 reached at a reduction step (preserved) / → 2" started.
+◇ Test "nonce strategy: fresh random nonce per seal; same plaintext never repeats nonce or ciphertext" started.
+◇ Test "time source failure purges the cache and refuses the operation; a stale KEK is never served; recovery after the source returns" started.
+◇ Test "determinism: same inputs give identical trace and hash" started.
+◇ Test "F2 2000-02-29 (valid leap day) → compound 15 → root 6" started.
+◇ Test "tampered authenticated metadata fails; tier downgrade fails closed before any crypto; purpose is authenticated" started.
+◇ Test "two exports differ in salt, nonce and ciphertext; recovery keys are high entropy; HKDF contexts are separated; export size limit is enforced before sealing" started.
+◇ Test "F9 2000-02-29 → 2 + 2 + 11(preserved) = 15 → 6; reduce_all: 2 + 2 + 2 = 6" started.
+◇ Test "unauthorized export: wrong-scope token, session-only record, duplicate id, tampered envelope, foreign envelope, mixed DEK" started.
+◇ Test "floors follow SECURITY_DATA_EGRESS_MATRIX_v3.2 and decision 6; no personal class may be public" started.
+◇ Test "F10 permutation: 1998-03-06 shares compound 36 with F1 but trace and hash differ" started.
+◇ Test "F8 1955-01-01 → year 20→2, month 1, day 1 → compound 4 → root 4 (differs from digits method 22)" started.
+◇ Test "F6 1969-05-21 → compound 33: preserved as master 33 / reduced to 6" started.
+◇ Test "open with an EXPIRED consent is denied at the trusted time" started.
+◇ Test "maintenance verify/rewrap never return plaintext and do not need consent; a read token cannot be used for maintenance" started.
+◇ Test "description never contains the birth date (privacy negative test)" started.
+◇ Test "metadata leak: backup bytes expose only magic, version, salt, nonce — no record ids, classes, tiers, purposes, timestamps, counts, plaintext or recovery key" started.
+◇ Test "XRAIVaultKeychain imports no testing module, is the only Security importer, has no debug hooks or forbidden IO; in-memory provider is test-only" started.
+◇ Test "user rights: export and deletion work without active consent; deletion grant is scoped to the ids" started.
+◇ Test "forged body inside a correctly-encrypted backup: tier downgrade, duplicate ids, oversize count, session-only, tampered inner payload, bad padding → rejected" started.
+◇ Test "export → bytes → restore on a NEW device; plaintext recovered; old keys useless; payload ciphertext unchanged" started.
+◇ Test "a record is bound to its purpose: a grant or token for another purpose cannot read it" started.
+◇ Test "a read token narrowed to other records, a maintenance token, or a write token cannot read" started.
+◇ Test "open with a REVOKED consent is denied; it was readable before revocation" started.
+◇ Test "create, reuse across provider instances (app relaunch), and isolation between key ids and services" started.
+◇ Test "F4 2000-01-08 → compound 11: preserved as master 11 / reduced to 2" started.
+◇ Test "wrong recovery key, corrupted bytes, truncation, trailing bytes, old format version, oversize → rejected; restore needs its own scope" started.
+◇ Test "every reduction step strictly decreases and ends at the root" started.
+◇ Test "tier order is PUBLIC < PRIVATE < SENSITIVE < HIGH" started.
+◇ Test "a revoked consent does not re-activate when the base clock is set back 1…300 s; beyond tolerance the clock refuses" started.
+◇ Test "an expired token cannot be revived by moving the clock back within tolerance" started.
+◇ Test "restoring an old backup does not silently re-enable revoked sensitive records: they are quarantined, unreadable, and released only with a fresh grant" started.
+◇ Test "rejects wrong length and all-zero keys; description is redacted; display round-trips" started.
+◇ Test "error values and descriptions carry no record id, key id, name or date" started.
+◇ Test "F1 1998-06-30 → compound 36 → root 9" started.
+◇ Test "a fake user action: calling export/restore with any non-export token is refused; the flag no longer exists" started.
+◇ Test "operation scope coverage is exact and record-narrowed" started.
+◇ Test "forged tokens (unknown id), replayed tokens, expired tokens, not-yet-valid tokens and over-long TTLs are rejected" started.
+◇ Test "two instances rotating concurrently in one process: versions strictly monotonic, no conflicts, pointer consistent" started.
+◇ Test "a cached KEK survives deletion of its item only until TTL or purge; purge on lock makes the loss immediate" started.
+◇ Test "a clock set backwards cannot be used to gain authority: the monotonic guard refuses, and an expired token stays expired" started.
+◇ Test "integers round-trip big-endian, strings length-prefixed; truncation throws" started.
+◇ Test "header v2 canonical bytes are deterministic, change with every field incl. purpose; validate() enforces floor and purpose" started.
+◇ Test "constant-time equality" started.
+◇ Test "record ids are random 128-bit hex, strictly validated, redacted in descriptions" started.
+◇ Test "production configuration never falls back: without a keychain entitlement it fails closed; inside a signed host it uses the data-protection keychain" started.
+✔ Test "2000-02-29 is valid (divisible by 400)" passed after 0.027 seconds.
+✔ Test "types are not Codable here: no serialization path for a DOB in the pure module" passed after 0.027 seconds.
+✔ Test "leap-year table" passed after 0.028 seconds.
+✔ Test "provider egress needs an active grant held by the AUTHORITY with matching class, purpose and destination" passed after 0.028 seconds.
+✔ Test "raw personal data never reaches analytics, model training, cloud sync, advertising or crash logs — even with blanket consent" passed after 0.028 seconds.
+✔ Test "device vault and user-encrypted backup are the only consent-free destinations" passed after 0.028 seconds.
+✔ Test "revocation and expiry close the scope from that instant, for store and for read" passed after 0.028 seconds.
+✔ Test "trace description and debug description never contain the birth digits" passed after 0.028 seconds.
+✔ Test "April 31 is invalid" passed after 0.028 seconds.
+✔ Test "supported year window is 1583...9999 inclusive" passed after 0.028 seconds.
+✔ Test "2024-02-29 valid, 2023-02-29 invalid" passed after 0.028 seconds.
+✔ Test "month 13 and month 0 are invalid" passed after 0.028 seconds.
+✔ Test "backup inclusion requires user initiation and excludes session-only records" passed after 0.028 seconds.
+✔ Test "a caller-held receipt that the authority does not know grants nothing (forged receipt)" passed after 0.030 seconds.
+✔ Test "day 0 and day 32 are invalid" passed after 0.030 seconds.
+✔ Test "trace hash is an integrity fingerprint: stable, and distinct for distinct inputs/methods" passed after 0.030 seconds.
+✔ Test "1900-02-29 is invalid (century, not divisible by 400)" passed after 0.031 seconds.
+✔ Test "envelope description is redacted and the type stores no plaintext field" passed after 0.030 seconds.
+✔ Test "a DEK wrapped for one record cannot be swapped into another record" passed after 0.031 seconds.
+✔ Test "production sources exist for both modules" passed after 0.031 seconds.
+✔ Test "literal YYYYMMDD digits preserve order and zero padding" passed after 0.031 seconds.
+✔ Test "unsupported format version (incl. retired v1) and malformed lengths are rejected with typed errors" passed after 0.031 seconds.
+✔ Test "family data is third-party information and needs purpose consent" passed after 0.031 seconds.
+✔ Test "public surface of SecureVault exposes no key provider, sealer or codec (reflection + source)" passed after 0.031 seconds.
+✔ Test "rotation re-wraps the DEK (maintenance token), payload bytes unchanged; forgotten old version makes un-rewrapped envelopes unreadable" passed after 0.031 seconds.
+✔ Test "the same envelope value restored into a vault whose registry is pre-marked stays quarantined; the registry, not the value, is the source of truth" passed after 0.031 seconds.
+✔ Test "tampered ciphertext, tag, nonce or wrapped key fails authentication" passed after 0.031 seconds.
+✔ Test "Comparable orders by year, month, day" passed after 0.031 seconds.
+✔ Test "valid date but unregistered method → methodUnavailable" passed after 0.031 seconds.
+✔ Test "wrong key provider cannot open" passed after 0.031 seconds.
+✔ Test "registry v1 exposes exactly the two BOOT-01 methods" passed after 0.031 seconds.
+✔ Test "an empty registry makes every method unavailable" passed after 0.031 seconds.
+✔ Test "CivilDate is not Codable in this module (persistence belongs to the vault layer)" passed after 0.031 seconds.
+✔ Test "F11 1984-11-22 → 22 + 11 + 22 = 55 → 10 → 1; reduce_all: 4 + 2 + 4 = 10 → 1" passed after 0.031 seconds.
+✔ Test "F5 1955-01-01 → compound 22: preserved as master 22 / reduced to 4" passed after 0.031 seconds.
+✔ Test "a corrupted envelope cannot be re-wrapped as if valid" passed after 0.031 seconds.
+✔ Test "date-only type has exactly three stored properties and no time or zone" passed after 0.031 seconds.
+✔ Test "F7 1999-07-03 → compound 38 → 11 reached at a reduction step (preserved) / → 2" passed after 0.031 seconds.
+✔ Test "direct open() of a quarantined envelope is refused even after consent is re-granted; release needs token AND grant" passed after 0.031 seconds.
+✔ Test "release with a valid token but WITHOUT an active grant is refused and the record stays quarantined" passed after 0.031 seconds.
+✔ Test "determinism: same inputs give identical trace and hash" passed after 0.031 seconds.
+✔ Test "F2 2000-02-29 (valid leap day) → compound 15 → root 6" passed after 0.031 seconds.
+✔ Test "seal/open round-trips for every class (consent granted where required) and ciphertext hides the plaintext" passed after 0.031 seconds.
+✔ Test "tampered authenticated metadata fails; tier downgrade fails closed before any crypto; purpose is authenticated" passed after 0.031 seconds.
+✔ Test "F9 2000-02-29 → 2 + 2 + 11(preserved) = 15 → 6; reduce_all: 2 + 2 + 2 = 6" passed after 0.031 seconds.
+✔ Test "floors follow SECURITY_DATA_EGRESS_MATRIX_v3.2 and decision 6; no personal class may be public" passed after 0.031 seconds.
+✔ Test "descriptor construction fails closed below the floor; consent-gated classes need a non-empty purpose" passed after 0.031 seconds.
+✔ Test "F10 permutation: 1998-03-06 shares compound 36 with F1 but trace and hash differ" passed after 0.031 seconds.
+✔ Test "F8 1955-01-01 → year 20→2, month 1, day 1 → compound 4 → root 4 (differs from digits method 22)" passed after 0.031 seconds.
+✔ Test "F6 1969-05-21 → compound 33: preserved as master 33 / reduced to 6" passed after 0.031 seconds.
+✔ Test "open with an EXPIRED consent is denied at the trusted time" passed after 0.031 seconds.
+✔ Test "description never contains the birth date (privacy negative test)" passed after 0.031 seconds.
+✔ Test "unauthorized export: wrong-scope token, session-only record, duplicate id, tampered envelope, foreign envelope, mixed DEK" passed after 0.031 seconds.
+✔ Test "maintenance verify/rewrap never return plaintext and do not need consent; a read token cannot be used for maintenance" passed after 0.031 seconds.
+✔ Test "user rights: export and deletion work without active consent; deletion grant is scoped to the ids" passed after 0.031 seconds.
+✔ Test "Package.swift: no non-test target depends on XRAIVaultTesting; only the adapter and the testing target may import CryptoKit" passed after 0.032 seconds.
+✔ Test "no production file imports Foundation/Network/OSLog or references IO, logging or networking APIs" passed after 0.031 seconds.
+✔ Test "export → bytes → restore on a NEW device; plaintext recovered; old keys useless; payload ciphertext unchanged" passed after 0.031 seconds.
+✔ Test "a record is bound to its purpose: a grant or token for another purpose cannot read it" passed after 0.031 seconds.
+✔ Test "a read token narrowed to other records, a maintenance token, or a write token cannot read" passed after 0.031 seconds.
+✔ Test "open with a REVOKED consent is denied; it was readable before revocation" passed after 0.031 seconds.
+✔ Test "forged body inside a correctly-encrypted backup: tier downgrade, duplicate ids, oversize count, session-only, tampered inner payload, bad padding → rejected" passed after 0.031 seconds.
+✔ Test "F4 2000-01-08 → compound 11: preserved as master 11 / reduced to 2" passed after 0.031 seconds.
+✔ Test "XRAIVaultKeychain imports no testing module, is the only Security importer, has no debug hooks or forbidden IO; in-memory provider is test-only" passed after 0.031 seconds.
+✔ Test "every reduction step strictly decreases and ends at the root" passed after 0.032 seconds.
+✔ Test "tier order is PUBLIC < PRIVATE < SENSITIVE < HIGH" passed after 0.032 seconds.
+✔ Test "a revoked consent does not re-activate when the base clock is set back 1…300 s; beyond tolerance the clock refuses" passed after 0.032 seconds.
+✔ Test "an expired token cannot be revived by moving the clock back within tolerance" passed after 0.032 seconds.
+✔ Test "restoring an old backup does not silently re-enable revoked sensitive records: they are quarantined, unreadable, and released only with a fresh grant" passed after 0.032 seconds.
+✔ Test "rejects wrong length and all-zero keys; description is redacted; display round-trips" passed after 0.032 seconds.
+✔ Test "error values and descriptions carry no record id, key id, name or date" passed after 0.032 seconds.
+✔ Test "F1 1998-06-30 → compound 36 → root 9" passed after 0.032 seconds.
+✔ Test "a fake user action: calling export/restore with any non-export token is refused; the flag no longer exists" passed after 0.032 seconds.
+✔ Test "operation scope coverage is exact and record-narrowed" passed after 0.032 seconds.
+✔ Test "nonce strategy: fresh random nonce per seal; same plaintext never repeats nonce or ciphertext" passed after 0.032 seconds.
+✔ Test "forged tokens (unknown id), replayed tokens, expired tokens, not-yet-valid tokens and over-long TTLs are rejected" passed after 0.032 seconds.
+✔ Test "a clock set backwards cannot be used to gain authority: the monotonic guard refuses, and an expired token stays expired" passed after 0.032 seconds.
+✔ Test "metadata leak: backup bytes expose only magic, version, salt, nonce — no record ids, classes, tiers, purposes, timestamps, counts, plaintext or recovery key" passed after 0.032 seconds.
+✔ Test "integers round-trip big-endian, strings length-prefixed; truncation throws" passed after 0.032 seconds.
+✔ Test "header v2 canonical bytes are deterministic, change with every field incl. purpose; validate() enforces floor and purpose" passed after 0.032 seconds.
+✔ Test "constant-time equality" passed after 0.032 seconds.
+✔ Test "record ids are random 128-bit hex, strictly validated, redacted in descriptions" passed after 0.031 seconds.
+✔ Test "production configuration never falls back: without a keychain entitlement it fails closed; inside a signed host it uses the data-protection keychain" passed after 0.016 seconds.
+✔ Suite "CivilDate validity — hand-derived fixtures" passed after 0.034 seconds.
+✔ Suite "Privacy negative tests — XRAICore production sources" passed after 0.034 seconds.
+✔ Suite "Deny-by-default flow policy against a consent authority" passed after 0.034 seconds.
+✔ Suite "AES-256-GCM envelope: round trip and structure" passed after 0.034 seconds.
+✔ Suite "AES-256-GCM envelope: adversarial" passed after 0.034 seconds.
+✔ Suite "CivilDate digits, ordering and redaction" passed after 0.034 seconds.
+✔ Suite "Privacy tiers, floors and data classes" passed after 0.034 seconds.
+✔ Suite "Key lifecycle" passed after 0.034 seconds.
+✔ Suite "GATE 0B — quarantine is enforced by the trusted registry" passed after 0.034 seconds.
+✔ Suite "Life Path — typed errors and registry" passed after 0.034 seconds.
+✔ Suite "Life Path — num.life_path.components.v1 golden fixtures" passed after 0.034 seconds.
+✔ Suite "Life Path — num.life_path.digits.v1 golden fixtures" passed after 0.034 seconds.
+✔ Suite "G4 — integrity before rewrap; quarantine on restore" passed after 0.034 seconds.
+✔ Suite "G1 — unauthorized decryption is impossible through the facade" passed after 0.034 seconds.
+✔ Suite "Isolation of test doubles and debug surface from production" passed after 0.034 seconds.
+✔ Suite "GATE 0A — effective time never goes backwards" passed after 0.034 seconds.
+✔ Suite "Recovery key, operation scopes and error hygiene" passed after 0.034 seconds.
+✔ Suite "G3 — trusted clock and operation tokens" passed after 0.034 seconds.
+✔ Suite "Record ids, canonical encoding and headers" passed after 0.034 seconds.
+◇ Test "test configuration reports its true protection level; the provider never claims hardware it does not have" started.
+✔ Test "preserve policy roots are in 1...9 or {11,22,33} and master is set iff root is master" passed after 0.094 seconds.
+✔ Test "two exports differ in salt, nonce and ciphertext; recovery keys are high entropy; HKDF contexts are separated; export size limit is enforced before sealing" passed after 0.095 seconds.
+✔ Test "test configuration reports its true protection level; the provider never claims hardware it does not have" passed after 0.088 seconds.
+◇ Test "Secure Enclave REQUIRED fails closed where the enclave is absent and works where present (no silent downgrade)" started.
+✔ Test "time source failure purges the cache and refuses the operation; a stale KEK is never served; recovery after the source returns" passed after 0.151 seconds.
+◇ Test "a time source that goes backwards (impossible for monotonic, simulated) does not extend the TTL" started.
+✔ Test "Secure Enclave REQUIRED fails closed where the enclave is absent and works where present (no silent downgrade)" passed after 0.045 seconds.
+◇ Test "OSStatus mapping is typed and identifier-free" started.
+✔ Test "OSStatus mapping is typed and identifier-free" passed after 0.001 seconds.
+✔ Suite "Keychain mode selection and fail-closed behaviour" passed after 0.168 seconds.
+✔ Test "reduce_all root equals the digital root of the compound, and both methods agree" passed after 0.168 seconds.
+✔ Suite "Life Path — arithmetic properties over the whole supported domain sample" passed after 0.169 seconds.
+✔ Test "wrong recovery key, corrupted bytes, truncation, trailing bytes, old format version, oversize → rejected; restore needs its own scope" passed after 0.224 seconds.
+✔ Suite "Sealed backup: confidentiality, authorization and robustness" passed after 0.225 seconds.
+✔ Test "a time source that goes backwards (impossible for monotonic, simulated) does not extend the TTL" passed after 0.074 seconds.
+◇ Test "the production uptime source is monotonic and positive" started.
+✔ Test "the production uptime source is monotonic and positive" passed after 0.001 seconds.
+✔ Suite "P03-00F F3 — cache fails closed when the time source fails; TTL is monotonic" passed after 0.226 seconds.
+✔ Test "a cached KEK survives deletion of its item only until TTL or purge; purge on lock makes the loss immediate" passed after 0.234 seconds.
+◇ Test "cache disabled: every operation hits the keychain, so deletion is visible immediately" started.
+✔ Test "create, reuse across provider instances (app relaunch), and isolation between key ids and services" passed after 0.253 seconds.
+◇ Test "rotation: new item before pointer move; old records open; rewrap moves them; forget needs retire (two-phase); relaunch sees the new version" started.
+✔ Test "cache disabled: every operation hits the keychain, so deletion is visible immediately" passed after 0.050 seconds.
+◇ Test "another instance's stale cache after retire+forget: access persists only until its TTL/purge (documented), then fails closed" started.
+✔ Test "rotation: new item before pointer move; old records open; rewrap moves them; forget needs retire (two-phase); relaunch sees the new version" passed after 0.095 seconds.
+◇ Test "two instances on one service: a stale instance refreshes the pointer, never wraps under a stale version, and rotates to the next version instead of conflicting" started.
+✔ Test "another instance's stale cache after retire+forget: access persists only until its TTL/purge (documented), then fails closed" passed after 0.147 seconds.
+✔ Suite "Key cache (P03-00 §3)" passed after 0.433 seconds.
+✔ Test "two instances on one service: a stale instance refreshes the pointer, never wraps under a stale version, and rotates to the next version instead of conflicting" passed after 0.163 seconds.
+◇ Test "interrupted rotation: a READABLE orphan is adopted by the next rotation; an UNREADABLE orphan blocks rotation until repaired; orphans never unwrap" started.
+✔ Test "interrupted rotation: a READABLE orphan is adopted by the next rotation; an UNREADABLE orphan blocks rotation until repaired; orphans never unwrap" passed after 0.156 seconds.
+◇ Test "same key id with different material (conflict) is never overwritten" started.
+✔ Test "same key id with different material (conflict) is never overwritten" passed after 0.039 seconds.
+◇ Test "corrupted keychain entry fails closed on relaunch and on unwrap; a missing item (passcode removed → OS deleted it) fails closed" started.
+✔ Test "corrupted keychain entry fails closed on relaunch and on unwrap; a missing item (passcode removed → OS deleted it) fails closed" passed after 0.087 seconds.
+◇ Test "mode mismatch between stored meta and configuration fails closed (no silent downgrade of protection)" started.
+✔ Test "two instances rotating concurrently in one process: versions strictly monotonic, no conflicts, pointer consistent" passed after 0.799 seconds.
+✔ Suite "P03-00F F4 — in-process rotation serialization; cross-process is BLOCKED" passed after 0.800 seconds.
+✔ Test "mode mismatch between stored meta and configuration fails closed (no silent downgrade of protection)" passed after 0.029 seconds.
+◇ Test "wipe requires an explicit confirmation naming the key id; afterwards a new provider starts a fresh key set" started.
+✔ Test "wipe requires an explicit confirmation naming the key id; afterwards a new provider starts a fresh key set" passed after 0.058 seconds.
+◇ Test "concurrent wrap/unwrap/rotate on one provider: no crash, every unwrap succeeds or fails typed, versions stay monotonic" started.
+✔ Test "concurrent wrap/unwrap/rotate on one provider: no crash, every unwrap succeeds or fails typed, versions stay monotonic" passed after 0.122 seconds.
+◇ Test "end-to-end: SecureVault over the Keychain provider — seal, backup, restore on a second key set" started.
+✔ Test "end-to-end: SecureVault over the Keychain provider — seal, backup, restore on a second key set" passed after 0.052 seconds.
+✔ Suite "Keychain key lifecycle" passed after 1.058 seconds.
+✔ Test "compile-negative: external code cannot reach AESGCMEnvelopeSealer, BackupCodec, GCMKeyWrapper, SecureVault.keyProvider, or InMemoryKeyProvider via the adapter" passed after 1.151 seconds.
+✔ Suite "G2 — composition root and module boundary" passed after 1.151 seconds.
+✔ Test run with 108 tests in 27 suites passed after 1.152 seconds.
+EXIT=0

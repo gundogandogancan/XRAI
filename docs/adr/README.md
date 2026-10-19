@@ -12,3 +12,4 @@ Spec-level ADR-001…ADR-015 live in `docs/registries/ARCHITECTURE_ADRS_v3.1.jso
 | [ADR-BOOT-006](ADR-BOOT-006-keychain-secure-enclave-key-provider.md) | Production key provider on Keychain with Secure Enclave wrapping (P02-02) | ACCEPTED, macOS-host + Simulator-host TESTED, DEVICE_VERIFIED: NO |
 | [ADR-BOOT-007](ADR-BOOT-007-ios-host-key-cache-and-rotation-safety.md) | Native iOS host, key-cache policy, rotation/forgetting safety (P03-00, Amendment F) | ACCEPTED, device 24/24, DEVICE_VERIFIED: PARTIAL |
 | [ADR-BOOT-008](ADR-BOOT-008-design-system-and-onboarding.md) | Design system, onboarding and first user flow (P03-01) | ACCEPTED, Simulator 38/38, device 38/38 |
+| [ADR-BOOT-009](ADR-BOOT-009-secure-persistence-architecture.md) | Secure persistence architecture: file-based envelope store, derived-data graph, tombstones, consent authority persistence, store proof for key forgetting (P03-03) | PROPOSED, design only, awaiting review |

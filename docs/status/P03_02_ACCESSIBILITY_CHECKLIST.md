@@ -34,3 +34,6 @@ Measured by `ContrastTests` on the resolved light and dark token pairs; threshol
 
 ## English catalog
 Reviewed by the agent for meaning, grammar and length (not a native reviewer); English-locale screenshots not captured in this phase.
+
+## WCAG 2.2 SC 1.4.11 non-text contrast (assessed in P03-03, 2026-10-20)
+The 1.3:1 border threshold used by `ContrastTests` is an internal decorative minimum, not an SC 1.4.11 claim. Component-by-component assessment: text-input boundary 1.17:1 light / 1.11:1 dark against the surface → **fails** the 3:1 requirement (finding F-UX-5, blocker `INPUT_FIELD_BOUNDARY_CONTRAST`); primary button 5.62:1 → pass; secondary button identified by its text label → boundary not required by the SC (affordance stays F-UX-4); card borders and surfaces are decorative → not covered. Details: `P03_03_ARCHITECTURE_GATE_REPORT.md` §4.

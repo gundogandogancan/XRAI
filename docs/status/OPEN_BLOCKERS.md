@@ -16,25 +16,25 @@ Vocabulary: `BLOCKED` (cannot proceed without an external fact/right/decision), 
 |---|---|---|---|
 | IPHONE_TEST | P02 | NOT_VERIFIED | a physical iPhone + developer signing to test vault, model, thermals. |
 | DEVICE_BACKUP_POLICY | P02 | RESOLVED 2026-10-19 (founder decisions 3–4) | Optional user-held 256-bit recovery key + E2EE portable backup; fresh device keys on restore; loss of both = unrecoverable, stated plainly. Implemented at library level (ADR-BOOT-005). |
-| JOURNAL_SECURITY | P02 | NOT_VERIFIED | encrypted store engine choice (GRDB/SQLCipher licence) + WAL/temp/backup leak tests on device. Envelope layer exists (ADR-BOOT-005); persistence layer NOT_STARTED. |
+| JOURNAL_SECURITY | P02 | DESIGN_RESOLVED 2026-10-20 (P03-03), NOT_VERIFIED | engine chosen: record-per-file envelopes + encrypted manifest, no SQLCipher (ADR-BOOT-009 D1, PROPOSED); WAL/temp/backup leak tests belong to P03-04 on device. Persistence layer NOT_STARTED. |
 | KEYCHAIN_PROVIDER | P02-02 | CODED + TESTED (macOS host) | `KeychainKeyProvider` + Secure Enclave wrapping exist (ADR-BOOT-006). DEVICE_VERIFIED: NO. |
 | DEVICE_TESTS_KEYCHAIN_SE | P02-02+ | PARTIAL 2026-10-20 | create/read/rotate/retire/forget/wipe, SE wrapping, cache, serialization VERIFIED on iPhone 14 Pro Max (non-destructive). Still NOT_RUN: lock/unlock behaviour, passcode removal, reinstall — need a dedicated test device + explicit approval. |
 | ROTATION_CROSS_PROCESS | P02+ | BLOCKED | keychain rotation sequence is not a CAS; in-process serialized; app extensions must never rotate (main-app ownership rule) until a cross-process mechanism exists. |
-| FORGET_REQUIRES_STORE_PROOF | pre-persistence | BLOCKED | without a store there is no proof every record was re-wrapped before `forget`; the store layer must produce it. |
+| FORGET_REQUIRES_STORE_PROOF | pre-persistence | CONTRACT SPECIFIED 2026-10-20, still BLOCKED until P03-04 | `KeyRetirementProof` (manifest hash + full-scan zero count + rewrap journal complete) issued by the store; `KeyRetirementCoordinator` verifies before `retire`→`forget` (P03_03_SECURE_PERSISTENCE_ADR §5, DELETION_AND_RECOVERY §4). Closes only with tests N19. |
 | XCODEGEN_PRESETS_MISSING | tooling | NOTE | installed xcodegen lacks SettingPresets; all defaults are explicit in project.yml; re-check when xcodegen is reinstalled. |
 | SIM_HOST_APP | P03-00 | RESOLVED_TODAY | `XRAI.xcodeproj` app target + `XRAIHostedTests` (TEST_HOST) run the Keychain tests on the iPhone 17 Simulator: 20/20. |
 | DEVICE_TRUST_AND_RUN | P03-00F | RESOLVED 2026-10-20 — the real cause was a missing rpath (packaging), not trust; app launches and 24/24 hosted tests pass on iPhone 14 Pro Max. Original note kept for history: | iPhone 14 Pro Max 'Dogi (2)': signing/provisioning OK, app installed, runner crashed at launch. Founder must unlock the phone, approve the developer profile (Settings › General › VPN & Device Management) / Developer Mode, keep it unlocked, then rerun `xcodebuild test … -destination 'platform=iOS,id=C7C6CE6E-B577-558A-8992-DC6C1F492B39' -allowProvisioningUpdates`. Destructive scenarios (reinstall, passcode removal) need a dedicated test device and explicit approval. |
 | SIM_SE_IS_HOST_MAC | note | — | On Apple-silicon Macs the Simulator proxies the host's Secure Enclave; simulator SE results are NOT iPhone hardware evidence. |
-| REINSTALL_KEY_POLICY | P03 | DESIGN | on fresh install with no store: adopt key set explicitly or `wipeAllKeys()`; user told that device-only keys need the recovery-key backup. |
+| REINSTALL_KEY_POLICY | P03 | SPECIFIED 2026-10-20 (P03-03 D10) | keys present but no manifest → wipe-or-restore prompt, never silent reuse; test N16 PLANNED. |
 | APP_ICON_AND_LAUNCH | P03-01 | RESOLVED_TODAY | AppIcon, LaunchLogo/LaunchBackground, tr/en string catalog. |
 | UX_POLISH_P03_02 | P03-02 | RESOLVED_TODAY (partially) | F-UX-1/2/3 fixed and asserted; contrast + a11y gates automated; Reduce Motion run; English agent-proofread. Still open: F-UX-4 quiet-button affordance, SE-class layout (no simulator), native English review, human VoiceOver pass (MANUAL_PENDING), app-switcher snapshot visual check. |
 | TABBAR_CONTRAST_AUDIT | known limitation | NOTE | iOS 26 translucent floating tab bar blends scrolled content; XCUI `.contrast` audit excluded on tab screens; token pairs measured separately. |
 | ONBOARDING_FLAG_IN_DEFAULTS | pre-persistence | NOTE | the only persisted value is the non-personal onboarding flag in UserDefaults (test-asserted); moves to a preferences layer with the vault store. |
-| AUTHZ_ISSUER_UI_BINDING | pre-persistence | OPEN | `AuthorizationIssuer.issue()` must be callable only from trusted user-interaction paths; no integration proves tokens come from real user actions yet. |
-| DELETION_GRANT_VALIDATION | pre-persistence | OPEN | store layer must validate/consume `DeletionGrant`. |
+| AUTHZ_ISSUER_UI_BINDING | pre-persistence | SPECIFIED 2026-10-20 (P03-03 D7), OPEN until P03-05 | `InteractionGate` + `InteractionProof` minted only inside consent/confirm action closures (scene active, 5 s, single use); `issue()` leaves the public surface. In-process limit stated (INTERACTION_PROOF_LIMIT). |
+| DELETION_GRANT_VALIDATION | pre-persistence | SPECIFIED 2026-10-20 (P03-03 D3), OPEN until P03-04 | `VaultStore.delete(ids, grant)` consumes the grant, runs the journaled cascade and writes tombstones. |
 | VAULT_SECURITY_REVIEW | P02/P12 | NOT_DONE | independent review/pen test before any 'vault complete' claim. ChatGPT code review round 1 (V32-02-01H) applied: 5 findings closed, see P02_01H report. |
-| CONSENT_AUTHORITY_IMPL | P02+ | NOT_STARTED | production consent registry behind the `ConsentAuthority` port (encrypted store, audit trail, UI). |
-| AUTHZ_PERSISTENCE | P02+ | NOT_STARTED | persist the monotonic clock high-water mark and consumed-token ids (currently per process). |
+| CONSENT_AUTHORITY_IMPL | P02+ | SPECIFIED 2026-10-20 (P03_03_CONSENT_AUTHORITY_SPEC), NOT_STARTED | purpose registry, versioned receipts, payload-free events, persisted in the vault; UI in P03-05. |
+| AUTHZ_PERSISTENCE | P02+ | SPECIFIED 2026-10-20 (P03-03 D8), NOT_STARTED | `authz.v1` envelope: consumed-token ring (10 000) + clock high-water mark + launch counter; tests N6/N8 relaunch cases PLANNED. |
 | IN_PROCESS_ISOLATION | P02-02+ | PARTIAL | SE-wrapped KEK means the Keychain item alone is useless, but in-process code can still call the provider; app hardening and review remain. |
 | BACKUP_SIZE_SIDECHANNEL | P02+ | PARTIAL | 4 KiB block padding only; bucketed padding once backup cadence is designed. |
 | PARENT_NAME_SCOPE | P02 | RESOLVED 2026-10-19 (founder decision 6) | Optional; purpose-bound consent required to store; never analytics/model/cloud/ads. Encoded in `VaultPolicy` and tested. |
@@ -55,3 +55,13 @@ Vocabulary: `BLOCKED` (cannot proceed without an external fact/right/decision), 
 | SUBSCRIPTION_MODEL | OPEN_DECISION | monthly/annual/lifetime, free tier boundary, regional pricing; to be decided before P11 with real App Store Connect data. |
 | SOURCE_COVERAGE_GAPS | see `SOURCE_COVERAGE_AND_TRACEABILITY_AUDIT.md` and `MISSING_REQUIREMENTS_REGISTER.json` | requirements found in older material without a v3.1 id. |
 | SWIFTLINT_FORMAT | low | not installed; optional for P03. |
+
+## New in P03-03 (2026-10-20, design only)
+| id | status | detail |
+|---|---|---|
+| PERSISTENCE_ADR_REVIEW | AWAITING_REVIEW | ADR-BOOT-009 (file-based envelope store, SQLCipher deferred) is PROPOSED; P03-04 starts only after acceptance. |
+| DERIVED_DATA_GRAPH | SPECIFIED, NOT_STARTED | `derivedFrom[]` in authenticated header v3 + manifest reverse index; cascade/invalidation rules in P03_03_DATA_LIFECYCLE_MATRIX §2; tests N13 PLANNED. |
+| TOMBSTONE_RESURRECTION_WINDOW | ACCEPTED_RISK | tombstones kept 90 days; an older backup can resurrect a deleted record unless the user declines in the restore review. |
+| INTERACTION_PROOF_LIMIT | LIMIT | the interaction proof is in-process, not an OS boundary; malicious in-process code can forge it. Mitigations: code signing, sandbox, SE keys, optional biometrics (deferred, UX decision). |
+| INPUT_FIELD_BOUNDARY_CONTRAST | OPEN (F-UX-5) | WCAG 2.2 SC 1.4.11: text-input boundary measures 1.17:1 light / 1.11:1 dark against the surface, below the 3:1 non-text requirement; needs an `inputBorder` token ≥ 3:1 asserted by `ContrastTests`. The 1.3:1 border threshold is an internal decorative minimum, not an SC claim (P03_03_ARCHITECTURE_GATE_REPORT §4). |
+| P03_02_OPEN_FINDINGS | OPEN (unchanged) | F-UX-4, SE-class layout, human VoiceOver (MANUAL_PENDING), native English review, app-switcher snapshot visual check (MANUAL_PENDING), full device regression with the final build, tab-bar contrast exception. |

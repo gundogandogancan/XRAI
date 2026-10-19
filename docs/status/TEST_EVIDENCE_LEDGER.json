@@ -466,6 +466,30 @@
       "log_sha256": "9ae197ed54d25301b48313dee7a00d16267a93d4b64cb9feb0652ed34e18462b",
       "audit_simulator": "docs/status/evidence/p03_02_a11y_audit_simulator.txt",
       "audit_device": "docs/status/evidence/p03_02_a11y_audit_device.txt"
+    },
+    {
+      "run_id": "P03-03-STATIC-SWIFT",
+      "command": "swift test --package-path Packages/XRAICore (macOS host, static regression; no code changed in this phase)",
+      "exit_code": 0,
+      "result": "108 tests in 27 suites passed",
+      "log": "docs/status/evidence/p03_03_swift_test_macos.log",
+      "log_sha256": "85679d8bce1e4500feef95aaeec084e3ef384c160c6b271adc412ecb84de01f8"
+    },
+    {
+      "run_id": "P03-03-STATIC-VALIDATE",
+      "command": "python3 -I validation/validate_package.py",
+      "exit_code": 0,
+      "result": "PASS spec structure; files=4380; methods=19; tests=98; tasks=18; v3.1 original preserved",
+      "log": "docs/status/evidence/p03_03_validate_package.log",
+      "log_sha256": "b639af718c42b0627e64fdf117456298cbe91bcba3d8f271499958916e70cd29"
+    },
+    {
+      "run_id": "P03-03-STATIC-DOCS",
+      "command": "python3 -I validation/check_p03_03_docs.py",
+      "exit_code": 0,
+      "result": "PASS: 12 DataClass cases present in inventory + matrix; every blocker id in the gate report exists in OPEN_BLOCKERS.md; ADR-005..008 present; entitlements carry no application-groups; 8 P03-03 docs cite baseline 713468e",
+      "log": "docs/status/evidence/p03_03_check_docs.log",
+      "log_sha256": "c51bb110aae2b6bc0738ab275e0d74d8e1f817d5cfd9480b1019fe46a2583191"
     }
   ],
   "acceptance_test_mapping": [
@@ -586,7 +610,8 @@
     "app.epistemic_classes": "5 classes TESTED",
     "app.contrast_gate": "TESTED (measured, both appearances)",
     "app.a11y_audit": "TESTED on 5 screens; contrast type excluded on tab screens (KNOWN_LIMITATION)",
-    "app.voiceover_human": "MANUAL_PENDING"
+    "app.voiceover_human": "MANUAL_PENDING",
+    "P03-03": "SPECIFIED (design only); no code change; static checks exit 0; DEVICE_VERIFIED: n/a; SECURITY_REVIEWED: NO"
   },
   "not_evidence": [
     "docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"

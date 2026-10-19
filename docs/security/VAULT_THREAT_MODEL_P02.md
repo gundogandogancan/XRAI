@@ -1,4 +1,4 @@
-# XRAI Vault — Threat model v1.5 (… + P03-00F device launch, monotonic cache, rotation serialization, 2026-10-20)
+# XRAI Vault — Threat model v1.6 (P03-03 design rows T39–T43, … + P03-00F device launch, monotonic cache, rotation serialization, 2026-10-20)
 
 **Scope:** the on-device personal vault (encrypted records of birth data, names, optional family data, psychometrics, journals, goals, evidence, consent receipts) and the optional user-held encrypted backup. **Out of scope here:** UI, network broker, model router, StoreKit (own threat models later). **Status:** design + library-level tests; **no device verification, no independent security review yet.** Nothing in this document claims the vault is unbreakable (constitution §83: "No 'unbreakable' promise").
 
@@ -50,8 +50,14 @@ B1 process boundary of the app (other apps, extensions, keyboards, clipboard) ·
 | T36 | Cache TTL extended by wall-clock changes; time-source failure serves a stale KEK | Monotonic `SystemUptime`; failure → purge + `clockUnavailable`; backwards time counts as expired. | TESTED (`ClockFailureCacheTests`) |
 | T38 | App-switcher snapshot or inactive scene exposes the in-memory birth date | `PrivacyShieldView` shown whenever the scene is inactive and personal data is held (`PrivacyShieldPolicy`, unit-tested); `forgetAll()` clears date + draft; copy distinguishes background / termination / forget. **Residual:** snapshot content not verified visually by automation; no RAM zeroing. | PARTIAL (policy TESTED; MANUAL_PENDING) |
 | T37 | Concurrent rotation by several provider instances (non-atomic keychain sequence) | In-process `KeySetSerializer` lock per (service, keyID); cross-process writers BLOCKED by ownership rule (main app only). | TESTED in-process (`RotationSerializationTests`); cross-process BLOCKED |
+| T39 | Store leaks metadata (plaintext manifest, SQLite WAL/SHM/temp, meaningful file names, OS backup copies) | ADR-BOOT-009: record-per-file envelopes with random names, encrypted manifest, 4 KiB padding, no SQLite, directory excluded from OS backups, Data Protection complete. Residual: file count / padded size. | DESIGN (P03-03), tests N15 PLANNED |
+| T40 | Derived interpretation outlives or out-consents its deleted/revoked source | `derivedFrom[]` in authenticated header v3, manifest reverse index, cascade (dependents first), stale-derived unreadable, consent inheritance at read time. | DESIGN (P03-03), tests N13 PLANNED |
+| T41 | Deleted record resurrected from an old backup; half-finished delete after crash | Tombstones (id, deletedAt) reconciled on restore; journaled idempotent cascade replayed on launch. Residual: 90-day tombstone window → user-confirmed resurrection. | DESIGN (P03-03), tests N3/N10 PLANNED |
+| T42 | Programmatic consent or authorization without a real user action; replay/rollback across relaunch | `InteractionGate`/`InteractionProof` (action-closure only, scene active, 5 s, single use); persisted consumed-token ring and clock high-water mark. Residual: in-process, not an OS boundary. | DESIGN (P03-03), tests N6/N8/N17 PLANNED |
+| T43 | Key forgotten while records still reference it (store-level) | `KeyRetirementProof` bound to manifest hash + full-scan zero count; coordinator gates `retire`→`forget`. | DESIGN (P03-03), tests N19 PLANNED |
 
 ## Residual risks stated honestly
+- P03-03 (2026-10-20) added T39–T43 as DESIGN rows only; none is implemented or tested; see `docs/status/P03_03_THREAT_AND_NEGATIVE_TEST_PLAN.md` for the N1–N20 chain.
 - Keys live in process memory while in use; a compromised OS or a debugger can read them.
 - A device with passcode removed or a jailbroken device weakens Keychain guarantees.
 - A user who loses both backup and recovery key loses the data. This is intended.
