@@ -16,6 +16,7 @@ Local-first, native iOS **Personal Life Intelligence** app: exact mathematics wh
 | `docs/adr/` | repo-level ADRs |
 | `docs/tools/` | tool/skill/agent install ledger and pins |
 | `docs/audits/` | prior audit notes |
+| `App/`, `project.yml`, `XRAI.xcodeproj` | native SwiftUI iOS host (five tabs, honest security status, hosted keychain tests) |
 | `Packages/XRAICore` | pure Swift core: `XRAIIdentityTime` (CivilDate), `XRAINumerology` (Life Path), `XRAIVaultContracts` (privacy policy, envelope/backup contracts), `XRAIVaultCryptoKit` (AES-256-GCM adapter + `SecureVault` access contract, the only production CryptoKit module), `XRAIVaultKeychain` (production KeyProvider on Keychain + Secure Enclave, the only Security module), `XRAIVaultTesting` (in-memory doubles, tests only) |
 | `docs/security/` | threat models |
 | `brand/` | logo source and derived PNG |
@@ -31,7 +32,7 @@ swift test
 python3 -I ../../validation/validate_package.py   # spec structure only, not an app build
 ```
 
-No Xcode app target exists yet (P03). No network, persistent storage, analytics or model code exists yet by design; the vault has a production Keychain/Secure Enclave key provider tested on a macOS host; physical-device verification is pending.
+An Xcode app target exists (`XRAI.xcodeproj`, regenerate with `xcodegen generate`); it is a host skeleton with no persistence. No network, persistent storage, analytics or model code exists yet by design; the vault has a production Keychain/Secure Enclave key provider tested on a macOS host; physical-device verification is pending.
 
 ## Non-negotiables
 No private book scans or PDFs in the repo. No paid API, cloud model, MCP or hook without an ADR. Deterministic results never come from an LLM. Symbolic readings are never presented as personality, health or destiny facts. Nothing is "DONE" without a test log in `docs/status/evidence/`.

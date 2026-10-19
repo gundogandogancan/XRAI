@@ -28,6 +28,13 @@ struct CompositionBoundaryTests {
             if block.contains("name: \"XRAIVaultKeychain\"") { #expect(!block.contains("XRAIVaultTesting"), "Keychain target must not depend on the testing target") }
         }
         #expect(!sawTestingDependency, "a production target depends on XRAIVaultTesting")
+        // Xcode app project (P03-00): the XRAI app target must never link XRAIVaultTesting; only the hosted test target may.
+        let projectYML = Self.packageRoot().deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent("project.yml")
+        if let yml = try? String(contentsOf: projectYML, encoding: .utf8), let appRange = yml.range(of: "\n  XRAI:\n") {
+            let afterApp = yml[appRange.upperBound...]
+            let appBlock = afterApp.range(of: "\n  XRAIHostedTests:").map { afterApp[..<$0.lowerBound] } ?? afterApp
+            #expect(!appBlock.contains("XRAIVaultTesting"), "XRAI app target links XRAIVaultTesting")
+        }
         #expect(decls.count >= 7)
         let sources = Self.packageRoot().appendingPathComponent("Sources", isDirectory: true)
         for module in ["XRAIIdentityTime", "XRAINumerology", "XRAIVaultContracts"] {
@@ -79,12 +86,14 @@ struct CompositionBoundaryTests {
             ("vault.keyProvider", "import XRAIVaultContracts\nimport XRAIVaultCryptoKit\nfunc f(v: SecureVault) { _ = v.keyProvider }"),
             ("vault.sealer", "import XRAIVaultContracts\nimport XRAIVaultCryptoKit\nfunc f(v: SecureVault) { _ = v.sealer }"),
             ("in-memory provider without the testing module", "import XRAIVaultContracts\nimport XRAIVaultCryptoKit\nfunc f() { _ = InMemoryKeyProvider(keyID: \"x\") }"),
-            ("keychain debug hooks are package-internal", "import XRAIVaultContracts\nimport XRAIVaultKeychain\nfunc f(p: KeychainKeyProvider) throws { try p.debugDeleteItem(version: 1) }"),
+            ("keychain store is internal", "import XRAIVaultContracts\nimport XRAIVaultKeychain\nfunc f() { _ = KeychainStore(service: \"s\", accessibility: .whenUnlockedThisDeviceOnly, mode: .dataProtection) }"),
+            ("keychain debug hooks do not exist", "import XRAIVaultContracts\nimport XRAIVaultKeychain\nfunc f(p: KeychainKeyProvider) throws { try p.debugDeleteItem(version: 1) }"),
+            ("secure enclave wrapper is internal", "import XRAIVaultContracts\nimport XRAIVaultKeychain\nfunc f() throws { _ = try SecureEnclaveWrapper.wrap(kek: [], accessibility: .whenUnlockedThisDeviceOnly) }"),
         ]
         for (name, code) in negatives {
             let r = try Self.typecheck(code, modulesDir: modulesDir)
             #expect(r.exit != 0, Comment(rawValue: "\(name): compiled but must not"))
-            #expect(r.stderr.contains("cannot find") || r.stderr.contains("inaccessible") || r.stderr.contains("is not a member") || r.stderr.contains("private"), Comment(rawValue: "\(name): unexpected diagnostics:\n\(r.stderr)"))
+            #expect(r.stderr.contains("cannot find") || r.stderr.contains("inaccessible") || r.stderr.contains("is not a member") || r.stderr.contains("has no member") || r.stderr.contains("private"), Comment(rawValue: "\(name): unexpected diagnostics:\n\(r.stderr)"))
         }
     }
 

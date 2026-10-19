@@ -37,6 +37,8 @@ public enum VaultError: Error, Equatable, Sendable {
     case secureEnclaveUnavailable
     /// The clock guard refuses to return time below the observed high-water mark beyond tolerance.
     case clockUnavailable
+    /// `forget` was called on a version that was never retired (two-phase forgetting, P03-00 §4).
+    case keyVersionNotRetired(version: UInt32)
 }
 
 /// How a key-encryption key is protected at rest. Surfaced by every `KeyProvider` so the app can

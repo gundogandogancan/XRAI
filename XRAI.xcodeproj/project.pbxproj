@@ -1,0 +1,445 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1A51CF444648DAA88FE9F285 /* XRAIVaultCryptoKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3D33D3CB67AA7C5993276613 /* XRAIVaultCryptoKit */; };
+		2113D8AB4C160C2F144B2AB9 /* XRAIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8172814642083526C4E6EF /* XRAIApp.swift */; };
+		21C14039038DD3D1122FA3DE /* HostedKeychainSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9F0227DFDECC29D12FE6E4 /* HostedKeychainSmokeTests.swift */; };
+		2DC9821BF7A3829CBBB75553 /* XRAIVaultTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 604B3AAB6C699A88BA7D897F /* XRAIVaultTesting */; };
+		32CC8B75D5446FD1F9BE0719 /* XRAIVaultContracts in Frameworks */ = {isa = PBXBuildFile; productRef = 3D1A5BE64A21A28AFE64108C /* XRAIVaultContracts */; };
+		369A24F1BBE76695375D95C8 /* KeychainKeyProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922D9A8B5469E016CBD0E74 /* KeychainKeyProviderTests.swift */; };
+		3E34376F1243A0AA807694BA /* XRAIVaultKeychain in Frameworks */ = {isa = PBXBuildFile; productRef = E0B6B3C4DDCE43244FDF7EDC /* XRAIVaultKeychain */; };
+		62503B7E1258BA563E9CE92B /* SelfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095E78D72B6D369A0A22098 /* SelfView.swift */; };
+		71455E7DA2AD2537E19C9E15 /* SecurityStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A772EA7549B990FED1D1A54 /* SecurityStatus.swift */; };
+		72CB87A7E6E042CFAFF1DD67 /* XRAIVaultContracts in Frameworks */ = {isa = PBXBuildFile; productRef = 41B3A13B694A38B442751E06 /* XRAIVaultContracts */; };
+		7F6B1C670DBDD945A0ED404E /* XRAINumerology in Frameworks */ = {isa = PBXBuildFile; productRef = 873E2D4639D8E419CB3C7E69 /* XRAINumerology */; };
+		858665511C2BAA0182802D46 /* XRAIVaultCryptoKit in Frameworks */ = {isa = PBXBuildFile; productRef = C2B933C9C01F8708176E3C69 /* XRAIVaultCryptoKit */; };
+		96B3D5D834A6DCB86F623745 /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B647636EF65BFE3670C92974 /* RootTabView.swift */; };
+		B0E639D08C7DE36721A0C5A1 /* XRAIVaultKeychain in Frameworks */ = {isa = PBXBuildFile; productRef = 31FE44D09BC3828DEBFA63D3 /* XRAIVaultKeychain */; };
+		C6E39840796C6FEC0B6B6E0C /* XRAIIdentityTime in Frameworks */ = {isa = PBXBuildFile; productRef = 571E70B74A5DFCAEA534A92B /* XRAIIdentityTime */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		433CA6C04510A9042BEBE0A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFFEFD3CE1123E5779679BBC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 599144F34D097232644C1115;
+			remoteInfo = XRAI;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0A772EA7549B990FED1D1A54 /* SecurityStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityStatus.swift; sourceTree = "<group>"; };
+		3D9F0227DFDECC29D12FE6E4 /* HostedKeychainSmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostedKeychainSmokeTests.swift; sourceTree = "<group>"; };
+		4922D9A8B5469E016CBD0E74 /* KeychainKeyProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainKeyProviderTests.swift; sourceTree = "<group>"; };
+		61FF336B937C4237E3B2760A /* XRAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XRAI.entitlements; sourceTree = "<group>"; };
+		7095E78D72B6D369A0A22098 /* SelfView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfView.swift; sourceTree = "<group>"; };
+		72A6CEE0D16C5DFA26F280FF /* XRAICore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = XRAICore; path = Packages/XRAICore; sourceTree = SOURCE_ROOT; };
+		7E8172814642083526C4E6EF /* XRAIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XRAIApp.swift; sourceTree = "<group>"; };
+		8E5D009F897BC0F2FAFEF176 /* XRAI.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = XRAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1E680188227E88C242E0BB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B647636EF65BFE3670C92974 /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
+		D1B75040866957FF3325A8D5 /* XRAIHostedTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = XRAIHostedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		837DB5025FC6EDAB67B73E27 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6E39840796C6FEC0B6B6E0C /* XRAIIdentityTime in Frameworks */,
+				7F6B1C670DBDD945A0ED404E /* XRAINumerology in Frameworks */,
+				32CC8B75D5446FD1F9BE0719 /* XRAIVaultContracts in Frameworks */,
+				858665511C2BAA0182802D46 /* XRAIVaultCryptoKit in Frameworks */,
+				3E34376F1243A0AA807694BA /* XRAIVaultKeychain in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A54BBC3877C1B0BF6AA5C836 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				72CB87A7E6E042CFAFF1DD67 /* XRAIVaultContracts in Frameworks */,
+				1A51CF444648DAA88FE9F285 /* XRAIVaultCryptoKit in Frameworks */,
+				B0E639D08C7DE36721A0C5A1 /* XRAIVaultKeychain in Frameworks */,
+				2DC9821BF7A3829CBBB75553 /* XRAIVaultTesting in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4B203A013FA02A33D51DA51A /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				92A95049CB981828E4F4B948 /* XRAIVaultKeychainTests */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		92A95049CB981828E4F4B948 /* XRAIVaultKeychainTests */ = {
+			isa = PBXGroup;
+			children = (
+				4922D9A8B5469E016CBD0E74 /* KeychainKeyProviderTests.swift */,
+			);
+			path = XRAIVaultKeychainTests;
+			sourceTree = "<group>";
+		};
+		9F55FDBB214C2A2406E32D6A = {
+			isa = PBXGroup;
+			children = (
+				E3B618EEA179774F7D5B49C1 /* App */,
+				CA90DF7F51AA6E7A9B4B95B6 /* Packages */,
+				DF7AA9602B7E9034C6358A26 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BDE7467697974EF7D473D5CB /* XRAICore */ = {
+			isa = PBXGroup;
+			children = (
+				4B203A013FA02A33D51DA51A /* Tests */,
+			);
+			path = XRAICore;
+			sourceTree = "<group>";
+		};
+		CA90DF7F51AA6E7A9B4B95B6 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				72A6CEE0D16C5DFA26F280FF /* XRAICore */,
+				BDE7467697974EF7D473D5CB /* XRAICore */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		DA9DC6043A46BBDC810D3322 /* XRAI */ = {
+			isa = PBXGroup;
+			children = (
+				B1E680188227E88C242E0BB7 /* Info.plist */,
+				B647636EF65BFE3670C92974 /* RootTabView.swift */,
+				0A772EA7549B990FED1D1A54 /* SecurityStatus.swift */,
+				7095E78D72B6D369A0A22098 /* SelfView.swift */,
+				61FF336B937C4237E3B2760A /* XRAI.entitlements */,
+				7E8172814642083526C4E6EF /* XRAIApp.swift */,
+			);
+			path = XRAI;
+			sourceTree = "<group>";
+		};
+		DF7AA9602B7E9034C6358A26 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8E5D009F897BC0F2FAFEF176 /* XRAI.app */,
+				D1B75040866957FF3325A8D5 /* XRAIHostedTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E2FB66C1ABB62AF1198AD5DD /* XRAIHostedTests */ = {
+			isa = PBXGroup;
+			children = (
+				3D9F0227DFDECC29D12FE6E4 /* HostedKeychainSmokeTests.swift */,
+			);
+			path = XRAIHostedTests;
+			sourceTree = "<group>";
+		};
+		E3B618EEA179774F7D5B49C1 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				DA9DC6043A46BBDC810D3322 /* XRAI */,
+				E2FB66C1ABB62AF1198AD5DD /* XRAIHostedTests */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		599144F34D097232644C1115 /* XRAI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F582A13CD266EE9BD8534A35 /* Build configuration list for PBXNativeTarget "XRAI" */;
+			buildPhases = (
+				BADE518458110DC7C7C82EE2 /* Sources */,
+				837DB5025FC6EDAB67B73E27 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = XRAI;
+			packageProductDependencies = (
+				571E70B74A5DFCAEA534A92B /* XRAIIdentityTime */,
+				873E2D4639D8E419CB3C7E69 /* XRAINumerology */,
+				3D1A5BE64A21A28AFE64108C /* XRAIVaultContracts */,
+				C2B933C9C01F8708176E3C69 /* XRAIVaultCryptoKit */,
+				E0B6B3C4DDCE43244FDF7EDC /* XRAIVaultKeychain */,
+			);
+			productName = XRAI;
+			productReference = 8E5D009F897BC0F2FAFEF176 /* XRAI.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BC4EC122DAE45B68B2D5D4B6 /* XRAIHostedTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0B156A932A7D05D5E3DA5983 /* Build configuration list for PBXNativeTarget "XRAIHostedTests" */;
+			buildPhases = (
+				880BFF17F2DFDDE8E740C4BB /* Sources */,
+				A54BBC3877C1B0BF6AA5C836 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AF9A6AD1B7113249B4A3DA7A /* PBXTargetDependency */,
+			);
+			name = XRAIHostedTests;
+			packageProductDependencies = (
+				41B3A13B694A38B442751E06 /* XRAIVaultContracts */,
+				3D33D3CB67AA7C5993276613 /* XRAIVaultCryptoKit */,
+				31FE44D09BC3828DEBFA63D3 /* XRAIVaultKeychain */,
+				604B3AAB6C699A88BA7D897F /* XRAIVaultTesting */,
+			);
+			productName = XRAIHostedTests;
+			productReference = D1B75040866957FF3325A8D5 /* XRAIHostedTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DFFEFD3CE1123E5779679BBC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					599144F34D097232644C1115 = {
+						DevelopmentTeam = 47XQMQZLF6;
+						ProvisioningStyle = Automatic;
+					};
+					BC4EC122DAE45B68B2D5D4B6 = {
+						DevelopmentTeam = 47XQMQZLF6;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 23E599B04B88F57C3C859495 /* Build configuration list for PBXProject "XRAI" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 9F55FDBB214C2A2406E32D6A;
+			packageReferences = (
+				D66021DE88745D7B359C23CA /* XCLocalSwiftPackageReference "Packages/XRAICore" */,
+			);
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				599144F34D097232644C1115 /* XRAI */,
+				BC4EC122DAE45B68B2D5D4B6 /* XRAIHostedTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		880BFF17F2DFDDE8E740C4BB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21C14039038DD3D1122FA3DE /* HostedKeychainSmokeTests.swift in Sources */,
+				369A24F1BBE76695375D95C8 /* KeychainKeyProviderTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BADE518458110DC7C7C82EE2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96B3D5D834A6DCB86F623745 /* RootTabView.swift in Sources */,
+				71455E7DA2AD2537E19C9E15 /* SecurityStatus.swift in Sources */,
+				62503B7E1258BA563E9CE92B /* SelfView.swift in Sources */,
+				2113D8AB4C160C2F144B2AB9 /* XRAIApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AF9A6AD1B7113249B4A3DA7A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 599144F34D097232644C1115 /* XRAI */;
+			targetProxy = 433CA6C04510A9042BEBE0A9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0CC3DE80D5A97CCCAB1D05D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47XQMQZLF6;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.0.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		1A85EA178A2C308F35A7B67F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xrai.app.hostedtests;
+				PRODUCT_NAME = XRAIHostedTests;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XRAI.app/XRAI";
+			};
+			name = Release;
+		};
+		5D4AE6B77DAB56471FAED86D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = App/XRAI/XRAI.entitlements;
+				INFOPLIST_FILE = App/XRAI/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xrai.app;
+				PRODUCT_NAME = XRAI;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		7F5739A94D6011861F5EB1E5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = App/XRAI/XRAI.entitlements;
+				INFOPLIST_FILE = App/XRAI/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xrai.app;
+				PRODUCT_NAME = XRAI;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		BCF7F843CDCEBA56920C5AC7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47XQMQZLF6;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.0.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		F40B07D7B2E68435EE55B24B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xrai.app.hostedtests;
+				PRODUCT_NAME = XRAIHostedTests;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XRAI.app/XRAI";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0B156A932A7D05D5E3DA5983 /* Build configuration list for PBXNativeTarget "XRAIHostedTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F40B07D7B2E68435EE55B24B /* Debug */,
+				1A85EA178A2C308F35A7B67F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		23E599B04B88F57C3C859495 /* Build configuration list for PBXProject "XRAI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCF7F843CDCEBA56920C5AC7 /* Debug */,
+				0CC3DE80D5A97CCCAB1D05D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F582A13CD266EE9BD8534A35 /* Build configuration list for PBXNativeTarget "XRAI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5D4AE6B77DAB56471FAED86D /* Debug */,
+				7F5739A94D6011861F5EB1E5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		D66021DE88745D7B359C23CA /* XCLocalSwiftPackageReference "Packages/XRAICore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/XRAICore;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		31FE44D09BC3828DEBFA63D3 /* XRAIVaultKeychain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = XRAIVaultKeychain;
+		};
+		3D1A5BE64A21A28AFE64108C /* XRAIVaultContracts */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = XRAIVaultContracts;
+		};
+		3D33D3CB67AA7C5993276613 /* XRAIVaultCryptoKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = XRAIVaultCryptoKit;
+		};
+		41B3A13B694A38B442751E06 /* XRAIVaultContracts */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = XRAIVaultContracts;
+		};
+		571E70B74A5DFCAEA534A92B /* XRAIIdentityTime */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = XRAIIdentityTime;
+		};
+		604B3AAB6C699A88BA7D897F /* XRAIVaultTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = XRAIVaultTesting;
+		};
+		873E2D4639D8E419CB3C7E69 /* XRAINumerology */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = XRAINumerology;
+		};
+		C2B933C9C01F8708176E3C69 /* XRAIVaultCryptoKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = XRAIVaultCryptoKit;
+		};
+		E0B6B3C4DDCE43244FDF7EDC /* XRAIVaultKeychain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = XRAIVaultKeychain;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = DFFEFD3CE1123E5779679BBC /* Project object */;
+}

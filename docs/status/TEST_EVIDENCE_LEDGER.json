@@ -201,6 +201,52 @@
       "command": "git diff --stat on pure core dirs",
       "exit_code": 0,
       "result": "empty diff"
+    },
+    {
+      "run_id": "P03-00-MAC-RUN1",
+      "command": "swift test (macOS host, real login keychain + real SE)",
+      "exit_code": 1,
+      "result": "104 tests, 103 passed, 1 issue (compile-negative test did not accept 'has no member' diagnostics; test widened)",
+      "log": "docs/status/evidence/p03_00_swift_test_macos_run1_FAILED_1_of_104.log",
+      "log_sha256": "0b391aa162a73ea9da0396125e47cd0c150056ec16596b7d583dd8f124edf9bb"
+    },
+    {
+      "run_id": "P03-00-MAC-RUN3",
+      "command": "swift test --package-path Packages/XRAICore",
+      "exit_code": 0,
+      "result": "104 tests in 25 suites passed; 0 test keychain items left",
+      "log": "docs/status/evidence/p03_00_swift_test_macos_run3.log",
+      "log_sha256": "c80f3a1eb2fdb68c98c0022f4f6254143b4d96a6b85f1a59a0b48ffe6514c799"
+    },
+    {
+      "run_id": "P03-00-SIM-APP-BUILD",
+      "command": "xcodebuild build -project XRAI.xcodeproj -scheme XRAI -destination 'platform=iOS Simulator,name=iPhone 17'",
+      "exit_code": 0,
+      "result": "BUILD SUCCEEDED (after fixing simulator arch to arm64)",
+      "log": "docs/status/evidence/p03_00_xcodebuild_sim_app_build.log",
+      "log_sha256": "1840bba0acc7d718d6797b676288489710cb8486644925426459ae5b93c78bb0"
+    },
+    {
+      "run_id": "P03-00-SIM-HOSTED-TESTS",
+      "command": "xcodebuild test -project XRAI.xcodeproj -scheme XRAI -destination 'platform=iOS Simulator,name=iPhone 17' (signed app host, data-protection keychain)",
+      "exit_code": 0,
+      "result": "20 tests in 5 suites passed (18 keychain provider tests + 2 hosted smoke); Secure Enclave reported available because the Apple-silicon Simulator proxies the HOST MAC enclave — not iPhone hardware evidence",
+      "log": "docs/status/evidence/p03_00_xcodebuild_sim_hosted_tests.log",
+      "log_sha256": "904b1b90c8b8f58c63dd25df9a299e4089b125c11ba6aa03e239b8e8cb99cab1"
+    },
+    {
+      "run_id": "P03-00-DEVICE-IPHONE14PROMAX",
+      "command": "xcodebuild test … -destination 'platform=iOS,id=C7C6CE6E-…' -allowProvisioningUpdates",
+      "exit_code": 65,
+      "result": "automatic signing + provisioning profile succeeded, app installed and launched, test runner 'terminated at launch' before bootstrapping (device-side trust/unlock needed). NO test executed on device. DEVICE_VERIFIED: NO",
+      "log": "docs/status/evidence/p03_00_xcodebuild_device_iphone14promax_FAILED_launch.log",
+      "log_sha256": "5c7268928cf91d4dec71b7838f247b848189a581a4a124eb00573278b088eec2"
+    },
+    {
+      "run_id": "P03-00-NUMEROLOGY-REGRESSION",
+      "command": "git diff --stat on pure core dirs",
+      "exit_code": 0,
+      "result": "empty diff"
     }
   ],
   "acceptance_test_mapping": [
@@ -294,7 +340,7 @@
     "vault.contracts.v1": "TESTED (hardened H1)",
     "vault.aes256gcm.envelope.v1": "TESTED (library; SECURITY_REVIEWED: NO; DEVICE_VERIFIED: NO)",
     "vault.backup.recoverykey.v1": "TESTED (library)",
-    "vault.keychain_provider": "CODED + TESTED (macOS host real Keychain/SE); DEVICE_VERIFIED: NO",
+    "vault.keychain_provider": "CODED + TESTED (macOS host; iOS Simulator inside signed app host); DEVICE_VERIFIED: NO",
     "vault.backup.sealed.v2": "TESTED (library; v1 format retired)",
     "vault.secure_vault.facade": "TESTED",
     "vault.consent_authority": "PORT_ONLY (production registry NOT_STARTED)",
@@ -304,7 +350,11 @@
     "vault.quarantine": "TESTED (trusted registry enforced on open)",
     "vault.compile_negative_boundary": "TESTED with swiftc",
     "vault.envelope.header": "v2 (consentPurpose authenticated)",
-    "vault.secure_enclave_wrapper": "TESTED on Apple-silicon Mac enclave; iPhone NOT_RUN"
+    "vault.secure_enclave_wrapper": "TESTED on Apple-silicon Mac enclave; iPhone NOT_RUN",
+    "app.ios_host_skeleton": "CODED + BUILT (simulator); five tabs; no persistence",
+    "vault.key_cache_policy": "TESTED (TTL, purge on lock/background, stale-instance bound)",
+    "vault.rotation_recovery": "TESTED (pointer refresh, orphan adopt/repair, two-phase retire→forget, confirmed wipe)",
+    "vault.debug_surface": "REMOVED from production (compile-negative + source scan)"
   },
   "not_evidence": [
     "docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"

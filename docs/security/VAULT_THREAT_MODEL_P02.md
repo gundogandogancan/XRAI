@@ -1,4 +1,4 @@
-# XRAI Vault — Threat model v1.3 (P02-01 + H1 + H2 + P02-02 Keychain/Secure Enclave, 2026-10-19)
+# XRAI Vault — Threat model v1.4 (P02 + P02-02 + P03-00 iOS host, key cache and rotation safety, 2026-10-19)
 
 **Scope:** the on-device personal vault (encrypted records of birth data, names, optional family data, psychometrics, journals, goals, evidence, consent receipts) and the optional user-held encrypted backup. **Out of scope here:** UI, network broker, model router, StoreKit (own threat models later). **Status:** design + library-level tests; **no device verification, no independent security review yet.** Nothing in this document claims the vault is unbreakable (constitution §83: "No 'unbreakable' promise").
 
@@ -41,7 +41,11 @@ B1 process boundary of the app (other apps, extensions, keyboards, clipboard) ·
 | T27 | Clock set back within tolerance re-activates revoked consent or expired tokens | Effective time never goes below the process high-water mark (returns the mark); beyond tolerance → `clockRegressed`. **Residual:** mark is per process (AUTHZ_PERSISTENCE). | TESTED (`ClockRollbackTests`) |
 | T28 | Keychain item tampered, truncated, replaced, or deleted (passcode removal, OS cleanup) | Fixed-length / magic / version checks; SE blob AEAD; missing item → `keyUnavailable`; provider init fails closed; never overwrites (`SecItemAdd` only). | TESTED on macOS host (`corruption`, `conflict`, `interruptedRotation`) · device NOT_RUN |
 | T29 | Locked device, access denied, missing entitlement | Typed `keychainUnavailable(status:)`, no fallback in production configuration; legacy macOS keychain only with an explicit test flag and reported as test-only. | TESTED (status mapping; production config fail-closed on macOS CLI and on host-less iOS Simulator) |
-| T30 | App reinstall finds stale keys; interrupted rotation leaves inconsistent state | Orphan versions above `current` are unusable and block the next rotation (conflict); reinstall policy recorded as blocker `REINSTALL_KEY_POLICY` (P03 must adopt or wipe explicitly). | PARTIAL (rotation TESTED; reinstall policy DESIGN) |
+| T30 | App reinstall finds stale keys; interrupted rotation leaves inconsistent state | Readable orphan adopted by the next rotation; unreadable orphan blocks until explicit `repairOrphan`; orphans never unwrap; reinstall policy still `REINSTALL_KEY_POLICY`. | TESTED (`interruptedRotation`) · reinstall DESIGN |
+| T31 | Unwrapped KEK lingers in process memory (lock, background, forget on another instance) | `KeyCachePolicy` TTL 30 s, `purgeCache()` on scene inactive/background and protected-data-unavailable, `.disabled` option; stale-instance exposure bounded by TTL. **Residual:** no zeroization guarantee in Swift. | TESTED (`KeyCacheTests`) |
+| T32 | Two provider instances diverge (stale pointer): wraps under a retired version or conflicting rotations | Pointer re-read before every wrap and rotation; refresh on unknown newer version. | TESTED (`twoInstances`) |
+| T33 | Accidental data loss via `forget`/`wipe` while records still reference a key | Two-phase `retire`→`forget` (`keyVersionNotRetired`), current never forgettable, `WipeConfirmation` naming the key id and acknowledging loss. **Residual:** value-type confirmation stops accidents, not intent; store layer must re-wrap before forget. | TESTED (`rotation`, `wipe`) |
+| T34 | Debug/test hooks shipped in production | Removed from the Keychain module; adversarial tests use `@testable` store access; compile-negative + source scan. | TESTED (`IsolationTests`, `compileNegative`) |
 
 ## Residual risks stated honestly
 - Keys live in process memory while in use; a compromised OS or a debugger can read them.
@@ -52,4 +56,4 @@ B1 process boundary of the app (other apps, extensions, keyboards, clipboard) ·
 - No independent security review or penetration test has happened. Statuses are library TESTED, not SECURITY_REVIEWED.
 
 ## Test-to-threat map
-`VaultContractsTests.swift` → T6, T9, T10, T14, T19, T20, T21 · `VaultCryptoTests.swift` → T1–T5, T7, T8, T11, T13, T14, T18–T22 · `AuthorizationGateTests.swift` → T24, T25, T26 · `CompositionBoundaryTests.swift` → T13, T23 · `Gate0Tests.swift` → T26, T27 · `KeychainKeyProviderTests.swift` → T1, T16, T28, T29, T30 · `PrivacyNegativeTests.swift` (BOOT-01) → T11 for pure math modules.
+`VaultContractsTests.swift` → T6, T9, T10, T14, T19, T20, T21 · `VaultCryptoTests.swift` → T1–T5, T7, T8, T11, T13, T14, T18–T22 · `AuthorizationGateTests.swift` → T24, T25, T26 · `CompositionBoundaryTests.swift` → T13, T23 · `Gate0Tests.swift` → T26, T27 · `KeychainKeyProviderTests.swift` → T1, T16, T28–T34 · `PrivacyNegativeTests.swift` (BOOT-01) → T11 for pure math modules.

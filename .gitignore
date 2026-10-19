@@ -21,3 +21,7 @@ private/
 .env.*
 # Claude local permissions
 .claude/settings.local.json
+
+# Xcode project user state (project itself is committed; regenerate with xcodegen)
+XRAI.xcodeproj/xcuserdata/
+XRAI.xcodeproj/project.xcworkspace/xcuserdata/

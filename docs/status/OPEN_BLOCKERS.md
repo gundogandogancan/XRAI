@@ -18,9 +18,12 @@ Vocabulary: `BLOCKED` (cannot proceed without an external fact/right/decision), 
 | DEVICE_BACKUP_POLICY | P02 | RESOLVED 2026-10-19 (founder decisions 3–4) | Optional user-held 256-bit recovery key + E2EE portable backup; fresh device keys on restore; loss of both = unrecoverable, stated plainly. Implemented at library level (ADR-BOOT-005). |
 | JOURNAL_SECURITY | P02 | NOT_VERIFIED | encrypted store engine choice (GRDB/SQLCipher licence) + WAL/temp/backup leak tests on device. Envelope layer exists (ADR-BOOT-005); persistence layer NOT_STARTED. |
 | KEYCHAIN_PROVIDER | P02-02 | CODED + TESTED (macOS host) | `KeychainKeyProvider` + Secure Enclave wrapping exist (ADR-BOOT-006). DEVICE_VERIFIED: NO. |
-| DEVICE_TESTS_KEYCHAIN_SE | P02-02+ | NOT_RUN | physical iPhone: ThisDeviceOnly semantics, lock/unlock, passcode removal, reinstall, SE on A-series. Requires signing + device. |
-| SIM_HOST_APP | P03 | NOT_STARTED | signed host app so Keychain tests can run on the iOS Simulator (host-less bundles get errSecMissingEntitlement). |
+| DEVICE_TESTS_KEYCHAIN_SE | P02-02+ | NOT_RUN | physical iPhone: ThisDeviceOnly semantics, lock/unlock, passcode removal, reinstall, SE on A-series. Signing is ready (team 47XQMQZLF6); blocked by DEVICE_TRUST_AND_RUN. |
+| SIM_HOST_APP | P03-00 | RESOLVED_TODAY | `XRAI.xcodeproj` app target + `XRAIHostedTests` (TEST_HOST) run the Keychain tests on the iPhone 17 Simulator: 20/20. |
+| DEVICE_TRUST_AND_RUN | P03-00+ | OPEN (needs founder on the phone) | iPhone 14 Pro Max 'Dogi (2)': signing/provisioning OK, app installed, runner crashed at launch. Founder must unlock the phone, approve the developer profile (Settings › General › VPN & Device Management) / Developer Mode, keep it unlocked, then rerun `xcodebuild test … -destination 'platform=iOS,id=C7C6CE6E-B577-558A-8992-DC6C1F492B39' -allowProvisioningUpdates`. Destructive scenarios (reinstall, passcode removal) need a dedicated test device and explicit approval. |
+| SIM_SE_IS_HOST_MAC | note | — | On Apple-silicon Macs the Simulator proxies the host's Secure Enclave; simulator SE results are NOT iPhone hardware evidence. |
 | REINSTALL_KEY_POLICY | P03 | DESIGN | on fresh install with no store: adopt key set explicitly or `wipeAllKeys()`; user told that device-only keys need the recovery-key backup. |
+| APP_ICON_AND_LAUNCH | P03 | NOT_STARTED | app icon from brand/, launch screen, localization files. |
 | AUTHZ_ISSUER_UI_BINDING | pre-persistence | OPEN | `AuthorizationIssuer.issue()` must be callable only from trusted user-interaction paths; no integration proves tokens come from real user actions yet. |
 | DELETION_GRANT_VALIDATION | pre-persistence | OPEN | store layer must validate/consume `DeletionGrant`. |
 | VAULT_SECURITY_REVIEW | P02/P12 | NOT_DONE | independent review/pen test before any 'vault complete' claim. ChatGPT code review round 1 (V32-02-01H) applied: 5 findings closed, see P02_01H report. |

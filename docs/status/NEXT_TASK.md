@@ -101,3 +101,18 @@ DATE:
 SCOPE_APPROVED:
 CHANGES_REQUESTED:
 ```
+
+---
+
+## P03-00 RESULT (2026-10-19) — NATIVE iOS HOST, SIMULATOR KEYCHAIN TESTS, KEY LIFECYCLE HARDENING, STOP
+
+`XRAI.xcodeproj` (xcodegen) with five-tab SwiftUI skeleton and honest security status; `XRAIHostedTests` run the Keychain suite inside the signed app on the iPhone 17 Simulator: **20/20**. macOS package suite: **104/104**. Key cache TTL + purge-on-lock, pointer-refresh rotation, orphan adopt/repair, two-phase retire→forget, confirmed wipe, production debug hooks removed (compile-negative). Device: signed + installed on iPhone 14 Pro Max but runner crashed at launch (trust/unlock needed) → **DEVICE_VERIFIED: NO**. Report: `docs/status/P03_00_NATIVE_IOS_HOST_REVIEW_REPORT.md`.
+
+Next task: decided by ChatGPT after GitHub code review. Immediate founder action available: trust the developer profile on the phone and rerun the device command (see OPEN_BLOCKERS DEVICE_TRUST_AND_RUN).
+
+```
+APPROVED_BY:
+DATE:
+SCOPE_APPROVED:
+CHANGES_REQUESTED:
+```

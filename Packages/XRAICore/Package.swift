@@ -12,6 +12,8 @@ let package = Package(
         .library(name: "XRAIVaultContracts", targets: ["XRAIVaultContracts"]),
         .library(name: "XRAIVaultCryptoKit", targets: ["XRAIVaultCryptoKit"]),
         .library(name: "XRAIVaultKeychain", targets: ["XRAIVaultKeychain"]),
+        // Test-only product: linked ONLY by test bundles (enforced by tests on Package.swift and project.yml).
+        .library(name: "XRAIVaultTesting", targets: ["XRAIVaultTesting"]),
     ],
     targets: [
         .target(
