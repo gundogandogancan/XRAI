@@ -5,8 +5,8 @@
     "path": "/Users/dogancangundogan/ProjectXrai",
     "git_toplevel": "/Users/dogancangundogan/ProjectXrai",
     "branch": "main",
-    "history_before_boot": "Old repository content and .git history were deleted on 2026-10-19 at the user's explicit request (verified: nothing unpushed). Fresh `git init` performed. Remote not yet re-attached at report time.",
-    "remote_old": "https://github.com/gundogandogancan/xrai.git (user asked that its old files be removed; to be force-replaced with this repo)",
+    "history_before_boot": "Old repository content and .git history were deleted on 2026-10-19 at the user's explicit request (verified: nothing unpushed). Fresh `git init` performed. Remote re-attached over SSH and force-updated at end of session.",
+    "remote": "git@github.com:gundogandogancan/xrai.git — force-pushed 2026-10-19; old head fb502a6 replaced by this repo's initial commit",
     "untracked_files_at_boot": "all project files are new in this session"
   },
   "environment": {

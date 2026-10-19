@@ -31,7 +31,7 @@ Vocabulary: `BLOCKED` (cannot proceed without an external fact/right/decision), 
 ## New today
 | id | status | detail |
 |---|---|---|
-| GITHUB_REMOTE_REWRITE | OPEN (executing at end of session) | User asked to delete the old GitHub content and keep only today's work. Requires a force-push over `origin/main`; irreversible for the remote. Will be performed only with the user's standing instruction from this session; if authentication fails it stays open. |
+| GITHUB_REMOTE_REWRITE | RESOLVED_TODAY | Force-pushed over `origin/main` via SSH (`git@github.com:gundogandogancan/xrai.git`): old head `fb502a6` replaced by `6b3fcae`. HTTPS had no stored credential; first SSH push was rejected by GitHub email-privacy, so the commit author uses the GitHub noreply address. Old content is gone from the remote. |
 | SUBSCRIPTION_MODEL | OPEN_DECISION | monthly/annual/lifetime, free tier boundary, regional pricing; to be decided before P11 with real App Store Connect data. |
 | SOURCE_COVERAGE_GAPS | see `SOURCE_COVERAGE_AND_TRACEABILITY_AUDIT.md` and `MISSING_REQUIREMENTS_REGISTER.json` | requirements found in older material without a v3.1 id. |
 | SWIFTLINT_FORMAT | low | not installed; optional for P03. |
