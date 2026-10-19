@@ -9,6 +9,8 @@ let package = Package(
     products: [
         .library(name: "XRAIIdentityTime", targets: ["XRAIIdentityTime"]),
         .library(name: "XRAINumerology", targets: ["XRAINumerology"]),
+        .library(name: "XRAIVaultContracts", targets: ["XRAIVaultContracts"]),
+        .library(name: "XRAIVaultCryptoKit", targets: ["XRAIVaultCryptoKit"]),
     ],
     targets: [
         .target(
@@ -26,6 +28,19 @@ let package = Package(
         .testTarget(
             name: "XRAINumerologyTests",
             dependencies: ["XRAINumerology", "XRAIIdentityTime"]
+        ),
+        // P02 vault: pure contracts (stdlib only) and the only CryptoKit adapter.
+        .target(
+            name: "XRAIVaultContracts",
+            dependencies: []
+        ),
+        .target(
+            name: "XRAIVaultCryptoKit",
+            dependencies: ["XRAIVaultContracts"]
+        ),
+        .testTarget(
+            name: "XRAIVaultTests",
+            dependencies: ["XRAIVaultContracts", "XRAIVaultCryptoKit"]
         ),
     ],
     swiftLanguageModes: [.v6]

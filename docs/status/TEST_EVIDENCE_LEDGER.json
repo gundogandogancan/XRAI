@@ -45,27 +45,139 @@
       "exit_code": 0,
       "result": "PASS spec structure; does NOT verify an iOS build",
       "evidence_class": "SPEC_STRUCTURE_ONLY"
+    },
+    {
+      "run_id": "P02-01-BUILD",
+      "command": "swift build",
+      "cwd": "Packages/XRAICore",
+      "exit_code": 0,
+      "log": "docs/status/evidence/p02_01_swift_build.log",
+      "log_sha256": "61cf76d355f484b96a53608dccd22c9fce2251a49557080fe588cc42143dad9b"
+    },
+    {
+      "run_id": "P02-01-TEST-RUN2",
+      "command": "swift test",
+      "cwd": "Packages/XRAICore",
+      "exit_code": 1,
+      "result": "64 tests, 63 passed, 1 failed (ImportBoundaryTests: static-scan token 'contentsOf:' false positive on Array.append(contentsOf:))",
+      "log": "docs/status/evidence/p02_01_swift_test_run2_FAILED_1_of_64.log",
+      "log_sha256": "2062be90ecf367b465686c3816743536563338385dac64cd664b17c16cf17ccd"
+    },
+    {
+      "run_id": "P02-01-TEST-RUN3",
+      "command": "swift test",
+      "cwd": "Packages/XRAICore",
+      "exit_code": 0,
+      "result": "64 tests in 16 suites passed (35 BOOT-01 + 29 P02-01)",
+      "log": "docs/status/evidence/p02_01_swift_test_run3.log",
+      "log_sha256": "ca22c2b2ba238759223ad7d2851ce9e83ce4ede8484d984d57a7ace50310850b",
+      "new_suites": {
+        "Privacy tiers and data classes": 3,
+        "Deny-by-default flow policy": 5,
+        "Canonical encoding and headers": 4,
+        "Recovery key contract": 1,
+        "AES-256-GCM envelope: round trip and structure": 4,
+        "AES-256-GCM envelope: adversarial": 5,
+        "Key lifecycle": 1,
+        "Portable encrypted backup and device migration": 5,
+        "Module boundary: CryptoKit only in the adapter": 1
+      }
     }
   ],
   "acceptance_test_mapping": [
-    {"spec_test": "T-V31-NUMEROLOGY-01 valid_2000_02_29", "status": "TESTED", "by": "CivilDateValidityTests.leap2000, LifePathDigitsGoldenTests.f2, LifePathComponentsGoldenTests.f9"},
-    {"spec_test": "T-V31-NUMEROLOGY-02 reject_1900_02_29", "status": "TESTED", "by": "CivilDateValidityTests.notLeap1900"},
-    {"spec_test": "T-V31-NUMEROLOGY-03 master_11_22_33_variant", "status": "TESTED", "by": "f4, f5, f6, f7, f11, preservePolicyDomain"},
-    {"spec_test": "T-V31-NUMEROLOGY-04 Turkish_diacritics_unicode", "status": "NOT_RUN", "reason": "name numerology not in BOOT-01 scope"},
-    {"spec_test": "T-V31-NUMEROLOGY-05 soul_plus_personality_consistency", "status": "NOT_RUN", "reason": "name numerology not in BOOT-01 scope"},
-    {"spec_test": "T-V31-NUMEROLOGY-06 Pythagorean_vs_Kabala_nonmerged", "status": "NOT_RUN"},
-    {"spec_test": "T-V31-NUMEROLOGY-07 optional_parent_name_no_inference", "status": "NOT_RUN"},
-    {"spec_test": "T-V32-PURE_MATH-001 date_leap_2000", "status": "TESTED", "by": "CivilDateValidityTests.leap2000"},
-    {"spec_test": "T-V32-PURE_MATH-002 date_century_1900", "status": "TESTED", "by": "CivilDateValidityTests.notLeap1900"},
-    {"spec_test": "§92 negative probe: raw sensitive data in logs absent", "status": "TESTED (library level only)", "by": "PrivacyNegativeTests.traceRedaction, CivilDateRepresentationTests.redactedDescription"},
-    {"spec_test": "§92 negative probe: private data network egress 0", "status": "TESTED (static, library level)", "by": "PrivacyNegativeTests.noIOSurface; no app/device trace yet"},
-    {"spec_test": "all other 86 + 98 spec tests", "status": "NOT_RUN"}
+    {
+      "spec_test": "T-V31-NUMEROLOGY-01 valid_2000_02_29",
+      "status": "TESTED",
+      "by": "CivilDateValidityTests.leap2000, LifePathDigitsGoldenTests.f2, LifePathComponentsGoldenTests.f9"
+    },
+    {
+      "spec_test": "T-V31-NUMEROLOGY-02 reject_1900_02_29",
+      "status": "TESTED",
+      "by": "CivilDateValidityTests.notLeap1900"
+    },
+    {
+      "spec_test": "T-V31-NUMEROLOGY-03 master_11_22_33_variant",
+      "status": "TESTED",
+      "by": "f4, f5, f6, f7, f11, preservePolicyDomain"
+    },
+    {
+      "spec_test": "T-V31-NUMEROLOGY-04 Turkish_diacritics_unicode",
+      "status": "NOT_RUN",
+      "reason": "name numerology not in BOOT-01 scope"
+    },
+    {
+      "spec_test": "T-V31-NUMEROLOGY-05 soul_plus_personality_consistency",
+      "status": "NOT_RUN",
+      "reason": "name numerology not in BOOT-01 scope"
+    },
+    {
+      "spec_test": "T-V31-NUMEROLOGY-06 Pythagorean_vs_Kabala_nonmerged",
+      "status": "NOT_RUN"
+    },
+    {
+      "spec_test": "T-V31-NUMEROLOGY-07 optional_parent_name_no_inference",
+      "status": "NOT_RUN"
+    },
+    {
+      "spec_test": "T-V32-PURE_MATH-001 date_leap_2000",
+      "status": "TESTED",
+      "by": "CivilDateValidityTests.leap2000"
+    },
+    {
+      "spec_test": "T-V32-PURE_MATH-002 date_century_1900",
+      "status": "TESTED",
+      "by": "CivilDateValidityTests.notLeap1900"
+    },
+    {
+      "spec_test": "§92 negative probe: raw sensitive data in logs absent",
+      "status": "TESTED (library level only)",
+      "by": "PrivacyNegativeTests.traceRedaction, CivilDateRepresentationTests.redactedDescription"
+    },
+    {
+      "spec_test": "§92 negative probe: private data network egress 0",
+      "status": "TESTED (static, library level)",
+      "by": "PrivacyNegativeTests.noIOSurface; no app/device trace yet"
+    },
+    {
+      "spec_test": "all other 86 + 98 spec tests",
+      "status": "NOT_RUN"
+    },
+    {
+      "spec_test": "§92 negative probe: consent revoke recompute/deny",
+      "status": "TESTED (policy level)",
+      "by": "PolicyTests.revocation"
+    },
+    {
+      "spec_test": "§67 Privacy: consent OFF blocks all remote model calls",
+      "status": "TESTED (policy level only; runtime broker NOT_STARTED)",
+      "by": "PolicyTests.defaults/providerConsent"
+    },
+    {
+      "spec_test": "§83 authenticated encryption, tamper, wrong key, key rotation",
+      "status": "TESTED (library, in-memory KEK)",
+      "by": "SealAdversarialTests, KeyRotationTests"
+    },
+    {
+      "spec_test": "§84 export/backup with E2EE and honest loss tradeoff",
+      "status": "TESTED (library)",
+      "by": "BackupTests"
+    },
+    {
+      "spec_test": "P02 exit evidence: corruption/restore/kill tests on iPhone",
+      "status": "NOT_RUN (no device)"
+    }
   ],
   "statuses": {
     "time.civil_date.gregorian.v1": "TESTED",
     "num.life_path.digits.v1": "TESTED",
     "num.life_path.components.v1": "TESTED",
-    "everything_else": "SPECIFIED / NOT_STARTED"
+    "everything_else": "SPECIFIED / NOT_STARTED",
+    "vault.contracts.v1": "TESTED",
+    "vault.aes256gcm.envelope.v1": "TESTED (library; SECURITY_REVIEWED: NO; DEVICE_VERIFIED: NO)",
+    "vault.backup.recoverykey.v1": "TESTED (library)",
+    "vault.keychain_provider": "NOT_STARTED"
   },
-  "not_evidence": ["docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"]
+  "not_evidence": [
+    "docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"
+  ]
 }

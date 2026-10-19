@@ -16,7 +16,8 @@ Local-first, native iOS **Personal Life Intelligence** app: exact mathematics wh
 | `docs/adr/` | repo-level ADRs |
 | `docs/tools/` | tool/skill/agent install ledger and pins |
 | `docs/audits/` | prior audit notes |
-| `Packages/XRAICore` | pure Swift core: `XRAIIdentityTime` (CivilDate), `XRAINumerology` (Life Path) |
+| `Packages/XRAICore` | pure Swift core: `XRAIIdentityTime` (CivilDate), `XRAINumerology` (Life Path), `XRAIVaultContracts` (privacy policy, envelope/backup contracts), `XRAIVaultCryptoKit` (AES-256-GCM adapter, the only CryptoKit module) |
+| `docs/security/` | threat models |
 | `brand/` | logo source and derived PNG |
 | `baseline/` | immutable v3.1 package ZIP (contains v3.0) |
 | `.claude/` | project-local skills and reviewer agents (audited, pinned) |
@@ -30,7 +31,7 @@ swift test
 python3 -I ../../validation/validate_package.py   # spec structure only, not an app build
 ```
 
-No Xcode app target exists yet (P03). No network, storage, analytics or model code exists yet by design.
+No Xcode app target exists yet (P03). No network, persistent storage, analytics or model code exists yet by design; the vault is an in-memory-tested library until the Keychain provider lands (P02-02).
 
 ## Non-negotiables
 No private book scans or PDFs in the repo. No paid API, cloud model, MCP or hook without an ADR. Deterministic results never come from an LLM. Symbolic readings are never presented as personality, health or destiny facts. Nothing is "DONE" without a test log in `docs/status/evidence/`.

@@ -25,12 +25,19 @@ struct PrivacyNegativeTests {
         return url.appendingPathComponent("Sources", isDirectory: true)
     }
 
+    /// The pure-math modules. The vault adapter module (XRAIVaultCryptoKit) is covered by its own
+    /// stricter import test in XRAIVaultTests; the contracts module is scanned there as stdlib-only too.
+    private static let pureMathModules = ["XRAIIdentityTime", "XRAINumerology"]
+
     private static func productionSwiftFiles() throws -> [URL] {
         let root = sourcesRoot()
         let fm = FileManager.default
-        guard let e = fm.enumerator(at: root, includingPropertiesForKeys: nil) else { return [] }
         var out: [URL] = []
-        for case let u as URL in e where u.pathExtension == "swift" { out.append(u) }
+        for module in pureMathModules {
+            let dir = root.appendingPathComponent(module, isDirectory: true)
+            guard let e = fm.enumerator(at: dir, includingPropertiesForKeys: nil) else { continue }
+            for case let u as URL in e where u.pathExtension == "swift" { out.append(u) }
+        }
         return out.sorted { $0.path < $1.path }
     }
 

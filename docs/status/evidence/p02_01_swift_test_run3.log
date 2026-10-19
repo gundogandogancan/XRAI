@@ -1,0 +1,176 @@
+[0/1] Planning build
+Building for debugging...
+[0/3] Write sources
+[1/3] Write swift-version--58304C5D6DBC2206.txt
+[3/5] Emitting module XRAIVaultTests
+[4/5] Compiling XRAIVaultTests VaultCryptoTests.swift
+[4/6] Write Objects.LinkFileList
+[5/6] Linking XRAICorePackageTests
+Build complete! (0.88s)
+Test Suite 'All tests' started at 2026-10-19 22:24:29.465.
+Test Suite 'All tests' passed at 2026-10-19 22:24:29.466.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite "Deny-by-default flow policy" started.
+◇ Suite "AES-256-GCM envelope: round trip and structure" started.
+◇ Suite "CivilDate digits, ordering and redaction" started.
+◇ Suite "Key lifecycle" started.
+◇ Suite "CivilDate validity — hand-derived fixtures" started.
+◇ Suite "Module boundary: CryptoKit only in the adapter" started.
+◇ Suite "Canonical encoding and headers" started.
+◇ Suite "Portable encrypted backup and device migration" started.
+◇ Suite "Recovery key contract" started.
+◇ Suite "Privacy negative tests — XRAICore production sources" started.
+◇ Suite "Life Path — arithmetic properties over the whole supported domain sample" started.
+◇ Suite "AES-256-GCM envelope: adversarial" started.
+◇ Suite "Privacy tiers and data classes" started.
+◇ Suite "Life Path — typed errors and registry" started.
+◇ Suite "Life Path — num.life_path.components.v1 golden fixtures" started.
+◇ Test "provider egress needs an active consent with matching class, purpose and destination" started.
+◇ Suite "Life Path — num.life_path.digits.v1 golden fixtures" started.
+◇ Test "storing parent names requires a purpose-bound consent; storing a birth date does not" started.
+◇ Test "envelope description is redacted and the type stores no plaintext field" started.
+◇ Test "literal YYYYMMDD digits preserve order and zero padding" started.
+◇ Test "device vault and user-encrypted backup are the only consent-free destinations" started.
+◇ Test "empty plaintext is sealed and authenticated too" started.
+◇ Test "rotation re-wraps the DEK, payload bytes unchanged; forgotten old version makes un-rewrapped envelopes unreadable" started.
+◇ Test "date-only type has exactly three stored properties and no time or zone" started.
+◇ Test "description never contains the birth date (privacy negative test)" started.
+◇ Test "April 31 is invalid" started.
+◇ Test "nonce strategy: fresh random nonce per seal; same plaintext never repeats nonce or ciphertext" started.
+◇ Test "1900-02-29 is invalid (century, not divisible by 400)" started.
+◇ Test "leap-year table" started.
+◇ Test "supported year window is 1583...9999 inclusive" started.
+◇ Test "CivilDate is not Codable in this module (persistence belongs to the vault layer)" started.
+◇ Test "Comparable orders by year, month, day" started.
+◇ Test "XRAIVaultContracts imports nothing; XRAIVaultCryptoKit imports only CryptoKit, Foundation and the contracts; no other module imports CryptoKit or Security" started.
+◇ Test "day 0 and day 32 are invalid" started.
+◇ Test "integers round-trip big-endian, strings length-prefixed" started.
+◇ Test "month 13 and month 0 are invalid" started.
+◇ Test "revocation closes the scope from the revocation instant" started.
+◇ Test "2024-02-29 valid, 2023-02-29 invalid" started.
+◇ Test "seal/open round-trips for every data class and ciphertext hides the plaintext" started.
+◇ Test "preserve policy roots are in 1...9 or {11,22,33} and master is set iff root is master" started.
+◇ Test "personal data never reaches analytics, model training, cloud sync or advertising — even with consent" started.
+◇ Test "tampered authenticated metadata (data class, tier, retention, time, record id) fails" started.
+◇ Test "export → bytes → restore on a NEW device with new device keys; payload ciphertext unchanged; plaintext recovered" started.
+◇ Test "trace description and debug description never contain the birth digits" started.
+◇ Test "two exports of the same data use different salts and tags; recovery keys are high entropy" started.
+◇ Test "header canonical bytes are deterministic and change with every field" started.
+◇ Test "constant-time equality" started.
+◇ Test "corrupted backup: any flipped byte fails integrity or decoding; truncation fails decoding" started.
+◇ Test "unsupported format version and malformed lengths are rejected with typed errors" started.
+◇ Test "tier order is PUBLIC < PRIVATE < SENSITIVE < HIGH" started.
+◇ Test "reduce_all root equals the digital root of the compound, and both methods agree" started.
+◇ Test "integrity tag binds entry order and count" started.
+◇ Test "2000-02-29 is valid (divisible by 400)" started.
+◇ Test "family data is third-party information and needs purpose consent" started.
+◇ Test "every reduction step strictly decreases and ends at the root" started.
+◇ Test "a DEK wrapped for one record cannot be swapped into another record" started.
+◇ Test "wrong key provider cannot open" started.
+◇ Test "no production file imports Foundation/Network/OSLog or references IO, logging or networking APIs" started.
+◇ Test "types are not Codable here: no serialization path for a DOB in the pure module" started.
+◇ Test "truncated input throws backupCorrupted, never crashes" started.
+◇ Test "wrong recovery key fails integrity; no entry is decrypted" started.
+◇ Test "trace hash is an integrity fingerprint: stable, and distinct for distinct inputs/methods" started.
+◇ Test "F11 1984-11-22 → 22 + 11 + 22 = 55 → 10 → 1; reduce_all: 4 + 2 + 4 = 10 → 1" started.
+◇ Test "production sources exist for both modules" started.
+◇ Test "tampered ciphertext, tag, nonce or wrapped key fails authentication" started.
+◇ Test "an empty registry makes every method unavailable" started.
+◇ Test "rejects wrong length and all-zero keys; description is redacted; display round-trips" started.
+◇ Test "default tiers follow SECURITY_DATA_EGRESS_MATRIX_v3.2 and decision 6" started.
+◇ Test "valid date but unregistered method → methodUnavailable" started.
+◇ Test "F9 2000-02-29 → 2 + 2 + 11(preserved) = 15 → 6; reduce_all: 2 + 2 + 2 = 6" started.
+◇ Test "F8 1955-01-01 → year 20→2, month 1, day 1 → compound 4 → root 4 (differs from digits method 22)" started.
+◇ Test "registry v1 exposes exactly the two BOOT-01 methods" started.
+◇ Test "determinism: same inputs give identical trace and hash" started.
+◇ Test "F10 permutation: 1998-03-06 shares compound 36 with F1 but trace and hash differ" started.
+◇ Test "F4 2000-01-08 → compound 11: preserved as master 11 / reduced to 2" started.
+◇ Test "F1 1998-06-30 → compound 36 → root 9" started.
+◇ Test "F7 1999-07-03 → compound 38 → 11 reached at a reduction step (preserved) / → 2" started.
+◇ Test "F5 1955-01-01 → compound 22: preserved as master 22 / reduced to 4" started.
+◇ Test "F6 1969-05-21 → compound 33: preserved as master 33 / reduced to 6" started.
+◇ Test "F2 2000-02-29 (valid leap day) → compound 15 → root 6" started.
+✔ Test "storing parent names requires a purpose-bound consent; storing a birth date does not" passed after 0.002 seconds.
+✔ Test "provider egress needs an active consent with matching class, purpose and destination" passed after 0.002 seconds.
+✔ Test "envelope description is redacted and the type stores no plaintext field" passed after 0.002 seconds.
+✔ Test "literal YYYYMMDD digits preserve order and zero padding" passed after 0.002 seconds.
+✔ Test "date-only type has exactly three stored properties and no time or zone" passed after 0.002 seconds.
+✔ Test "device vault and user-encrypted backup are the only consent-free destinations" passed after 0.002 seconds.
+✔ Test "empty plaintext is sealed and authenticated too" passed after 0.002 seconds.
+✔ Test "CivilDate is not Codable in this module (persistence belongs to the vault layer)" passed after 0.002 seconds.
+✔ Test "Comparable orders by year, month, day" passed after 0.002 seconds.
+✔ Test "revocation closes the scope from the revocation instant" passed after 0.002 seconds.
+✔ Test "leap-year table" passed after 0.002 seconds.
+✔ Test "integers round-trip big-endian, strings length-prefixed" passed after 0.002 seconds.
+✔ Test "April 31 is invalid" passed after 0.002 seconds.
+✔ Test "description never contains the birth date (privacy negative test)" passed after 0.002 seconds.
+✔ Test "2024-02-29 valid, 2023-02-29 invalid" passed after 0.002 seconds.
+✔ Test "month 13 and month 0 are invalid" passed after 0.002 seconds.
+✔ Test "tampered authenticated metadata (data class, tier, retention, time, record id) fails" passed after 0.002 seconds.
+✔ Test "personal data never reaches analytics, model training, cloud sync or advertising — even with consent" passed after 0.002 seconds.
+✔ Test "trace description and debug description never contain the birth digits" passed after 0.002 seconds.
+✔ Test "rotation re-wraps the DEK, payload bytes unchanged; forgotten old version makes un-rewrapped envelopes unreadable" passed after 0.002 seconds.
+✔ Test "1900-02-29 is invalid (century, not divisible by 400)" passed after 0.002 seconds.
+✔ Test "supported year window is 1583...9999 inclusive" passed after 0.002 seconds.
+✔ Test "constant-time equality" passed after 0.002 seconds.
+✔ Test "header canonical bytes are deterministic and change with every field" passed after 0.002 seconds.
+✔ Test "tier order is PUBLIC < PRIVATE < SENSITIVE < HIGH" passed after 0.002 seconds.
+✔ Test "2000-02-29 is valid (divisible by 400)" passed after 0.002 seconds.
+✔ Test "unsupported format version and malformed lengths are rejected with typed errors" passed after 0.002 seconds.
+✔ Test "two exports of the same data use different salts and tags; recovery keys are high entropy" passed after 0.002 seconds.
+✔ Test "family data is third-party information and needs purpose consent" passed after 0.002 seconds.
+✔ Test "every reduction step strictly decreases and ends at the root" passed after 0.002 seconds.
+✔ Test "a DEK wrapped for one record cannot be swapped into another record" passed after 0.002 seconds.
+✔ Test "seal/open round-trips for every data class and ciphertext hides the plaintext" passed after 0.002 seconds.
+✔ Test "integrity tag binds entry order and count" passed after 0.002 seconds.
+✔ Test "export → bytes → restore on a NEW device with new device keys; payload ciphertext unchanged; plaintext recovered" passed after 0.002 seconds.
+✔ Test "wrong key provider cannot open" passed after 0.002 seconds.
+✔ Test "types are not Codable here: no serialization path for a DOB in the pure module" passed after 0.002 seconds.
+✔ Test "day 0 and day 32 are invalid" passed after 0.002 seconds.
+✔ Test "corrupted backup: any flipped byte fails integrity or decoding; truncation fails decoding" passed after 0.003 seconds.
+✔ Test "truncated input throws backupCorrupted, never crashes" passed after 0.002 seconds.
+✔ Test "trace hash is an integrity fingerprint: stable, and distinct for distinct inputs/methods" passed after 0.002 seconds.
+✔ Test "default tiers follow SECURITY_DATA_EGRESS_MATRIX_v3.2 and decision 6" passed after 0.002 seconds.
+✔ Test "rejects wrong length and all-zero keys; description is redacted; display round-trips" passed after 0.002 seconds.
+✔ Test "wrong recovery key fails integrity; no entry is decrypted" passed after 0.002 seconds.
+✔ Test "valid date but unregistered method → methodUnavailable" passed after 0.002 seconds.
+✔ Test "registry v1 exposes exactly the two BOOT-01 methods" passed after 0.002 seconds.
+✔ Test "F9 2000-02-29 → 2 + 2 + 11(preserved) = 15 → 6; reduce_all: 2 + 2 + 2 = 6" passed after 0.002 seconds.
+✔ Test "an empty registry makes every method unavailable" passed after 0.002 seconds.
+✔ Test "production sources exist for both modules" passed after 0.003 seconds.
+✔ Test "tampered ciphertext, tag, nonce or wrapped key fails authentication" passed after 0.002 seconds.
+✔ Test "F8 1955-01-01 → year 20→2, month 1, day 1 → compound 4 → root 4 (differs from digits method 22)" passed after 0.002 seconds.
+✔ Test "F10 permutation: 1998-03-06 shares compound 36 with F1 but trace and hash differ" passed after 0.001 seconds.
+✔ Test "F4 2000-01-08 → compound 11: preserved as master 11 / reduced to 2" passed after 0.001 seconds.
+✔ Test "F11 1984-11-22 → 22 + 11 + 22 = 55 → 10 → 1; reduce_all: 4 + 2 + 4 = 10 → 1" passed after 0.002 seconds.
+✔ Test "F7 1999-07-03 → compound 38 → 11 reached at a reduction step (preserved) / → 2" passed after 0.001 seconds.
+✔ Test "F1 1998-06-30 → compound 36 → root 9" passed after 0.001 seconds.
+✔ Test "F6 1969-05-21 → compound 33: preserved as master 33 / reduced to 6" passed after 0.001 seconds.
+✔ Test "F5 1955-01-01 → compound 22: preserved as master 22 / reduced to 4" passed after 0.001 seconds.
+✔ Suite "Deny-by-default flow policy" passed after 0.003 seconds.
+✔ Test "F2 2000-02-29 (valid leap day) → compound 15 → root 6" passed after 0.001 seconds.
+✔ Suite "CivilDate digits, ordering and redaction" passed after 0.003 seconds.
+✔ Suite "Canonical encoding and headers" passed after 0.003 seconds.
+✔ Suite "Key lifecycle" passed after 0.003 seconds.
+✔ Suite "Privacy tiers and data classes" passed after 0.003 seconds.
+✔ Test "determinism: same inputs give identical trace and hash" passed after 0.001 seconds.
+✔ Suite "CivilDate validity — hand-derived fixtures" passed after 0.003 seconds.
+✔ Suite "Portable encrypted backup and device migration" passed after 0.003 seconds.
+✔ Suite "Recovery key contract" passed after 0.003 seconds.
+✔ Suite "Life Path — typed errors and registry" passed after 0.003 seconds.
+✔ Suite "Life Path — num.life_path.components.v1 golden fixtures" passed after 0.003 seconds.
+✔ Suite "Life Path — num.life_path.digits.v1 golden fixtures" passed after 0.003 seconds.
+✔ Suite "AES-256-GCM envelope: adversarial" passed after 0.003 seconds.
+✔ Test "no production file imports Foundation/Network/OSLog or references IO, logging or networking APIs" passed after 0.007 seconds.
+✔ Suite "Privacy negative tests — XRAICore production sources" passed after 0.007 seconds.
+✔ Test "nonce strategy: fresh random nonce per seal; same plaintext never repeats nonce or ciphertext" passed after 0.008 seconds.
+✔ Suite "AES-256-GCM envelope: round trip and structure" passed after 0.008 seconds.
+✔ Test "XRAIVaultContracts imports nothing; XRAIVaultCryptoKit imports only CryptoKit, Foundation and the contracts; no other module imports CryptoKit or Security" passed after 0.012 seconds.
+✔ Suite "Module boundary: CryptoKit only in the adapter" passed after 0.012 seconds.
+✔ Test "preserve policy roots are in 1...9 or {11,22,33} and master is set iff root is master" passed after 0.076 seconds.
+✔ Test "reduce_all root equals the digital root of the compound, and both methods agree" passed after 0.145 seconds.
+✔ Suite "Life Path — arithmetic properties over the whole supported domain sample" passed after 0.145 seconds.
+✔ Test run with 64 tests in 16 suites passed after 0.146 seconds.
