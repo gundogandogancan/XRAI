@@ -1,0 +1,23 @@
+# Xcode / SwiftPM
+.build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xcworkspace/xcuserdata/
+.swiftpm/xcode/
+*.ipa
+*.dSYM.zip
+# OS
+.DS_Store
+# Private research scans must NEVER enter this repo (rights + privacy)
+*.pdf
+scans/
+private/
+# Secrets
+*.p8
+*.p12
+*.mobileprovision
+.env
+.env.*
+# Claude local permissions
+.claude/settings.local.json

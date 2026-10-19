@@ -1,0 +1,127 @@
+{
+  "project": "XRAI",
+  "version": "1.1",
+  "status": "SPECIFIED_NOT_IMPLEMENTED",
+  "agents": [
+    {
+      "agentId": "PurposeDiscoveryFacilitator",
+      "purpose": "support user-authored purpose hypotheses and Socratic meaning exploration",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "allowedCapabilities": [
+        "read minimum task-scoped privacy-filtered input",
+        "produce provenance/uncertainty and human-review flag",
+        "request human confirmation before high-risk action"
+      ],
+      "forbidden": [
+        "claim objective soul destiny or diagnosis",
+        "copy or train on protected book expression without rights",
+        "access raw unrelated vault or transmit private data",
+        "self-certify security or rights release"
+      ],
+      "testSuites": [
+        "PURPOSE",
+        "HD_METHOD",
+        "RIGHTS",
+        "LOCAL_EGRESS",
+        "SAFETY"
+      ],
+      "authority": "§28.9"
+    },
+    {
+      "agentId": "HumanFlourishingResearcher",
+      "purpose": "interpret historical Maslow and limitations nonlinearly",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "allowedCapabilities": [
+        "read minimum task-scoped privacy-filtered input",
+        "produce provenance/uncertainty and human-review flag",
+        "request human confirmation before high-risk action"
+      ],
+      "forbidden": [
+        "claim objective soul destiny or diagnosis",
+        "copy or train on protected book expression without rights",
+        "access raw unrelated vault or transmit private data",
+        "self-certify security or rights release"
+      ],
+      "testSuites": [
+        "PURPOSE",
+        "HD_METHOD",
+        "RIGHTS",
+        "LOCAL_EGRESS",
+        "SAFETY"
+      ],
+      "authority": "§28.9"
+    },
+    {
+      "agentId": "HDMethodAuditor",
+      "purpose": "audit ephemeris, gate mapping, 88deg root and independent fixtures",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "allowedCapabilities": [
+        "read minimum task-scoped privacy-filtered input",
+        "produce provenance/uncertainty and human-review flag",
+        "request human confirmation before high-risk action"
+      ],
+      "forbidden": [
+        "claim objective soul destiny or diagnosis",
+        "copy or train on protected book expression without rights",
+        "access raw unrelated vault or transmit private data",
+        "self-certify security or rights release"
+      ],
+      "testSuites": [
+        "PURPOSE",
+        "HD_METHOD",
+        "RIGHTS",
+        "LOCAL_EGRESS",
+        "SAFETY"
+      ],
+      "authority": "§28.9"
+    },
+    {
+      "agentId": "BookResearchRightsCurator",
+      "purpose": "record book provenance, licensed facts and legal gates without copying expression",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "allowedCapabilities": [
+        "read minimum task-scoped privacy-filtered input",
+        "produce provenance/uncertainty and human-review flag",
+        "request human confirmation before high-risk action"
+      ],
+      "forbidden": [
+        "claim objective soul destiny or diagnosis",
+        "copy or train on protected book expression without rights",
+        "access raw unrelated vault or transmit private data",
+        "self-certify security or rights release"
+      ],
+      "testSuites": [
+        "PURPOSE",
+        "HD_METHOD",
+        "RIGHTS",
+        "LOCAL_EGRESS",
+        "SAFETY"
+      ],
+      "authority": "§28.9"
+    },
+    {
+      "agentId": "DevicePrivacyEgressAuditor",
+      "purpose": "independently test that sensitive data remain local",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "allowedCapabilities": [
+        "read minimum task-scoped privacy-filtered input",
+        "produce provenance/uncertainty and human-review flag",
+        "request human confirmation before high-risk action"
+      ],
+      "forbidden": [
+        "claim objective soul destiny or diagnosis",
+        "copy or train on protected book expression without rights",
+        "access raw unrelated vault or transmit private data",
+        "self-certify security or rights release"
+      ],
+      "testSuites": [
+        "PURPOSE",
+        "HD_METHOD",
+        "RIGHTS",
+        "LOCAL_EGRESS",
+        "SAFETY"
+      ],
+      "authority": "§28.9"
+    }
+  ]
+}

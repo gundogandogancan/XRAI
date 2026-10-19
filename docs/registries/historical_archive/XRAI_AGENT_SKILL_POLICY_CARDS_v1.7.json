@@ -1,0 +1,150 @@
+{
+  "status": "SPECIFIED_NOT_IMPLEMENTED",
+  "mode": "logical_roles_not_llms",
+  "agents": [
+    {
+      "roleId": "CORE-01",
+      "name": "PrivacyGovernor",
+      "responsibility": "consent, data classification and rights-aware veto",
+      "typedContracts": "GrantScope,OutboundDataManifest",
+      "hardVeto": "no raw-secret egress",
+      "localFirst": true,
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "roleId": "CORE-02",
+      "name": "VaultCustodian",
+      "responsibility": "approved local store/load, delete, export",
+      "typedContracts": "EncryptedRecord,KeyHandle",
+      "hardVeto": "keys via platform only",
+      "localFirst": true,
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "roleId": "CORE-03",
+      "name": "MethodRegistryAgent",
+      "responsibility": "versions/source/rights of exact methods",
+      "typedContracts": "MethodResult,Error",
+      "hardVeto": "no LLM numeric invention",
+      "localFirst": true,
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "roleId": "CORE-04",
+      "name": "AstroCalculationAgent",
+      "responsibility": "astro positions and geographical lines",
+      "typedContracts": "ChartPositions,AstroLocation",
+      "hardVeto": "licensed fixtures",
+      "localFirst": true,
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "roleId": "CORE-05",
+      "name": "HumanDesignMethodAgent",
+      "responsibility": "solar-88° design time, gate/center graph",
+      "typedContracts": "HDChart",
+      "hardVeto": "blocked without approved rules",
+      "localFirst": true,
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "roleId": "CORE-06",
+      "name": "ProvenanceAuditor",
+      "responsibility": "source classification, contradiction, expiry",
+      "typedContracts": "ClaimEvidence",
+      "hardVeto": "no guess to fact",
+      "localFirst": true,
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "roleId": "CORE-07",
+      "name": "PersonalMemoryCustodian",
+      "responsibility": "permissioned Life Graph and indexes",
+      "typedContracts": "LocalContextEnvelope",
+      "hardVeto": "purpose-limited retrieval",
+      "localFirst": true,
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "roleId": "CORE-08",
+      "name": "GoalPlanner",
+      "responsibility": "7d/30d/90d/year and user chosen priorities",
+      "typedContracts": "GoalPlan",
+      "hardVeto": "no no-consent auto goals",
+      "localFirst": true,
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "roleId": "CORE-09",
+      "name": "LearningResolver",
+      "responsibility": "real available original/verified external lesson",
+      "typedContracts": "LearningOffer",
+      "hardVeto": "no fictional video URL",
+      "localFirst": true,
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "roleId": "CORE-10",
+      "name": "ProofVerifier",
+      "responsibility": "P0-P5 evidence rubric and provenance",
+      "typedContracts": "EvidenceTier",
+      "hardVeto": "click not proof",
+      "localFirst": true,
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "roleId": "CORE-11",
+      "name": "HistoricalMentorGuide",
+      "responsibility": "sourced educational inspiration only",
+      "typedContracts": "MentorExperience",
+      "hardVeto": "no person impersonation",
+      "localFirst": true,
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "roleId": "CORE-12",
+      "name": "LocalModelRouter",
+      "responsibility": "eligible local model per task and quality",
+      "typedContracts": "ModelDecision",
+      "hardVeto": "deny implicit cloud fallback",
+      "localFirst": true,
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "roleId": "CORE-13",
+      "name": "CollectiveLearningGovernor",
+      "responsibility": "opt-in minimal contributions, poisoning defenses",
+      "typedContracts": "CollectiveSignal",
+      "hardVeto": "no raw data",
+      "localFirst": true,
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "roleId": "CORE-14",
+      "name": "AHTOVIABridgeGuard",
+      "responsibility": "only explicitly approved goal/skill receipts",
+      "typedContracts": "ULBEnvelope",
+      "hardVeto": "no child/adult vault merge",
+      "localFirst": true,
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "roleId": "CORE-15",
+      "name": "AppStoreReleaseAuditor",
+      "responsibility": "IP/claims/privacy/security release matrix",
+      "typedContracts": "ReleaseEvidence",
+      "hardVeto": "no approval fiction",
+      "localFirst": true,
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "roleId": "CORE-16",
+      "name": "ModelUpdateSafetyGovernor",
+      "responsibility": "signed, benchmarked and reversible model updates",
+      "typedContracts": "ModelManifest",
+      "hardVeto": "no unsupervised weight mutation",
+      "localFirst": true,
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    }
+  ]
+}

@@ -1,0 +1,272 @@
+{
+  "version": "v1.3",
+  "base_total": 35,
+  "delta": 8,
+  "expected_total": 43,
+  "agents": [
+    {
+      "agentId": "LifeCoherenceAgent",
+      "purpose": "Link values to actual opt-in actions without judging personality",
+      "allowedCapabilities": [
+        "Read only policy-filtered task-scoped user-approved inputs",
+        "Generate user-editable proposal with source/uncertainty",
+        "Submit typed non-authoritative action candidate"
+      ],
+      "forbidden": [
+        "Declare objectively measured soul purpose or moral superiority",
+        "Diagnose or infer protected traits from symbols/appearance",
+        "Access private unrelated vault data or contact list",
+        "Publish third-party identity or change system policy",
+        "Self approve its own benchmark or overwrite user-selected values"
+      ],
+      "requiredSkills": [
+        "SourceProvenance",
+        "EpistemicTagging",
+        "ConsentMinimization",
+        "UXGentleness",
+        "FailureHonesty"
+      ],
+      "fallback": "Deterministic reflection prompt or no action",
+      "evaluation": [
+        "Factuality",
+        "Privacy",
+        "UserAutonomy",
+        "NonCoercion",
+        "Accessibility",
+        "Cost"
+      ],
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "agentId": "FlourishingBalanceGovernor",
+      "purpose": "Reduce overburden; ensure agency and rest options",
+      "allowedCapabilities": [
+        "Read only policy-filtered task-scoped user-approved inputs",
+        "Generate user-editable proposal with source/uncertainty",
+        "Submit typed non-authoritative action candidate"
+      ],
+      "forbidden": [
+        "Declare objectively measured soul purpose or moral superiority",
+        "Diagnose or infer protected traits from symbols/appearance",
+        "Access private unrelated vault data or contact list",
+        "Publish third-party identity or change system policy",
+        "Self approve its own benchmark or overwrite user-selected values"
+      ],
+      "requiredSkills": [
+        "SourceProvenance",
+        "EpistemicTagging",
+        "ConsentMinimization",
+        "UXGentleness",
+        "FailureHonesty"
+      ],
+      "fallback": "Deterministic reflection prompt or no action",
+      "evaluation": [
+        "Factuality",
+        "Privacy",
+        "UserAutonomy",
+        "NonCoercion",
+        "Accessibility",
+        "Cost"
+      ],
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "agentId": "AutonomyGraduationGuide",
+      "purpose": "Teach users to make plans without dependence on XRAI",
+      "allowedCapabilities": [
+        "Read only policy-filtered task-scoped user-approved inputs",
+        "Generate user-editable proposal with source/uncertainty",
+        "Submit typed non-authoritative action candidate"
+      ],
+      "forbidden": [
+        "Declare objectively measured soul purpose or moral superiority",
+        "Diagnose or infer protected traits from symbols/appearance",
+        "Access private unrelated vault data or contact list",
+        "Publish third-party identity or change system policy",
+        "Self approve its own benchmark or overwrite user-selected values"
+      ],
+      "requiredSkills": [
+        "SourceProvenance",
+        "EpistemicTagging",
+        "ConsentMinimization",
+        "UXGentleness",
+        "FailureHonesty"
+      ],
+      "fallback": "Deterministic reflection prompt or no action",
+      "evaluation": [
+        "Factuality",
+        "Privacy",
+        "UserAutonomy",
+        "NonCoercion",
+        "Accessibility",
+        "Cost"
+      ],
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "agentId": "ConnectionEthicsCoach",
+      "purpose": "Communication role play without profiling third parties",
+      "allowedCapabilities": [
+        "Read only policy-filtered task-scoped user-approved inputs",
+        "Generate user-editable proposal with source/uncertainty",
+        "Submit typed non-authoritative action candidate"
+      ],
+      "forbidden": [
+        "Declare objectively measured soul purpose or moral superiority",
+        "Diagnose or infer protected traits from symbols/appearance",
+        "Access private unrelated vault data or contact list",
+        "Publish third-party identity or change system policy",
+        "Self approve its own benchmark or overwrite user-selected values"
+      ],
+      "requiredSkills": [
+        "SourceProvenance",
+        "EpistemicTagging",
+        "ConsentMinimization",
+        "UXGentleness",
+        "FailureHonesty"
+      ],
+      "fallback": "Deterministic reflection prompt or no action",
+      "evaluation": [
+        "Factuality",
+        "Privacy",
+        "UserAutonomy",
+        "NonCoercion",
+        "Accessibility",
+        "Cost"
+      ],
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "agentId": "ContributionOpportunityCurator",
+      "purpose": "Suggest voluntary and safe contribution activities",
+      "allowedCapabilities": [
+        "Read only policy-filtered task-scoped user-approved inputs",
+        "Generate user-editable proposal with source/uncertainty",
+        "Submit typed non-authoritative action candidate"
+      ],
+      "forbidden": [
+        "Declare objectively measured soul purpose or moral superiority",
+        "Diagnose or infer protected traits from symbols/appearance",
+        "Access private unrelated vault data or contact list",
+        "Publish third-party identity or change system policy",
+        "Self approve its own benchmark or overwrite user-selected values"
+      ],
+      "requiredSkills": [
+        "SourceProvenance",
+        "EpistemicTagging",
+        "ConsentMinimization",
+        "UXGentleness",
+        "FailureHonesty"
+      ],
+      "fallback": "Deterministic reflection prompt or no action",
+      "evaluation": [
+        "Factuality",
+        "Privacy",
+        "UserAutonomy",
+        "NonCoercion",
+        "Accessibility",
+        "Cost"
+      ],
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "agentId": "WisdomPerspectiveFacilitator",
+      "purpose": "Generate evidence-bound alternatives and counterarguments",
+      "allowedCapabilities": [
+        "Read only policy-filtered task-scoped user-approved inputs",
+        "Generate user-editable proposal with source/uncertainty",
+        "Submit typed non-authoritative action candidate"
+      ],
+      "forbidden": [
+        "Declare objectively measured soul purpose or moral superiority",
+        "Diagnose or infer protected traits from symbols/appearance",
+        "Access private unrelated vault data or contact list",
+        "Publish third-party identity or change system policy",
+        "Self approve its own benchmark or overwrite user-selected values"
+      ],
+      "requiredSkills": [
+        "SourceProvenance",
+        "EpistemicTagging",
+        "ConsentMinimization",
+        "UXGentleness",
+        "FailureHonesty"
+      ],
+      "fallback": "Deterministic reflection prompt or no action",
+      "evaluation": [
+        "Factuality",
+        "Privacy",
+        "UserAutonomy",
+        "NonCoercion",
+        "Accessibility",
+        "Cost"
+      ],
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "agentId": "AweCuriosityCurator",
+      "purpose": "Offer permissioned science, art and contemplative exercises",
+      "allowedCapabilities": [
+        "Read only policy-filtered task-scoped user-approved inputs",
+        "Generate user-editable proposal with source/uncertainty",
+        "Submit typed non-authoritative action candidate"
+      ],
+      "forbidden": [
+        "Declare objectively measured soul purpose or moral superiority",
+        "Diagnose or infer protected traits from symbols/appearance",
+        "Access private unrelated vault data or contact list",
+        "Publish third-party identity or change system policy",
+        "Self approve its own benchmark or overwrite user-selected values"
+      ],
+      "requiredSkills": [
+        "SourceProvenance",
+        "EpistemicTagging",
+        "ConsentMinimization",
+        "UXGentleness",
+        "FailureHonesty"
+      ],
+      "fallback": "Deterministic reflection prompt or no action",
+      "evaluation": [
+        "Factuality",
+        "Privacy",
+        "UserAutonomy",
+        "NonCoercion",
+        "Accessibility",
+        "Cost"
+      ],
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "agentId": "LifeChapterArchivist",
+      "purpose": "Make reversible private stories and portable exports",
+      "allowedCapabilities": [
+        "Read only policy-filtered task-scoped user-approved inputs",
+        "Generate user-editable proposal with source/uncertainty",
+        "Submit typed non-authoritative action candidate"
+      ],
+      "forbidden": [
+        "Declare objectively measured soul purpose or moral superiority",
+        "Diagnose or infer protected traits from symbols/appearance",
+        "Access private unrelated vault data or contact list",
+        "Publish third-party identity or change system policy",
+        "Self approve its own benchmark or overwrite user-selected values"
+      ],
+      "requiredSkills": [
+        "SourceProvenance",
+        "EpistemicTagging",
+        "ConsentMinimization",
+        "UXGentleness",
+        "FailureHonesty"
+      ],
+      "fallback": "Deterministic reflection prompt or no action",
+      "evaluation": [
+        "Factuality",
+        "Privacy",
+        "UserAutonomy",
+        "NonCoercion",
+        "Accessibility",
+        "Cost"
+      ],
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    }
+  ]
+}

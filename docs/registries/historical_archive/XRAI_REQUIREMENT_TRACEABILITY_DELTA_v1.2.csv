@@ -1,0 +1,19 @@
+requirement_id,requirement,screen,test_suite,phase,status
+UHA-REQ-01,"Human self-discovery, not hidden soul diagnosis",UHA02,UHA-PURPOSE,P0,NOT_IMPLEMENTED
+UHA-REQ-02,"One clear card at a time, optional explanations",UHA11,UHA-UX,P0,NOT_IMPLEMENTED
+UHA-REQ-03,DOB-only free Life Path,A06,UHA-UX,P0,NOT_IMPLEMENTED
+UHA-REQ-04,On-device sensitive location / birth context,UHA06,UHA-PRIVACY,P0,NOT_IMPLEMENTED
+UHA-REQ-05,Sensitive culture protected; not inferred,UHA03,UHA-SENSITIVE,P0,NOT_IMPLEMENTED
+UHA-REQ-06,No covert relationship/mood analysis,UHA12,UHA-SENSITIVE,P0,NOT_IMPLEMENTED
+UHA-REQ-07,Rights-cleared astrolocation geometry,UHA06,UHA-ASTRO,Later,NOT_IMPLEMENTED
+UHA-REQ-08,Local Space compass rigor,UHA07,UHA-ASTRO,Later,NOT_IMPLEMENTED
+UHA-REQ-09,Relocation chart with same UTC birth instant,UHA08,UHA-ASTRO,Later,NOT_IMPLEMENTED
+UHA-REQ-10,Travel Space variant taxonomy,UHA09,UHA-ASTRO,Later,NOT_IMPLEMENTED
+UHA-REQ-11,Practical travel decisions based on real data,UHA10,UHA-PLACE,Later,NOT_IMPLEMENTED
+UHA-REQ-12,Cultural and occult knowledge registry,UHAOPS01,UHA-LENS,Later,NOT_IMPLEMENTED
+UHA-REQ-13,Physics not misrepresented as spirituality proof,UHAOPS01,UHA-PHYSICS,P0,NOT_IMPLEMENTED
+UHA-REQ-14,Book pages not commercial training corpus without rights,UHAOPS01,UHA-RIGHTS,P0,NOT_IMPLEMENTED
+UHA-REQ-15,No covert model fallback over internet,UHAOPS03,UHA-PRIVACY,P0,NOT_IMPLEMENTED
+UHA-REQ-16,Evidence vs symbols separately presented,UHA11,UHA-LENS,P0,NOT_IMPLEMENTED
+UHA-REQ-17,Natural positive but emotionally grounded guide,UHA12,UHA-UX,P0,NOT_IMPLEMENTED
+UHA-REQ-18,Native a11y local maps,UHA06,UHA-UX,Later,NOT_IMPLEMENTED

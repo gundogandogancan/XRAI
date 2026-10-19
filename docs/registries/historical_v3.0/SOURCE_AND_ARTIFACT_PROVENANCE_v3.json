@@ -1,0 +1,424 @@
+{
+  "date": "2026-10-19",
+  "main_master_sha256": "3c27db7dffba1eb2082e2dc3836acb0469963a950faa678a19bb2da546b28af7",
+  "legacy_and_master_artifacts": [
+    {
+      "filename": "XRAI_AHTOVIA_GOD_LEVEL_MASTER_EXECUTION_PACKAGE_v1.5.zip",
+      "size": 514308,
+      "sha256": "1e658d2126bbf530419c0c5c1471adee51848441dc18e917a6a2021e6ddff366",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_CLAUDE_CLASSICAL_ASTROLOGY_EXECUTION_PACKAGE_v2.1.zip",
+      "size": 351785,
+      "sha256": "deb3eb0afac052684e24ae799a8b7ceb9e56dcd8c71c1de8f564582d8b6e315d",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_CLAUDE_COMPARATIVE_WISDOM_ATLAS_PACKAGE_v1.9.zip",
+      "size": 314200,
+      "sha256": "5fdf03902f90945e08e2b146d3df7bcde999cfd1c4af72a05e103aca2b696533",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_CLAUDE_COMPLETE_BOOK_RESEARCH_PACKAGE_v2.0.zip",
+      "size": 349833,
+      "sha256": "2da2cbefce25a04af6617ed3456eded330eea487aec5e88978b864875b89e11d",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_CLAUDE_FIRST_BOOT_GOD_LEVEL_2026-10-17.zip",
+      "size": 340924,
+      "sha256": "aeb7f529143b0df0a11a9899242cba0840bc6bff0fde6903a9436cbd83e676a6",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_CLAUDE_GOD_LEVEL_EXECUTION_PACKAGE_v1.0.zip",
+      "size": 271040,
+      "sha256": "f2bca2c43c4f7a1b0fe726f835a81f060217f93509a00a3ca53b99ee6b3ac6b4",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_CLAUDE_GOD_LEVEL_GAP_CLOSURE_EXECUTION_PACKAGE_v1.6.zip",
+      "size": 315498,
+      "sha256": "fc588e9200db6f222ab03de543536ce7d605f918add1d11b5edc0489d01f2268",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_CLAUDE_LIFELONG_FLOURISHING_EXECUTION_PACKAGE_v1.4.zip",
+      "size": 236534,
+      "sha256": "2b0951153f3e7fe647e864110621373419bd9feaa065f894fce00c9cc282e4f7",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_CLAUDE_ORIGINAL_INTELLIGENCE_EXECUTION_PACKAGE_v1.8.zip",
+      "size": 315354,
+      "sha256": "c04ce1efab91068acf619122213b12201c19fe028a21717208e60fc0833ab364",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_CLAUDE_SECURE_INTELLIGENCE_CORE_EXECUTION_PACKAGE_v1.7.zip",
+      "size": 309909,
+      "sha256": "68ed3847a689b550a93e19c1f113a0961633b3ec83491bbb6852e6d7da7ada5f",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_CLAUDE_SELF_TRANSCENDENCE_EXECUTION_PACKAGE_v1.3.zip",
+      "size": 254852,
+      "sha256": "9d5e3247d819704bd1074796bfd072097a2409c866c27d2ce9d8b30c554f6d90",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_CLAUDE_ULU_EVREN_EXECUTION_PACKAGE_v1.0.zip",
+      "size": 145137,
+      "sha256": "c1117f38d937d3b00c57f816ef0f18896c0aeed2c398fb20b072599d4c1f420a",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_CLAUDE_ULU_EVREN_MASTER_EXECUTION_PACKAGE_v1.1.zip",
+      "size": 448998,
+      "sha256": "42654d801f01fe55fa3e7b4cfd907ab7a5dc8992323cf66cb2c12487eb3a1f9e",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_CLAUDE_ULU_EVREN_MASTER_EXECUTION_PACKAGE_v1.2.zip",
+      "size": 386237,
+      "sha256": "f582040cc5ffc70fc57fc30181bc8f46294fd044386064040503db1c0a77abbf",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_HUMAN_DESIGN_BATCH1_RESEARCH_NOTES.zip",
+      "size": 9649,
+      "sha256": "c66fbb328a91bac54c6295a2a4fb2cfff7cd291c7e82bb14fc9cbeda278b0d08",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_Master_Kodlama_Devir_Notu_2026-10-12.md",
+      "size": 15535,
+      "sha256": "26fe2625f3e3101e3ed0a46f90f9f1d026eba82cd515f11050602fa40336d6d6",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_Master_Kodlama_Devir_Notu_v0_2.md",
+      "size": 29586,
+      "sha256": "735d6b3319e5ff1c4cc5ab48542cc9d3e0f8c0ead918a9835c5434cedbd2db44",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_Master_Kodlama_Devir_Notu_v0_3.md",
+      "size": 41470,
+      "sha256": "52da34bddcd86c145a9cb9f4251c1dedaf5b937d0099a9d752e26f6e7290ba34",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_Master_Kodlama_Devir_Notu_v0_4.md",
+      "size": 53401,
+      "sha256": "0ebe9a5cdb527ade51cd69aa43b66e2084d0a89f9239d78e358a6adbc63513f6",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.0.md",
+      "size": 644230,
+      "sha256": "6dd4f88ae5153e6ca55922f3b88cabbcaaa8eb415fa5cbe7d99d9cb36d3ad0e9",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.1.md",
+      "size": 680437,
+      "sha256": "2c1b5d145240d569dfea33648bdb207464b2a46cc211a3225f973b1969a4e787",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.2.md",
+      "size": 1068119,
+      "sha256": "5ec3705182b7bdb3087d8657c262804b53dba1e6c9ea42197c333813be5473e9",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.3.md",
+      "size": 1163550,
+      "sha256": "5c6510f25d0bcb95aebe2efcf5d5fd9f9442191803b1ddb5d32a54b559c3338a",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.4.md",
+      "size": 1217077,
+      "sha256": "7eacd0cdc668545c0bd11e6b86bee2ae8fcd36164426a93edeb8d9c39e286fde",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.5.md",
+      "size": 1332805,
+      "sha256": "d30933fde7d0381edf2851e2d1dac7b0d9740f6c870df50c743d9654b8122279",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.6.md",
+      "size": 1387635,
+      "sha256": "97ee62c349572fda795da462c8a74a3bde12b66b123be8c6b3379bcbc7764242",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.7.md",
+      "size": 1421204,
+      "sha256": "8a1fa0229c252384f35a53dc10d751ae66e9829c94c7a02ec4c1e6bac5017a0d",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.8.md",
+      "size": 1444927,
+      "sha256": "c1249b4e5553e806722723460e0e64251c4e0389733de04a48fbe89b18b29d1f",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.9.md",
+      "size": 1468950,
+      "sha256": "963c71f453baf536cd44993b31f650106dfe9cd34990ba67716870263393b190",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v2.0.md",
+      "size": 1567095,
+      "sha256": "55ece60d611ccbc705555415e3917b01a619a877a3835b80f5c8c792e5d067b4",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v2.1.md",
+      "size": 1640972,
+      "sha256": "3c27db7dffba1eb2082e2dc3836acb0469963a950faa678a19bb2da546b28af7",
+      "type": "CANONICAL_OR_LEGACY_ARTIFACT"
+    },
+    {
+      "filename": "IMG_3795.jpeg",
+      "size": 270706,
+      "sha256": "97394ee69599598b17d64f45cca027de58fff7f6b0fcc42798c31a005ee152ee",
+      "type": "SCREENSHOT_OR_IMAGE_CONTEXT_NOT_FULL_EXTERNAL_SOURCE"
+    },
+    {
+      "filename": "IMG_3835.jpeg",
+      "size": 199949,
+      "sha256": "6102d12f1e89de5d1ab7f3cec70fbdc84083f89c737de9f32da3ac17c31193f4",
+      "type": "SCREENSHOT_OR_IMAGE_CONTEXT_NOT_FULL_EXTERNAL_SOURCE"
+    },
+    {
+      "filename": "IMG_3843.jpeg",
+      "size": 287594,
+      "sha256": "ec30555fb6fdd7f65cc1035f9856fa1865a69e3a9c0b6db18c9a7c25746d6b7f",
+      "type": "SCREENSHOT_OR_IMAGE_CONTEXT_NOT_FULL_EXTERNAL_SOURCE"
+    },
+    {
+      "filename": "IMG_3844.jpeg",
+      "size": 265427,
+      "sha256": "02b93464a2ab2ebeb4a406f325a8b0a77b57de4687a006cd1159d41916d9480f",
+      "type": "SCREENSHOT_OR_IMAGE_CONTEXT_NOT_FULL_EXTERNAL_SOURCE"
+    },
+    {
+      "filename": "IMG_3845.jpeg",
+      "size": 301744,
+      "sha256": "10c9d93dd37803263b1c7031a9c7e11b8e117402d4e4278e9433eba578b0f977",
+      "type": "SCREENSHOT_OR_IMAGE_CONTEXT_NOT_FULL_EXTERNAL_SOURCE"
+    },
+    {
+      "filename": "IMG_3846.jpeg",
+      "size": 236935,
+      "sha256": "5f6a9e5e1e7c47eb24270f120f69f26b51f791ec36f74a52d205c243cb310a20",
+      "type": "SCREENSHOT_OR_IMAGE_CONTEXT_NOT_FULL_EXTERNAL_SOURCE"
+    },
+    {
+      "filename": "IMG_3847.jpeg",
+      "size": 259115,
+      "sha256": "ceb17b6d0eefeb6bca33a732752025684d279de62f22bd6f92aa774e3d74728a",
+      "type": "SCREENSHOT_OR_IMAGE_CONTEXT_NOT_FULL_EXTERNAL_SOURCE"
+    },
+    {
+      "filename": "IMG_3848.jpeg",
+      "size": 284732,
+      "sha256": "ae3886c31e00941f5a20b8dc37cab48ff7893a929de9e219dc6d0b36ca3eee27",
+      "type": "SCREENSHOT_OR_IMAGE_CONTEXT_NOT_FULL_EXTERNAL_SOURCE"
+    },
+    {
+      "filename": "IMG_3849.jpeg",
+      "size": 288261,
+      "sha256": "a01e578a10f2b8cb66b885c58f241637db7f52a92ef230b15ee67e69a0f58897",
+      "type": "SCREENSHOT_OR_IMAGE_CONTEXT_NOT_FULL_EXTERNAL_SOURCE"
+    },
+    {
+      "filename": "IMG_3850.jpeg",
+      "size": 327718,
+      "sha256": "13c45c734b3a35123dd2bb12159c033d26b3f551b6ba84baec16fd8631e2d07a",
+      "type": "SCREENSHOT_OR_IMAGE_CONTEXT_NOT_FULL_EXTERNAL_SOURCE"
+    },
+    {
+      "filename": "IMG_3851.jpeg",
+      "size": 278214,
+      "sha256": "9cd20f245795cfd0547a2c4230d8fabf52c6a9f0ee67bc3430161f0bbfdf3bf3",
+      "type": "SCREENSHOT_OR_IMAGE_CONTEXT_NOT_FULL_EXTERNAL_SOURCE"
+    },
+    {
+      "filename": "IMG_3862.jpeg",
+      "size": 273651,
+      "sha256": "c326484b009b3a53b76bc2f9970d3bc66f61ba7029c0c8fb2ba9f26689fe3bc6",
+      "type": "SCREENSHOT_OR_IMAGE_CONTEXT_NOT_FULL_EXTERNAL_SOURCE"
+    }
+  ],
+  "human_design_pdf_sources": [
+    {
+      "preferred": "Human design 12.pdf",
+      "filenames": [
+        "Human design 12.pdf"
+      ],
+      "pdf_image_pages": 24,
+      "size": 79106727,
+      "sha256": "c0114b455ff578124c9aebf5a1f4c31f7d24067cc76fd39773614612d23b7e49",
+      "review": "VISUAL_OVERVIEW_ONLY; FULL_PARAGRAPH_ANALYSIS_OPEN",
+      "rights": "PRIVATE_USER_SUPPLIED_RESEARCH_NOT_DISTRIBUTION_RIGHT"
+    },
+    {
+      "preferred": "Human design13.pdf",
+      "filenames": [
+        "Human design13.pdf"
+      ],
+      "pdf_image_pages": 10,
+      "size": 22787542,
+      "sha256": "0ed963764c77bcc214e570d9d535651f61a564cc42cbbc757552a38188b7645f",
+      "review": "VISUAL_OVERVIEW_ONLY; FULL_PARAGRAPH_ANALYSIS_OPEN",
+      "rights": "PRIVATE_USER_SUPPLIED_RESEARCH_NOT_DISTRIBUTION_RIGHT"
+    },
+    {
+      "preferred": "Human desing 10.pdf",
+      "filenames": [
+        "Human desing 10.pdf"
+      ],
+      "pdf_image_pages": 24,
+      "size": 82701769,
+      "sha256": "8f3a32b6374cf191f3db9124f7035ae0a808fb96747c9b040e7c74d6afb5b7be",
+      "review": "VISUAL_OVERVIEW_ONLY; FULL_PARAGRAPH_ANALYSIS_OPEN",
+      "rights": "PRIVATE_USER_SUPPLIED_RESEARCH_NOT_DISTRIBUTION_RIGHT"
+    },
+    {
+      "preferred": "Human desing 11.pdf",
+      "filenames": [
+        "Human desing 11.pdf"
+      ],
+      "pdf_image_pages": 24,
+      "size": 71389803,
+      "sha256": "ac835db65d904f087fe4af076e41af3053e111b690c5c87f5bbaacecb803f04c",
+      "review": "VISUAL_OVERVIEW_ONLY; FULL_PARAGRAPH_ANALYSIS_OPEN",
+      "rights": "PRIVATE_USER_SUPPLIED_RESEARCH_NOT_DISTRIBUTION_RIGHT"
+    },
+    {
+      "preferred": "Human desing 5.pdf",
+      "filenames": [
+        "Human desing 5.pdf"
+      ],
+      "pdf_image_pages": 24,
+      "size": 65118207,
+      "sha256": "e711f016cd0b8aa67e74c3d8683b9a2403fc9b4e9027f9419b283b8b8aac4f0a",
+      "review": "VISUAL_OVERVIEW_ONLY; FULL_PARAGRAPH_ANALYSIS_OPEN",
+      "rights": "PRIVATE_USER_SUPPLIED_RESEARCH_NOT_DISTRIBUTION_RIGHT"
+    },
+    {
+      "preferred": "Human desing 8.pdf",
+      "filenames": [
+        "Human desing 8.pdf"
+      ],
+      "pdf_image_pages": 24,
+      "size": 75498121,
+      "sha256": "3e8b72ad5296150b00add8e155d704a842df1dde36fd3a0785f77bb0d9ed9d60",
+      "review": "VISUAL_OVERVIEW_ONLY; FULL_PARAGRAPH_ANALYSIS_OPEN",
+      "rights": "PRIVATE_USER_SUPPLIED_RESEARCH_NOT_DISTRIBUTION_RIGHT"
+    },
+    {
+      "preferred": "Human desing.pdf",
+      "filenames": [
+        "Human desing(1).pdf",
+        "Human desing.pdf"
+      ],
+      "pdf_image_pages": 24,
+      "size": 58647362,
+      "sha256": "3844444393b8bf3c5d6363f427fa36d67eb775c2a1c5d231b59e9812cbf5b18d",
+      "review": "VISUAL_OVERVIEW_ONLY; FULL_PARAGRAPH_ANALYSIS_OPEN",
+      "rights": "PRIVATE_USER_SUPPLIED_RESEARCH_NOT_DISTRIBUTION_RIGHT"
+    },
+    {
+      "preferred": "Human desing2.pdf",
+      "filenames": [
+        "Human desing2(1).pdf",
+        "Human desing2.pdf"
+      ],
+      "pdf_image_pages": 24,
+      "size": 68079966,
+      "sha256": "8f6af3434745e0e56a37cd30eea502bcf310a4d8022c36493ac602f151beef10",
+      "review": "VISUAL_OVERVIEW_ONLY; FULL_PARAGRAPH_ANALYSIS_OPEN",
+      "rights": "PRIVATE_USER_SUPPLIED_RESEARCH_NOT_DISTRIBUTION_RIGHT"
+    },
+    {
+      "preferred": "Human desing3.pdf",
+      "filenames": [
+        "Human desing3(1).pdf",
+        "Human desing3.pdf"
+      ],
+      "pdf_image_pages": 24,
+      "size": 75169101,
+      "sha256": "4b0d916de3f214c3bb5b23bda2277553b92aa628c1c13b8507e2605fc1192280",
+      "review": "VISUAL_OVERVIEW_ONLY; FULL_PARAGRAPH_ANALYSIS_OPEN",
+      "rights": "PRIVATE_USER_SUPPLIED_RESEARCH_NOT_DISTRIBUTION_RIGHT"
+    },
+    {
+      "preferred": "Human desing4.pdf",
+      "filenames": [
+        "Human desing4(1).pdf",
+        "Human desing4.pdf"
+      ],
+      "pdf_image_pages": 24,
+      "size": 65700919,
+      "sha256": "9e5f2ae0467f5fecf70d62cdbd98d5946a59cb03823d268738ea023fd8d8b1bc",
+      "review": "VISUAL_OVERVIEW_ONLY; FULL_PARAGRAPH_ANALYSIS_OPEN",
+      "rights": "PRIVATE_USER_SUPPLIED_RESEARCH_NOT_DISTRIBUTION_RIGHT"
+    },
+    {
+      "preferred": "Human desng6.pdf",
+      "filenames": [
+        "Human desng6.pdf"
+      ],
+      "pdf_image_pages": 24,
+      "size": 65195948,
+      "sha256": "73b1edeabc69b5db4744844700a7865f6240924e420523268df1acadea7fe163",
+      "review": "VISUAL_OVERVIEW_ONLY; FULL_PARAGRAPH_ANALYSIS_OPEN",
+      "rights": "PRIVATE_USER_SUPPLIED_RESEARCH_NOT_DISTRIBUTION_RIGHT"
+    },
+    {
+      "preferred": "Human desng7.pdf",
+      "filenames": [
+        "Human desng7.pdf"
+      ],
+      "pdf_image_pages": 24,
+      "size": 71119466,
+      "sha256": "54b7baa9ce55cc78f290cb97b81790191269faf77923055e92c2fc9d3e793e5d",
+      "review": "VISUAL_OVERVIEW_ONLY; FULL_PARAGRAPH_ANALYSIS_OPEN",
+      "rights": "PRIVATE_USER_SUPPLIED_RESEARCH_NOT_DISTRIBUTION_RIGHT"
+    },
+    {
+      "preferred": "Human desng9.pdf",
+      "filenames": [
+        "Human desng9.pdf"
+      ],
+      "pdf_image_pages": 24,
+      "size": 75746755,
+      "sha256": "083a559bc5535cf9772f2c114a319443b62380df7c669e71f8cc5755e24914d5",
+      "review": "VISUAL_OVERVIEW_ONLY; FULL_PARAGRAPH_ANALYSIS_OPEN",
+      "rights": "PRIVATE_USER_SUPPLIED_RESEARCH_NOT_DISTRIBUTION_RIGHT"
+    }
+  ],
+  "pdf_total_named_files": 17,
+  "pdf_unique_content_files": 13,
+  "pdf_unique_images": 298,
+  "human_design_pages_status": "ALL_IMAGE_ROWS_PRESENT_VISUAL_OVERVIEW; DETAILED_REVIEW_PENDING",
+  "copyright_position": "Raw scanned copyrighted PDFs excluded from distribution ZIP; source SHA/path only",
+  "external_books_incomplete": [
+    "Harry B. Joseph Book of Wisdom Volume 1&2: publisher/screenshot only",
+    "Carmen Astrologicum modern translation rights",
+    "Vettius Valens modern translation rights",
+    "Human Design exact edition/licence and missing scan quality"
+  ]
+}

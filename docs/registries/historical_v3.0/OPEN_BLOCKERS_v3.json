@@ -1,0 +1,145 @@
+{
+  "generated": "2026-10-19",
+  "blockers": [
+    {
+      "id": "REPO_BASELINE",
+      "why": "Actual XRAI repo current state and user modifications unknown",
+      "gate": "BOOT-00",
+      "closure_evidence": "repo inspection",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "XCODE_TOOLCHAIN",
+      "why": "macOS Xcode versions and physical phone test unavailable here",
+      "gate": "BOOT-00",
+      "closure_evidence": "xcodebuild/swift/simctl transcript",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "APP_ID_SIGNING",
+      "why": "Bundle identifier/certificates/entitlements not verified",
+      "gate": "BOOT-00",
+      "closure_evidence": "developer account and configured signing",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "ON_DEVICE_VAULT",
+      "why": "Actual Keychain/encrypted database/backup/egress not tested",
+      "gate": "P1",
+      "closure_evidence": "device attack/backup tests",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "LOCAL_LLM_BENCH",
+      "why": "Actual iPhone support, thermal, RAM, Turkish quality not benchmarked",
+      "gate": "P4",
+      "closure_evidence": "on-target offline model comparisons",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "HD_BOOK_PARAGRAPHS",
+      "why": "298 visual frames overviewed, not full line by line; printed p300 unclear, p1-8 missing",
+      "gate": "P7",
+      "closure_evidence": "individual image ledger and rescan",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "HD_METHOD_RIGHTS",
+      "why": "Human Design full gate longitude table/type variant and protected rights not cleared",
+      "gate": "P7",
+      "closure_evidence": "independent method+legal audit",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "EPHEMERIS_LICENSE",
+      "why": "Swiss Ephemeris AGPL vs commercial and distribution unchosen",
+      "gate": "P6",
+      "closure_evidence": "legal license decision",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "ASTRODIEST",
+      "why": "No authorization for astro.com systematic scraper/commercial API",
+      "gate": "P6",
+      "closure_evidence": "use independent licensed method",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "BOOK_OF_WISDOM_COMPLETE",
+      "why": "Only publisher description/video screenshots; complete book not acquired",
+      "gate": "P8",
+      "closure_evidence": "lawful complete source acquisition",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "ANCIENT_MODERN_EDITIONS",
+      "why": "Lilly/Valens/Dorotheus/Ptolemy translations and their variant rights open",
+      "gate": "P6",
+      "closure_evidence": "source edition registry + rights",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "MBTI_16PSYCH_RIGHTS",
+      "why": "No license to use proprietary test item sets/branding",
+      "gate": "P8",
+      "closure_evidence": "license or original questionnaire",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "MODEL_TRAINING_DATA",
+      "why": "Cannot train on all users diaries or rights-protected books by default",
+      "gate": "P4",
+      "closure_evidence": "separate opt-in and data governance",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "AHTOVIA_TRUST",
+      "why": "Actual AHTOVIA repo and current standalone master not authenticated in active scope",
+      "gate": "P9",
+      "closure_evidence": "separate trust-domain audit",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "APP_STORE_PRICE",
+      "why": "Target USD 5.55/month SKU and locales not verified",
+      "gate": "P3",
+      "closure_evidence": "App Store Connect/StoreKit",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "TRADEMARK",
+      "why": "XRAI name clearance per market not verified",
+      "gate": "P10",
+      "closure_evidence": "trademark/IP review",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "STORE_REVIEW",
+      "why": "Apple guideline medical/scam/copycat/privacy/Kids restrictions not cleared",
+      "gate": "P10",
+      "closure_evidence": "App review preflight",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "REPLICA_SKILL_SECURITY",
+      "why": "No install script or plugin repository security audit yet",
+      "gate": "BOOT-00",
+      "closure_evidence": "inspect repo/skills commands license permissions",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "DATA_RECOVERY_POLICY",
+      "why": "On-device only vs recoverable encrypted backup needs real decision",
+      "gate": "P1",
+      "closure_evidence": "document consented recovery semantics",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "CHILDREN_CONSENT",
+      "why": "Children/AHTOVIA data prohibited without age, parental law and privacy gates",
+      "gate": "P9",
+      "closure_evidence": "jurisdiction and policy review",
+      "status": "OPEN_UNVERIFIED"
+    }
+  ]
+}

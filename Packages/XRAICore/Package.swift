@@ -1,0 +1,32 @@
+// swift-tools-version: 6.0
+// XRAICore — the smallest executable pure core of XRAI (constitution §86, §89 P01).
+// No UI, no networking, no storage, no analytics, no model dependency.
+import PackageDescription
+
+let package = Package(
+    name: "XRAICore",
+    platforms: [.iOS(.v17), .macOS(.v14)],
+    products: [
+        .library(name: "XRAIIdentityTime", targets: ["XRAIIdentityTime"]),
+        .library(name: "XRAINumerology", targets: ["XRAINumerology"]),
+    ],
+    targets: [
+        .target(
+            name: "XRAIIdentityTime",
+            dependencies: []
+        ),
+        .target(
+            name: "XRAINumerology",
+            dependencies: ["XRAIIdentityTime"]
+        ),
+        .testTarget(
+            name: "XRAIIdentityTimeTests",
+            dependencies: ["XRAIIdentityTime"]
+        ),
+        .testTarget(
+            name: "XRAINumerologyTests",
+            dependencies: ["XRAINumerology", "XRAIIdentityTime"]
+        ),
+    ],
+    swiftLanguageModes: [.v6]
+)

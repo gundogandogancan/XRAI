@@ -1,0 +1,1617 @@
+[
+ {
+  "req_id": "XRAI-FREE_VALUE",
+  "v30_family_id": "XRAI-FREE_VALUE",
+  "legacy_ids": [
+   "REQ-FREEMIUM-001",
+   "UHA-REQ-03",
+   "GAP-006",
+   "M01"
+  ],
+  "phase": "P2",
+  "owner_engine": "Numerology",
+  "category": "PRODUCT_UI",
+  "intent": "Accountless useful local real Life Path; transparent symbolic preview",
+  "canonical_source": "§§ product v0.1–v0.4; §32; §39–41",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-FIVE_TAB_UX",
+  "v30_family_id": "XRAI-FIVE_TAB_UX",
+  "legacy_ids": [
+   "GAP-007",
+   "v2.1 §28.8",
+   "v2.1 §32.13",
+   "areas B/C/D/E/F (v1.0 CSV)"
+  ],
+  "phase": "P2",
+  "owner_engine": "DesignSystem",
+  "category": "PRODUCT_UI",
+  "intent": "Bugün / Ben / Keşfet / Yolum / XRAI",
+  "canonical_source": "§§ product v0.1–v0.4; §32; §39–41",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-PROGRESSIVE_ONBOARD",
+  "v30_family_id": "XRAI-PROGRESSIVE_ONBOARD",
+  "legacy_ids": [
+   "REQ-ONBOARDING-001",
+   "GAP-005",
+   "A03-A10"
+  ],
+  "phase": "P2",
+  "owner_engine": "DesignSystem",
+  "category": "PRODUCT_UI",
+  "intent": "Minimal optional questions, birth place/time never compelled",
+  "canonical_source": "§§ product v0.1–v0.4; §32; §39–41",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-ACCESSIBILITY",
+  "v30_family_id": "XRAI-ACCESSIBILITY",
+  "legacy_ids": [
+   "GAP-008",
+   "GAP-055",
+   "UHA-REQ-18",
+   "G11"
+  ],
+  "phase": "P2",
+  "owner_engine": "DesignSystem",
+  "category": "PRODUCT_UI",
+  "intent": "Dynamic Type, VoiceOver, reduced motion, contrast, localization",
+  "canonical_source": "§§ product v0.1–v0.4; §32; §39–41",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-OFFLINE_STATES",
+  "v30_family_id": "XRAI-OFFLINE_STATES",
+  "legacy_ids": [
+   "GAP-045",
+   "G08"
+  ],
+  "phase": "P2",
+  "owner_engine": "DesignSystem",
+  "category": "PRODUCT_UI",
+  "intent": "Airplane-mode service with honest online limitations",
+  "canonical_source": "§§ product v0.1–v0.4; §32; §39–41",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-FALLBACK_STATES",
+  "v30_family_id": "XRAI-FALLBACK_STATES",
+  "legacy_ids": [
+   "GAP-007",
+   "v2.1 §32.13 general states"
+  ],
+  "phase": "P2",
+  "owner_engine": "PrivacyKernel",
+  "category": "PRODUCT_UI",
+  "intent": "Loading/empty/error/lost-key/consent-revoked/model-absent",
+  "canonical_source": "§§ product v0.1–v0.4; §32; §39–41",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-DESIGN_TOKENS",
+  "v30_family_id": "XRAI-DESIGN_TOKENS",
+  "legacy_ids": [
+   "ADR-014"
+  ],
+  "phase": "P2",
+  "owner_engine": "DesignSystem",
+  "category": "PRODUCT_UI",
+  "intent": "Native SwiftUI visual identity, reusable tokens, snapshot standards",
+  "canonical_source": "§§ product v0.1–v0.4; §32; §39–41",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-CONTENT_FILTERS",
+  "v30_family_id": "XRAI-CONTENT_FILTERS",
+  "legacy_ids": [
+   "UHA-REQ-02",
+   "UHA-REQ-16",
+   "F05",
+   "C09",
+   "UHA11"
+  ],
+  "phase": "P2",
+  "owner_engine": "KnowledgeDNA",
+  "category": "PRODUCT_UI",
+  "intent": "Confidence/citation/method/rights disclosure without overwhelming UX",
+  "canonical_source": "§§ product v0.1–v0.4; §32; §39–41",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-USER_AGENCY",
+  "v30_family_id": "XRAI-USER_AGENCY",
+  "legacy_ids": [
+   "GAP-003",
+   "GAP-049",
+   "LF-06"
+  ],
+  "phase": "P2",
+  "owner_engine": "DesignSystem",
+  "category": "PRODUCT_UI",
+  "intent": "No addiction loops, no forced spiritual scoring, export and off switch",
+  "canonical_source": "§§ product v0.1–v0.4; §32; §39–41",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-CALENDAR",
+  "v30_family_id": "XRAI-CALENDAR",
+  "legacy_ids": [
+   "AST-001",
+   "D04"
+  ],
+  "phase": "BOOT-01",
+  "owner_engine": "OctopusOrchestrator",
+  "category": "CALCULATION",
+  "intent": "Exact Gregorian dates, leap days and invalid input",
+  "canonical_source": "§28–29; §34–35; §38; §43",
+  "status": "CODED",
+  "evidence_note": "Packages/XRAICore/Sources/XRAIIdentityTime/CivilDate.swift + Tests/XRAIIdentityTimeTests/CivilDateTests.swift exist; CODED_PENDING_TEST_EVIDENCE (see docs/status/TEST_EVIDENCE_LEDGER.json); ledger records BOOT01-TEST-RUN1 failed 2/35 (swift_test_run1_FAILED_2_of_35.log) and BOOT01-TEST-RUN3 exit 0, 35/35 passed (swift_test_run3_PASS_35_of_35.log, sha256 d2aabfdb…); promotion to TESTED is the parent's/reviewer's call, not asserted by this audit"
+ },
+ {
+  "req_id": "XRAI-PYTHAGOREAN_LP",
+  "v30_family_id": "XRAI-PYTHAGOREAN_LP",
+  "legacy_ids": [
+   "LIFE_PATH_PYTHAGOREAN (v1.7)",
+   "M01",
+   "D03"
+  ],
+  "phase": "BOOT-01",
+  "owner_engine": "Numerology",
+  "category": "CALCULATION",
+  "intent": "Life Path compound/root/master with explicitly declared method version",
+  "canonical_source": "§28–29; §34–35; §38; §43",
+  "status": "CODED",
+  "evidence_note": "Packages/XRAICore/Sources/XRAINumerology/{NumerologyLifePath,DigitReduction,NumerologyTrace,NumerologyMethodID}.swift + Tests/XRAINumerologyTests/LifePathGoldenTests.swift exist; fixtures docs/status/BOOT_01_HAND_DERIVED_FIXTURES.md; CODED_PENDING_TEST_EVIDENCE (see docs/status/TEST_EVIDENCE_LEDGER.json); ledger records BOOT01-TEST-RUN1 failed 2/35 (swift_test_run1_FAILED_2_of_35.log) and BOOT01-TEST-RUN3 exit 0, 35/35 passed (swift_test_run3_PASS_35_of_35.log, sha256 d2aabfdb…); promotion to TESTED is the parent's/reviewer's call, not asserted by this audit"
+ },
+ {
+  "req_id": "XRAI-NAMES_UNICODE",
+  "v30_family_id": "XRAI-NAMES_UNICODE",
+  "legacy_ids": [
+   "NAME_PYTHAGOREAN (v1.7)",
+   "UHA04"
+  ],
+  "phase": "BOOT-01",
+  "owner_engine": "OctopusOrchestrator",
+  "category": "CALCULATION",
+  "intent": "Vowel/consonant expression under normalized chosen name/diacritic variations",
+  "canonical_source": "§28–29; §34–35; §38; §43",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-MATRIX_METHODS",
+  "v30_family_id": "XRAI-MATRIX_METHODS",
+  "legacy_ids": [
+   "CHALDEAN_NUMEROLOGY (v1.7)",
+   "D03"
+  ],
+  "phase": "BOOT-01",
+  "owner_engine": "OctopusOrchestrator",
+  "category": "CALCULATION",
+  "intent": "1–9 matrix missing/overrepresented digits; traditions distinct",
+  "canonical_source": "§28–29; §34–35; §38; §43",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-TIMEZONE",
+  "v30_family_id": "XRAI-TIMEZONE",
+  "legacy_ids": [
+   "AST-001"
+  ],
+  "phase": "BOOT-01",
+  "owner_engine": "DesignSystem",
+  "category": "CALCULATION",
+  "intent": "Historic UTC conversion, offset ambiguity, DST, missing time",
+  "canonical_source": "§28–29; §34–35; §38; §43",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-EPHEMERIS",
+  "v30_family_id": "XRAI-EPHEMERIS",
+  "legacy_ids": [
+   "AST-002",
+   "DEC-03",
+   "GAP-032",
+   "EPHEMERIS_LICENSE (v3.0 blocker)"
+  ],
+  "phase": "BOOT-01",
+  "owner_engine": "Astronomy",
+  "category": "CALCULATION",
+  "intent": "Licensed precision astronomy and error envelopes",
+  "canonical_source": "§28–29; §34–35; §38; §43",
+  "status": "RIGHTS_BLOCKED",
+  "evidence_note": "ADR-007 state BLOCKED (Swiss Ephemeris AGPL vs professional); SOURCE_RIGHTS_AND_EVIDENCE_v3.1 SWISS_EPHEMERIS = AGPL_OR_PROFESSIONAL_LICENSE_GATE; OPEN_DECISIONS_v3.1 EPHEMERIS_RIGHTS"
+ },
+ {
+  "req_id": "XRAI-NATAL_ASTRO",
+  "v30_family_id": "XRAI-NATAL_ASTRO",
+  "legacy_ids": [
+   "REQ-SYMBOLIC-001",
+   "D05",
+   "NATAL_TROPICAL (v1.7)",
+   "ASTRO_HOUSES (v1.7)",
+   "AST-005..AST-015"
+  ],
+  "phase": "BOOT-01",
+  "owner_engine": "Astronomy",
+  "category": "CALCULATION",
+  "intent": "Houses/aspects/nodes/rulership and school-specific delineation",
+  "canonical_source": "§28–29; §34–35; §38; §43",
+  "status": "RIGHTS_BLOCKED",
+  "evidence_note": "depends on XRAI-EPHEMERIS licence (astro.natal_chart.v1 activation_gate LICENSE_AND_METHOD_VARIANTS)"
+ },
+ {
+  "req_id": "XRAI-CLASSICAL_ASTRO",
+  "v30_family_id": "XRAI-CLASSICAL_ASTRO",
+  "legacy_ids": [
+   "AST-008..AST-026",
+   "ANCIENT_MODERN_EDITIONS (v3.0 blocker)",
+   "v2.1 §38"
+  ],
+  "phase": "BOOT-01",
+  "owner_engine": "Astronomy",
+  "category": "CALCULATION",
+  "intent": "Ptolemy/Dorotheus/Valens/Lilly non-conflated methods",
+  "canonical_source": "§28–29; §34–35; §38; §43",
+  "status": "RIGHTS_BLOCKED",
+  "evidence_note": "astro.traditional_methods.v1 gate TRANSLATION_SOURCE_REVIEW; SOURCE_RIGHTS VALENS_ANTHO/DOROTHEUS_CARMEN = MODERN_TRANSLATION_PROTECTED; v3.0 blocker ANCIENT_MODERN_EDITIONS"
+ },
+ {
+  "req_id": "XRAI-ASTROCARTOGRAPHY",
+  "v30_family_id": "XRAI-ASTROCARTOGRAPHY",
+  "legacy_ids": [
+   "UHA-REQ-07",
+   "UHA-REQ-08",
+   "UHA-REQ-09",
+   "UHA06",
+   "UHA08",
+   "ASTROCARTOGRAPHY/RELOCATION/LOCAL_SPACE/PARANS (v1.7)",
+   "GAP-033",
+   "GAP-034"
+  ],
+  "phase": "BOOT-01",
+  "owner_engine": "LocalSpace",
+  "category": "CALCULATION",
+  "intent": "AC/DC/MC/IC geometry, relocation, Local Space, parans",
+  "canonical_source": "§28–29; §34–35; §38; §43",
+  "status": "RIGHTS_BLOCKED",
+  "evidence_note": "astro.astrocartography.v1 activation_gate EPHEMERIS_RIGHTS; geometry spec itself is EXACT_MATH but positions need licensed ephemeris"
+ },
+ {
+  "req_id": "XRAI-HD_DESIGN_EPOCH",
+  "v30_family_id": "XRAI-HD_DESIGN_EPOCH",
+  "legacy_ids": [
+   "HD_DESIGN_EPOCH (v1.7)",
+   "GAP-030",
+   "v2.1 §28.4.1"
+  ],
+  "phase": "BOOT-01",
+  "owner_engine": "HumanDesign",
+  "category": "CALCULATION",
+  "intent": "Solar longitude −88° in specific version; not 88 days",
+  "canonical_source": "§28–29; §34–35; §38; §43",
+  "status": "RIGHTS_BLOCKED",
+  "evidence_note": "hd.design_sun_minus_88deg.v1 gate EPHEMERIS_AND_HD_METHOD_RIGHTS; ADR-009 BLOCKED"
+ },
+ {
+  "req_id": "XRAI-HD_GATES_LINES",
+  "v30_family_id": "XRAI-HD_GATES_LINES",
+  "legacy_ids": [
+   "HD_GATE_CENTER_GRAPH (v1.7)",
+   "D08",
+   "GAP-031",
+   "DEC-02"
+  ],
+  "phase": "BOOT-01",
+  "owner_engine": "HumanDesign",
+  "category": "CALCULATION",
+  "intent": "64 gate and six-line source map with wrap/tolerance",
+  "canonical_source": "§28–29; §34–35; §38; §43",
+  "status": "RIGHTS_BLOCKED",
+  "evidence_note": "hd.gate_line_map.v1 gate BLOCKED_UNTIL_SOURCE_METHOD; v3.0 blocker HD_METHOD_RIGHTS; ADR-009 BLOCKED"
+ },
+ {
+  "req_id": "XRAI-HD_CENTERS_CHANNELS",
+  "v30_family_id": "XRAI-HD_CENTERS_CHANNELS",
+  "legacy_ids": [
+   "HD_GATE_CENTER_GRAPH (v1.7)",
+   "D07"
+  ],
+  "phase": "BOOT-01",
+  "owner_engine": "HumanDesign",
+  "category": "CALCULATION",
+  "intent": "36 complete channel edges, 9 centers, color/definition",
+  "canonical_source": "§28–29; §34–35; §38; §43",
+  "status": "RIGHTS_BLOCKED",
+  "evidence_note": "hd.bodygraph.v1 gate BLOCKED_UNTIL_INDEPENDENT_FIXTURE; depends on gate map rights; ADR-009 BLOCKED"
+ },
+ {
+  "req_id": "XRAI-HD_TYPE_AUTHORITY",
+  "v30_family_id": "XRAI-HD_TYPE_AUTHORITY",
+  "legacy_ids": [
+   "HD_GATE_CENTER_GRAPH (v1.7)",
+   "v2.1 §28.4.2"
+  ],
+  "phase": "BOOT-01",
+  "owner_engine": "HumanDesign",
+  "category": "CALCULATION",
+  "intent": "Tradition-versioned type and authority decision tree",
+  "canonical_source": "§28–29; §34–35; §38; §43",
+  "status": "RIGHTS_BLOCKED",
+  "evidence_note": "decision tables depend on rights-cleared gate map and tradition variant (ADR-009 BLOCKED; OPEN_DECISIONS HD_METHOD_COMPLETENESS)"
+ },
+ {
+  "req_id": "XRAI-HD_PROFILE",
+  "v30_family_id": "XRAI-HD_PROFILE",
+  "legacy_ids": [
+   "HD_ADVANCED (v1.7)",
+   "D09"
+  ],
+  "phase": "BOOT-01",
+  "owner_engine": "HumanDesign",
+  "category": "CALCULATION",
+  "intent": "Twelve classic profile combinations as symbolic classification",
+  "canonical_source": "§28–29; §34–35; §38; §43",
+  "status": "RIGHTS_BLOCKED",
+  "evidence_note": "depends on gate/line map rights (ADR-009 BLOCKED)"
+ },
+ {
+  "req_id": "XRAI-UNSURE_BIRTHTIME",
+  "v30_family_id": "XRAI-UNSURE_BIRTHTIME",
+  "legacy_ids": [
+   "AST-032",
+   "GAP-033",
+   "PUP09"
+  ],
+  "phase": "BOOT-01",
+  "owner_engine": "OctopusOrchestrator",
+  "category": "CALCULATION",
+  "intent": "Robust abstention or plausible interval instead of fabricated precision",
+  "canonical_source": "§28–29; §34–35; §38; §43",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-BRAIN_9RESP",
+  "v30_family_id": "XRAI-BRAIN_9RESP",
+  "legacy_ids": [
+   "v2.1 §34.3",
+   "GAP-011",
+   "GAP-027"
+  ],
+  "phase": "P4",
+  "owner_engine": "LocalModelRuntime",
+  "category": "INTELLIGENCE",
+  "intent": "Governed responsibilities rather than autonomous uncapped LLM swarm",
+  "canonical_source": "§33–35; §42–44",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-MODEL_ROUTER",
+  "v30_family_id": "XRAI-MODEL_ROUTER",
+  "legacy_ids": [
+   "XRAI_OCTOPUS_MODEL_ROUTER_v1.8",
+   "XRAI_AI_MODEL_ROUTER_POLICY_v1.7",
+   "UHA-REQ-15",
+   "GAP-027"
+  ],
+  "phase": "P4",
+  "owner_engine": "PrivacyKernel",
+  "category": "INTELLIGENCE",
+  "intent": "Deterministic → local model → explicit remote with consent and budget",
+  "canonical_source": "§33–35; §42–44",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-LOCAL_MODEL_BENCH",
+  "v30_family_id": "XRAI-LOCAL_MODEL_BENCH",
+  "legacy_ids": [
+   "LOCAL_LLM_BENCH (v3.0 blocker)",
+   "ADR-005"
+  ],
+  "phase": "P4",
+  "owner_engine": "Learning",
+  "category": "INTELLIGENCE",
+  "intent": "Apple/Gemma/Core ML/Metal comparative device evidence",
+  "canonical_source": "§33–35; §42–44",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-PERSONAL_GRAPH",
+  "v30_family_id": "XRAI-PERSONAL_GRAPH",
+  "legacy_ids": [
+   "REQ-IDENTITY-001",
+   "C07",
+   "C08",
+   "L3 Life Memory Graph (v0.4 §4)"
+  ],
+  "phase": "P4",
+  "owner_engine": "SecureVault",
+  "category": "INTELLIGENCE",
+  "intent": "Encrypted, user-controlled events, aspirations, citations and memory",
+  "canonical_source": "§33–35; §42–44",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-RAG_PROVENANCE",
+  "v30_family_id": "XRAI-RAG_PROVENANCE",
+  "legacy_ids": [
+   "H02",
+   "F05",
+   "GAP-014",
+   "AST-029",
+   "UHA-REQ-12"
+  ],
+  "phase": "P4",
+  "owner_engine": "KnowledgeDNA",
+  "category": "INTELLIGENCE",
+  "intent": "Per-claim source, rights, method, contradictions and versions",
+  "canonical_source": "§33–35; §42–44",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-OIE",
+  "v30_family_id": "XRAI-OIE",
+  "legacy_ids": [
+   "v2.1 §35.3",
+   "F01"
+  ],
+  "phase": "P4",
+  "owner_engine": "WisdomAtlas",
+  "category": "INTELLIGENCE",
+  "intent": "Original symbolic interpretation with non-deterministic phrasing",
+  "canonical_source": "§33–35; §42–44",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-MENTOR_LENSES",
+  "v30_family_id": "XRAI-MENTOR_LENSES",
+  "legacy_ids": [
+   "GAP-009",
+   "GAP-010",
+   "GAP-012",
+   "DEC-09",
+   "v2.1 §32.10"
+  ],
+  "phase": "P4",
+  "owner_engine": "OctopusOrchestrator",
+  "category": "INTELLIGENCE",
+  "intent": "Historical mentor inspiration with no imposture or fabricated quotations",
+  "canonical_source": "§33–35; §42–44",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-FUTURE_SELF",
+  "v30_family_id": "XRAI-FUTURE_SELF",
+  "legacy_ids": [
+   "REQ-FUTURE-001",
+   "E01",
+   "E02",
+   "E03",
+   "F03",
+   "PUP03"
+  ],
+  "phase": "P4",
+  "owner_engine": "FutureSelf",
+  "category": "INTELLIGENCE",
+  "intent": "Counterfactual scenario twin, no prediction or true simulated consciousness",
+  "canonical_source": "§33–35; §42–44",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-QUALITY_EVAL",
+  "v30_family_id": "XRAI-QUALITY_EVAL",
+  "legacy_ids": [
+   "H06",
+   "OPS03",
+   "STO02",
+   "GAP-048",
+   "GAP-058"
+  ],
+  "phase": "P4",
+  "owner_engine": "PrivacyKernel",
+  "category": "INTELLIGENCE",
+  "intent": "Grounding, refusal, hallucination, poisoning, offline regressions",
+  "canonical_source": "§33–35; §42–44",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-COLLECTIVE_OPTIN",
+  "v30_family_id": "XRAI-COLLECTIVE_OPTIN",
+  "legacy_ids": [
+   "G03",
+   "GAP-051",
+   "GAP-057",
+   "GAP-059",
+   "DEC-08"
+  ],
+  "phase": "P4",
+  "owner_engine": "PrivacyKernel",
+  "category": "INTELLIGENCE",
+  "intent": "Privacy-governed optional quality signals and public source correction",
+  "canonical_source": "§33–35; §42–44",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-MIGRATION_MODELS",
+  "v30_family_id": "XRAI-MIGRATION_MODELS",
+  "legacy_ids": [
+   "GAP-048",
+   "H05"
+  ],
+  "phase": "P4",
+  "owner_engine": "PrivacyKernel",
+  "category": "INTELLIGENCE",
+  "intent": "Version update, rollback, prompt/model golden regression",
+  "canonical_source": "§33–35; §42–44",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-16PERSONALITIES",
+  "v30_family_id": "XRAI-16PERSONALITIES",
+  "legacy_ids": [
+   "A07",
+   "C03",
+   "MBTI_16PSYCH_RIGHTS (v3.0 blocker)",
+   "ADR-008",
+   "v1.0 open decision 5"
+  ],
+  "phase": "P8",
+  "owner_engine": "Psychology",
+  "category": "PSYCHOLOGY_WISDOM",
+  "intent": "16-type style nonclinical self-report; rights and validity limitations",
+  "canonical_source": "§29–31; §36–38; §43–47",
+  "status": "RIGHTS_BLOCKED",
+  "evidence_note": "ADR-008 BLOCKED; OPEN_DECISIONS PSYCHOLOGICAL_INSTRUMENT; v3.0 blocker MBTI_16PSYCH_RIGHTS"
+ },
+ {
+  "req_id": "XRAI-BIG_FIVE",
+  "v30_family_id": "XRAI-BIG_FIVE",
+  "legacy_ids": [
+   "C03",
+   "v1.0 open decision 5 (IPIP/O*NET)"
+  ],
+  "phase": "P8",
+  "owner_engine": "Psychology",
+  "category": "PSYCHOLOGY_WISDOM",
+  "intent": "Evidence-aware optional traits and licensed instruments",
+  "canonical_source": "§29–31; §36–38; §43–47",
+  "status": "RIGHTS_BLOCKED",
+  "evidence_note": "psych.big_five.v1 gate LICENSED_QUESTIONNAIRE_VALIDATION; no licensed item bank registered (SOURCE_RIGHTS JUNG_MASLOW = EDITION_AND_LICENSE_GATE)"
+ },
+ {
+  "req_id": "XRAI-JUNG",
+  "v30_family_id": "XRAI-JUNG",
+  "legacy_ids": [
+   "v3.1 §57F",
+   "KNOWLEDGE_LENS_CANDIDATES_32_v1.9"
+  ],
+  "phase": "P8",
+  "owner_engine": "Psychology",
+  "category": "PSYCHOLOGY_WISDOM",
+  "intent": "Individuation, archetypes and Jung historical context",
+  "canonical_source": "§29–31; §36–38; §43–47",
+  "status": "SOURCE_UNVERIFIED",
+  "evidence_note": "SOURCE_RIGHTS JUNG_MASLOW = EDITION_AND_LICENSE_GATE, NOT_ALL_APPROVED; no edition registered"
+ },
+ {
+  "req_id": "XRAI-MASLOW",
+  "v30_family_id": "XRAI-MASLOW",
+  "legacy_ids": [
+   "v2.1 §28.2",
+   "PUP06",
+   "HumanFlourishingResearcher"
+  ],
+  "phase": "P8",
+  "owner_engine": "Psychology",
+  "category": "PSYCHOLOGY_WISDOM",
+  "intent": "Needs and growth with no human-worth transcendence score",
+  "canonical_source": "§29–31; §36–38; §43–47",
+  "status": "SOURCE_UNVERIFIED",
+  "evidence_note": "SOURCE_RIGHTS JUNG_MASLOW = EDITION_AND_LICENSE_GATE, NOT_ALL_APPROVED"
+ },
+ {
+  "req_id": "XRAI-PHILOSOPHY",
+  "v30_family_id": "XRAI-PHILOSOPHY",
+  "legacy_ids": [
+   "v2.1 §32.10",
+   "ST08"
+  ],
+  "phase": "P8",
+  "owner_engine": "Psychology",
+  "category": "PSYCHOLOGY_WISDOM",
+  "intent": "Pythagoras/Socrates/Plato/Aristotle/Jung/Einstein/Tesla/Lovelace etc.",
+  "canonical_source": "§29–31; §36–38; §43–47",
+  "status": "SOURCE_UNVERIFIED",
+  "evidence_note": "no per-figure source/edition registry exists yet (v3.2 §71 requires attributable public knowledge, per-edition rights)"
+ },
+ {
+  "req_id": "XRAI-HERMETICISM",
+  "v30_family_id": "XRAI-HERMETICISM",
+  "legacy_ids": [
+   "v2.1 §36.3",
+   "KNOWLEDGE_LENS_CANDIDATES_32_v1.9"
+  ],
+  "phase": "P8",
+  "owner_engine": "Psychology",
+  "category": "PSYCHOLOGY_WISDOM",
+  "intent": "As above so below, historical Hermeticism and alchemical history",
+  "canonical_source": "§29–31; §36–38; §43–47",
+  "status": "SOURCE_UNVERIFIED",
+  "evidence_note": "no Hermetic corpus edition registered in SOURCE_RIGHTS_AND_EVIDENCE_v3.1 (only KNOWLEDGE_LENS_CANDIDATES_32_v1.9 names)"
+ },
+ {
+  "req_id": "XRAI-NUM_SYMBOL",
+  "v30_family_id": "XRAI-NUM_SYMBOL",
+  "legacy_ids": [
+   "I_CHING/KABBALAH_GEMATRIA/BAZI/TAROT_CHARKA_MUDRA (v1.7)",
+   "GAP-031"
+  ],
+  "phase": "P8",
+  "owner_engine": "Numerology",
+  "category": "PSYCHOLOGY_WISDOM",
+  "intent": "Kabbalah/Gematria, Tarot, I Ching, Chinese BaZi traditions separate",
+  "canonical_source": "§29–31; §36–38; §43–47",
+  "status": "SOURCE_UNVERIFIED",
+  "evidence_note": "cabala.gematria.v1 / iching.hexagrams.v1 / bazi.solar_terms.v1 gates TRADITION_SOURCE_RIGHTS / RIGHTS_AND_SOURCED_TRADITION / METHOD_REFERENCE_VERIFICATION; no tradition source registered in SOURCE_RIGHTS_AND_EVIDENCE_v3.1"
+ },
+ {
+  "req_id": "XRAI-CHAKRA_MUDRA",
+  "v30_family_id": "XRAI-CHAKRA_MUDRA",
+  "legacy_ids": [
+   "TAROT_CHARKA_MUDRA (v1.7)"
+  ],
+  "phase": "P8",
+  "owner_engine": "Psychology",
+  "category": "PSYCHOLOGY_WISDOM",
+  "intent": "Cultural contemplative practices, not clinical evidence",
+  "canonical_source": "§29–31; §36–38; §43–47",
+  "status": "SOURCE_UNVERIFIED",
+  "evidence_note": "no tradition source registered; v1.7 TAROT_CHARKA_MUDRA = rights_cleared_content required"
+ },
+ {
+  "req_id": "XRAI-ENERGY_PHYSICS",
+  "v30_family_id": "XRAI-ENERGY_PHYSICS",
+  "legacy_ids": [
+   "UHA-REQ-13",
+   "GAP-002",
+   "ScientificMisuseAuditor"
+  ],
+  "phase": "P8",
+  "owner_engine": "Psychology",
+  "category": "PSYCHOLOGY_WISDOM",
+  "intent": "Hertz/E=mc²/quantum/double slit/torus scientifically correct, non-spiritual proof",
+  "canonical_source": "§29–31; §36–38; §43–47",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-BOOK_OF_WISDOM",
+  "v30_family_id": "XRAI-BOOK_OF_WISDOM",
+  "legacy_ids": [
+   "v2.1 §36",
+   "v2.1 §37",
+   "BOOK_OF_WISDOM_COMPLETE (v3.0 blocker)",
+   "XRAI_CLAUDE_COMPLETE_BOOK_RESEARCH_PACKAGE_v2.0"
+  ],
+  "phase": "P8",
+  "owner_engine": "Psychology",
+  "category": "PSYCHOLOGY_WISDOM",
+  "intent": "Source-limited Harry B. Joseph book screenshot thematic research ledger",
+  "canonical_source": "§29–31; §36–38; §43–47",
+  "status": "SOURCE_UNVERIFIED",
+  "evidence_note": "SOURCE_RIGHTS BOW_JOSEPH coverage 'no full text or rights'; OPEN_DECISIONS BOW_FULL_COVERAGE; SOURCE_AND_ARTIFACT_PROVENANCE external_books_incomplete"
+ },
+ {
+  "req_id": "XRAI-CLASSICAL_BOOKS",
+  "v30_family_id": "XRAI-CLASSICAL_BOOKS",
+  "legacy_ids": [
+   "v2.1 §38",
+   "CLASSICAL_SOURCE_AND_EDITION_REGISTRY_v2.1",
+   "AST-031"
+  ],
+  "phase": "P8",
+  "owner_engine": "Psychology",
+  "category": "PSYCHOLOGY_WISDOM",
+  "intent": "Classical astrology edition and rights provenance",
+  "canonical_source": "§29–31; §36–38; §43–47",
+  "status": "RIGHTS_BLOCKED",
+  "evidence_note": "SOURCE_RIGHTS PTOLEMY_TETRA/VALENS_ANTHO/DOROTHEUS_CARMEN/LILLY_CHRISTIAN all NOT_ALL_APPROVED; v3.0 blocker ANCIENT_MODERN_EDITIONS"
+ },
+ {
+  "req_id": "XRAI-SPIRITUAL_BOUNDARIES",
+  "v30_family_id": "XRAI-SPIRITUAL_BOUNDARIES",
+  "legacy_ids": [
+   "GAP-001",
+   "UHA-REQ-01",
+   "LF-02",
+   "v2.1 §28.1"
+  ],
+  "phase": "P8",
+  "owner_engine": "Psychology",
+  "category": "PSYCHOLOGY_WISDOM",
+  "intent": "Meaning, values, purpose only user-chosen, never certainty",
+  "canonical_source": "§29–31; §36–38; §43–47",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-FACE_PALM",
+  "v30_family_id": "XRAI-FACE_PALM",
+  "legacy_ids": [
+   "REQ-SYMBOLIC-001",
+   "D10",
+   "D11",
+   "D12",
+   "D13"
+  ],
+  "phase": "P8",
+  "owner_engine": "Psychology",
+  "category": "PSYCHOLOGY_WISDOM",
+  "intent": "Optional historical-symbolic curiosity; no sensitive or cognitive inference",
+  "canonical_source": "§29–31; §36–38; §43–47",
+  "status": "SOURCE_UNVERIFIED",
+  "evidence_note": "no historical palmistry/physiognomy source registered; feature itself optional and non-inferential"
+ },
+ {
+  "req_id": "XRAI-SECURE_VAULT",
+  "v30_family_id": "XRAI-SECURE_VAULT",
+  "legacy_ids": [
+   "REQ-PRIVACY-001",
+   "v2.1 §33.4",
+   "GAP-021",
+   "ON_DEVICE_VAULT (v3.0 blocker)",
+   "XRAI_SECURITY_THREAT_MODEL_v1.0"
+  ],
+  "phase": "P1",
+  "owner_engine": "SecureVault",
+  "category": "SECURITY_PRIVACY",
+  "intent": "Encrypted local user data with keychain-managed envelope policy",
+  "canonical_source": "§33–35; §39; §45",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-KEY_RECOVERY",
+  "v30_family_id": "XRAI-KEY_RECOVERY",
+  "legacy_ids": [
+   "GAP-024",
+   "DEC-07",
+   "DATA_RECOVERY_POLICY (v3.0 blocker)"
+  ],
+  "phase": "P1",
+  "owner_engine": "PrivacyKernel",
+  "category": "SECURITY_PRIVACY",
+  "intent": "DeviceOnly vs recoverability and backup documented honestly",
+  "canonical_source": "§33–35; §39; §45",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-LOG_CACHE_WAL",
+  "v30_family_id": "XRAI-LOG_CACHE_WAL",
+  "legacy_ids": [
+   "GAP-022"
+  ],
+  "phase": "P1",
+  "owner_engine": "SecureVault",
+  "category": "SECURITY_PRIVACY",
+  "intent": "Encrypted ephemeral files, crash traces, embedding indexes and backups",
+  "canonical_source": "§33–35; §39; §45",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-EGRESS_DENY",
+  "v30_family_id": "XRAI-EGRESS_DENY",
+  "legacy_ids": [
+   "UHA-REQ-15",
+   "PUP08",
+   "UHAOPS03",
+   "XRAI_PRIVACY_DATA_EGRESS_MATRIX_v1.7",
+   "XRAI_DATA_PURPOSE_EGRESS_MATRIX_v1.2"
+  ],
+  "phase": "P1",
+  "owner_engine": "PrivacyKernel",
+  "category": "SECURITY_PRIVACY",
+  "intent": "Fail-closed capability broker per-data-class",
+  "canonical_source": "§33–35; §39; §45",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-CLOUD_AI_OPTIN",
+  "v30_family_id": "XRAI-CLOUD_AI_OPTIN",
+  "legacy_ids": [
+   "G04",
+   "DEC-08",
+   "CLOUD_CONSENT_LEGAL (v3.1 decision)"
+  ],
+  "phase": "P1",
+  "owner_engine": "PrivacyKernel",
+  "category": "SECURITY_PRIVACY",
+  "intent": "Specific consent, redact, show recipients, no automatic fallback",
+  "canonical_source": "§33–35; §39; §45",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-CRYPTO_AGILITY",
+  "v30_family_id": "XRAI-CRYPTO_AGILITY",
+  "legacy_ids": [
+   "v0.4 handoff §7"
+  ],
+  "phase": "P1",
+  "owner_engine": "PrivacyKernel",
+  "category": "SECURITY_PRIVACY",
+  "intent": "Audited crypto; key rotation, PQ migration planning",
+  "canonical_source": "§33–35; §39; §45",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-THREAT_MODEL",
+  "v30_family_id": "XRAI-THREAT_MODEL",
+  "legacy_ids": [
+   "XRAI_SECURITY_THREAT_MODEL_v1.0",
+   "GAP-025"
+  ],
+  "phase": "P1",
+  "owner_engine": "PrivacyKernel",
+  "category": "SECURITY_PRIVACY",
+  "intent": "Prompt injection, compromised SDK, thief, jailbreak, insider, poisoned PDF",
+  "canonical_source": "§33–35; §39; §45",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-DELETION_EXPORT",
+  "v30_family_id": "XRAI-DELETION_EXPORT",
+  "legacy_ids": [
+   "G05",
+   "G06",
+   "GAP-060"
+  ],
+  "phase": "P1",
+  "owner_engine": "PrivacyKernel",
+  "category": "SECURITY_PRIVACY",
+  "intent": "Verified device export/delete/consent revocation semantics",
+  "canonical_source": "§33–35; §39; §45",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-APP_PERMISSIONS",
+  "v30_family_id": "XRAI-APP_PERMISSIONS",
+  "legacy_ids": [
+   "G02",
+   "D10",
+   "F07"
+  ],
+  "phase": "P1",
+  "owner_engine": "PrivacyKernel",
+  "category": "SECURITY_PRIVACY",
+  "intent": "Minimal microphone/photo/location/camera purpose and life-cycle gates",
+  "canonical_source": "§33–35; §39; §45",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-MINOR_SEPARATION",
+  "v30_family_id": "XRAI-MINOR_SEPARATION",
+  "legacy_ids": [
+   "GAP-042",
+   "GAP-056",
+   "DEC-11",
+   "CHILDREN_CONSENT (v3.0 blocker)"
+  ],
+  "phase": "P1",
+  "owner_engine": "PrivacyKernel",
+  "category": "SECURITY_PRIVACY",
+  "intent": "Adult private XRAI not used for school/minor spiritual profiling",
+  "canonical_source": "§33–35; §39; §45",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-SEVEN_DIMENSIONS",
+  "v30_family_id": "XRAI-SEVEN_DIMENSIONS",
+  "legacy_ids": [
+   "v2.1 §32.2",
+   "XRAI_7_DIMENSION_SERVICE_CATALOG_v1.5",
+   "GAP-003"
+  ],
+  "phase": "P5",
+  "owner_engine": "Learning",
+  "category": "FLOURISHING_EDUCATION",
+  "intent": "7 nonlinear and user-selected growth dimensions",
+  "canonical_source": "§30–33; §41; §46",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-GOAL_DAG",
+  "v30_family_id": "XRAI-GOAL_DAG",
+  "legacy_ids": [
+   "REQ-LIFELONG-001",
+   "L01-L06",
+   "LLE-01..LLE-03",
+   "E04"
+  ],
+  "phase": "P5",
+  "owner_engine": "FutureSelf",
+  "category": "FLOURISHING_EDUCATION",
+  "intent": "5–10y→year→90d→month→week→day, rest and capacity",
+  "canonical_source": "§30–33; §41; §46",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-MICRO_LESSONS",
+  "v30_family_id": "XRAI-MICRO_LESSONS",
+  "legacy_ids": [
+   "E08",
+   "GAP-013",
+   "GAP-016",
+   "LF-08",
+   "D3-L01..D3-L05"
+  ],
+  "phase": "P5",
+  "owner_engine": "Learning",
+  "category": "FLOURISHING_EDUCATION",
+  "intent": "Real available original/licensed lessons and exercises",
+  "canonical_source": "§30–33; §41; §46",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-PRACTICE_LABS",
+  "v30_family_id": "XRAI-PRACTICE_LABS",
+  "legacy_ids": [
+   "E10",
+   "GAP-015"
+  ],
+  "phase": "P5",
+  "owner_engine": "Learning",
+  "category": "FLOURISHING_EDUCATION",
+  "intent": "Hands-on challenges, lab, feedback and safe fallbacks",
+  "canonical_source": "§30–33; §41; §46",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-PROOF_P0_P5",
+  "v30_family_id": "XRAI-PROOF_P0_P5",
+  "legacy_ids": [
+   "REQ-IMPACT-001",
+   "I01-I06",
+   "RWIP-01",
+   "GAP-017",
+   "GAP-019",
+   "LF-05"
+  ],
+  "phase": "P5",
+  "owner_engine": "Learning",
+  "category": "FLOURISHING_EDUCATION",
+  "intent": "Intention to retention rubric/provenance without fake skill claims",
+  "canonical_source": "§30–33; §41; §46",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-USER_VALUE",
+  "v30_family_id": "XRAI-USER_VALUE",
+  "legacy_ids": [
+   "GAP-003",
+   "ST01",
+   "LifeCoherenceAgent"
+  ],
+  "phase": "P5",
+  "owner_engine": "FutureSelf",
+  "category": "FLOURISHING_EDUCATION",
+  "intent": "No imposed moral rank or altruism, user freely chooses goals",
+  "canonical_source": "§30–33; §41; §46",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-REPLAN",
+  "v30_family_id": "XRAI-REPLAN",
+  "legacy_ids": [
+   "L06",
+   "LLE-07",
+   "LF-01"
+  ],
+  "phase": "P5",
+  "owner_engine": "Learning",
+  "category": "FLOURISHING_EDUCATION",
+  "intent": "Evidence-based iteration and user correction, reversible suggestions",
+  "canonical_source": "§30–33; §41; §46",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-AHTOVIA_BRIDGE",
+  "v30_family_id": "XRAI-AHTOVIA_BRIDGE",
+  "legacy_ids": [
+   "ADR-010",
+   "ADR_015 (v1.5)",
+   "v2.1 §32.1",
+   "GAP-041",
+   "GAP-043",
+   "GAP-044"
+  ],
+  "phase": "P5",
+  "owner_engine": "FutureSelf",
+  "category": "FLOURISHING_EDUCATION",
+  "intent": "Future scoped typed learning receipts, separate trust domain",
+  "canonical_source": "§30–33; §41; §46",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-INDEPENDENCE",
+  "v30_family_id": "XRAI-INDEPENDENCE",
+  "legacy_ids": [
+   "ST03",
+   "LF-06",
+   "AutonomyGraduationGuide"
+  ],
+  "phase": "P5",
+  "owner_engine": "Learning",
+  "category": "FLOURISHING_EDUCATION",
+  "intent": "Success includes graduation from AI dependency",
+  "canonical_source": "§30–33; §41; §46",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-FREEMIUM",
+  "v30_family_id": "XRAI-FREEMIUM",
+  "legacy_ids": [
+   "REQ-FREEMIUM-001",
+   "M01",
+   "M02",
+   "GAP-006",
+   "GAP-039"
+  ],
+  "phase": "P10",
+  "owner_engine": "OctopusOrchestrator",
+  "category": "MONETIZATION_RELEASE",
+  "intent": "Free actual value, paid unlock only for real shipped functionality",
+  "canonical_source": "§32–34; §48–50",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-STOREKIT2",
+  "v30_family_id": "XRAI-STOREKIT2",
+  "legacy_ids": [
+   "M02",
+   "G09",
+   "GAP-037",
+   "GAP-038",
+   "DEC-06",
+   "APP_STORE_PRICE (v3.0 blocker)"
+  ],
+  "phase": "P10",
+  "owner_engine": "StoreKit",
+  "category": "MONETIZATION_RELEASE",
+  "intent": "Price localized and signed purchase/restore/refunds/grace",
+  "canonical_source": "§32–34; §48–50",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-APPLE_4_3",
+  "v30_family_id": "XRAI-APPLE_4_3",
+  "legacy_ids": [
+   "GAP-053",
+   "STORE_REVIEW (v3.0 blocker)",
+   "XRAI_APP_REVIEW_GATES_v1.2"
+  ],
+  "phase": "P10",
+  "owner_engine": "OctopusOrchestrator",
+  "category": "MONETIZATION_RELEASE",
+  "intent": "Original differentiated product and truthful descriptions",
+  "canonical_source": "§32–34; §48–50",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-LEGAL_IP",
+  "v30_family_id": "XRAI-LEGAL_IP",
+  "legacy_ids": [
+   "DEC-01",
+   "DEC-02",
+   "TRADEMARK (v3.0 blocker)",
+   "H04"
+  ],
+  "phase": "P10",
+  "owner_engine": "HumanDesign",
+  "category": "MONETIZATION_RELEASE",
+  "intent": "Edition/ephemeris/HD assets, trademark, privacy policy, age",
+  "canonical_source": "§32–34; §48–50",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-DEVOPS",
+  "v30_family_id": "XRAI-DEVOPS",
+  "legacy_ids": [
+   "H01",
+   "H07",
+   "H08",
+   "GAP-061",
+   "GAP-062"
+  ],
+  "phase": "P10",
+  "owner_engine": "OctopusOrchestrator",
+  "category": "MONETIZATION_RELEASE",
+  "intent": "CI, release signing, SBOM, crash recovery, staged rollout",
+  "canonical_source": "§32–34; §48–50",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-METRICS",
+  "v30_family_id": "XRAI-METRICS",
+  "legacy_ids": [
+   "H09",
+   "Q03",
+   "GAP-049",
+   "v2.1 §32.18"
+  ],
+  "phase": "P10",
+  "owner_engine": "PrivacyKernel",
+  "category": "MONETIZATION_RELEASE",
+  "intent": "Measured latency/thermal/cost/quality and opt-in privacy-safe analytics",
+  "canonical_source": "§32–34; §48–50",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-QUALITY_GATES",
+  "v30_family_id": "XRAI-QUALITY_GATES",
+  "legacy_ids": [
+   "v2.1 §33.9",
+   "XRAI_RELEASE_GATES_v1.7",
+   "ReleaseIndependentReviewer"
+  ],
+  "phase": "P10",
+  "owner_engine": "PrivacyKernel",
+  "category": "MONETIZATION_RELEASE",
+  "intent": "Independent security, privacy, accessibility, source and Apple review audits",
+  "canonical_source": "§32–34; §48–50",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-GLOBAL_LOCALIZE",
+  "v30_family_id": "XRAI-GLOBAL_LOCALIZE",
+  "legacy_ids": [
+   "GAP-056",
+   "DEC-05",
+   "DEC-12",
+   "Q03"
+  ],
+  "phase": "P10",
+  "owner_engine": "OctopusOrchestrator",
+  "category": "MONETIZATION_RELEASE",
+  "intent": "Locale, laws, taxes, translations, CDN cost",
+  "canonical_source": "§32–34; §48–50",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-REPLICA_RECON",
+  "v30_family_id": "XRAI-REPLICA_RECON",
+  "legacy_ids": [
+   "REPLICA_SKILL_SECURITY (v3.0 blocker)",
+   "v2.1 §35.1"
+  ],
+  "phase": "BOOT-00",
+  "owner_engine": "OctopusOrchestrator",
+  "category": "COMPETITOR_TOOLS",
+  "intent": "Permitted UX competitor observation; no decompilation/DRM/access circumvention",
+  "canonical_source": "§35; §39–48",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-SKILLS_MCP_AUDIT",
+  "v30_family_id": "XRAI-SKILLS_MCP_AUDIT",
+  "legacy_ids": [
+   "MCP_SKILLS_APIS_CAPABILITY_GATES_v3",
+   "REPLICA_SKILL_SECURITY (v3.0 blocker)"
+  ],
+  "phase": "BOOT-00",
+  "owner_engine": "Learning",
+  "category": "COMPETITOR_TOOLS",
+  "intent": "Inspect skill prompts/scripts/license/permissions before install",
+  "canonical_source": "§35; §39–48",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-PROVIDER_EVAL",
+  "v30_family_id": "XRAI-PROVIDER_EVAL",
+  "legacy_ids": [
+   "XRAI_PROVIDER_LEGAL_AND_SOURCE_REGISTRY_v1.8",
+   "ADR-005"
+  ],
+  "phase": "BOOT-00",
+  "owner_engine": "LocalModelRuntime",
+  "category": "COMPETITOR_TOOLS",
+  "intent": "Measure local models and remote providers rather than vendor lock",
+  "canonical_source": "§35; §39–48",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-CLEAN_ROOM",
+  "v30_family_id": "XRAI-CLEAN_ROOM",
+  "legacy_ids": [
+   "v2.1 §28.4.3",
+   "GAP-029",
+   "UHA-REQ-14",
+   "AST-031"
+  ],
+  "phase": "BOOT-00",
+  "owner_engine": "KnowledgeDNA",
+  "category": "COMPETITOR_TOOLS",
+  "intent": "Separate public behavioral specs from original code and rights",
+  "canonical_source": "§35; §39–48",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI-CODE_DISCIPLINE",
+  "v30_family_id": "XRAI-CODE_DISCIPLINE",
+  "legacy_ids": [
+   "GAP-061",
+   "v2.1 §28.10"
+  ],
+  "phase": "BOOT-00",
+  "owner_engine": "DesignSystem",
+  "category": "COMPETITOR_TOOLS",
+  "intent": "SwiftUI modular worktrees, golden tests, no false DONE",
+  "canonical_source": "§35; §39–48",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI31-PERSONAL-SIGNAL-TRANSPARENCY",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "UHA-REQ-05",
+   "UHA-REQ-06",
+   "GAP-054",
+   "UHA01"
+  ],
+  "phase": "P02",
+  "owner_engine": "PrivacyKernel",
+  "category": "v3.1 operational delta",
+  "intent": "No covert profiling; optional explainable purpose-scoped inputs; user can correct/revoke",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI31-PARENT-NAMES",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "PARENT_NAME_SCOPE (v3.1 decision)",
+   "v3.2 §74"
+  ],
+  "phase": "P02",
+  "owner_engine": "IdentityInput",
+  "category": "v3.1 operational delta",
+  "intent": "Parents names optional separate rights/consent and no inferred parental psychological profile",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI31-SIBLING-ORDINAL",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "UHA05",
+   "FamilyLifeContext (v1.2 domain delta)"
+  ],
+  "phase": "P02",
+  "owner_engine": "IdentityInput",
+  "category": "v3.1 operational delta",
+  "intent": "User-declared birth-order/family context non-deterministic sociocultural lens",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI31-PROVENANCE-MULTILENS",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "GAP-004",
+   "AST-028",
+   "v3.2 §73"
+  ],
+  "phase": "P06",
+  "owner_engine": "ResponseVerifier",
+  "category": "v3.1 operational delta",
+  "intent": "Never combine astronomy, numerology, MBTI, HD into false objective personality score",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI31-HD-88-DEGREES",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "GAP-030",
+   "HD_DESIGN_EPOCH (v1.7)"
+  ],
+  "phase": "P09",
+  "owner_engine": "HumanDesign",
+  "category": "v3.1 operational delta",
+  "intent": "Root-find Sun longitude -88 degrees with golden vector; not -88 days",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "RIGHTS_BLOCKED",
+  "evidence_note": "same gate as XRAI-HD_DESIGN_EPOCH (ephemeris + HD method rights); root-solver spec itself is EXACT_MATH"
+ },
+ {
+  "req_id": "XRAI31-LOCALSPACE-PROVENANCE",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "UHA-REQ-08",
+   "UHA07",
+   "GAP-034",
+   "LOCAL_SPACE (v1.7)"
+  ],
+  "phase": "P08",
+  "owner_engine": "LocalSpace",
+  "category": "v3.1 operational delta",
+  "intent": "Validate historical location time, true azimuth and uncertainty",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI31-16-TYPE-RIGHTS",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "MBTI_16PSYCH_RIGHTS (v3.0 blocker)",
+   "ADR-008"
+  ],
+  "phase": "P07",
+  "owner_engine": "Psychology",
+  "category": "v3.1 operational delta",
+  "intent": "Original questionnaire or licensed instrument with honest validity and no diagnosis",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "RIGHTS_BLOCKED",
+  "evidence_note": "ADR-008 BLOCKED; psych.16_exploratory.v1 gate BRAND_AND_SCALE_RIGHTS"
+ },
+ {
+  "req_id": "XRAI31-SCIENCE-ENERGY-SEPARATION",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "UHA-REQ-13",
+   "GAP-002"
+  ],
+  "phase": "P10",
+  "owner_engine": "WisdomAtlas",
+  "category": "v3.1 operational delta",
+  "intent": "Measured energy/frequency separate from spiritual metaphor",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI31-MASLOW-NONLINEAR",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "v2.1 §28.2",
+   "GAP-003"
+  ],
+  "phase": "P05",
+  "owner_engine": "FutureSelf",
+  "category": "v3.1 operational delta",
+  "intent": "Maslow used as optional interpretive model, no linear worth score",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI31-TURKISH-MODEL-DEVICE-QA",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "LOCAL_LLM_BENCH (v3.0 blocker)",
+   "LOCAL_ML_TURKISH (v3.1 decision)"
+  ],
+  "phase": "P06",
+  "owner_engine": "LocalModelRuntime",
+  "category": "v3.1 operational delta",
+  "intent": "Check Turkish language and local device memory/battery before model choice",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI31-BOOK-CLEAN-ROOM",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "v2.1 §28.5",
+   "GAP-029",
+   "HD_BOOK_PARAGRAPHS (v3.0 blocker)"
+  ],
+  "phase": "P04",
+  "owner_engine": "KnowledgeDNA",
+  "category": "v3.1 operational delta",
+  "intent": "Research 298 images, no book duplication/training without rights",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "SOURCE_UNVERIFIED",
+  "evidence_note": "298/298 scans line_by_line_check = PENDING_DETAILED_READING (HUMAN_DESIGN_298_IMAGE_PAGE_TRACKER.csv); rights RIGHTS_REVIEW_REQUIRED"
+ },
+ {
+  "req_id": "XRAI31-DESIGN-ALL-STATES",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "GAP-007",
+   "v2.1 §32.13 general states"
+  ],
+  "phase": "P03",
+  "owner_engine": "DesignSystem",
+  "category": "v3.1 operational delta",
+  "intent": "Every UX state includes error/partial/offline/consent denied/accessibility",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI31-OCTOPUS-LEAST-PRIVILEGE",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "GAP-011",
+   "LocalSensitiveContextGovernor",
+   "v2.1 §35.6"
+  ],
+  "phase": "P06",
+  "owner_engine": "OctopusOrchestrator",
+  "category": "v3.1 operational delta",
+  "intent": "Roles receive scoped data, never all user life context",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI31-PHASE-BOOT-FIRST",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "BOOT_00_CONTRACT.json (2026-10-17 package)",
+   "P00/P01 (PHASE_EXECUTION_DAG_v3.1)"
+  ],
+  "phase": "P01",
+  "owner_engine": "ExactMath",
+  "category": "v3.1 operational delta",
+  "intent": "First code a verified local pure LifePath module after repo audit",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "CODED",
+  "evidence_note": "P01 pure Swift module exists (Packages/XRAICore); P00 audit = this document + docs/status/REPO_FACTS.json; CODED_PENDING_TEST_EVIDENCE (see docs/status/TEST_EVIDENCE_LEDGER.json); ledger records BOOT01-TEST-RUN1 failed 2/35 (swift_test_run1_FAILED_2_of_35.log) and BOOT01-TEST-RUN3 exit 0, 35/35 passed (swift_test_run3_PASS_35_of_35.log, sha256 d2aabfdb…); promotion to TESTED is the parent's/reviewer's call, not asserted by this audit"
+ },
+ {
+  "req_id": "XRAI31-COLLECTIVE-OPTIN",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "GAP-028",
+   "GAP-057",
+   "XRAI_COLLECTIVE_BRAIN_CONSENT_POLICY_v1.8"
+  ],
+  "phase": "P13",
+  "owner_engine": "EvolutionGovernor",
+  "category": "v3.1 operational delta",
+  "intent": "Local private adaptation, opt-in clean feedback, signed reviewed releases",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI31-BIRTH-TIME-UNKNOWN",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "AST-032",
+   "GAP-033"
+  ],
+  "phase": "P08",
+  "owner_engine": "Astronomy",
+  "category": "v3.1 operational delta",
+  "intent": "Unknown birth time reduces certainty, no fabricated precise houses/ASC",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI31-EVIDENCE-TIERS",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "RWIP-01",
+   "GAP-017"
+  ],
+  "phase": "P04",
+  "owner_engine": "Learning",
+  "category": "v3.1 operational delta",
+  "intent": "P0-5 evidence rubric, no view==mastery",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI31-FUTURESELF-FICTION",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "LF-03",
+   "E01",
+   "GAP-004"
+  ],
+  "phase": "P05",
+  "owner_engine": "FutureSelf",
+  "category": "v3.1 operational delta",
+  "intent": "Future Self simulated scenario, user chosen, never literal predictor",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ },
+ {
+  "req_id": "XRAI31-GEMATRIA-SCRIPT",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "KABBALAH_GEMATRIA (v1.7)",
+   "GAP-031"
+  ],
+  "phase": "P01",
+  "owner_engine": "Numerology",
+  "category": "v3.1 operational delta",
+  "intent": "Hebrew or Abjad require versioned authentic source text and user-visible mapping",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "SOURCE_UNVERIFIED",
+  "evidence_note": "cabala.gematria.v1 gate TRADITION_SOURCE_RIGHTS; no versioned alphabet source registered"
+ },
+ {
+  "req_id": "XRAI31-SPEC-TRUTH",
+  "v30_family_id": null,
+  "legacy_ids": [
+   "GAP-061",
+   "v2.1 §33.11"
+  ],
+  "phase": "P02",
+  "owner_engine": "PrivacyKernel",
+  "category": "v3.1 operational delta",
+  "intent": "No technical security claim without physical-device evidence",
+  "canonical_source": "§§54-69 v3.1 user request Oct 19 2026",
+  "status": "SPECIFIED",
+  "evidence_note": "spec only; REQUIREMENT_TO_ENGINE_MATRIX_v3.1 status SPECIFIED_NOT_VERIFIED; no code, no test"
+ }
+]

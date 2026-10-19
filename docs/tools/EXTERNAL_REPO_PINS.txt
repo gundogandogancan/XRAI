@@ -1,0 +1,11 @@
+Agent-Skills-for-Context-Engineering/ https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering.git 9ff0c99108b36d3b886defd825d8ac1f47dba374
+ECC/ https://github.com/affaan-m/ECC.git 76aaa77df6adc5b889e689007bf99b9a4f74af34
+agency-agents/ https://github.com/msitarzewski/agency-agents.git 4e3ac3ca6604c75113f52c695dbddcc7af928b46
+clodfarm/ https://github.com/matank001/clodfarm.git 25036daa30af643dbdc56f74bcd30c031d891145
+impeccable/ https://github.com/pbakaus/impeccable.git aeeb3d8c30b5f95aeeb3e893b0f1a308af8fdb8f
+planning-with-files/ https://github.com/OthmanAdi/planning-with-files.git d363544caea69df35ba624b238662ab861d1d92a
+replica-skill/ https://github.com/Jakeschincariol/replica-skill.git 77c9436fb3d18c3d58169efb8caf4fe906b0dc51
+skills/ https://github.com/trailofbits/skills.git 5c99c03fb8a9ea568432ecbcba5d86e9f4ac2bf0
+superpowers/ https://github.com/obra/superpowers.git bb92a77741419a4ab5f06e711a283343f1ada0c3
+ui-ux-pro-max-skill/ https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git 56ea9cf174ed86786187daa9de0e6247cb0747e4
+ux-ui-agent-skills/ https://github.com/plugin87/ux-ui-agent-skills.git d271880757842ea3bee70d958cab80da5621eb81

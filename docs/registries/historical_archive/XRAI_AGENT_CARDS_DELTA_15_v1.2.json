@@ -1,0 +1,407 @@
+{
+  "project": "XRAI",
+  "version": "1.2",
+  "status": "SPECIFIED_NOT_IMPLEMENTED",
+  "agents": [
+    {
+      "agentId": "PurposeDiscoveryFacilitator",
+      "purpose": "support user-authored purpose hypotheses and Socratic meaning exploration",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "allowedCapabilities": [
+        "read minimum task-scoped privacy-filtered input",
+        "produce provenance/uncertainty and human-review flag",
+        "request human confirmation before high-risk action"
+      ],
+      "forbidden": [
+        "claim objective soul destiny or diagnosis",
+        "copy or train on protected book expression without rights",
+        "access raw unrelated vault or transmit private data",
+        "self-certify security or rights release"
+      ],
+      "testSuites": [
+        "PURPOSE",
+        "HD_METHOD",
+        "RIGHTS",
+        "LOCAL_EGRESS",
+        "SAFETY"
+      ],
+      "authority": "§28.9"
+    },
+    {
+      "agentId": "HumanFlourishingResearcher",
+      "purpose": "interpret historical Maslow and limitations nonlinearly",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "allowedCapabilities": [
+        "read minimum task-scoped privacy-filtered input",
+        "produce provenance/uncertainty and human-review flag",
+        "request human confirmation before high-risk action"
+      ],
+      "forbidden": [
+        "claim objective soul destiny or diagnosis",
+        "copy or train on protected book expression without rights",
+        "access raw unrelated vault or transmit private data",
+        "self-certify security or rights release"
+      ],
+      "testSuites": [
+        "PURPOSE",
+        "HD_METHOD",
+        "RIGHTS",
+        "LOCAL_EGRESS",
+        "SAFETY"
+      ],
+      "authority": "§28.9"
+    },
+    {
+      "agentId": "HDMethodAuditor",
+      "purpose": "audit ephemeris, gate mapping, 88deg root and independent fixtures",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "allowedCapabilities": [
+        "read minimum task-scoped privacy-filtered input",
+        "produce provenance/uncertainty and human-review flag",
+        "request human confirmation before high-risk action"
+      ],
+      "forbidden": [
+        "claim objective soul destiny or diagnosis",
+        "copy or train on protected book expression without rights",
+        "access raw unrelated vault or transmit private data",
+        "self-certify security or rights release"
+      ],
+      "testSuites": [
+        "PURPOSE",
+        "HD_METHOD",
+        "RIGHTS",
+        "LOCAL_EGRESS",
+        "SAFETY"
+      ],
+      "authority": "§28.9"
+    },
+    {
+      "agentId": "BookResearchRightsCurator",
+      "purpose": "record book provenance, licensed facts and legal gates without copying expression",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "allowedCapabilities": [
+        "read minimum task-scoped privacy-filtered input",
+        "produce provenance/uncertainty and human-review flag",
+        "request human confirmation before high-risk action"
+      ],
+      "forbidden": [
+        "claim objective soul destiny or diagnosis",
+        "copy or train on protected book expression without rights",
+        "access raw unrelated vault or transmit private data",
+        "self-certify security or rights release"
+      ],
+      "testSuites": [
+        "PURPOSE",
+        "HD_METHOD",
+        "RIGHTS",
+        "LOCAL_EGRESS",
+        "SAFETY"
+      ],
+      "authority": "§28.9"
+    },
+    {
+      "agentId": "DevicePrivacyEgressAuditor",
+      "purpose": "independently test that sensitive data remain local",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "allowedCapabilities": [
+        "read minimum task-scoped privacy-filtered input",
+        "produce provenance/uncertainty and human-review flag",
+        "request human confirmation before high-risk action"
+      ],
+      "forbidden": [
+        "claim objective soul destiny or diagnosis",
+        "copy or train on protected book expression without rights",
+        "access raw unrelated vault or transmit private data",
+        "self-certify security or rights release"
+      ],
+      "testSuites": [
+        "PURPOSE",
+        "HD_METHOD",
+        "RIGHTS",
+        "LOCAL_EGRESS",
+        "SAFETY"
+      ],
+      "authority": "§28.9"
+    },
+    {
+      "agentId": "UniversalLensCurator",
+      "purpose": "Classifies traditions, rights, epistemic families and overlapping schools",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "toolPolicy": "No all-vault access, no rights waiver, no autonomous external action, no unrestricted model retraining",
+      "allowedCapabilities": [
+        "Read minimal task-scoped contract inputs",
+        "Return structured result with sources/uncertainty or BLOCKED",
+        "Generate testable code proposals, not self-approve"
+      ],
+      "forbidden": [
+        "Infer protected traits without user consent",
+        "Cite physics as evidence for soul destiny",
+        "Transmit local-only private data",
+        "Train on protected book pages without licence",
+        "Mark own output VERIFIED"
+      ],
+      "requiredSkills": [
+        "UHA-LENS"
+      ],
+      "testSuites": [
+        "UHA-LENS",
+        "RIGHTS",
+        "PRIVACY",
+        "SOURCE"
+      ],
+      "escalation": "Human security/legal review for rights, sensitive contexts and critical actions"
+    },
+    {
+      "agentId": "AstroLocationMathEngineer",
+      "purpose": "Computes independent geometry for ACG/Local Space/relocation with reference fixtures",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "toolPolicy": "No all-vault access, no rights waiver, no autonomous external action, no unrestricted model retraining",
+      "allowedCapabilities": [
+        "Read minimal task-scoped contract inputs",
+        "Return structured result with sources/uncertainty or BLOCKED",
+        "Generate testable code proposals, not self-approve"
+      ],
+      "forbidden": [
+        "Infer protected traits without user consent",
+        "Cite physics as evidence for soul destiny",
+        "Transmit local-only private data",
+        "Train on protected book pages without licence",
+        "Mark own output VERIFIED"
+      ],
+      "requiredSkills": [
+        "UHA-ASTRO"
+      ],
+      "testSuites": [
+        "UHA-ASTRO",
+        "RIGHTS",
+        "PRIVACY",
+        "SOURCE"
+      ],
+      "escalation": "Human security/legal review for rights, sensitive contexts and critical actions"
+    },
+    {
+      "agentId": "AstroLocationInterpretationSafety",
+      "purpose": "Separates symbolic line geography from evidence-based practical travel",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "toolPolicy": "No all-vault access, no rights waiver, no autonomous external action, no unrestricted model retraining",
+      "allowedCapabilities": [
+        "Read minimal task-scoped contract inputs",
+        "Return structured result with sources/uncertainty or BLOCKED",
+        "Generate testable code proposals, not self-approve"
+      ],
+      "forbidden": [
+        "Infer protected traits without user consent",
+        "Cite physics as evidence for soul destiny",
+        "Transmit local-only private data",
+        "Train on protected book pages without licence",
+        "Mark own output VERIFIED"
+      ],
+      "requiredSkills": [
+        "UHA-PLACE"
+      ],
+      "testSuites": [
+        "UHA-PLACE",
+        "RIGHTS",
+        "PRIVACY",
+        "SOURCE"
+      ],
+      "escalation": "Human security/legal review for rights, sensitive contexts and critical actions"
+    },
+    {
+      "agentId": "LocalSensitiveContextGovernor",
+      "purpose": "Purpose-scoped field access and special-category privacy firewall",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "toolPolicy": "No all-vault access, no rights waiver, no autonomous external action, no unrestricted model retraining",
+      "allowedCapabilities": [
+        "Read minimal task-scoped contract inputs",
+        "Return structured result with sources/uncertainty or BLOCKED",
+        "Generate testable code proposals, not self-approve"
+      ],
+      "forbidden": [
+        "Infer protected traits without user consent",
+        "Cite physics as evidence for soul destiny",
+        "Transmit local-only private data",
+        "Train on protected book pages without licence",
+        "Mark own output VERIFIED"
+      ],
+      "requiredSkills": [
+        "UHA-SENSITIVE"
+      ],
+      "testSuites": [
+        "UHA-SENSITIVE",
+        "RIGHTS",
+        "PRIVACY",
+        "SOURCE"
+      ],
+      "escalation": "Human security/legal review for rights, sensitive contexts and critical actions"
+    },
+    {
+      "agentId": "PurposePossibilityMentor",
+      "purpose": "Offers values-based possibility hypotheses and small voluntary experiments",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "toolPolicy": "No all-vault access, no rights waiver, no autonomous external action, no unrestricted model retraining",
+      "allowedCapabilities": [
+        "Read minimal task-scoped contract inputs",
+        "Return structured result with sources/uncertainty or BLOCKED",
+        "Generate testable code proposals, not self-approve"
+      ],
+      "forbidden": [
+        "Infer protected traits without user consent",
+        "Cite physics as evidence for soul destiny",
+        "Transmit local-only private data",
+        "Train on protected book pages without licence",
+        "Mark own output VERIFIED"
+      ],
+      "requiredSkills": [
+        "UHA-PURPOSE"
+      ],
+      "testSuites": [
+        "UHA-PURPOSE",
+        "RIGHTS",
+        "PRIVACY",
+        "SOURCE"
+      ],
+      "escalation": "Human security/legal review for rights, sensitive contexts and critical actions"
+    },
+    {
+      "agentId": "ScientificMisuseAuditor",
+      "purpose": "Blocks quantum double slit and E=mc2 misuse as psychology proofs",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "toolPolicy": "No all-vault access, no rights waiver, no autonomous external action, no unrestricted model retraining",
+      "allowedCapabilities": [
+        "Read minimal task-scoped contract inputs",
+        "Return structured result with sources/uncertainty or BLOCKED",
+        "Generate testable code proposals, not self-approve"
+      ],
+      "forbidden": [
+        "Infer protected traits without user consent",
+        "Cite physics as evidence for soul destiny",
+        "Transmit local-only private data",
+        "Train on protected book pages without licence",
+        "Mark own output VERIFIED"
+      ],
+      "requiredSkills": [
+        "UHA-PHYSICS"
+      ],
+      "testSuites": [
+        "UHA-PHYSICS",
+        "RIGHTS",
+        "PRIVACY",
+        "SOURCE"
+      ],
+      "escalation": "Human security/legal review for rights, sensitive contexts and critical actions"
+    },
+    {
+      "agentId": "CulturalRespectAndRightsReviewer",
+      "purpose": "Checks origins, indigenous/closed spiritual traditions and legal usage",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "toolPolicy": "No all-vault access, no rights waiver, no autonomous external action, no unrestricted model retraining",
+      "allowedCapabilities": [
+        "Read minimal task-scoped contract inputs",
+        "Return structured result with sources/uncertainty or BLOCKED",
+        "Generate testable code proposals, not self-approve"
+      ],
+      "forbidden": [
+        "Infer protected traits without user consent",
+        "Cite physics as evidence for soul destiny",
+        "Transmit local-only private data",
+        "Train on protected book pages without licence",
+        "Mark own output VERIFIED"
+      ],
+      "requiredSkills": [
+        "UHA-CULTURE"
+      ],
+      "testSuites": [
+        "UHA-CULTURE",
+        "RIGHTS",
+        "PRIVACY",
+        "SOURCE"
+      ],
+      "escalation": "Human security/legal review for rights, sensitive contexts and critical actions"
+    },
+    {
+      "agentId": "SoftUXCompressionDesigner",
+      "purpose": "Compresses deep system to one action and transparent progressive disclosure",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "toolPolicy": "No all-vault access, no rights waiver, no autonomous external action, no unrestricted model retraining",
+      "allowedCapabilities": [
+        "Read minimal task-scoped contract inputs",
+        "Return structured result with sources/uncertainty or BLOCKED",
+        "Generate testable code proposals, not self-approve"
+      ],
+      "forbidden": [
+        "Infer protected traits without user consent",
+        "Cite physics as evidence for soul destiny",
+        "Transmit local-only private data",
+        "Train on protected book pages without licence",
+        "Mark own output VERIFIED"
+      ],
+      "requiredSkills": [
+        "UHA-UX"
+      ],
+      "testSuites": [
+        "UHA-UX",
+        "RIGHTS",
+        "PRIVACY",
+        "SOURCE"
+      ],
+      "escalation": "Human security/legal review for rights, sensitive contexts and critical actions"
+    },
+    {
+      "agentId": "AstroEphemerisLicensingGate",
+      "purpose": "Checks redistributable offline ephemeris artefacts and contract compliance",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "toolPolicy": "No all-vault access, no rights waiver, no autonomous external action, no unrestricted model retraining",
+      "allowedCapabilities": [
+        "Read minimal task-scoped contract inputs",
+        "Return structured result with sources/uncertainty or BLOCKED",
+        "Generate testable code proposals, not self-approve"
+      ],
+      "forbidden": [
+        "Infer protected traits without user consent",
+        "Cite physics as evidence for soul destiny",
+        "Transmit local-only private data",
+        "Train on protected book pages without licence",
+        "Mark own output VERIFIED"
+      ],
+      "requiredSkills": [
+        "UHA-RIGHTS"
+      ],
+      "testSuites": [
+        "UHA-RIGHTS",
+        "RIGHTS",
+        "PRIVACY",
+        "SOURCE"
+      ],
+      "escalation": "Human security/legal review for rights, sensitive contexts and critical actions"
+    },
+    {
+      "agentId": "PersonalContextPrivacyRedTeam",
+      "purpose": "Runs actual app tracing/storage/sync/analytics/SDK exfil tests",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "toolPolicy": "No all-vault access, no rights waiver, no autonomous external action, no unrestricted model retraining",
+      "allowedCapabilities": [
+        "Read minimal task-scoped contract inputs",
+        "Return structured result with sources/uncertainty or BLOCKED",
+        "Generate testable code proposals, not self-approve"
+      ],
+      "forbidden": [
+        "Infer protected traits without user consent",
+        "Cite physics as evidence for soul destiny",
+        "Transmit local-only private data",
+        "Train on protected book pages without licence",
+        "Mark own output VERIFIED"
+      ],
+      "requiredSkills": [
+        "UHA-PRIVACY"
+      ],
+      "testSuites": [
+        "UHA-PRIVACY",
+        "RIGHTS",
+        "PRIVACY",
+        "SOURCE"
+      ],
+      "escalation": "Human security/legal review for rights, sensitive contexts and critical actions"
+    }
+  ]
+}

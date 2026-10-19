@@ -1,0 +1,241 @@
+{
+  "generated": "2026-10-19",
+  "file_count": 47,
+  "files": [
+    {
+      "path": ".claude/agents/claim-epistemic-reviewer.md",
+      "size": 607,
+      "sha256": "ad339d2294efb592b1903f12da7b8976ff518a42449c91e40915f3e942b8fd87"
+    },
+    {
+      "path": ".claude/agents/math-verifier.md",
+      "size": 648,
+      "sha256": "4488461ef965d4a398dde04a3c5ad8c8e5de57cd2e16eed23ae49a2f05be8c49"
+    },
+    {
+      "path": ".claude/agents/performance-benchmarker.md",
+      "size": 582,
+      "sha256": "f53c88e94250148cba520553f1620e9e8e0b77ea665b998919a026ddaa4a3509"
+    },
+    {
+      "path": ".claude/agents/privacy-guardian.md",
+      "size": 599,
+      "sha256": "83bf5a4278354398ff1b5fddf171c04074697c6a44aeebfaa74abdc7407f9e58"
+    },
+    {
+      "path": ".claude/agents/rights-auditor.md",
+      "size": 609,
+      "sha256": "e56582bfdb3a4e4e69096141ab4f7afb0fd7394875363f9376129c85eab76472"
+    },
+    {
+      "path": ".claude/agents/swift-qa.md",
+      "size": 535,
+      "sha256": "125df465191f721c2a8bd5ab2fe650ab4894842fe07ca8a3aca30624e76b4590"
+    },
+    {
+      "path": ".claude/skills/xrai-astronomy-local-space/SKILL.md",
+      "size": 677,
+      "sha256": "5ab3ee054de934b7faa4263f906f1e435fb920f88b47315b915b1090573b771a"
+    },
+    {
+      "path": ".claude/skills/xrai-build-evidence/SKILL.md",
+      "size": 369,
+      "sha256": "5ea87107f7fb795eb5b4f621d7d632bb5adc2202c45d8aa70624db0b751ce766"
+    },
+    {
+      "path": ".claude/skills/xrai-consent-zero-egress/SKILL.md",
+      "size": 416,
+      "sha256": "a89e17475390c424dc8f183aa810d02baf00b9ff4d9c95c981a35114167210ac"
+    },
+    {
+      "path": ".claude/skills/xrai-deterministic-math/SKILL.md",
+      "size": 696,
+      "sha256": "998b62911a064500568b92f8244a042649c5cae8fef5fda00eb5eeb74865f51b"
+    },
+    {
+      "path": ".claude/skills/xrai-human-design-clean-room/SKILL.md",
+      "size": 704,
+      "sha256": "ad079f267a4dae2f064cb4cc6ef47c6aa325d90b419d82c8c4a3a75432a60af3"
+    },
+    {
+      "path": ".claude/skills/xrai-interpretation-epistemics/SKILL.md",
+      "size": 727,
+      "sha256": "86521be3170e980d251892a4b0cb254a4ad6302e5cee3f7e8b4a6b679f16b276"
+    },
+    {
+      "path": ".claude/skills/xrai-learning-proof/SKILL.md",
+      "size": 672,
+      "sha256": "45b6906fbeda25498a909c828bc4e7c8383533e8ee84c3eb60b61e9b7e001abb"
+    },
+    {
+      "path": ".claude/skills/xrai-local-model-benchmark/SKILL.md",
+      "size": 693,
+      "sha256": "7ea04e8b412b3c774de99548cda63ced31bdc04c0478e2dc20958d19626b03a5"
+    },
+    {
+      "path": ".claude/skills/xrai-method-provenance/SKILL.md",
+      "size": 392,
+      "sha256": "1be7906021fc1e3e4b165430ded3404af4cb97bedc89fc2a949eddd975e3a523"
+    },
+    {
+      "path": ".claude/skills/xrai-privacy-threat/SKILL.md",
+      "size": 718,
+      "sha256": "ea78d396f44a9db6c720ed3a60f2302d2eac0846d9adbe0e501f71ec4c1a3dc1"
+    },
+    {
+      "path": ".claude/skills/xrai-psychology-humanity/SKILL.md",
+      "size": 721,
+      "sha256": "74141ee86e5caeba45495c687915dc335b49b619b0d7d8770deeed28a58fead2"
+    },
+    {
+      "path": ".claude/skills/xrai-red-team-and-release/SKILL.md",
+      "size": 666,
+      "sha256": "61b3071ecf28a27efa6bca1e6f702f31bc18404afafbce371c3ccf3c8695e008"
+    },
+    {
+      "path": ".claude/skills/xrai-replica-recon-legal/SKILL.md",
+      "size": 705,
+      "sha256": "b811aaa3328dfb518f0b8bdf467ba7955dfbc9417dd18869f8ad11ad014e4695"
+    },
+    {
+      "path": ".claude/skills/xrai-source-audit/SKILL.md",
+      "size": 662,
+      "sha256": "5999ba05d359384dda554a07b3b097f26150e15f3a66452e5a5f95ad52290bd1"
+    },
+    {
+      "path": ".claude/skills/xrai-swiftui-pixel-qa/SKILL.md",
+      "size": 669,
+      "sha256": "d86306a58b5bdbff047e48da319d0c7b8b1e667839972877e080fb848c0c8c01"
+    },
+    {
+      "path": "CLAUDE.md",
+      "size": 1216,
+      "sha256": "db856b760185e8558fef6cf7a0f2a59dbd3490b19b698f7ba4faf15896e42bcf"
+    },
+    {
+      "path": "CLAUDE_FIRST_SESSION_v3.2.md",
+      "size": 4924,
+      "sha256": "45e85052962e49f13f99994d67a51b0d81a46024bc9d0f2560cbb9c4c4bb0479"
+    },
+    {
+      "path": "README_START_HERE.md",
+      "size": 1686,
+      "sha256": "d0774ce3993999750e94d00b6e2055d2e269fd5b75ac120a217e3f62662af415"
+    },
+    {
+      "path": "baseline/CLAUDE_PASTE_FIRST_v3.1.md",
+      "size": 6115,
+      "sha256": "b1bd46d5773cbfc1f9c505c6ee324dbd9c7b0f564bad7dbd63e51232404d05cb"
+    },
+    {
+      "path": "baseline/XRAI_ULU_EVREN_FULL_BUILD_v3.1.zip",
+      "size": 6033810,
+      "sha256": "94bb09fd81d2ae233f0fa81fcf9446eee18e1dffb4c53926a1ea30604beda927"
+    },
+    {
+      "path": "docs/canon/XRAI_ULU_EVREN_COMPLETE_BUILD_CONSTITUTION_v3.2.md",
+      "size": 1755421,
+      "sha256": "3a8a19d06e56194aeac33f56e70327e9e83ff77ee4506d042534ff3aa60ed4d9"
+    },
+    {
+      "path": "docs/engineering/COMPUTATION_AND_EPISTEMOLOGY_HANDOFF.md",
+      "size": 25138,
+      "sha256": "69e10ade855f85700669309d0581fc545719d9ab453da1b62db0a1dd7dd98f1b"
+    },
+    {
+      "path": "docs/engineering/PRODUCT_PIXEL_LEVEL_HANDOFF.md",
+      "size": 691,
+      "sha256": "de943e939ff144862a0cb9d0135ce2f7e85677ada8e0d6383d9f32dc421e8751"
+    },
+    {
+      "path": "docs/engineering/SECURITY_AND_THREAT_MODEL_HANDOFF.md",
+      "size": 689,
+      "sha256": "854d2b6c89b77dc69fbf0c58ecf5564c591ad25c2d2bdf3983abcaeac78ef297"
+    },
+    {
+      "path": "docs/registries/ARCHITECTURE_ADRS_v3.1.json",
+      "size": 3003,
+      "sha256": "0d61c26702f51d686f9b2b89a5a24f934e65a1feac40d778a3dcda420eadd98c"
+    },
+    {
+      "path": "docs/registries/BASELINE_HASHES_v3.2.json",
+      "size": 180,
+      "sha256": "1cd9cc1f186c658642821216c41bf530830dc6363efb552a39cbe1057755116a"
+    },
+    {
+      "path": "docs/registries/ENGINE_BOUNDED_CONTEXTS_v3.1.json",
+      "size": 5755,
+      "sha256": "e992642fd6cffafe31c4ed250095e5d0a686b0736ff87f91145da0c6ebe3ebe7"
+    },
+    {
+      "path": "docs/registries/EXECUTION_OVERLAY_TASKS_v3.2.json",
+      "size": 6932,
+      "sha256": "594942a310c3170293605e3d9ab0ac1ab8072123af85c65cbc721a658eb0526c"
+    },
+    {
+      "path": "docs/registries/MODEL_AND_DATA_POLICY_v3.1.json",
+      "size": 2152,
+      "sha256": "3843556f7d8fc1762ff0b3ce907d7c5d322790ef0a120191ab58b8acb1b7ef07"
+    },
+    {
+      "path": "docs/registries/NEW_ACCEPTANCE_TESTS_v3.2.json",
+      "size": 27337,
+      "sha256": "e681713cc6824a16fe9dcd75c6bd338894091177bf7ee121c24f81810e581255"
+    },
+    {
+      "path": "docs/registries/OPEN_DECISIONS_v3.1.json",
+      "size": 2841,
+      "sha256": "ae86ab7b42b1a93e16efa0e8c36db898c198ea5895045eae5f608e2f7e9824a4"
+    },
+    {
+      "path": "docs/registries/ORIGINAL_MATH_METHOD_REGISTRY_v3.2.json",
+      "size": 10587,
+      "sha256": "8a7d04eed7ba33253692a4be6747c71232624299da5b774f605369c504bd6a56"
+    },
+    {
+      "path": "docs/registries/PHASE_EXECUTION_DAG_v3.1.json",
+      "size": 5725,
+      "sha256": "ada6ad6db6073014e809d3b2dbe2f852d2d2094803e0acdfb5cb04790b60cc8c"
+    },
+    {
+      "path": "docs/registries/RELEASE_AND_TEST_GATES_v3.1.json",
+      "size": 28724,
+      "sha256": "6d6da88d4463a3e39809ded59f6ea832f13d45ef1096cfe7e2e83bd8d7799bd7"
+    },
+    {
+      "path": "docs/registries/REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+      "size": 69174,
+      "sha256": "bbf2d94b48d50902968f0a23904a970af08d197b767b6359abd3650d486d634b"
+    },
+    {
+      "path": "docs/registries/SECURITY_DATA_EGRESS_MATRIX_v3.2.json",
+      "size": 3296,
+      "sha256": "523b6e59a63554aa8f8ef93c0374e67f9562ca78b78f64ff07cd186fa2f0f51a"
+    },
+    {
+      "path": "docs/registries/SOURCE_INVENTORY_LIVE_SESSION_v3.2.json",
+      "size": 15841,
+      "sha256": "883f37963e0b59626fdeee8ad7ecfdc69cba05fa29221c912069cf224dee51e7"
+    },
+    {
+      "path": "docs/registries/SOURCE_RIGHTS_AND_EVIDENCE_v3.1.json",
+      "size": 4896,
+      "sha256": "4ecc40a87faa33e88dd0049d5c4b58bfa06887df155a9a02434cad612341c611"
+    },
+    {
+      "path": "docs/registries/TASK_DEPENDENCY_GRAPH_v3.1.json",
+      "size": 27116,
+      "sha256": "2dda0bbc9f4b41a73203fc020ff9e128c889b6fce104ba9c347597cad4b8ace5"
+    },
+    {
+      "path": "docs/registries/UX_PIXEL_SCREEN_CONTRACTS_v3.2.json",
+      "size": 6933,
+      "sha256": "f07b6f7bab29dd61a72e2641af89e5c679282b99af90fade43cd71115ae14194"
+    },
+    {
+      "path": "validation/validate_package.py",
+      "size": 1654,
+      "sha256": "1b995bca567074007a7f10d60aa0a6795a87322dc240aecdca87b479a561ec9e"
+    }
+  ]
+}

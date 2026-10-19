@@ -1,0 +1,71 @@
+{
+  "generated_utc": "2026-10-19T18:45:00Z",
+  "rule": "Only real runner output counts. A spec validator PASS is not app evidence. Status promotion needs a log in docs/status/evidence/ with its sha256.",
+  "runs": [
+    {
+      "run_id": "BOOT01-BUILD-FINAL",
+      "command": "swift build",
+      "cwd": "Packages/XRAICore",
+      "toolchain": "Swift 6.3.3 / Xcode 26.6",
+      "exit_code": 0,
+      "log": "docs/status/evidence/swift_build_final.log",
+      "log_sha256": "e32a63f36a52f9984805ee07dff2d0f13b4ebf540e561dafbe5b8bbeee5e67e8"
+    },
+    {
+      "run_id": "BOOT01-TEST-RUN1",
+      "command": "swift test",
+      "cwd": "Packages/XRAICore",
+      "exit_code": "non-zero (failed)",
+      "result": "35 tests in 7 suites, 33 passed, 2 failed (F11 components fixture, LifePathGoldenTests.swift:123-124)",
+      "cause": "components method started from digit sums (month 11 → 2) instead of numeric values; hand-derived fixture was authoritative; fixed per ADR-BOOT-004 / Amendment A1",
+      "log": "docs/status/evidence/swift_test_run1_FAILED_2_of_35.log",
+      "log_sha256": "1563d03855428a44b9c20d26d7677e789c8baa390b345827ca29b121f94386cf"
+    },
+    {
+      "run_id": "BOOT01-TEST-RUN3",
+      "command": "swift test",
+      "cwd": "Packages/XRAICore",
+      "exit_code": 0,
+      "result": "35 tests in 7 suites passed",
+      "log": "docs/status/evidence/swift_test_run3_PASS_35_of_35.log",
+      "log_sha256": "d2aabfdbf28d634195cb2ae18eb0cbd1f8a6554aecca9b3f03e9be8c7425d585",
+      "suites": {
+        "CivilDate validity — hand-derived fixtures": 8,
+        "CivilDate digits, ordering and redaction": 5,
+        "Life Path — num.life_path.digits.v1 golden fixtures": 8,
+        "Life Path — num.life_path.components.v1 golden fixtures": 3,
+        "Life Path — typed errors and registry": 3,
+        "Life Path — arithmetic properties over the whole supported domain sample": 3,
+        "Privacy negative tests — XRAICore production sources": 5
+      }
+    },
+    {
+      "run_id": "SPEC-VALIDATOR",
+      "command": "python3 -I validation/validate_package.py",
+      "exit_code": 0,
+      "result": "PASS spec structure; does NOT verify an iOS build",
+      "evidence_class": "SPEC_STRUCTURE_ONLY"
+    }
+  ],
+  "acceptance_test_mapping": [
+    {"spec_test": "T-V31-NUMEROLOGY-01 valid_2000_02_29", "status": "TESTED", "by": "CivilDateValidityTests.leap2000, LifePathDigitsGoldenTests.f2, LifePathComponentsGoldenTests.f9"},
+    {"spec_test": "T-V31-NUMEROLOGY-02 reject_1900_02_29", "status": "TESTED", "by": "CivilDateValidityTests.notLeap1900"},
+    {"spec_test": "T-V31-NUMEROLOGY-03 master_11_22_33_variant", "status": "TESTED", "by": "f4, f5, f6, f7, f11, preservePolicyDomain"},
+    {"spec_test": "T-V31-NUMEROLOGY-04 Turkish_diacritics_unicode", "status": "NOT_RUN", "reason": "name numerology not in BOOT-01 scope"},
+    {"spec_test": "T-V31-NUMEROLOGY-05 soul_plus_personality_consistency", "status": "NOT_RUN", "reason": "name numerology not in BOOT-01 scope"},
+    {"spec_test": "T-V31-NUMEROLOGY-06 Pythagorean_vs_Kabala_nonmerged", "status": "NOT_RUN"},
+    {"spec_test": "T-V31-NUMEROLOGY-07 optional_parent_name_no_inference", "status": "NOT_RUN"},
+    {"spec_test": "T-V32-PURE_MATH-001 date_leap_2000", "status": "TESTED", "by": "CivilDateValidityTests.leap2000"},
+    {"spec_test": "T-V32-PURE_MATH-002 date_century_1900", "status": "TESTED", "by": "CivilDateValidityTests.notLeap1900"},
+    {"spec_test": "§92 negative probe: raw sensitive data in logs absent", "status": "TESTED (library level only)", "by": "PrivacyNegativeTests.traceRedaction, CivilDateRepresentationTests.redactedDescription"},
+    {"spec_test": "§92 negative probe: private data network egress 0", "status": "TESTED (static, library level)", "by": "PrivacyNegativeTests.noIOSurface; no app/device trace yet"},
+    {"spec_test": "all other 86 + 98 spec tests", "status": "NOT_RUN"}
+  ],
+  "statuses": {
+    "time.civil_date.gregorian.v1": "TESTED",
+    "num.life_path.digits.v1": "TESTED",
+    "num.life_path.components.v1": "TESTED",
+    "everything_else": "SPECIFIED / NOT_STARTED"
+  },
+  "not_evidence": ["docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"]
+}

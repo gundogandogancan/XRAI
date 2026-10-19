@@ -1,0 +1,46 @@
+{
+  "version": "3.2+boot01",
+  "generated": "2026-10-19",
+  "rule": "Append-only delta over docs/registries/ORIGINAL_MATH_METHOD_REGISTRY_v3.2.json (baseline untouched). State changes require an evidence file under docs/status/evidence/.",
+  "state_vocabulary": ["DESIGN_ONLY_NOT_TESTED", "CODED", "COMPILED", "TESTED", "SECURITY_REVIEWED", "DEVICE_VERIFIED"],
+  "updates": [
+    {
+      "method_id": "num.life_path.digits.v1",
+      "previous_state": "DESIGN_ONLY_NOT_TESTED",
+      "new_state": "TESTED",
+      "implementation": "Packages/XRAICore/Sources/XRAINumerology/NumerologyLifePath.swift (algorithm allDigits)",
+      "fixtures": "docs/status/BOOT_01_HAND_DERIVED_FIXTURES.md F1,F2,F4,F5,F6,F7,F10 + property tests",
+      "tests": "Packages/XRAICore/Tests/XRAINumerologyTests/LifePathGoldenTests.swift",
+      "evidence": "docs/status/evidence/swift_test_run3_PASS_35_of_35.log",
+      "adr": "docs/adr/ADR-BOOT-004-civil-date-and-life-path-contracts.md",
+      "not_yet": ["SECURITY_REVIEWED", "DEVICE_VERIFIED", "UI integration"]
+    }
+  ],
+  "additions": [
+    {
+      "method_id": "num.life_path.components.v1",
+      "family": "numerology",
+      "inputs": ["BirthCivilDate", "MasterNumberPolicy"],
+      "algorithm_spec": "year, month and day each reduced from their numeric value under the master policy; the three roots are summed; the sum is reduced under the same policy; every intermediate is traced",
+      "golden_and_adversarial_verification": "F8 1955-01-01 (root 4 vs digits-method 22), F9 2000-02-29 (day 29 → 11 preserved), F11 1984-11-22 (22+11+22=55 → 10 → 1); property: under reduce_all both methods share the digital root for every sampled valid date",
+      "epistemic_class": "EXACT_MATH",
+      "activation_gate": "METHOD_ORIGINAL_AND_REFERENCES",
+      "implementation_state": "TESTED",
+      "evidence": "docs/status/evidence/swift_test_run3_PASS_35_of_35.log",
+      "note": "Registered as a distinct method so the two numerology schools are never conflated into one number. Digit-sum-first component reduction is intentionally NOT a registered method (Amendment A1)."
+    },
+    {
+      "method_id": "time.civil_date.gregorian.v1",
+      "family": "identity_time",
+      "inputs": ["year", "month", "day"],
+      "algorithm_spec": "proleptic Gregorian validation, leap rule 4/100/400, supported years 1583..9999, literal YYYYMMDD digit extraction, redacted description, no time component",
+      "golden_and_adversarial_verification": "2000-02-29 valid; 1900-02-29, 2023-02-29, 2023-04-31, month 0/13, day 0/32, year 1582 and 10000 rejected with typed errors; Mirror has exactly year/month/day",
+      "epistemic_class": "EXACT_MATH",
+      "activation_gate": "NONE",
+      "implementation_state": "TESTED",
+      "evidence": "docs/status/evidence/swift_test_run3_PASS_35_of_35.log"
+    }
+  ],
+  "unchanged_count": 18,
+  "unchanged_state": "DESIGN_ONLY_NOT_TESTED"
+}

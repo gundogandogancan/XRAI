@@ -1,0 +1,50 @@
+Building for debugging...
+[0/13] Write sources
+[2/13] Write swift-version--1BA0962812E73E12.txt
+[4/15] Emitting module XRAIBrainContracts
+[5/15] Compiling XRAIBrainContracts Contracts.swift
+[6/16] Wrapping AST for XRAIBrainContracts for debugging
+[8/18] Emitting module XRAIBrainContractsTests
+[9/18] Compiling XRAIBrainContractsTests ContractsTests.swift
+[10/19] /mnt/data/XRAI_ORIGINAL_INTELLIGENCE_v1.8/reference_core/.build/x86_64-unknown-linux-gnu/debug/XRAIBrainReferenceContractsPackageDiscoveredTests.derived/all-discovered-tests.swift
+[11/19] Write sources
+[12/19] Wrapping AST for XRAIBrainContractsTests for debugging
+[14/21] Emitting module XRAIBrainReferenceContractsPackageDiscoveredTests
+[15/21] Compiling XRAIBrainReferenceContractsPackageDiscoveredTests XRAIBrainContractsTests.swift
+[16/22] Compiling XRAIBrainReferenceContractsPackageDiscoveredTests all-discovered-tests.swift
+[17/23] /mnt/data/XRAI_ORIGINAL_INTELLIGENCE_v1.8/reference_core/.build/x86_64-unknown-linux-gnu/debug/XRAIBrainReferenceContractsPackageTests.derived/runner.swift
+[18/23] Write sources
+[19/23] Wrapping AST for XRAIBrainReferenceContractsPackageDiscoveredTests for debugging
+[21/25] Emitting module XRAIBrainReferenceContractsPackageTests
+[22/25] Compiling XRAIBrainReferenceContractsPackageTests runner.swift
+[23/26] Wrapping AST for XRAIBrainReferenceContractsPackageTests for debugging
+[24/26] Write Objects.LinkFileList
+[25/26] Linking XRAIBrainReferenceContractsPackageTests.xctest
+Build complete! (9.52s)
+Test Suite 'All tests' started at 2026-10-16 17:43:19.922
+Test Suite 'debug.xctest' started at 2026-10-16 17:43:19.936
+Test Suite 'ContractsTests' started at 2026-10-16 17:43:19.936
+Test Case 'ContractsTests.testAgeGatedLearningOffer' started at 2026-10-16 17:43:19.936
+Test Case 'ContractsTests.testAgeGatedLearningOffer' passed (0.001 seconds)
+Test Case 'ContractsTests.testCollectiveFeedbackDefaultsDeniedAndChildrenDenied' started at 2026-10-16 17:43:19.937
+Test Case 'ContractsTests.testCollectiveFeedbackDefaultsDeniedAndChildrenDenied' passed (0.1 seconds)
+Test Case 'ContractsTests.testInvalidDateRejected' started at 2026-10-16 17:43:20.038
+Test Case 'ContractsTests.testInvalidDateRejected' passed (0.002 seconds)
+Test Case 'ContractsTests.testLifePathIsDeterministic' started at 2026-10-16 17:43:20.039
+Test Case 'ContractsTests.testLifePathIsDeterministic' passed (0.0 seconds)
+Test Case 'ContractsTests.testPrivateDataNeverPermittedToNetwork' started at 2026-10-16 17:43:20.040
+Test Case 'ContractsTests.testPrivateDataNeverPermittedToNetwork' passed (0.0 seconds)
+Test Case 'ContractsTests.testSharingRequiresStepUpAndConsent' started at 2026-10-16 17:43:20.040
+Test Case 'ContractsTests.testSharingRequiresStepUpAndConsent' passed (0.0 seconds)
+Test Case 'ContractsTests.testUnlicensedLearningOfferNotDisplayedAsReady' started at 2026-10-16 17:43:20.040
+Test Case 'ContractsTests.testUnlicensedLearningOfferNotDisplayedAsReady' passed (0.0 seconds)
+Test Suite 'ContractsTests' passed at 2026-10-16 17:43:20.040
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.104 (0.104) seconds
+Test Suite 'debug.xctest' passed at 2026-10-16 17:43:20.040
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.104 (0.104) seconds
+Test Suite 'All tests' passed at 2026-10-16 17:43:20.040
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.104 (0.104) seconds
+◇ Test run started.
+↳ Testing Library Version: 6.2.1 (c9d57c83568b06d)
+↳ Target Platform: x86_64-unknown-linux-gnu
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

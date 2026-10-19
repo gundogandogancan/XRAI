@@ -1,0 +1,22 @@
+{
+  "project": "XRAI",
+  "release": "founding-doctrine-1.0",
+  "role": "philosophy not implementation evidence",
+  "files": [
+    {
+      "name": "XRAI_KURUCU_FELSEFE_MISYON_VIZYON_GOD_LEVEL_CLAUDE_v1.0.md",
+      "bytes": 34075,
+      "sha256": "41840753ebd78522ae7bd95550810668b5b02bdc3eb80509c051a95b15f2ab4c"
+    },
+    {
+      "name": "CLAUDE_KURUCU_FELSEFE_ILK_MESAJ.md",
+      "bytes": 1841,
+      "sha256": "db2337cab83b768415bc9467c80719432824c448a644bf04d6b67b7b23fad7c1"
+    },
+    {
+      "name": "README.md",
+      "bytes": 799,
+      "sha256": "319afa243765393ec68633dfbd48ba011dee61c66db3d91fa9d78a70e24067b7"
+    }
+  ]
+}

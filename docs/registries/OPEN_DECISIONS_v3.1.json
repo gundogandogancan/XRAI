@@ -1,0 +1,101 @@
+{
+  "version": "3.1",
+  "decisions": [
+    {
+      "id": "LOCAL_REPO_STATE",
+      "risk": "Unknown user repo files, Git state, existing source/SDK",
+      "gate": "P00",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "IPHONE_TEST",
+      "risk": "No physical iPhone tests of vault/AI/perf",
+      "gate": "P02",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "EPHEMERIS_RIGHTS",
+      "risk": "No commercial distribution license approved yet",
+      "gate": "P08",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "HD_METHOD_COMPLETENESS",
+      "risk": "298 scans visual summary not full exact gate/type rules independently verified",
+      "gate": "P09",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "HD_TRANSLATION_COPYRIGHT",
+      "risk": "Own book copy is private study; no app corpus/model training rights",
+      "gate": "P09",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "PSYCHOLOGICAL_INSTRUMENT",
+      "risk": "MBTI/16Personalities item/brand licenses & validation unresolved",
+      "gate": "P07",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "BOW_FULL_COVERAGE",
+      "risk": "Book of Wisdom vols not fully acquired read/rights cleared",
+      "gate": "P10",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "DEVICE_BACKUP_POLICY",
+      "risk": "ThisDeviceOnly key vs recovery user decision",
+      "gate": "P02",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "CLOUD_CONSENT_LEGAL",
+      "risk": "Provider retention/TOS/consent not signed",
+      "gate": "P06",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "STOREKIT_REAL_PRICE",
+      "risk": "No verified SKU storefront prices",
+      "gate": "P11",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "APPLE_ACCOUNT",
+      "risk": "Entitlements, signing, privacy labels, app review unverified",
+      "gate": "P11",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "COLLECTIVE_RESEARCH_RIGHTS",
+      "risk": "No opt-in/public content dataset and no IP rights for training",
+      "gate": "P13",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "PARENT_NAME_SCOPE",
+      "risk": "Purpose/retention/other-person data consent unresolved",
+      "gate": "P02",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "LOCAL_ML_TURKISH",
+      "risk": "Device locale/battery/quality benchmarks not run",
+      "gate": "P06",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "JOURNAL_SECURITY",
+      "risk": "No real encrypted store and backup temp/cache leak test yet",
+      "gate": "P02",
+      "status": "OPEN_UNVERIFIED"
+    },
+    {
+      "id": "FUTURE_CHILD_SAFETY",
+      "risk": "Minor access and AHTOVIA boundary awaits separate review",
+      "gate": "FUTURE",
+      "status": "OPEN_UNVERIFIED"
+    }
+  ]
+}

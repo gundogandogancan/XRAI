@@ -1,0 +1,1244 @@
+{
+  "project": "XRAI",
+  "version": "1.0",
+  "agents": [
+    {
+      "agentId": "IntentRouter",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "intent_classification",
+      "purpose": "user-provided request to limited relevant domain tasks",
+      "allowedCapabilities": [
+        "local parser",
+        "consent-aware policies"
+      ],
+      "forbidden": [
+        "never sends data or makes life decision",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "PrivacySecurityGuardian",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "privacy_and_tool_authorization",
+      "purpose": "evaluate purpose, data class, consent, tool access",
+      "allowedCapabilities": [
+        "ConsentPolicy",
+        "LocalVault access audit"
+      ],
+      "forbidden": [
+        "never delegates permission to LLM",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "ClaimVerifier",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "evidence_provenance",
+      "purpose": "source/method/uncertainty trace and unsupported claim rejection",
+      "allowedCapabilities": [
+        "TruthKernel",
+        "SourceRegistry"
+      ],
+      "forbidden": [
+        "never hallucinates citation or promotes symbolism to fact",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "IdentitySpecialist",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "identity_and_psychometrics",
+      "purpose": "interpret self-report/validated assessments without diagnosing",
+      "allowedCapabilities": [
+        "IdentityCore",
+        "approved scale registry"
+      ],
+      "forbidden": [
+        "never assigns irreversible personality type",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "NumerologySpecialist",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "traditional_symbolic_math",
+      "purpose": "compute compound/root/name with deterministic trace",
+      "allowedCapabilities": [
+        "NumerologyEngine"
+      ],
+      "forbidden": [
+        "never use LLM for arithmetic or vocation proof",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "AstronomySpecialist",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "natal_astronomy",
+      "purpose": "historical timezone and ephemeris computation after rights check",
+      "allowedCapabilities": [
+        "AstronomyCore",
+        "RightsRegistry"
+      ],
+      "forbidden": [
+        "never invent precise chart from unknown birth time",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "HumanDesignSpecialist",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "licensed_human_design_mechanics",
+      "purpose": "calculate charts and explain licensed, source-tagged mechanics",
+      "allowedCapabilities": [
+        "HumanDesignCore",
+        "RightsRegistry"
+      ],
+      "forbidden": [
+        "never scrape copyright material or assume rights",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "MemoryCurator",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "longitudinal_private_memory",
+      "purpose": "retrieve/update user-approved temporal memories",
+      "allowedCapabilities": [
+        "LifeGraph",
+        "ClaimReview Commands"
+      ],
+      "forbidden": [
+        "never writes unconfirmed hypothesis as fact",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "FutureScenarioPlanner",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "future_self_planning",
+      "purpose": "propose alternative user chosen futures and goal dependencies",
+      "allowedCapabilities": [
+        "FutureSelfCore",
+        "PlanningCore"
+      ],
+      "forbidden": [
+        "never predicts destiny or executes high risk decision",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "SkillGraphPlanner",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "career_learning_skill_taxonomy",
+      "purpose": "map goals to prerequisites and reasonable skill gaps",
+      "allowedCapabilities": [
+        "SkillRegistry",
+        "ESCO/O*NET approved sources"
+      ],
+      "forbidden": [
+        "never infers ability from astrology",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "LearningResourceResearcher",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "educational_resource_discovery",
+      "purpose": "candidate resources with rights/access/level/cost checked",
+      "allowedCapabilities": [
+        "ResourceCatalog",
+        "ProviderRegistry"
+      ],
+      "forbidden": [
+        "never bypass quota or copyright",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "PedagogyDesigner",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "learning_activity_design",
+      "purpose": "original micro lessons, practice and rubrics",
+      "allowedCapabilities": [
+        "LearningCore",
+        "LessonRegistry"
+      ],
+      "forbidden": [
+        "never publish invented science unchecked",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "ProofEvaluator",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "measurement_authenticity_and_learning",
+      "purpose": "assess P0-P5 evidential levels and distinguish causality",
+      "allowedCapabilities": [
+        "ImpactProofCore",
+        "Rubrics"
+      ],
+      "forbidden": [
+        "never mark video-open as skill or auto assert authorship",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "SocraticMentor",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "reflective_questioning",
+      "purpose": "context aware respectful questions/alternative perspectives",
+      "allowedCapabilities": [
+        "GuideCore with consent filtered context"
+      ],
+      "forbidden": [
+        "never manipulates, diagnoses or pressures",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "DailyAlignment",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "time_goal_energy_alignment",
+      "purpose": "one actionable feasible step or rest",
+      "allowedCapabilities": [
+        "DailyPlanner",
+        "TimeBudget"
+      ],
+      "forbidden": [
+        "never equates astrology with physical health",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "AttentionGuardian",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "notification_wellbeing",
+      "purpose": "limit messaging and respect quiet hours",
+      "allowedCapabilities": [
+        "NotificationPolicy"
+      ],
+      "forbidden": [
+        "never bypass silence to chase retention",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "CollectiveLearningEvaluator",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "optin_cohort_quality",
+      "purpose": "aggregate legitimate resource feedback and test changes",
+      "allowedCapabilities": [
+        "ContributionGate",
+        "EvalLab"
+      ],
+      "forbidden": [
+        "never silently train on private journals",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "GrowthEthicsReviewer",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "ethical_store_growth",
+      "purpose": "evaluate paywall, referral and ASO claims",
+      "allowedCapabilities": [
+        "GrowthConsole",
+        "RightsRegistry"
+      ],
+      "forbidden": [
+        "never permit fake reviews or deceptive outcomes",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "ReleaseIndependentReviewer",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "software_release_audit",
+      "purpose": "challenge builder evidence and run separate adversarial set",
+      "allowedCapabilities": [
+        "CI artifacts",
+        "EvaluationLab",
+        "SecurityReport"
+      ],
+      "forbidden": [
+        "never self approve a release",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    },
+    {
+      "agentId": "OpsFailureInvestigator",
+      "status": "SPECIFIED_NOT_IMPLEMENTED",
+      "specialization": "incident_reliability",
+      "purpose": "triage containment/rollback, observable actual fix",
+      "allowedCapabilities": [
+        "IncidentConsole",
+        "FeatureFlags"
+      ],
+      "forbidden": [
+        "never mark detected flaw remediated without retest",
+        "cannot change consent or product constitution",
+        "cannot access raw vault outside authorized task",
+        "cannot self-verify"
+      ],
+      "entryCondition": "TaskRouter selects only for relevant request, all privacy/rights gates passed",
+      "inputContract": [
+        "redacted authorized task",
+        "epistemic tags",
+        "privacy context",
+        "budget",
+        "relevant retrieved source references"
+      ],
+      "outputContract": [
+        "result",
+        "source and uncertainty",
+        "proposed user action",
+        "risk/cost",
+        "self-check",
+        "independent review needed flag"
+      ],
+      "memoryPolicy": "minimal task-scoped memory, user-approved long term claims only",
+      "testSuites": [
+        "GOLDEN_DOMAIN",
+        "ADVERSARIAL_INJECTION",
+        "PRIVACY",
+        "EPISTEMIC_SEPARATION",
+        "COST_LATENCY"
+      ],
+      "scoreDimensions": [
+        "correctness",
+        "evidence quality",
+        "calibration",
+        "privacy",
+        "safety",
+        "user autonomy",
+        "cost",
+        "latency"
+      ],
+      "fallback": "deterministic local user-controlled fallback or state unavailable",
+      "budget": {
+        "tokenCeiling": "to be benchmarked",
+        "timeCeiling": "per task SLO",
+        "frequency": "on demand not background constant"
+      },
+      "manuals": [
+        "DomainManual",
+        "ToolManual",
+        "TestRubric",
+        "EscalationRunbook"
+      ]
+    }
+  ]
+}

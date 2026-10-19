@@ -1,0 +1,270 @@
+{
+  "version": "3.2",
+  "proposal_only": true,
+  "screens": [
+    {
+      "id": "today",
+      "name": "Bugün",
+      "user_purpose": "one action, reflective invitation",
+      "design_quality": [
+        "semantic_tokens",
+        "44pt_touch_targets",
+        "dynamic_type",
+        "VoiceOver",
+        "contrast_WCAG_AA",
+        "reduced_motion",
+        "dark_light",
+        "localization",
+        "offline_error_loading_permission_states"
+      ],
+      "evidence": [
+        "functional_UI_test",
+        "screenshot_golden",
+        "physical_device_accessibility_review"
+      ],
+      "status": "SPEC_ONLY"
+    },
+    {
+      "id": "self",
+      "name": "Ben",
+      "user_purpose": "user-controlled atlas and verified methods",
+      "design_quality": [
+        "semantic_tokens",
+        "44pt_touch_targets",
+        "dynamic_type",
+        "VoiceOver",
+        "contrast_WCAG_AA",
+        "reduced_motion",
+        "dark_light",
+        "localization",
+        "offline_error_loading_permission_states"
+      ],
+      "evidence": [
+        "functional_UI_test",
+        "screenshot_golden",
+        "physical_device_accessibility_review"
+      ],
+      "status": "SPEC_ONLY"
+    },
+    {
+      "id": "explore",
+      "name": "Keşfet",
+      "user_purpose": "rights-clear original education",
+      "design_quality": [
+        "semantic_tokens",
+        "44pt_touch_targets",
+        "dynamic_type",
+        "VoiceOver",
+        "contrast_WCAG_AA",
+        "reduced_motion",
+        "dark_light",
+        "localization",
+        "offline_error_loading_permission_states"
+      ],
+      "evidence": [
+        "functional_UI_test",
+        "screenshot_golden",
+        "physical_device_accessibility_review"
+      ],
+      "status": "SPEC_ONLY"
+    },
+    {
+      "id": "path",
+      "name": "Yolum",
+      "user_purpose": "editable vision milestones and proof",
+      "design_quality": [
+        "semantic_tokens",
+        "44pt_touch_targets",
+        "dynamic_type",
+        "VoiceOver",
+        "contrast_WCAG_AA",
+        "reduced_motion",
+        "dark_light",
+        "localization",
+        "offline_error_loading_permission_states"
+      ],
+      "evidence": [
+        "functional_UI_test",
+        "screenshot_golden",
+        "physical_device_accessibility_review"
+      ],
+      "status": "SPEC_ONLY"
+    },
+    {
+      "id": "guide",
+      "name": "XRAI",
+      "user_purpose": "single guide, source disclosure",
+      "design_quality": [
+        "semantic_tokens",
+        "44pt_touch_targets",
+        "dynamic_type",
+        "VoiceOver",
+        "contrast_WCAG_AA",
+        "reduced_motion",
+        "dark_light",
+        "localization",
+        "offline_error_loading_permission_states"
+      ],
+      "evidence": [
+        "functional_UI_test",
+        "screenshot_golden",
+        "physical_device_accessibility_review"
+      ],
+      "status": "SPEC_ONLY"
+    },
+    {
+      "id": "free",
+      "name": "Life Path Preview",
+      "user_purpose": "accountless authentic calculation",
+      "design_quality": [
+        "semantic_tokens",
+        "44pt_touch_targets",
+        "dynamic_type",
+        "VoiceOver",
+        "contrast_WCAG_AA",
+        "reduced_motion",
+        "dark_light",
+        "localization",
+        "offline_error_loading_permission_states"
+      ],
+      "evidence": [
+        "functional_UI_test",
+        "screenshot_golden",
+        "physical_device_accessibility_review"
+      ],
+      "status": "SPEC_ONLY"
+    },
+    {
+      "id": "privacy",
+      "name": "Personal Data Controls",
+      "user_purpose": "inspect, revoke, export, delete",
+      "design_quality": [
+        "semantic_tokens",
+        "44pt_touch_targets",
+        "dynamic_type",
+        "VoiceOver",
+        "contrast_WCAG_AA",
+        "reduced_motion",
+        "dark_light",
+        "localization",
+        "offline_error_loading_permission_states"
+      ],
+      "evidence": [
+        "functional_UI_test",
+        "screenshot_golden",
+        "physical_device_accessibility_review"
+      ],
+      "status": "SPEC_ONLY"
+    },
+    {
+      "id": "atlas",
+      "name": "Human Design Atlas",
+      "user_purpose": "optional source-labelled HD results",
+      "design_quality": [
+        "semantic_tokens",
+        "44pt_touch_targets",
+        "dynamic_type",
+        "VoiceOver",
+        "contrast_WCAG_AA",
+        "reduced_motion",
+        "dark_light",
+        "localization",
+        "offline_error_loading_permission_states"
+      ],
+      "evidence": [
+        "functional_UI_test",
+        "screenshot_golden",
+        "physical_device_accessibility_review"
+      ],
+      "status": "SPEC_ONLY"
+    },
+    {
+      "id": "local",
+      "name": "Local Space Explorer",
+      "user_purpose": "sourced geometry not miracle lines",
+      "design_quality": [
+        "semantic_tokens",
+        "44pt_touch_targets",
+        "dynamic_type",
+        "VoiceOver",
+        "contrast_WCAG_AA",
+        "reduced_motion",
+        "dark_light",
+        "localization",
+        "offline_error_loading_permission_states"
+      ],
+      "evidence": [
+        "functional_UI_test",
+        "screenshot_golden",
+        "physical_device_accessibility_review"
+      ],
+      "status": "SPEC_ONLY"
+    },
+    {
+      "id": "wisdom",
+      "name": "Wisdom Atlas",
+      "user_purpose": "traditional symbolism vs physics",
+      "design_quality": [
+        "semantic_tokens",
+        "44pt_touch_targets",
+        "dynamic_type",
+        "VoiceOver",
+        "contrast_WCAG_AA",
+        "reduced_motion",
+        "dark_light",
+        "localization",
+        "offline_error_loading_permission_states"
+      ],
+      "evidence": [
+        "functional_UI_test",
+        "screenshot_golden",
+        "physical_device_accessibility_review"
+      ],
+      "status": "SPEC_ONLY"
+    },
+    {
+      "id": "mentor",
+      "name": "Mentor Guide",
+      "user_purpose": "honest historical inspiration",
+      "design_quality": [
+        "semantic_tokens",
+        "44pt_touch_targets",
+        "dynamic_type",
+        "VoiceOver",
+        "contrast_WCAG_AA",
+        "reduced_motion",
+        "dark_light",
+        "localization",
+        "offline_error_loading_permission_states"
+      ],
+      "evidence": [
+        "functional_UI_test",
+        "screenshot_golden",
+        "physical_device_accessibility_review"
+      ],
+      "status": "SPEC_ONLY"
+    },
+    {
+      "id": "store",
+      "name": "Premium",
+      "user_purpose": "StoreKit restore/price truth",
+      "design_quality": [
+        "semantic_tokens",
+        "44pt_touch_targets",
+        "dynamic_type",
+        "VoiceOver",
+        "contrast_WCAG_AA",
+        "reduced_motion",
+        "dark_light",
+        "localization",
+        "offline_error_loading_permission_states"
+      ],
+      "evidence": [
+        "functional_UI_test",
+        "screenshot_golden",
+        "physical_device_accessibility_review"
+      ],
+      "status": "SPEC_ONLY"
+    }
+  ]
+}

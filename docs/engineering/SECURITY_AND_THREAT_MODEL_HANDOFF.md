@@ -1,0 +1,3 @@
+# XRAI Security Engineering Handoff
+
+Binding §73, §74, §82–84, §90, §92. Source exactly: device-only DOB, parents' names, birth location/time, raw journals, voluntarism. No default third-party egress, explicit per-call cloud opt-in. Secure Enclave Keychain for envelope root protection, tested encrypted persistence, WAL/attachments/index/cache/log/backup/notifications. Device-only key means possible irreversible device-loss without E2EE recovery; user decision needed. PQC migration after concrete protocol requirements. Model input is adversarial; tool and source permissions deny by default. Device network-negative tests and threat model required before user-data production.

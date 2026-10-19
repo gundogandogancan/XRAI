@@ -1,0 +1,95 @@
+{
+  "version": "3.1",
+  "decisions": [
+    {
+      "id": "ADR-001",
+      "decision": "Native SwiftUI + SwiftPM module boundaries",
+      "state": "ACCEPTED_IN_SPEC",
+      "gate": "Check actual Xcode/tooling before coding"
+    },
+    {
+      "id": "ADR-002",
+      "decision": "Deterministic calculations never LLM generated",
+      "state": "ACCEPTED_IN_SPEC",
+      "gate": "Numerology/astro/HD golden tests"
+    },
+    {
+      "id": "ADR-003",
+      "decision": "User privacy and opt-in controls over frictionlessness",
+      "state": "ACCEPTED_IN_SPEC",
+      "gate": "Never covert family/sensitive inference"
+    },
+    {
+      "id": "ADR-004",
+      "decision": "Encrypted user local Personal Life Graph",
+      "state": "ACCEPTED_IN_SPEC",
+      "gate": "Backup tradeoff device loss pending"
+    },
+    {
+      "id": "ADR-005",
+      "decision": "Apple local model OR Gemma decided by empirical hardware/Turkish evaluation",
+      "state": "PROPOSED",
+      "gate": "No fixed vendor selection"
+    },
+    {
+      "id": "ADR-006",
+      "decision": "Scientific vs cultural vs user input labels independently tracked",
+      "state": "ACCEPTED_IN_SPEC",
+      "gate": "No truth-of-person single scalar"
+    },
+    {
+      "id": "ADR-007",
+      "decision": "Swiss ephemeris AGPL vs paid professional rights decision",
+      "state": "BLOCKED",
+      "gate": "Legal/commercial purchase and library size"
+    },
+    {
+      "id": "ADR-008",
+      "decision": "16-personality custom exploratory vs licensed standardized test",
+      "state": "BLOCKED",
+      "gate": "Psychometrics rights and validation"
+    },
+    {
+      "id": "ADR-009",
+      "decision": "Human Design mandala/map/interpretation independent implementation",
+      "state": "BLOCKED",
+      "gate": "Exact source matrix and golden checks"
+    },
+    {
+      "id": "ADR-010",
+      "decision": "AHTOVIA separate trust domain and future typed bridge",
+      "state": "ACCEPTED_IN_SPEC",
+      "gate": "XRAI-only active development"
+    },
+    {
+      "id": "ADR-011",
+      "decision": "Historical mentor simulations, no actual Einstein/Jung consciousness",
+      "state": "ACCEPTED_IN_SPEC",
+      "gate": "Sourced originals and optional lens"
+    },
+    {
+      "id": "ADR-012",
+      "decision": "Security threat model and local no-egress default",
+      "state": "ACCEPTED_IN_SPEC",
+      "gate": "Physical phone test before verified"
+    },
+    {
+      "id": "ADR-013",
+      "decision": "Source and learning signed updates reviewed",
+      "state": "PROPOSED",
+      "gate": "No autonomous unreviewed policy mutation"
+    },
+    {
+      "id": "ADR-014",
+      "decision": "Original design system, no cloned competitor screen/asset",
+      "state": "ACCEPTED_IN_SPEC",
+      "gate": "Apple HIG, VoiceOver, typography"
+    },
+    {
+      "id": "ADR-015",
+      "decision": "Free real computed value + fair StoreKit premium",
+      "state": "ACCEPTED_IN_SPEC",
+      "gate": "Actual storefront price source-of-truth"
+    }
+  ]
+}

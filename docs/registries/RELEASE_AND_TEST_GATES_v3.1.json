@@ -1,0 +1,782 @@
+{
+  "version": "3.1",
+  "new_test_cases": [
+    {
+      "id": "T-V31-NUMEROLOGY-01",
+      "domain": "Numerology",
+      "case": "valid_2000_02_29",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-NUMEROLOGY-02",
+      "domain": "Numerology",
+      "case": "reject_1900_02_29",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-NUMEROLOGY-03",
+      "domain": "Numerology",
+      "case": "master_11_22_33_variant",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-NUMEROLOGY-04",
+      "domain": "Numerology",
+      "case": "Turkish_diacritics_unicode",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-NUMEROLOGY-05",
+      "domain": "Numerology",
+      "case": "soul_plus_personality_consistency",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-NUMEROLOGY-06",
+      "domain": "Numerology",
+      "case": "Pythagorean_vs_Kabala_nonmerged",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-NUMEROLOGY-07",
+      "domain": "Numerology",
+      "case": "optional_parent_name_no_inference",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-ASTRONOMY-01",
+      "domain": "Astronomy",
+      "case": "historical_DST_ambiguous",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-ASTRONOMY-02",
+      "domain": "Astronomy",
+      "case": "nonexistent_local_clock",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-ASTRONOMY-03",
+      "domain": "Astronomy",
+      "case": "UTC_TT_delta_t",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-ASTRONOMY-04",
+      "domain": "Astronomy",
+      "case": "Arctic_house_singularity",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-ASTRONOMY-05",
+      "domain": "Astronomy",
+      "case": "sidereal_vs_tropical",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-ASTRONOMY-06",
+      "domain": "Astronomy",
+      "case": "retrograde_boundary",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-ASTRONOMY-07",
+      "domain": "Astronomy",
+      "case": "old_tzdb_version_change",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-LOCALSPACE-01",
+      "domain": "LocalSpace",
+      "case": "WGS84_coordinates",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-LOCALSPACE-02",
+      "domain": "LocalSpace",
+      "case": "north_reference_true_vs_magnetic",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-LOCALSPACE-03",
+      "domain": "LocalSpace",
+      "case": "International_Date_Line",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-LOCALSPACE-04",
+      "domain": "LocalSpace",
+      "case": "poles_and_antipodes",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-LOCALSPACE-05",
+      "domain": "LocalSpace",
+      "case": "unknown_birthplace",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-LOCALSPACE-06",
+      "domain": "LocalSpace",
+      "case": "ephemeral_GPS_no_storage",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-HUMANDESIGN-01",
+      "domain": "HumanDesign",
+      "case": "Design_solar_minus_88_degrees",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-HUMANDESIGN-02",
+      "domain": "HumanDesign",
+      "case": "naive_88_days_counterexample",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-HUMANDESIGN-03",
+      "domain": "HumanDesign",
+      "case": "gate_order_not_1_to_64",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-HUMANDESIGN-04",
+      "domain": "HumanDesign",
+      "case": "gate_line_boundary",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-HUMANDESIGN-05",
+      "domain": "HumanDesign",
+      "case": "channel_definition_36",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-HUMANDESIGN-06",
+      "domain": "HumanDesign",
+      "case": "type_priority",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-HUMANDESIGN-07",
+      "domain": "HumanDesign",
+      "case": "authority_precedence",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-HUMANDESIGN-08",
+      "domain": "HumanDesign",
+      "case": "unknown_birth_time_degrades",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-PSYCHOLOGY-01",
+      "domain": "Psychology",
+      "case": "no_birthdate_derived_personality",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-PSYCHOLOGY-02",
+      "domain": "Psychology",
+      "case": "test_license_denied",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-PSYCHOLOGY-03",
+      "domain": "Psychology",
+      "case": "test_scoring_user_control",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-PSYCHOLOGY-04",
+      "domain": "Psychology",
+      "case": "retest_variability",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-PSYCHOLOGY-05",
+      "domain": "Psychology",
+      "case": "no_diagnosis",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-PSYCHOLOGY-06",
+      "domain": "Psychology",
+      "case": "no_child_soul_determination",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-PRIVACYKERNEL-01",
+      "domain": "PrivacyKernel",
+      "case": "deny_default_network",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-PRIVACYKERNEL-02",
+      "domain": "PrivacyKernel",
+      "case": "deny_birth_input_egress",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-PRIVACYKERNEL-03",
+      "domain": "PrivacyKernel",
+      "case": "deny_journal_to_cloud",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-PRIVACYKERNEL-04",
+      "domain": "PrivacyKernel",
+      "case": "consent_scope_revoked",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-PRIVACYKERNEL-05",
+      "domain": "PrivacyKernel",
+      "case": "no_leak_from_embedded_indices",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-PRIVACYKERNEL-06",
+      "domain": "PrivacyKernel",
+      "case": "PDF_prompt_injection_safe",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-PRIVACYKERNEL-07",
+      "domain": "PrivacyKernel",
+      "case": "locked_phone_asset_protection",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-SECUREVAULT-01",
+      "domain": "SecureVault",
+      "case": "auth_encrypt_tag_tamper",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-SECUREVAULT-02",
+      "domain": "SecureVault",
+      "case": "keychain_uninstall_behavior",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-SECUREVAULT-03",
+      "domain": "SecureVault",
+      "case": "backup_recovery_device_only",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-SECUREVAULT-04",
+      "domain": "SecureVault",
+      "case": "app_switcher_snapshot",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-SECUREVAULT-05",
+      "domain": "SecureVault",
+      "case": "WAL_temp_files_encrypted",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-SECUREVAULT-06",
+      "domain": "SecureVault",
+      "case": "device_lock_test",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-KNOWLEDGEDNA-01",
+      "domain": "KnowledgeDNA",
+      "case": "missing_source_reject",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-KNOWLEDGEDNA-02",
+      "domain": "KnowledgeDNA",
+      "case": "copyright_flag_denies_publish",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-KNOWLEDGEDNA-03",
+      "domain": "KnowledgeDNA",
+      "case": "conflicting_traditions_display",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-KNOWLEDGEDNA-04",
+      "domain": "KnowledgeDNA",
+      "case": "publisher_claim_not_content",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-KNOWLEDGEDNA-05",
+      "domain": "KnowledgeDNA",
+      "case": "signed_catalog_rollback",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-LOCALMODELRUNTIME-01",
+      "domain": "LocalModelRuntime",
+      "case": "unsupported_Turkish_locale_fallback",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-LOCALMODELRUNTIME-02",
+      "domain": "LocalModelRuntime",
+      "case": "on_device_vs_PCC_detection",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-LOCALMODELRUNTIME-03",
+      "domain": "LocalModelRuntime",
+      "case": "out_of_memory_fallback",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-LOCALMODELRUNTIME-04",
+      "domain": "LocalModelRuntime",
+      "case": "thermal_serious_pause",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-LOCALMODELRUNTIME-05",
+      "domain": "LocalModelRuntime",
+      "case": "answer_numbers_do_not_hallucinate",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-LOCALMODELRUNTIME-06",
+      "domain": "LocalModelRuntime",
+      "case": "remote_no_consent_fail_closed",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-FUTURESELF-01",
+      "domain": "FutureSelf",
+      "case": "goals_are_user_owned",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-FUTURESELF-02",
+      "domain": "FutureSelf",
+      "case": "future_scenario_labeled",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-FUTURESELF-03",
+      "domain": "FutureSelf",
+      "case": "sleep_rest_skip",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-FUTURESELF-04",
+      "domain": "FutureSelf",
+      "case": "goal_change_replan",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-FUTURESELF-05",
+      "domain": "FutureSelf",
+      "case": "P2_not_auto_P3",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-LEARNING-01",
+      "domain": "Learning",
+      "case": "P0_plan_not_skill",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-LEARNING-02",
+      "domain": "Learning",
+      "case": "P1_log_not_real_world",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-LEARNING-03",
+      "domain": "Learning",
+      "case": "P2_artifact_privacy",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-LEARNING-04",
+      "domain": "Learning",
+      "case": "P3_rubric",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-LEARNING-05",
+      "domain": "Learning",
+      "case": "P4_transfer",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-LEARNING-06",
+      "domain": "Learning",
+      "case": "P5_retention_delayed",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-DESIGNSYSTEM-01",
+      "domain": "DesignSystem",
+      "case": "five_tabs",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-DESIGNSYSTEM-02",
+      "domain": "DesignSystem",
+      "case": "dynamic_type_xxl",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-DESIGNSYSTEM-03",
+      "domain": "DesignSystem",
+      "case": "VoiceOver_chart",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-DESIGNSYSTEM-04",
+      "domain": "DesignSystem",
+      "case": "offline_no_account",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-DESIGNSYSTEM-05",
+      "domain": "DesignSystem",
+      "case": "reduce_motion",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-DESIGNSYSTEM-06",
+      "domain": "DesignSystem",
+      "case": "consent_findability",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-DESIGNSYSTEM-07",
+      "domain": "DesignSystem",
+      "case": "dark_mode_contrast",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-STOREKIT-01",
+      "domain": "StoreKit",
+      "case": "localized_price_dynamic",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-STOREKIT-02",
+      "domain": "StoreKit",
+      "case": "purchase_restore",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-STOREKIT-03",
+      "domain": "StoreKit",
+      "case": "refund_grace_period",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-STOREKIT-04",
+      "domain": "StoreKit",
+      "case": "premium_not_fake",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-STOREKIT-05",
+      "domain": "StoreKit",
+      "case": "offline_entitlement",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": false
+    },
+    {
+      "id": "T-V31-EVOLUTIONGOVERNOR-01",
+      "domain": "EvolutionGovernor",
+      "case": "raw_diary_never_train",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-EVOLUTIONGOVERNOR-02",
+      "domain": "EvolutionGovernor",
+      "case": "optin_only_feedback",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-EVOLUTIONGOVERNOR-03",
+      "domain": "EvolutionGovernor",
+      "case": "sybil_poisoning_check",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-EVOLUTIONGOVERNOR-04",
+      "domain": "EvolutionGovernor",
+      "case": "signing_and_rollback",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    },
+    {
+      "id": "T-V31-EVOLUTIONGOVERNOR-05",
+      "domain": "EvolutionGovernor",
+      "case": "source_correction_review",
+      "status": "NOT_RUN",
+      "evidence_required": "real_test_output_hash_and_exit_code",
+      "pass_condition": "meets method/policy rule, checks failure mode",
+      "manual_review_may_be_required": true
+    }
+  ],
+  "historic_tests": "Preserved only in nested v3 baseline and full v3.0 master; do not sum as executed",
+  "status": "ALL_NOT_RUN",
+  "release_rule": "NO VERIFIED claims without actual logs, real device/rights gates"
+}

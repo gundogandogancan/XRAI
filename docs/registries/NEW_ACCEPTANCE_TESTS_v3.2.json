@@ -1,0 +1,790 @@
+{
+  "version": "3.2",
+  "status": "ALL_NOT_RUN",
+  "test_cases": [
+    {
+      "case_id": "T-V32-PURE_MATH-001",
+      "domain": "pure_math",
+      "scenario": "date_leap_2000",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PURE_MATH-002",
+      "domain": "pure_math",
+      "scenario": "date_century_1900",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PURE_MATH-003",
+      "domain": "pure_math",
+      "scenario": "invalid_month_day",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PURE_MATH-004",
+      "domain": "pure_math",
+      "scenario": "master_11_22_33",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PURE_MATH-005",
+      "domain": "pure_math",
+      "scenario": "compound_trace_v1",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PURE_MATH-006",
+      "domain": "pure_math",
+      "scenario": "Turkish_unicode_NFC",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PURE_MATH-007",
+      "domain": "pure_math",
+      "scenario": "dotted_dotless_I",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PURE_MATH-008",
+      "domain": "pure_math",
+      "scenario": "mixed_script_protection",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PURE_MATH-009",
+      "domain": "pure_math",
+      "scenario": "soul_personality_expression",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PURE_MATH-010",
+      "domain": "pure_math",
+      "scenario": "name_blank_validation",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-CHRONOLOGY_GEO-001",
+      "domain": "chronology_geo",
+      "scenario": "historical_dst_gap",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-CHRONOLOGY_GEO-002",
+      "domain": "chronology_geo",
+      "scenario": "dst_fold_ambiguous",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-CHRONOLOGY_GEO-003",
+      "domain": "chronology_geo",
+      "scenario": "unknown_birthtime_downgrade",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-CHRONOLOGY_GEO-004",
+      "domain": "chronology_geo",
+      "scenario": "timezone_pre_1970",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-CHRONOLOGY_GEO-005",
+      "domain": "chronology_geo",
+      "scenario": "calendar_reform_variant",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-CHRONOLOGY_GEO-006",
+      "domain": "chronology_geo",
+      "scenario": "julian_tt_deltaT",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-CHRONOLOGY_GEO-007",
+      "domain": "chronology_geo",
+      "scenario": "north_zero_azimuth",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-CHRONOLOGY_GEO-008",
+      "domain": "chronology_geo",
+      "scenario": "east_90_azimuth",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-CHRONOLOGY_GEO-009",
+      "domain": "chronology_geo",
+      "scenario": "pole_singularity",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-CHRONOLOGY_GEO-010",
+      "domain": "chronology_geo",
+      "scenario": "antimeridian_wrap",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-CHRONOLOGY_GEO-011",
+      "domain": "chronology_geo",
+      "scenario": "geodesic_projection",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-CHRONOLOGY_GEO-012",
+      "domain": "chronology_geo",
+      "scenario": "no_current_gps_default",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-001",
+      "domain": "astro_hd",
+      "scenario": "ephemeris_license_gate",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-002",
+      "domain": "astro_hd",
+      "scenario": "signed_ephemeris_bundle",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-003",
+      "domain": "astro_hd",
+      "scenario": "independent_planet_positions",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-004",
+      "domain": "astro_hd",
+      "scenario": "zodiac_360_wrap",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-005",
+      "domain": "astro_hd",
+      "scenario": "tropical_sidereal_variant",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-006",
+      "domain": "astro_hd",
+      "scenario": "houses_missing_time",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-007",
+      "domain": "astro_hd",
+      "scenario": "altitude_uncertainty",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-008",
+      "domain": "astro_hd",
+      "scenario": "local_space_two_reference_cases",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-009",
+      "domain": "astro_hd",
+      "scenario": "astrocartography_mc_ic",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-010",
+      "domain": "astro_hd",
+      "scenario": "parans_both_hemispheres",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-011",
+      "domain": "astro_hd",
+      "scenario": "solar_design_minus_88deg",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-012",
+      "domain": "astro_hd",
+      "scenario": "not_88_days",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-013",
+      "domain": "astro_hd",
+      "scenario": "solar_root_boundary",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-014",
+      "domain": "astro_hd",
+      "scenario": "gate_order_not_naive",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-015",
+      "domain": "astro_hd",
+      "scenario": "gate_64_bijection",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-016",
+      "domain": "astro_hd",
+      "scenario": "line_6_boundaries",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-017",
+      "domain": "astro_hd",
+      "scenario": "channel_36_unique",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-018",
+      "domain": "astro_hd",
+      "scenario": "center_9_unique",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-019",
+      "domain": "astro_hd",
+      "scenario": "type_priority_mg",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-020",
+      "domain": "astro_hd",
+      "scenario": "profile_12_variants",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-ASTRO_HD-021",
+      "domain": "astro_hd",
+      "scenario": "unknown_hd_fail_closed",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PSYCH_SYMBOL-001",
+      "domain": "psych_symbol",
+      "scenario": "licensed_items_only",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-PSYCH_SYMBOL-002",
+      "domain": "psych_symbol",
+      "scenario": "reverse_scored_items",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-PSYCH_SYMBOL-003",
+      "domain": "psych_symbol",
+      "scenario": "non_diagnostic_copy",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-PSYCH_SYMBOL-004",
+      "domain": "psych_symbol",
+      "scenario": "no_16personalities_copy",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-PSYCH_SYMBOL-005",
+      "domain": "psych_symbol",
+      "scenario": "Jung_quote_provenance",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-PSYCH_SYMBOL-006",
+      "domain": "psych_symbol",
+      "scenario": "Maslow_non_linear",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-PSYCH_SYMBOL-007",
+      "domain": "psych_symbol",
+      "scenario": "purpose_user_selected",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-PSYCH_SYMBOL-008",
+      "domain": "psych_symbol",
+      "scenario": "parents_names_optin_only",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-PSYCH_SYMBOL-009",
+      "domain": "psych_symbol",
+      "scenario": "sibling_order_not_inferred",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-PSYCH_SYMBOL-010",
+      "domain": "psych_symbol",
+      "scenario": "gematria_hebrew_final_letters",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-PSYCH_SYMBOL-011",
+      "domain": "psych_symbol",
+      "scenario": "IChing_64_positions",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-PSYCH_SYMBOL-012",
+      "domain": "psych_symbol",
+      "scenario": "BaZi_solar_term_boundary",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-PSYCH_SYMBOL-013",
+      "domain": "psych_symbol",
+      "scenario": "torus_science_symbol_split",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-PSYCH_SYMBOL-014",
+      "domain": "psych_symbol",
+      "scenario": "frequency_measured_hz_only",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-PSYCH_SYMBOL-015",
+      "domain": "psych_symbol",
+      "scenario": "no_energetic_illness_claim",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-001",
+      "domain": "privacy_ai",
+      "scenario": "ondevice_default_no_egress",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-002",
+      "domain": "privacy_ai",
+      "scenario": "privacy_through_crash_logging",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-003",
+      "domain": "privacy_ai",
+      "scenario": "keychain_protected_when_locked",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-004",
+      "domain": "privacy_ai",
+      "scenario": "vault_backup_tradeoff",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-005",
+      "domain": "privacy_ai",
+      "scenario": "WAL_temp_file_encryption",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-006",
+      "domain": "privacy_ai",
+      "scenario": "consent_specific_remote_call",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-007",
+      "domain": "privacy_ai",
+      "scenario": "cloud_denied_no_fallback",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-008",
+      "domain": "privacy_ai",
+      "scenario": "journal_not_training_data",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-009",
+      "domain": "privacy_ai",
+      "scenario": "bookscan_not_uploaded",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-010",
+      "domain": "privacy_ai",
+      "scenario": "replica_skill_requires_audit",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-011",
+      "domain": "privacy_ai",
+      "scenario": "prompt_injection_in_retrieved_quote",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-012",
+      "domain": "privacy_ai",
+      "scenario": "signed_content_update_only",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-013",
+      "domain": "privacy_ai",
+      "scenario": "user_correction_invalidate_graph",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-014",
+      "domain": "privacy_ai",
+      "scenario": "delete_removes_embeddings",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-015",
+      "domain": "privacy_ai",
+      "scenario": "storekit_no_sensitive_payload",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-016",
+      "domain": "privacy_ai",
+      "scenario": "minor_sensitive_profile_disabled",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-017",
+      "domain": "privacy_ai",
+      "scenario": "model_locale_unsupported_fallback",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-018",
+      "domain": "privacy_ai",
+      "scenario": "local_model_unavailable_fallback",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-019",
+      "domain": "privacy_ai",
+      "scenario": "thermal_serious_degradation",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-PRIVACY_AI-020",
+      "domain": "privacy_ai",
+      "scenario": "personalization_cannot_change_math",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": true
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-001",
+      "domain": "ux_learning",
+      "scenario": "five_tabs_routing",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-002",
+      "domain": "ux_learning",
+      "scenario": "free_no_signup",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-003",
+      "domain": "ux_learning",
+      "scenario": "one_insight_not_hidden_claim",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-004",
+      "domain": "ux_learning",
+      "scenario": "VoiceOver_bodygraph",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-005",
+      "domain": "ux_learning",
+      "scenario": "dynamic_type_xxl",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-006",
+      "domain": "ux_learning",
+      "scenario": "RTL_preview",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-007",
+      "domain": "ux_learning",
+      "scenario": "reduce_motion",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-008",
+      "domain": "ux_learning",
+      "scenario": "contrast_light_dark",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-009",
+      "domain": "ux_learning",
+      "scenario": "offline_first_launch",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-010",
+      "domain": "ux_learning",
+      "scenario": "birth_precision_UI",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-011",
+      "domain": "ux_learning",
+      "scenario": "source_disclosure",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-012",
+      "domain": "ux_learning",
+      "scenario": "no_doomed_fate",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-013",
+      "domain": "ux_learning",
+      "scenario": "P0_P1_P2_P3_grade",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-014",
+      "domain": "ux_learning",
+      "scenario": "learning_real_resource_exists",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-015",
+      "domain": "ux_learning",
+      "scenario": "future_self_hypothesis_disclosed",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-016",
+      "domain": "ux_learning",
+      "scenario": "historical_mentor_simulated",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-017",
+      "domain": "ux_learning",
+      "scenario": "storekit_restore",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-018",
+      "domain": "ux_learning",
+      "scenario": "age_safe_minor_handling",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-019",
+      "domain": "ux_learning",
+      "scenario": "clear_data_export_delete",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    },
+    {
+      "case_id": "T-V32-UX_LEARNING-020",
+      "domain": "ux_learning",
+      "scenario": "screenshot_golden_compact",
+      "state": "NOT_RUN",
+      "required": "test runner exit code + artifact or independent verified expert review",
+      "release_blocking": false
+    }
+  ]
+}

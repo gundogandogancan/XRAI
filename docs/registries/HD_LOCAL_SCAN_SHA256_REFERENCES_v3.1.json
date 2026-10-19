@@ -1,0 +1,91 @@
+{
+  "sources_locally_held_by_user": [
+    {
+      "name": "Human desing 5.pdf",
+      "byte_size": 65118207,
+      "sha256": "e711f016cd0b8aa67e74c3d8683b9a2403fc9b4e9027f9419b283b8b8aac4f0a"
+    },
+    {
+      "name": "Human desing 8.pdf",
+      "byte_size": 75498121,
+      "sha256": "3e8b72ad5296150b00add8e155d704a842df1dde36fd3a0785f77bb0d9ed9d60"
+    },
+    {
+      "name": "Human design13.pdf",
+      "byte_size": 22787542,
+      "sha256": "0ed963764c77bcc214e570d9d535651f61a564cc42cbbc757552a38188b7645f"
+    },
+    {
+      "name": "Human desing2.pdf",
+      "byte_size": 68079966,
+      "sha256": "8f6af3434745e0e56a37cd30eea502bcf310a4d8022c36493ac602f151beef10"
+    },
+    {
+      "name": "Human desing3(1).pdf",
+      "byte_size": 75169101,
+      "sha256": "4b0d916de3f214c3bb5b23bda2277553b92aa628c1c13b8507e2605fc1192280"
+    },
+    {
+      "name": "Human desng7.pdf",
+      "byte_size": 71119466,
+      "sha256": "54b7baa9ce55cc78f290cb97b81790191269faf77923055e92c2fc9d3e793e5d"
+    },
+    {
+      "name": "Human design 12.pdf",
+      "byte_size": 79106727,
+      "sha256": "c0114b455ff578124c9aebf5a1f4c31f7d24067cc76fd39773614612d23b7e49"
+    },
+    {
+      "name": "Human desing2(1).pdf",
+      "byte_size": 68079966,
+      "sha256": "8f6af3434745e0e56a37cd30eea502bcf310a4d8022c36493ac602f151beef10"
+    },
+    {
+      "name": "Human desing4.pdf",
+      "byte_size": 65700919,
+      "sha256": "9e5f2ae0467f5fecf70d62cdbd98d5946a59cb03823d268738ea023fd8d8b1bc"
+    },
+    {
+      "name": "Human desing3.pdf",
+      "byte_size": 75169101,
+      "sha256": "4b0d916de3f214c3bb5b23bda2277553b92aa628c1c13b8507e2605fc1192280"
+    },
+    {
+      "name": "Human desng6.pdf",
+      "byte_size": 65195948,
+      "sha256": "73b1edeabc69b5db4744844700a7865f6240924e420523268df1acadea7fe163"
+    },
+    {
+      "name": "Human desng9.pdf",
+      "byte_size": 75746755,
+      "sha256": "083a559bc5535cf9772f2c114a319443b62380df7c669e71f8cc5755e24914d5"
+    },
+    {
+      "name": "Human desing 11.pdf",
+      "byte_size": 71389803,
+      "sha256": "ac835db65d904f087fe4af076e41af3053e111b690c5c87f5bbaacecb803f04c"
+    },
+    {
+      "name": "Human desing4(1).pdf",
+      "byte_size": 65700919,
+      "sha256": "9e5f2ae0467f5fecf70d62cdbd98d5946a59cb03823d268738ea023fd8d8b1bc"
+    },
+    {
+      "name": "Human desing(1).pdf",
+      "byte_size": 58647362,
+      "sha256": "3844444393b8bf3c5d6363f427fa36d67eb775c2a1c5d231b59e9812cbf5b18d"
+    },
+    {
+      "name": "Human desing.pdf",
+      "byte_size": 58647362,
+      "sha256": "3844444393b8bf3c5d6363f427fa36d67eb775c2a1c5d231b59e9812cbf5b18d"
+    },
+    {
+      "name": "Human desing 10.pdf",
+      "byte_size": 82701769,
+      "sha256": "8f3a32b6374cf191f3db9124f7035ae0a808fb96747c9b040e7c74d6afb5b7be"
+    }
+  ],
+  "files_embedded_in_package": false,
+  "why": "Large copyrighted private research scans are not included in source repo ZIP; link/import privately after license/data-boundary review"
+}

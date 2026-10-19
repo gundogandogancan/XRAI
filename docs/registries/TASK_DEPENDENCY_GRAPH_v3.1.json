@@ -1,0 +1,977 @@
+{
+  "version": "3.1",
+  "tasks": [
+    {
+      "id": "P00-W01",
+      "phase": "P00",
+      "work_package": "Git/code/toolchain baseline",
+      "depends_on": [],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P00-W02",
+      "phase": "P00",
+      "work_package": "source authority and 20 blockers status",
+      "depends_on": [
+        "P00-W01"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P00-W03",
+      "phase": "P00",
+      "work_package": "safe working tree and reports",
+      "depends_on": [
+        "P00-W02"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P01-W01",
+      "phase": "P01",
+      "work_package": "LifePath pure Swift API and minimal contracts",
+      "depends_on": [
+        "P00-W03"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P01-W02",
+      "phase": "P01",
+      "work_package": "independent Swift Testing/XCTest vectors",
+      "depends_on": [
+        "P01-W01"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P01-W03",
+      "phase": "P01",
+      "work_package": "swift test EXIT 0 evidence",
+      "depends_on": [
+        "P01-W02"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P02-W01",
+      "phase": "P02",
+      "work_package": "security schema and data class policies",
+      "depends_on": [
+        "P01-W03"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "high",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P02-W02",
+      "phase": "P02",
+      "work_package": "Keychain/CryptoKit + encrypted persistence",
+      "depends_on": [
+        "P02-W01"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "high",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P02-W03",
+      "phase": "P02",
+      "work_package": "physical device backup/revocation/network-negative",
+      "depends_on": [
+        "P02-W02"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "high",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P03-W01",
+      "phase": "P03",
+      "work_package": "SwiftUI 5 tabs and source cards",
+      "depends_on": [
+        "P02-W03"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P03-W02",
+      "phase": "P03",
+      "work_package": "free real local preview",
+      "depends_on": [
+        "P03-W01"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P03-W03",
+      "phase": "P03",
+      "work_package": "dynamic type/VoiceOver/night/offline",
+      "depends_on": [
+        "P03-W02"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P04-W01",
+      "phase": "P04",
+      "work_package": "source rights ledger",
+      "depends_on": [
+        "P03-W03"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P04-W02",
+      "phase": "P04",
+      "work_package": "original sourced content and lesson MVP",
+      "depends_on": [
+        "P04-W01"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P04-W03",
+      "phase": "P04",
+      "work_package": "unsafe/copyright-negative tests",
+      "depends_on": [
+        "P04-W02"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P05-W01",
+      "phase": "P05",
+      "work_package": "encrypted life graph and voluntary goals",
+      "depends_on": [
+        "P02-W03",
+        "P04-W03"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P05-W02",
+      "phase": "P05",
+      "work_package": "user-owned Future Self scenario",
+      "depends_on": [
+        "P05-W01"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P05-W03",
+      "phase": "P05",
+      "work_package": "local action and P0-P2 evidence",
+      "depends_on": [
+        "P05-W02"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P06-W01",
+      "phase": "P06",
+      "work_package": "model candidates device benchmark",
+      "depends_on": [
+        "P02-W03",
+        "P05-W03"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "high",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P06-W02",
+      "phase": "P06",
+      "work_package": "typed tool calling and claim verifier",
+      "depends_on": [
+        "P06-W01"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "high",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P06-W03",
+      "phase": "P06",
+      "work_package": "Turkish hallucination/latency/thermal metrics",
+      "depends_on": [
+        "P06-W02"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "high",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P07-W01",
+      "phase": "P07",
+      "work_package": "multitradition numerology methods",
+      "depends_on": [
+        "P04-W03",
+        "P06-W03"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P07-W02",
+      "phase": "P07",
+      "work_package": "user selected questionnaire with validation",
+      "depends_on": [
+        "P07-W01"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P07-W03",
+      "phase": "P07",
+      "work_package": "Maslow/Jung pedagogy rights/science gate",
+      "depends_on": [
+        "P07-W02"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P08-W01",
+      "phase": "P08",
+      "work_package": "astronomical ephemeris licenses approved",
+      "depends_on": [
+        "P04-W03"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "high",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P08-W02",
+      "phase": "P08",
+      "work_package": "UTC/TT/natal/chart + Hellenistic variants",
+      "depends_on": [
+        "P08-W01"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "high",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P08-W03",
+      "phase": "P08",
+      "work_package": "geo/uncertainty golden tests",
+      "depends_on": [
+        "P08-W02"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "high",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P09-W01",
+      "phase": "P09",
+      "work_package": "−88° solver correct verified",
+      "depends_on": [
+        "P08-W03"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "high",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P09-W02",
+      "phase": "P09",
+      "work_package": "gates/lines/centers/type authority golden charts",
+      "depends_on": [
+        "P09-W01"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "high",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P09-W03",
+      "phase": "P09",
+      "work_package": "original diagram with rights review",
+      "depends_on": [
+        "P09-W02"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "high",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P10-W01",
+      "phase": "P10",
+      "work_package": "original sourced essays and interactive science lab",
+      "depends_on": [
+        "P04-W03"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P10-W02",
+      "phase": "P10",
+      "work_package": "separate physical fact from symbolic metaphors",
+      "depends_on": [
+        "P10-W01"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P10-W03",
+      "phase": "P10",
+      "work_package": "history/cultural pluralism/rights gates",
+      "depends_on": [
+        "P10-W02"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P11-W01",
+      "phase": "P11",
+      "work_package": "actual StoreKit price/receipt restore/refund",
+      "depends_on": [
+        "P03-W03",
+        "P04-W03",
+        "P06-W03"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P11-W02",
+      "phase": "P11",
+      "work_package": "access appropriate to implemented value",
+      "depends_on": [
+        "P11-W01"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P11-W03",
+      "phase": "P11",
+      "work_package": "review compliance and cost limits",
+      "depends_on": [
+        "P11-W02"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "medium",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P12-W01",
+      "phase": "P12",
+      "work_package": "full production app integration",
+      "depends_on": [
+        "P03-W03",
+        "P04-W03",
+        "P05-W03",
+        "P06-W03"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "high",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P12-W02",
+      "phase": "P12",
+      "work_package": "physical-device battery/secure egress/pen testing",
+      "depends_on": [
+        "P12-W01"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "high",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P12-W03",
+      "phase": "P12",
+      "work_package": "legal/App Store/TestFlight audit",
+      "depends_on": [
+        "P12-W02"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "high",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P13-W01",
+      "phase": "P13",
+      "work_package": "sign build and signed catalogs",
+      "depends_on": [
+        "P12-W03"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "high",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P13-W02",
+      "phase": "P13",
+      "work_package": "incident/delete/export playbook",
+      "depends_on": [
+        "P13-W01"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "high",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    },
+    {
+      "id": "P13-W03",
+      "phase": "P13",
+      "work_package": "reviewed model changes and rollback",
+      "depends_on": [
+        "P13-W02"
+      ],
+      "owner_type": "engineer_and_independent_reviewer",
+      "risk": "high",
+      "required_artifacts": [
+        "implementation_or_explicit_documented_blocker",
+        "executed_test_exit_code_when_code_exists",
+        "source_license_and_privacy_gate",
+        "smallest_diff_evidence"
+      ],
+      "state": "NOT_STARTED",
+      "must_not_claim_done_without": [
+        "real_repo",
+        "code_diff",
+        "test_output",
+        "acceptance_gate"
+      ]
+    }
+  ]
+}

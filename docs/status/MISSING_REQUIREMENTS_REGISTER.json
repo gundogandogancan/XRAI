@@ -1,0 +1,497 @@
+{
+ "version": "3.2-boot00",
+ "generated": "2026-10-19",
+ "rule": "append-only; existing ids untouched",
+ "scope_note": "Proposed records only. None of these is accepted scope until the user approves; none deletes or renumbers any XRAI-* or XRAI31-* id. Statuses use the BOOT-00 vocabulary SPECIFIED | SOURCE_UNVERIFIED | RIGHTS_BLOCKED; nothing here is CODED or TESTED.",
+ "records": [
+  {
+   "id": "XRAI32-MISSING-001",
+   "title": "Daily rhythm loop: energy check-in, one action or rest, evening reflection, weekly review (Bugün)",
+   "found_in": [
+    "XRAI_REQUIREMENT_TRACEABILITY_v1.0.csv REQ-DAILY-001 (B01-B08)",
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json B02/B04/B07/B08",
+    "constitution v2.1 §31.2 LF-04 Adaptive Life Rhythm (line 26955)",
+    "XRAI_SCREEN_DELTA_14_v1.3.json ST02",
+    "XRAI_AGENT_SKILL_CARDS_v1.0.json DailyAlignment"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P03",
+   "proposed_owner_engine": "DesignSystem",
+   "status": "SPECIFIED",
+   "note": "Only the tab (XRAI-FIVE_TAB_UX) and the goal DAG (XRAI-GOAL_DAG) have req ids; the daily self-report/rest loop has none. Self-report only, no mood inference."
+  },
+  {
+   "id": "XRAI32-MISSING-002",
+   "title": "Notification/attention budget, quiet hours and 'why shown' disclosure",
+   "found_in": [
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json B06, G07",
+    "XRAI_AGENT_SKILL_CARDS_v1.0.json AttentionGuardian",
+    "constitution v2.1 §31.2 LF-04 (consent + quiet hours + attention budget)",
+    "constitution v2.1 §33.8 GAP-049"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P03",
+   "proposed_owner_engine": "PrivacyKernel",
+   "status": "SPECIFIED",
+   "note": "No v3.1 req covers notification governance; XRAI-USER_AGENCY mentions no addiction loops only."
+  },
+  {
+   "id": "XRAI32-MISSING-003",
+   "title": "Personal year/month/day cycles and opt-in sourced daily symbolic theme",
+   "found_in": [
+    "ORIGINAL_MATH_METHOD_REGISTRY_v3.2.json num.personal_cycles.v1",
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json B03",
+    "constitution v3.2 §76 (personal year/month/day, universal year/month/day)"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P07",
+   "proposed_owner_engine": "Numerology",
+   "status": "SPECIFIED",
+   "note": "A registered method with no requirement row; must stay separated from self-reported energy (v0.4 handoff §3)."
+  },
+  {
+   "id": "XRAI32-MISSING-004",
+   "title": "Place/home name numerology and city etymology (symbolic, no place-energy causal claim)",
+   "found_in": [
+    "ORIGINAL_MATH_METHOD_REGISTRY_v3.2.json num.place_names.v1",
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json D14",
+    "constitution v3.2 §71 'place name symbol calculation, city etymology'",
+    "legacy handoff v0.4 §3 'Place/Home Numerology'"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P07",
+   "proposed_owner_engine": "Numerology",
+   "status": "SOURCE_UNVERIFIED",
+   "note": "Registered method, no req row; etymology sources not registered in SOURCE_RIGHTS_AND_EVIDENCE_v3.1."
+  },
+  {
+   "id": "XRAI32-MISSING-005",
+   "title": "Chaldean numerology as a distinct, separately sourced mapping table",
+   "found_in": [
+    "HISTORICAL_MACHINE_REGISTRIES/.../XRAI_COMPUTATION_METHODS_AND_RIGHTS_v1.7.json CHALDEAN_NUMEROLOGY",
+    "constitution v3.2 §76 'compound/root, 37/10/1 etc variants'"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P07",
+   "proposed_owner_engine": "Numerology",
+   "status": "SOURCE_UNVERIFIED",
+   "note": "XRAI-MATRIX_METHODS says 'traditions distinct' but names no Chaldean method; not in the 19-method registry."
+  },
+  {
+   "id": "XRAI32-MISSING-006",
+   "title": "Transits, solar returns and progressions (time-sampled positions, symbolic caveats)",
+   "found_in": [
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json D06",
+    "XRAI_COMPUTATION_METHODS_AND_RIGHTS_v1.7.json TRANSITS_RETURNS",
+    "constitution v3.2 §77 'transits, solar return, progressions'"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P08",
+   "proposed_owner_engine": "Astronomy",
+   "status": "RIGHTS_BLOCKED",
+   "note": "Depends on XRAI-EPHEMERIS licence; XRAI-NATAL_ASTRO covers natal only."
+  },
+  {
+   "id": "XRAI32-MISSING-007",
+   "title": "Hellenistic time-lord and lot methods (lots, profections, zodiacal releasing, horary/electional) as versioned registry entries",
+   "found_in": [
+    "CLASSICAL_ASTROLOGY_METHOD_REGISTRY_v2.1.json AST-018..AST-024",
+    "constitution v3.2 §77 'lots, profections, zodiacal releasing/chronocrators and electional/horary'",
+    "constitution v2.1 §38.3"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P08",
+   "proposed_owner_engine": "Astronomy",
+   "status": "RIGHTS_BLOCKED",
+   "note": "XRAI-CLASSICAL_ASTRO is one family row; the 32-method v2.1 registry is not carried into ORIGINAL_MATH_METHOD_REGISTRY_v3.2 (only astro.traditional_methods.v1)."
+  },
+  {
+   "id": "XRAI32-MISSING-008",
+   "title": "Travel Space school registry: fail closed for undocumented schools",
+   "found_in": [
+    "XRAI_REQUIREMENT_TRACEABILITY_DELTA_v1.2.csv UHA-REQ-10",
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json UHA09",
+    "XRAI_HUMAN_ATLAS_DOMAIN_DELTA_18_v1.2.json TravelSpaceMethod",
+    "constitution v2.1 §33.8 GAP-035"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P08",
+   "proposed_owner_engine": "LocalSpace",
+   "status": "SOURCE_UNVERIFIED",
+   "note": "XRAI-ASTROCARTOGRAPHY names ACG/relocation/Local Space/parans but not Travel Space; no school source registered."
+  },
+  {
+   "id": "XRAI32-MISSING-009",
+   "title": "Place symbolism vs practical reality layer (visa, cost, safety, access) kept separate from astro lines",
+   "found_in": [
+    "XRAI_REQUIREMENT_TRACEABILITY_DELTA_v1.2.csv UHA-REQ-11",
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json UHA10",
+    "constitution v2.1 §33.8 GAP-036",
+    "XRAI_AGENT_CARDS_DELTA_15_v1.2.json AstroLocationInterpretationSafety"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P08",
+   "proposed_owner_engine": "LocalSpace",
+   "status": "SPECIFIED",
+   "note": "No v3.1 req forbids relocation advice based only on astro lines."
+  },
+  {
+   "id": "XRAI32-MISSING-010",
+   "title": "Human Design advanced concepts (incarnation cross, colour/tone/base, variable, HD transits, composite) behind rights gate",
+   "found_in": [
+    "legacy handoff v0.4 §3 (Human Design bullet)",
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json D09",
+    "XRAI_COMPUTATION_METHODS_AND_RIGHTS_v1.7.json HD_ADVANCED"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P09",
+   "proposed_owner_engine": "HumanDesign",
+   "status": "RIGHTS_BLOCKED",
+   "note": "The five XRAI-HD_* rows stop at profile; advanced concepts have no row and no verified source (ADR-009 BLOCKED)."
+  },
+  {
+   "id": "XRAI32-MISSING-011",
+   "title": "Name etymology and name-history timeline as sourced language history (never trait inference)",
+   "found_in": [
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json UHA04",
+    "constitution v3.2 §71 'name etymology as sourced language history'",
+    "constitution v3.2 §75 'Name etymology and phonetics never intrinsically demonstrate psychological traits'"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P07",
+   "proposed_owner_engine": "KnowledgeDNA",
+   "status": "SOURCE_UNVERIFIED",
+   "note": "XRAI-NAMES_UNICODE covers arithmetic only; etymology sources not registered."
+  },
+  {
+   "id": "XRAI32-MISSING-012",
+   "title": "Voluntary cultural context with special-category consent; no protected-trait inference from name/face/location",
+   "found_in": [
+    "XRAI_REQUIREMENT_TRACEABILITY_DELTA_v1.2.csv UHA-REQ-05",
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json UHA03",
+    "XRAI_HUMAN_ATLAS_DOMAIN_DELTA_18_v1.2.json CulturalContext, SensitiveContextAccessGrant",
+    "constitution v2.1 §33.8 GAP-054"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P02",
+   "proposed_owner_engine": "PrivacyKernel",
+   "status": "SPECIFIED",
+   "note": "Partially covered by XRAI31-PERSONAL-SIGNAL-TRANSPARENCY (no covert profiling); the special-category consent field contract and local-only rule are not an explicit requirement row."
+  },
+  {
+   "id": "XRAI32-MISSING-013",
+   "title": "Purpose hypothesis and experiment lab: 2-4 user-approved hypotheses labelled EXPLORATION_ONLY, small voluntary experiments",
+   "found_in": [
+    "constitution v2.1 §28.1 LPDE (line 14799)",
+    "constitution v2.1 §31.2 LF-02 (line 26943)",
+    "constitution v3.2 §80 'Purpose = user-authored, editable, hypothesis'",
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json PUP01-PUP05",
+    "XRAI_HUMAN_ATLAS_DOMAIN_DELTA_18_v1.2.json PurposeHypothesis, PurposeExperiment"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P05",
+   "proposed_owner_engine": "FutureSelf",
+   "status": "SPECIFIED",
+   "note": "XRAI-SPIRITUAL_BOUNDARIES forbids certainty; no row specifies the hypothesis/experiment contract itself."
+  },
+  {
+   "id": "XRAI32-MISSING-014",
+   "title": "Personal decision intelligence (DecisionFrame): reversible/irreversible, alternatives, limits, 'none' option, no external action",
+   "found_in": [
+    "constitution v2.1 §31.2 LF-03 (line 26947)",
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json F04 Karar keşfi",
+    "XRAI_SCREEN_DELTA_14_v1.3.json (Yolum GoalTradeoff)"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P05",
+   "proposed_owner_engine": "FutureSelf",
+   "status": "SPECIFIED",
+   "note": "No v3.1 req row."
+  },
+  {
+   "id": "XRAI32-MISSING-015",
+   "title": "Socratic reflective questioning and epistemic calibration (observation vs interpretation, counterexamples)",
+   "found_in": [
+    "constitution v2.1 §31.2 LF-10 (line 26975)",
+    "constitution v2.1 §28.1.3",
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json F02",
+    "XRAI_AGENT_SKILL_CARDS_v1.0.json SocraticMentor",
+    "XRAI_AGENT_DELTA_8_v1.3.json WisdomPerspectiveFacilitator"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P06",
+   "proposed_owner_engine": "OctopusOrchestrator",
+   "status": "SPECIFIED",
+   "note": "XRAI-OIE and XRAI-MENTOR_LENSES do not name the Socratic mode."
+  },
+  {
+   "id": "XRAI32-MISSING-016",
+   "title": "Relationships and boundaries practice (D4): user-authored only, no third-party profiling, no reconciliation pressure",
+   "found_in": [
+    "constitution v2.1 §31.2 LF-09 (line 26971)",
+    "constitution v2.1 §32.6 D4",
+    "XRAI_SCREEN_DELTA_14_v1.3.json ST04, ST05, ST12",
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json UHA12",
+    "XRAI_REQUIREMENT_TRACEABILITY_DELTA_v1.2.csv UHA-REQ-06",
+    "XRAI_AGENT_DELTA_8_v1.3.json ConnectionEthicsCoach"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P05",
+   "proposed_owner_engine": "PersonalBrain",
+   "status": "SPECIFIED",
+   "note": "XRAI-SEVEN_DIMENSIONS names the dimensions only; the D4 service and its third-party privacy rule have no row."
+  },
+  {
+   "id": "XRAI32-MISSING-017",
+   "title": "Contribution and generativity service (D6): voluntary, no altruism score, beneficiary data only with consent",
+   "found_in": [
+    "constitution v2.1 §31.2 LF-11 (line 26979)",
+    "constitution v2.1 §32.8 D6",
+    "XRAI_SCREEN_DELTA_14_v1.3.json ST06, ST07",
+    "XRAI_AGENT_DELTA_8_v1.3.json ContributionOpportunityCurator",
+    "XRAI_DOMAIN_DELTA_14_v1.3.json ContributionExperiment, ImpactAttribution"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P05",
+   "proposed_owner_engine": "Learning",
+   "status": "SPECIFIED",
+   "note": "No row; XRAI-USER_VALUE forbids imposed altruism rank only."
+  },
+  {
+   "id": "XRAI32-MISSING-018",
+   "title": "Awe, wonder and transcendence experiences (D7): optional contemplative/art/nature/science, never an enlightenment badge",
+   "found_in": [
+    "constitution v2.1 §32.9 D7",
+    "XRAI_SCREEN_DELTA_14_v1.3.json ST09",
+    "XRAI_AGENT_DELTA_8_v1.3.json AweCuriosityCurator",
+    "XRAI_DOMAIN_DELTA_14_v1.3.json AweExperience"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P10",
+   "proposed_owner_engine": "WisdomAtlas",
+   "status": "SPECIFIED",
+   "note": "No row."
+  },
+  {
+   "id": "XRAI32-MISSING-019",
+   "title": "Life chapters, yearly review and legacy/portability (editable narrative, no fabricated then-vs-now)",
+   "found_in": [
+    "constitution v2.1 §31.2 LF-01 and LF-12 (lines 26939, 26983)",
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json C07, L05",
+    "XRAI_SCREEN_DELTA_14_v1.3.json ST10",
+    "XRAI_AGENT_DELTA_8_v1.3.json LifeChapterArchivist",
+    "XRAI_DOMAIN_DELTA_14_v1.3.json LifeChapter"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P05",
+   "proposed_owner_engine": "PersonalBrain",
+   "status": "SPECIFIED",
+   "note": "XRAI-PERSONAL_GRAPH stores events; the chapter/legacy review service has no row."
+  },
+  {
+   "id": "XRAI32-MISSING-020",
+   "title": "Life transition, resilience and crisis referral: 'adjust/reflect/break/not now', no diagnosis, local human services",
+   "found_in": [
+    "constitution v2.1 §31.2 LF-07 (line 26963)",
+    "constitution v2.1 §33.8 GAP-026",
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json F08 Destek ve güvenlik",
+    "XRAI_REQUIREMENT_TRACEABILITY_DELTA_v1.2.csv UHA-REQ-17"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P06",
+   "proposed_owner_engine": "ResponseVerifier",
+   "status": "SPECIFIED",
+   "note": "No v3.1 row for safety support/crisis escalation; XRAI-SPIRITUAL_BOUNDARIES and XRAI31-PROVENANCE-MULTILENS do not cover it."
+  },
+  {
+   "id": "XRAI32-MISSING-021",
+   "title": "Privacy-safe share card and referral attribution (no contacts access, metadata scrub, no DOB in default image)",
+   "found_in": [
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json M03, M04",
+    "legacy handoff v0.4 (v0.2 section) §3 'Etik viral döngüler' and §9",
+    "constitution v2.1 §33.8 GAP-050, GAP-051",
+    "XRAI_AGENT_SKILL_CARDS_v1.0.json GrowthEthicsReviewer"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P11",
+   "proposed_owner_engine": "PrivacyKernel",
+   "status": "SPECIFIED",
+   "note": "XRAI-FREEMIUM covers value/unlock only."
+  },
+  {
+   "id": "XRAI32-MISSING-022",
+   "title": "Optional E2EE multi-device sync with conflict UI and no silent deletion",
+   "found_in": [
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json G08",
+    "constitution v2.1 §33.8 GAP-046",
+    "v1.0 open decision 8 (XRAI_OPEN_DECISIONS_AND_BLOCKERS_v1.0.md)",
+    "legacy handoff v0.4 §7"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P13",
+   "proposed_owner_engine": "SecureVault",
+   "status": "SPECIFIED",
+   "note": "XRAI-KEY_RECOVERY covers backup/recovery, not sync/conflict semantics."
+  },
+  {
+   "id": "XRAI32-MISSING-023",
+   "title": "Data schema migration ledger with dry-run, integrity fixtures and rollback for sensitive records",
+   "found_in": [
+    "constitution v2.1 §33.8 GAP-047",
+    "constitution v2.1 §31.2 LF-12 'schema migration'"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P02",
+   "proposed_owner_engine": "SecureVault",
+   "status": "SPECIFIED",
+   "note": "XRAI-MIGRATION_MODELS covers model/prompt regression only."
+  },
+  {
+   "id": "XRAI32-MISSING-024",
+   "title": "Versioned command/event registry (idempotent, authorised, respects deletion)",
+   "found_in": [
+    "legacy handoff v0.4 §4 'Olay sistemi'",
+    "XRAI_COMMAND_EVENT_REGISTRY_v1.0.json (HISTORICAL_MACHINE_REGISTRIES v1.0/v1.1)",
+    "XRAI_REQUIREMENT_TRACEABILITY_v1.0.csv command/event columns"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P02",
+   "proposed_owner_engine": "OctopusOrchestrator",
+   "status": "SPECIFIED",
+   "note": "Architecture contract with no v3.1 row; needed before P05 event flows."
+  },
+  {
+   "id": "XRAI32-MISSING-025",
+   "title": "Voice interaction: opt-in microphone, on-device speech, safe voice-off path",
+   "found_in": [
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json F07",
+    "XRAI_REQUIREMENT_TRACEABILITY_v1.0.csv REQ-GUIDE-001 (F07)",
+    "constitution v2.1 §33.8 GAP-055 (usable without microphone)"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P12",
+   "proposed_owner_engine": "PrivacyKernel",
+   "status": "SPECIFIED",
+   "note": "XRAI-APP_PERMISSIONS gates the permission; the feature itself has no row. Low priority."
+  },
+  {
+   "id": "XRAI32-MISSING-026",
+   "title": "Internal operations consoles (source/rights registry, eval lab, incident centre, privacy requests, cost guard, growth/ASO)",
+   "found_in": [
+    "XRAI_REQUIREMENT_TRACEABILITY_v1.0.csv REQ-OPERATIONS-001 (H01-H14), REQ-IMPACT-OPERATIONS-001 (Q01-Q03)",
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json OPS01-OPS03, UHAOPS01-UHAOPS03",
+    "XRAI_SCREEN_DELTA_14_v1.3.json STO01, STO02"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P12",
+   "proposed_owner_engine": "OctopusOrchestrator",
+   "status": "SPECIFIED",
+   "note": "25 admin/ops surfaces; v3.2 §71 is native-iOS-only and UX_PIXEL_SCREEN_CONTRACTS_v3.2 has no ops surface. Not dropped by any decision record; recorded here so the gap is explicit."
+  },
+  {
+   "id": "XRAI32-MISSING-027",
+   "title": "Rights expiry jobs and disable-fallback for licensed content (signed source registry)",
+   "found_in": [
+    "constitution v2.1 §33.8 GAP-063",
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json H04"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P13",
+   "proposed_owner_engine": "KnowledgeDNA",
+   "status": "SPECIFIED",
+   "note": "XRAI-RAG_PROVENANCE tracks rights per claim but not expiry enforcement."
+  },
+  {
+   "id": "XRAI32-MISSING-028",
+   "title": "Per-request budget, max hops, circuit breaker and financial/incident kill switch",
+   "found_in": [
+    "constitution v2.1 §33.8 GAP-027, GAP-064, GAP-039",
+    "constitution v2.1 §33.3"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P06",
+   "proposed_owner_engine": "OctopusOrchestrator",
+   "status": "SPECIFIED",
+   "note": "XRAI-MODEL_ROUTER mentions budget; the bounded-cost/chaos evidence has no row."
+  },
+  {
+   "id": "XRAI32-MISSING-029",
+   "title": "Collective-learning privacy budget: small-cohort suppression / re-identification review and honest unlearning-limits disclosure",
+   "found_in": [
+    "constitution v2.1 §33.8 GAP-059, GAP-060",
+    "XRAI_COLLECTIVE_BRAIN_CONSENT_POLICY_v1.8.json"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P13",
+   "proposed_owner_engine": "EvolutionGovernor",
+   "status": "SPECIFIED",
+   "note": "XRAI-COLLECTIVE_OPTIN / XRAI31-COLLECTIVE-OPTIN cover opt-in; suppression thresholds and unlearning disclosure are not rows."
+  },
+  {
+   "id": "XRAI32-MISSING-030",
+   "title": "Scale/SLO load evidence before any capacity claim (no 'million users' statement without observed load)",
+   "found_in": [
+    "constitution v2.1 §33.8 GAP-052",
+    "legacy handoff v0.4 (v0.2 section) §5 'Million-user scale engineering (target, not achieved)'"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P12",
+   "proposed_owner_engine": "OctopusOrchestrator",
+   "status": "SPECIFIED",
+   "note": "XRAI-GLOBAL_LOCALIZE mentions CDN cost only."
+  },
+  {
+   "id": "XRAI32-MISSING-031",
+   "title": "Legacy NUR / AUREV / AYMORA code reuse audit (licence, security, no production assumption)",
+   "found_in": [
+    "legacy handoff v0.4 §10",
+    "v1.0 open decisions 9 and 10 (XRAI_OPEN_DECISIONS_AND_BLOCKERS_v1.0.md)"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "BOOT-00",
+   "proposed_owner_engine": "OctopusOrchestrator",
+   "status": "SOURCE_UNVERIFIED",
+   "note": "The NUR/AUREV dumps are NOT in this repo or the scratchpad packages; AYMORA dump was never located (v0.4 §10). Status NOT_AVAILABLE as a source."
+  },
+  {
+   "id": "XRAI32-MISSING-032",
+   "title": "Support and feedback channel that never exposes secrets or private data",
+   "found_in": [
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json G12",
+    "XRAI_REQUIREMENT_TRACEABILITY_v1.0.csv REQ-PRIVACY-001 (G12)"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P12",
+   "proposed_owner_engine": "PrivacyKernel",
+   "status": "SPECIFIED",
+   "note": "No row. Low priority."
+  },
+  {
+   "id": "XRAI32-MISSING-033",
+   "title": "Legal, method and source information screen (in-app disclosure of methods, rights and privacy policy)",
+   "found_in": [
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json G10",
+    "XRAI_REQUIREMENT_TRACEABILITY_v1.0.csv REQ-PRIVACY-001 (G10)"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P03",
+   "proposed_owner_engine": "KnowledgeDNA",
+   "status": "SPECIFIED",
+   "note": "XRAI-CONTENT_FILTERS requires disclosure per claim; a consolidated legal/source screen is not in the 12 v3.2 contracts."
+  },
+  {
+   "id": "XRAI32-MISSING-034",
+   "title": "Interests/curiosity and values capture as voluntary self-report (A08, C04, C06)",
+   "found_in": [
+    "XRAI_SCREEN_CONTRACTS_134_v1.2.json A08, C04, C06",
+    "XRAI_REQUIREMENT_TRACEABILITY_v1.0.csv REQ-ONBOARDING-001, REQ-IDENTITY-001",
+    "XRAI_DOMAIN_DELTA_14_v1.3.json ValueCommitment"
+   ],
+   "absent_from": "REQUIREMENT_TO_ENGINE_MATRIX_v3.1.json",
+   "proposed_phase": "P05",
+   "proposed_owner_engine": "PersonalBrain",
+   "status": "SPECIFIED",
+   "note": "XRAI-PERSONAL_GRAPH stores 'events, aspirations' generically; the self-report entry contract has no row."
+  }
+ ]
+}

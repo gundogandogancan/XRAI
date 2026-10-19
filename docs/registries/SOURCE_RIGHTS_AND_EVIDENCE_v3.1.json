@@ -1,0 +1,131 @@
+{
+  "version": "3.1",
+  "records": [
+    {
+      "source_id": "XRAI_MASTER_V3",
+      "name": "v3.0 Master Constitution + archived v2.1",
+      "category": "internal_canon",
+      "rights": "USER_PROVIDED_ACTIVE_BASELINE",
+      "coverage": "verbatim preserved",
+      "engineering_rule": "code requirements, no runtime proof",
+      "status": "NOT_ALL_APPROVED"
+    },
+    {
+      "source_id": "HD_PARKYN_TR",
+      "name": "Chetan Parkyn Turkish Human Design book scan PDFs",
+      "category": "third_party_translation",
+      "rights": "PRIVATE_STUDY_ONLY_PENDING_RIGHTS",
+      "coverage": "298 frames, 13 unique PDFs, partial paragraph review",
+      "engineering_rule": "no redistribution/book corpus/training without rights",
+      "status": "NOT_ALL_APPROVED"
+    },
+    {
+      "source_id": "BOW_JOSEPH",
+      "name": "Book of Wisdom volumes 1/2 Harry B Joseph",
+      "category": "third_party_modern_book",
+      "rights": "SCREENSHOT_PUBLISHER_ONLY",
+      "coverage": "no full text or rights",
+      "engineering_rule": "topics as research leads only",
+      "status": "NOT_ALL_APPROVED"
+    },
+    {
+      "source_id": "PTOLEMY_TETRA",
+      "name": "Claudius Ptolemy Tetrabiblos original and historical translations",
+      "category": "classical_astrology",
+      "rights": "EDITION_BY_EDITION_REVIEW",
+      "coverage": "some older translations accessible, not fully read",
+      "engineering_rule": "method/version split",
+      "status": "NOT_ALL_APPROVED"
+    },
+    {
+      "source_id": "VALENS_ANTHO",
+      "name": "Vettius Valens Anthologies and Andrea Gehrz translation",
+      "category": "classical_astrology",
+      "rights": "MODERN_TRANSLATION_PROTECTED",
+      "coverage": "screenshot cover and public metadata",
+      "engineering_rule": "no copied text",
+      "status": "NOT_ALL_APPROVED"
+    },
+    {
+      "source_id": "DOROTHEUS_CARMEN",
+      "name": "Dorotheus Carmen Astrologicum and Benjamin Dykes translation",
+      "category": "classical_astrology",
+      "rights": "MODERN_TRANSLATION_PROTECTED",
+      "coverage": "screenshot cover and public metadata",
+      "engineering_rule": "no copied text",
+      "status": "NOT_ALL_APPROVED"
+    },
+    {
+      "source_id": "LILLY_CHRISTIAN",
+      "name": "William Lilly Christian Astrology historical original",
+      "category": "classical_astrology",
+      "rights": "OLD_WORK_CHECK_EDITION",
+      "coverage": "historical first edition public-domain evidence differs per scan",
+      "engineering_rule": "methods independently verified",
+      "status": "NOT_ALL_APPROVED"
+    },
+    {
+      "source_id": "ASTROD_INFO",
+      "name": "Astrodienst site public descriptions",
+      "category": "competitor",
+      "rights": "RESTRICTED_AUTOMATION",
+      "coverage": "no scraper or private API access",
+      "engineering_rule": "no unattended content copying",
+      "status": "NOT_ALL_APPROVED"
+    },
+    {
+      "source_id": "SWISS_EPHEMERIS",
+      "name": "Astrodienst Swiss Ephemeris engine",
+      "category": "licensed_library",
+      "rights": "AGPL_OR_PROFESSIONAL_LICENSE_GATE",
+      "coverage": "not installed; check current exact license",
+      "engineering_rule": "no shipping until gate",
+      "status": "NOT_ALL_APPROVED"
+    },
+    {
+      "source_id": "JPL_HORIZONS",
+      "name": "NASA JPL Horizons astronomy data",
+      "category": "astronomy",
+      "rights": "TERM_AND_SOURCE_REVIEW",
+      "coverage": "golden/reference potential",
+      "engineering_rule": "no personal DOB transfer required",
+      "status": "NOT_ALL_APPROVED"
+    },
+    {
+      "source_id": "JUNG_MASLOW",
+      "name": "Jung, Maslow, Frankl, modern psychometrics",
+      "category": "psychology_history",
+      "rights": "EDITION_AND_LICENSE_GATE",
+      "coverage": "different scientific status",
+      "engineering_rule": "no diagnosis by symbols",
+      "status": "NOT_ALL_APPROVED"
+    },
+    {
+      "source_id": "REPLICA_SKILL",
+      "name": "Jakeschincariol replica-skill",
+      "category": "external_tool",
+      "rights": "UNTRUSTED_NOT_INSTALLED",
+      "coverage": "candidate for lawful UX observational study",
+      "engineering_rule": "do not install without audit",
+      "status": "NOT_ALL_APPROVED"
+    },
+    {
+      "source_id": "APPLE_FRAMEWORKS",
+      "name": "SwiftUI Foundation Models Core ML CryptoKit StoreKit",
+      "category": "official_tech_docs",
+      "rights": "PUBLIC_OFFICIAL_DOCS",
+      "coverage": "API capability needs deployed SDK check",
+      "engineering_rule": "actual local/cloud behavior test",
+      "status": "NOT_ALL_APPROVED"
+    },
+    {
+      "source_id": "GOOGLE_GEMMA",
+      "name": "Gemma mobile LiteRT-LM",
+      "category": "external_model",
+      "rights": "LICENSE_PER_WEIGHTS_AND_RUNTIME",
+      "coverage": "not selected or benchmarked",
+      "engineering_rule": "verify Turkish/device cost",
+      "status": "NOT_ALL_APPROVED"
+    }
+  ]
+}

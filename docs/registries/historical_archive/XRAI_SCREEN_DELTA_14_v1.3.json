@@ -1,0 +1,480 @@
+{
+  "version": "v1.3",
+  "base_total": 134,
+  "delta": 14,
+  "expected_total": 148,
+  "screens": [
+    {
+      "screen_id": "ST01",
+      "title": "Life Coherence — değer ve eylem",
+      "area": "Ben",
+      "release_target": "V1",
+      "priority": "P0",
+      "screen_purpose": "Life Coherence — değer ve eylem",
+      "entry": "Contextually from existing 5 tabs; explicit user intent",
+      "data_types": [
+        "ValueCommitment",
+        "ValueActionLink"
+      ],
+      "primary_action": "User-controlled reversible action",
+      "commands": [
+        "ProposeST01",
+        "ConfirmOrDeclineST01"
+      ],
+      "events": [
+        "VALUE_LINK_REVIEWED"
+      ],
+      "permissions_required": "none beyond user-entered data; feature-purpose consent before sensitive fields",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "states": [
+        "loading",
+        "empty",
+        "offline",
+        "permissionDenied",
+        "error",
+        "paused",
+        "deleted"
+      ],
+      "acceptance": "User can dismiss without judgment; offline; optional",
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "screen_id": "ST02",
+      "title": "Flourishing Balance & Rest",
+      "area": "Bugün",
+      "release_target": "V1",
+      "priority": "P0",
+      "screen_purpose": "Flourishing Balance & Rest",
+      "entry": "Contextually from existing 5 tabs; explicit user intent",
+      "data_types": [
+        "FlourishingCheck",
+        "SafetyBoundary"
+      ],
+      "primary_action": "User-controlled reversible action",
+      "commands": [
+        "ProposeST02",
+        "ConfirmOrDeclineST02"
+      ],
+      "events": [
+        "REST_MODE_SELECTED"
+      ],
+      "permissions_required": "none beyond user-entered data; feature-purpose consent before sensitive fields",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "states": [
+        "loading",
+        "empty",
+        "offline",
+        "permissionDenied",
+        "error",
+        "paused",
+        "deleted"
+      ],
+      "acceptance": "Never infer diagnosis; no persistence without approval",
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "screen_id": "ST03",
+      "title": "Independence Mode & Graduation",
+      "area": "XRAI",
+      "release_target": "V1",
+      "priority": "P0",
+      "screen_purpose": "Independence Mode & Graduation",
+      "entry": "Contextually from existing 5 tabs; explicit user intent",
+      "data_types": [
+        "IndependentActionEvidence",
+        "SafetyBoundary"
+      ],
+      "primary_action": "User-controlled reversible action",
+      "commands": [
+        "ProposeST03",
+        "ConfirmOrDeclineST03"
+      ],
+      "events": [
+        "GUIDE_PROMPTING_REDUCED"
+      ],
+      "permissions_required": "none beyond user-entered data; feature-purpose consent before sensitive fields",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "states": [
+        "loading",
+        "empty",
+        "offline",
+        "permissionDenied",
+        "error",
+        "paused",
+        "deleted"
+      ],
+      "acceptance": "No default nagging; personal data export remains available",
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "screen_id": "ST04",
+      "title": "My Relationships — boundaries",
+      "area": "Ben",
+      "release_target": "V1.1",
+      "priority": "P1",
+      "screen_purpose": "My Relationships — boundaries",
+      "entry": "Contextually from existing 5 tabs; explicit user intent",
+      "data_types": [
+        "ConnectionExperiment",
+        "SafetyBoundary"
+      ],
+      "primary_action": "User-controlled reversible action",
+      "commands": [
+        "ProposeST04",
+        "ConfirmOrDeclineST04"
+      ],
+      "events": [
+        "CONNECTION_EXPERIMENT_PLANNED"
+      ],
+      "permissions_required": "none beyond user-entered data; feature-purpose consent before sensitive fields",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "states": [
+        "loading",
+        "empty",
+        "offline",
+        "permissionDenied",
+        "error",
+        "paused",
+        "deleted"
+      ],
+      "acceptance": "No third-party profiling; no compulsory contacts",
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "screen_id": "ST05",
+      "title": "Connection Reflection",
+      "area": "Yolum",
+      "release_target": "V1.1",
+      "priority": "P1",
+      "screen_purpose": "Connection Reflection",
+      "entry": "Contextually from existing 5 tabs; explicit user intent",
+      "data_types": [
+        "ConnectionExperiment",
+        "ImpactAttribution"
+      ],
+      "primary_action": "User-controlled reversible action",
+      "commands": [
+        "ProposeST05",
+        "ConfirmOrDeclineST05"
+      ],
+      "events": [
+        "CONNECTION_REFLECTED"
+      ],
+      "permissions_required": "none beyond user-entered data; feature-purpose consent before sensitive fields",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "states": [
+        "loading",
+        "empty",
+        "offline",
+        "permissionDenied",
+        "error",
+        "paused",
+        "deleted"
+      ],
+      "acceptance": "No forced reconciliation; crisis alternatives",
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "screen_id": "ST06",
+      "title": "My Contribution Paths",
+      "area": "Yolum",
+      "release_target": "V1.1",
+      "priority": "P1",
+      "screen_purpose": "My Contribution Paths",
+      "entry": "Contextually from existing 5 tabs; explicit user intent",
+      "data_types": [
+        "ContributionExperiment",
+        "GoalTradeoff"
+      ],
+      "primary_action": "User-controlled reversible action",
+      "commands": [
+        "ProposeST06",
+        "ConfirmOrDeclineST06"
+      ],
+      "events": [
+        "CONTRIBUTION_PATH_SELECTED"
+      ],
+      "permissions_required": "none beyond user-entered data; feature-purpose consent before sensitive fields",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "states": [
+        "loading",
+        "empty",
+        "offline",
+        "permissionDenied",
+        "error",
+        "paused",
+        "deleted"
+      ],
+      "acceptance": "Voluntary, no virtue points and no mandatory charity",
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "screen_id": "ST07",
+      "title": "Contribution Evidence & Limits",
+      "area": "Yolum",
+      "release_target": "V1.1",
+      "priority": "P1",
+      "screen_purpose": "Contribution Evidence & Limits",
+      "entry": "Contextually from existing 5 tabs; explicit user intent",
+      "data_types": [
+        "ContributionExperiment",
+        "ImpactAttribution"
+      ],
+      "primary_action": "User-controlled reversible action",
+      "commands": [
+        "ProposeST07",
+        "ConfirmOrDeclineST07"
+      ],
+      "events": [
+        "CONTRIBUTION_EVIDENCE_REVIEWED"
+      ],
+      "permissions_required": "none beyond user-entered data; feature-purpose consent before sensitive fields",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "states": [
+        "loading",
+        "empty",
+        "offline",
+        "permissionDenied",
+        "error",
+        "paused",
+        "deleted"
+      ],
+      "acceptance": "Self-report is not community impact proof",
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "screen_id": "ST08",
+      "title": "Wisdom Conversation",
+      "area": "XRAI",
+      "release_target": "V1.1",
+      "priority": "P1",
+      "screen_purpose": "Wisdom Conversation",
+      "entry": "Contextually from existing 5 tabs; explicit user intent",
+      "data_types": [
+        "PerspectiveExercise"
+      ],
+      "primary_action": "User-controlled reversible action",
+      "commands": [
+        "ProposeST08",
+        "ConfirmOrDeclineST08"
+      ],
+      "events": [
+        "PERSPECTIVE_EXERCISE_REVIEWED"
+      ],
+      "permissions_required": "none beyond user-entered data; feature-purpose consent before sensitive fields",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "states": [
+        "loading",
+        "empty",
+        "offline",
+        "permissionDenied",
+        "error",
+        "paused",
+        "deleted"
+      ],
+      "acceptance": "No invented quotes or moral authority",
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "screen_id": "ST09",
+      "title": "Awe & Wonder Studio",
+      "area": "Keşfet",
+      "release_target": "V2",
+      "priority": "P2",
+      "screen_purpose": "Awe & Wonder Studio",
+      "entry": "Contextually from existing 5 tabs; explicit user intent",
+      "data_types": [
+        "AweExperience"
+      ],
+      "primary_action": "User-controlled reversible action",
+      "commands": [
+        "ProposeST09",
+        "ConfirmOrDeclineST09"
+      ],
+      "events": [
+        "AWE_EXPERIENCE_OPENED"
+      ],
+      "permissions_required": "none beyond user-entered data; feature-purpose consent before sensitive fields",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "states": [
+        "loading",
+        "empty",
+        "offline",
+        "permissionDenied",
+        "error",
+        "paused",
+        "deleted"
+      ],
+      "acceptance": "Science vs metaphor and accessibility",
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "screen_id": "ST10",
+      "title": "Life Chapters & Legacy",
+      "area": "Ben",
+      "release_target": "V2",
+      "priority": "P2",
+      "screen_purpose": "Life Chapters & Legacy",
+      "entry": "Contextually from existing 5 tabs; explicit user intent",
+      "data_types": [
+        "LifeChapter"
+      ],
+      "primary_action": "User-controlled reversible action",
+      "commands": [
+        "ProposeST10",
+        "ConfirmOrDeclineST10"
+      ],
+      "events": [
+        "LIFE_CHAPTER_EDITED"
+      ],
+      "permissions_required": "none beyond user-entered data; feature-purpose consent before sensitive fields",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "states": [
+        "loading",
+        "empty",
+        "offline",
+        "permissionDenied",
+        "error",
+        "paused",
+        "deleted"
+      ],
+      "acceptance": "Local encrypted, explicit per-object sharing",
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "screen_id": "ST11",
+      "title": "Meaning Beyond Self Review",
+      "area": "Yolum",
+      "release_target": "V1.1",
+      "priority": "P1",
+      "screen_purpose": "Meaning Beyond Self Review",
+      "entry": "Contextually from existing 5 tabs; explicit user intent",
+      "data_types": [
+        "ValueCommitment",
+        "ContributionExperiment"
+      ],
+      "primary_action": "User-controlled reversible action",
+      "commands": [
+        "ProposeST11",
+        "ConfirmOrDeclineST11"
+      ],
+      "events": [
+        "MEANING_REVIEWED"
+      ],
+      "permissions_required": "none beyond user-entered data; feature-purpose consent before sensitive fields",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "states": [
+        "loading",
+        "empty",
+        "offline",
+        "permissionDenied",
+        "error",
+        "paused",
+        "deleted"
+      ],
+      "acceptance": "No universal transcendence score",
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "screen_id": "ST12",
+      "title": "Your Boundaries & Why",
+      "area": "XRAI",
+      "release_target": "V1",
+      "priority": "P0",
+      "screen_purpose": "Your Boundaries & Why",
+      "entry": "Contextually from existing 5 tabs; explicit user intent",
+      "data_types": [
+        "SafetyBoundary"
+      ],
+      "primary_action": "User-controlled reversible action",
+      "commands": [
+        "ProposeST12",
+        "ConfirmOrDeclineST12"
+      ],
+      "events": [
+        "WHY_SUGGESTION_EXPLAINED"
+      ],
+      "permissions_required": "none beyond user-entered data; feature-purpose consent before sensitive fields",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "states": [
+        "loading",
+        "empty",
+        "offline",
+        "permissionDenied",
+        "error",
+        "paused",
+        "deleted"
+      ],
+      "acceptance": "Provenance and decline action, no dark patterns",
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "screen_id": "STO01",
+      "title": "Transcendence Content Rights Studio",
+      "area": "Operations",
+      "release_target": "INTERNAL",
+      "priority": "P1",
+      "screen_purpose": "Transcendence Content Rights Studio",
+      "entry": "Contextually from existing 5 tabs; explicit user intent",
+      "data_types": [
+        "RightsRegistry",
+        "PerspectiveExercise"
+      ],
+      "primary_action": "User-controlled reversible action",
+      "commands": [
+        "ProposeSTO01",
+        "ConfirmOrDeclineSTO01"
+      ],
+      "events": [
+        "CONTENT_REVIEWED"
+      ],
+      "permissions_required": "none beyond user-entered data; feature-purpose consent before sensitive fields",
+      "privacy_class": "INTERNAL_MINIMIZED",
+      "states": [
+        "loading",
+        "empty",
+        "offline",
+        "permissionDenied",
+        "error",
+        "paused",
+        "deleted"
+      ],
+      "acceptance": "Commercial rights and sources audited",
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    },
+    {
+      "screen_id": "STO02",
+      "title": "Agency, Bias & Safety Evaluation",
+      "area": "Operations",
+      "release_target": "INTERNAL",
+      "priority": "P0",
+      "screen_purpose": "Agency, Bias & Safety Evaluation",
+      "entry": "Contextually from existing 5 tabs; explicit user intent",
+      "data_types": [
+        "TestEvidence",
+        "SafetyBoundary"
+      ],
+      "primary_action": "User-controlled reversible action",
+      "commands": [
+        "ProposeSTO02",
+        "ConfirmOrDeclineSTO02"
+      ],
+      "events": [
+        "AGENCY_EVALUATION_COMPLETED"
+      ],
+      "permissions_required": "none beyond user-entered data; feature-purpose consent before sensitive fields",
+      "privacy_class": "INTERNAL_MINIMIZED",
+      "states": [
+        "loading",
+        "empty",
+        "offline",
+        "permissionDenied",
+        "error",
+        "paused",
+        "deleted"
+      ],
+      "acceptance": "Independent sample and anti-coercion regression",
+      "status": "SPECIFIED_NOT_IMPLEMENTED"
+    }
+  ]
+}

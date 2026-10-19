@@ -1,0 +1,286 @@
+{
+  "truth": "PLANNED_NOT_EXECUTED",
+  "count": 40,
+  "tests": [
+    {
+      "test_id": "XV3-CALENDAR_LEAP",
+      "scenario": "29-Feb valid leap year; reject 1900-02-29",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-CALENDAR_UNKNOWN",
+      "scenario": "Uncertain birth time never fabricated",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-NUM_COMPOUND",
+      "scenario": "Life Path 36/9 and master number method version exact",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-NUM_UNICODE",
+      "scenario": "ĞÜŞİIİ and name normalization reversible",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-NUM_RNG",
+      "scenario": "No random LLM output in math",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-ASTRO_DST",
+      "scenario": "Historical DST and UTC ambiguous time",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-ASTRO_LONG",
+      "scenario": "0/360 degree wrap and negative longitude",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-ASTRO_EPHEM",
+      "scenario": "Local offline ephemeris vector tolerance",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-HD_SOLAR88",
+      "scenario": "Design epoch by −88° solar ecliptic longitude root solve",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-HD_GATE_WRAP",
+      "scenario": "Boundaries and line edge conditions",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-HD_36CHANNEL",
+      "scenario": "36 distinct channel pairs confirmed externally",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-HD_9CENTERS",
+      "scenario": "9 centers and definition graph invariants",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-HD_TYPE_VARIANT",
+      "scenario": "4 main/five teaching types method profile",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-HD_PDF_LEDGER",
+      "scenario": "All 298 PDF scans tracked; no assumed paragraph completeness",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-HD_BOOK_P300",
+      "scenario": "Missing printed p300 check",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-COMPETITOR_LEGAL",
+      "scenario": "No concealed API or copyrighted expression copied",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-CRYPTO_NONCE",
+      "scenario": "Unique AEAD nonce key lifecycle/rotation",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-CRYPTO_BACKUP",
+      "scenario": "Backup/local vault recovery modes",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-CRYPTO_WAL",
+      "scenario": "No plaintext leaked to WAL/cache/index/crash",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-PRIVACY_NO_EGRESS",
+      "scenario": "Wi-Fi trace confirms zero PII egress by default",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-PRIVACY_REVOKE",
+      "scenario": "Consent revoked halts future egress",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-AI_PROMPT_INJECTION",
+      "scenario": "Book/web instruction cannot override constitution",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-AI_LOCAL_ONLY",
+      "scenario": "Device-only answer when offline/local enabled",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-AI_HALLUCINATION",
+      "scenario": "Citation and epistemic classes, abstain",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-AI_REMOTE_OPTIN",
+      "scenario": "Explicit consent and data category egress",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-MENTOR_QUOTE",
+      "scenario": "No fabricated quotation or impersonation",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-PSYCH_LICENSE",
+      "scenario": "No proprietary MBTI instrument copied",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-PSYCH_NOT_DIAGNOSIS",
+      "scenario": "No psychological illness inferred from chart",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-FUTURE_SELF_HYP",
+      "scenario": "No future certainty or actual other self",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-LEARNING_AVAILABLE",
+      "scenario": "Lesson actually downloadable/available/licensed",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-PROOF_P0_P5",
+      "scenario": "Video views never equal demonstrated skill",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-CHILD_SAFETY",
+      "scenario": "No minor spiritual destiny/parent journal surveillance",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-PAYMENT_PRICE",
+      "scenario": "StoreKit local price and restore/grace",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-UX_VOICEOVER",
+      "scenario": "Screen reader, Dynamic Type and no color only state",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-UX_REAL_NOT_MOCK",
+      "scenario": "Every visible outcome backed by real runtime",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-IP_BOOK_COPY",
+      "scenario": "No copyrighted page or diagram shipped",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-SOCIAL_AGENCY",
+      "scenario": "No addiction/false transcendence scoring",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-CLOUD_SPEND",
+      "scenario": "No surprise metered model calls",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-PERFORMANCE_THERMAL",
+      "scenario": "Device repeated use and safe fallback",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    },
+    {
+      "test_id": "XV3-AUDIT_NEGATIVE",
+      "scenario": "No checklist considered done without passing evidence",
+      "status": "NOT_RUN",
+      "evidence_path": null,
+      "last_result": null
+    }
+  ]
+}

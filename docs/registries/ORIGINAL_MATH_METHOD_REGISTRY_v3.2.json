@@ -1,0 +1,257 @@
+{
+  "version": "3.2",
+  "methods": [
+    {
+      "method_id": "num.life_path.digits.v1",
+      "family": "numerology",
+      "inputs": [
+        "BirthCivilDate",
+        "gregorianMethodID"
+      ],
+      "algorithm_spec": "raw DOB decimal digit sum; signed compound; root trace and 11/22/33 policy specified per variant; valid civil-date mandatory",
+      "golden_and_adversarial_verification": "leap centuries, DOB digits hand-derived, compound-master example, permutation not allowed, negative test",
+      "epistemic_class": "EXACT_MATH",
+      "activation_gate": "METHOD_ORIGINAL_AND_REFERENCES",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    },
+    {
+      "method_id": "num.name.pythagorean.v1",
+      "family": "numerology",
+      "inputs": [
+        "NameVariant",
+        "AlphabetPolicyID"
+      ],
+      "algorithm_spec": "normalize unicode per declared script/transliteration; sum expression/vowels/consonants, 1..9 matrix",
+      "golden_and_adversarial_verification": "Turkish ı/İ/ğ/ç/ü/ö/ş, composed/decomposed, Soul+Personality == Expression raw sum",
+      "epistemic_class": "EXACT_MATH",
+      "activation_gate": "METHOD_ORIGINAL_AND_REFERENCES",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    },
+    {
+      "method_id": "num.personal_cycles.v1",
+      "family": "numerology",
+      "inputs": [
+        "BirthCivilDate",
+        "CurrentCivilDate",
+        "CycleMethodID"
+      ],
+      "algorithm_spec": "separate universal/personal year/month/day method profiles with year convention",
+      "golden_and_adversarial_verification": "2026-12-31 to 2027-01-01, timezone, source method comparison",
+      "epistemic_class": "EXACT_MATH",
+      "activation_gate": "METHOD_ORIGINAL_AND_REFERENCES",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    },
+    {
+      "method_id": "num.place_names.v1",
+      "family": "symbolic_place",
+      "inputs": [
+        "CanonicalPlaceName",
+        "AlphabetPolicyID"
+      ],
+      "algorithm_spec": "optional symbolic place lettering plus independent place etymology sources",
+      "golden_and_adversarial_verification": "multilingual variants, same city renamed, no place-energy causal claims",
+      "epistemic_class": "SYMBOLIC_ASSOCIATION",
+      "activation_gate": "METHOD_ORIGINAL_AND_REFERENCES",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    },
+    {
+      "method_id": "astro.ephemeris.position.v1",
+      "family": "astronomy",
+      "inputs": [
+        "InstantUTC",
+        "EphemerisID",
+        "FrameID"
+      ],
+      "algorithm_spec": "licensed astronomical reference geocentric/topocentric positions and timescales",
+      "golden_and_adversarial_verification": "JPL independent vectors, UTC/TT/UT1, retrograde, polar, leap contexts",
+      "epistemic_class": "EXACT_MATH",
+      "activation_gate": "LICENSE_AND_CALIBRATION",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    },
+    {
+      "method_id": "astro.natal_chart.v1",
+      "family": "astrology",
+      "inputs": [
+        "BirthEvent",
+        "HouseVariantID",
+        "TraditionID"
+      ],
+      "algorithm_spec": "body positions, house cusps optional with uncertainty, aspects, sect",
+      "golden_and_adversarial_verification": "unknown time fallback, 0/360 wrap, latitude limit",
+      "epistemic_class": "HISTORICAL_TRADITION",
+      "activation_gate": "LICENSE_AND_METHOD_VARIANTS",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    },
+    {
+      "method_id": "astro.local_space.v1",
+      "family": "astronomy_geometry",
+      "inputs": [
+        "BirthEvent",
+        "BodyPosition",
+        "OrientationConvention"
+      ],
+      "algorithm_spec": "topocentric local horizontal azimuth altitude; geodesic bearing and projection",
+      "golden_and_adversarial_verification": "az=0 north, east 90, poles, dateline, great circle",
+      "epistemic_class": "EXACT_MATH",
+      "activation_gate": "LICENSE_AND_REFERENCE_FIXTURE",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    },
+    {
+      "method_id": "astro.astrocartography.v1",
+      "family": "astrology_geometry",
+      "inputs": [
+        "BirthEvent",
+        "PlanetPosition",
+        "MapDatum"
+      ],
+      "algorithm_spec": "ASC/DSC/MC/IC location lines and parans, documented projection and assumptions",
+      "golden_and_adversarial_verification": "projection distortion, anti-meridian, relocation consistency",
+      "epistemic_class": "HISTORICAL_TRADITION",
+      "activation_gate": "EPHEMERIS_RIGHTS",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    },
+    {
+      "method_id": "astro.traditional_methods.v1",
+      "family": "astrology",
+      "inputs": [
+        "NatalChart",
+        "TraditionProfile"
+      ],
+      "algorithm_spec": "Ptolemy/Valens/Dorotheus/Lilly exact preserved variants no blended invented rules",
+      "golden_and_adversarial_verification": "manual classic cases, edition provenance, disputes, bounds/sect/triplicity",
+      "epistemic_class": "HISTORICAL_TRADITION",
+      "activation_gate": "TRANSLATION_SOURCE_REVIEW",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    },
+    {
+      "method_id": "hd.design_sun_minus_88deg.v1",
+      "family": "human_design",
+      "inputs": [
+        "BirthInstantUTC",
+        "SolarLongitudeEphemeris"
+      ],
+      "algorithm_spec": "root solve signed wrapped solar longitude(t_design) = solar birth longitude - 88°",
+      "golden_and_adversarial_verification": "bracketed root, wrap, precision, not fixed 88 days, independent fixtures",
+      "epistemic_class": "EXACT_MATH",
+      "activation_gate": "EPHEMERIS_AND_HD_METHOD_RIGHTS",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    },
+    {
+      "method_id": "hd.gate_line_map.v1",
+      "family": "human_design",
+      "inputs": [
+        "PlanetLongitudes",
+        "GateWheelVersion"
+      ],
+      "algorithm_spec": "source/rights-verified ordered 64 gate mapping, orientation, anchor, 6 lines; no naive equal map without order",
+      "golden_and_adversarial_verification": "boundary ±eps, complete 64 bijection, independent references",
+      "epistemic_class": "HISTORICAL_TRADITION",
+      "activation_gate": "BLOCKED_UNTIL_SOURCE_METHOD",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    },
+    {
+      "method_id": "hd.bodygraph.v1",
+      "family": "human_design",
+      "inputs": [
+        "GateActivations",
+        "DefinitionMethodID"
+      ],
+      "algorithm_spec": "full channel bridges 2 gated endpoints; center/type/authority/12 profile methods versioned",
+      "golden_and_adversarial_verification": "9 center, 36 channel, 64 gate fixtures, overlap and unknown input",
+      "epistemic_class": "HISTORICAL_TRADITION",
+      "activation_gate": "BLOCKED_UNTIL_INDEPENDENT_FIXTURE",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    },
+    {
+      "method_id": "psych.big_five.v1",
+      "family": "psychometrics",
+      "inputs": [
+        "ConsentedQuestionnaire",
+        "ScaleID"
+      ],
+      "algorithm_spec": "licensed items, reverse-code, dimension scoring, measured construct not clinical diagnosis",
+      "golden_and_adversarial_verification": "norm validity, missing response, reliability, unsupported age",
+      "epistemic_class": "SOURCED_EMPIRICAL",
+      "activation_gate": "LICENSED_QUESTIONNAIRE_VALIDATION",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    },
+    {
+      "method_id": "psych.16_exploratory.v1",
+      "family": "psychology_exploration",
+      "inputs": [
+        "VoluntaryResponses"
+      ],
+      "algorithm_spec": "original 16-approach descriptive exploratory design; no MBTI 16Personalities text copy",
+      "golden_and_adversarial_verification": "test-retest limits, avoid categorical diagnosis; independent researcher review",
+      "epistemic_class": "MODEL_HYPOTHESIS",
+      "activation_gate": "BRAND_AND_SCALE_RIGHTS",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    },
+    {
+      "method_id": "cabala.gematria.v1",
+      "family": "gematria",
+      "inputs": [
+        "HebrewText",
+        "ScriptVariantID"
+      ],
+      "algorithm_spec": "registered Hebrew alphabet and final-letter policy, transliteration separate from alphabet",
+      "golden_and_adversarial_verification": "nikkud, final letters, standard vs extended variant",
+      "epistemic_class": "HISTORICAL_TRADITION",
+      "activation_gate": "TRADITION_SOURCE_RIGHTS",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    },
+    {
+      "method_id": "iching.hexagrams.v1",
+      "family": "iching",
+      "inputs": [
+        "UserSelectedMethod",
+        "HexagramBinary"
+      ],
+      "algorithm_spec": "six lines and method-dependent interpretation original authored",
+      "golden_and_adversarial_verification": "64 configurations, orientation, randomness clarity",
+      "epistemic_class": "HISTORICAL_TRADITION",
+      "activation_gate": "RIGHTS_AND_SOURCED_TRADITION",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    },
+    {
+      "method_id": "bazi.solar_terms.v1",
+      "family": "bazi",
+      "inputs": [
+        "BirthInstantUTC",
+        "Location",
+        "CalendarVariant"
+      ],
+      "algorithm_spec": "sexagenary pillars with astronomical solar term convention",
+      "golden_and_adversarial_verification": "DST, lunar new year vs solar term, 60-cycle and meridian",
+      "epistemic_class": "HISTORICAL_TRADITION",
+      "activation_gate": "METHOD_REFERENCE_VERIFICATION",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    },
+    {
+      "method_id": "energy.physical_frequency.v1",
+      "family": "physics",
+      "inputs": [
+        "MeasuredSignal",
+        "SampleRateHz"
+      ],
+      "algorithm_spec": "physical Hz Fourier/time-period evidence; never covert emotional energy scanner",
+      "golden_and_adversarial_verification": "sampling aliasing, permission denied, sine test; no spiritual output",
+      "epistemic_class": "EXACT_MATH",
+      "activation_gate": "REAL_SENSOR_AND_PERMISSION",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    },
+    {
+      "method_id": "purpose.parallel_lenses.v1",
+      "family": "guidance",
+      "inputs": [
+        "UserSelectedValues",
+        "TypedClaims"
+      ],
+      "algorithm_spec": "multiple labeled suggestions and user choices, no destiny inference",
+      "golden_and_adversarial_verification": "no unauthorized input, no user worth score, contradicting lenses",
+      "epistemic_class": "MODEL_HYPOTHESIS",
+      "activation_gate": "EPISTEMIC_REVIEW",
+      "implementation_state": "DESIGN_ONLY_NOT_TESTED"
+    }
+  ]
+}

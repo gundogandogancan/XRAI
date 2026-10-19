@@ -1,0 +1,249 @@
+{
+  "version": "3.0",
+  "active_product": "XRAI",
+  "AHTOVIA": "CONTRACT_ONLY_NO_REPO_WORK",
+  "phases": [
+    {
+      "phase_id": "BOOT-00",
+      "name": "Current repo/toolchain/source audit",
+      "depends_on": [],
+      "minimum_deliverables": [
+        "source index",
+        "git uncommitted report",
+        "toolchain and installed skills audit",
+        "blocker list",
+        "first build eligibility"
+      ],
+      "nonnegotiable_gates": [
+        "no destructive writes",
+        "no claim of code based on doc"
+      ],
+      "status": "NOT_VERIFIED",
+      "do_not_execute_until_dependencies_pass": true,
+      "order": 0
+    },
+    {
+      "phase_id": "BOOT-01",
+      "name": "CoreContracts and deterministic LifePath golden tests",
+      "depends_on": [
+        "BOOT-00"
+      ],
+      "minimum_deliverables": [
+        "SPM/Xcode module",
+        "pure date and LifePath method",
+        "synthetic goldens",
+        "swift test real stdout"
+      ],
+      "nonnegotiable_gates": [
+        "no PII at rest",
+        "offline no net"
+      ],
+      "status": "NOT_VERIFIED",
+      "do_not_execute_until_dependencies_pass": true,
+      "order": 1
+    },
+    {
+      "phase_id": "P1",
+      "name": "Threat-modelled encrypted device vault",
+      "depends_on": [
+        "BOOT-01"
+      ],
+      "minimum_deliverables": [
+        "Keychain/encrypted store",
+        "WAL/cache/backup tests",
+        "recovery policy and device tests"
+      ],
+      "nonnegotiable_gates": [
+        "vault not fake",
+        "no real private inputs until verified"
+      ],
+      "status": "NOT_VERIFIED",
+      "do_not_execute_until_dependencies_pass": true,
+      "order": 2
+    },
+    {
+      "phase_id": "P2",
+      "name": "Native first five-tab/free flow",
+      "depends_on": [
+        "P1"
+      ],
+      "minimum_deliverables": [
+        "local birth flow",
+        "actual LifePath output",
+        "original symbolic content",
+        "accessibility test",
+        "offline fallbacks"
+      ],
+      "nonnegotiable_gates": [
+        "screens show only real service"
+      ],
+      "status": "NOT_VERIFIED",
+      "do_not_execute_until_dependencies_pass": true,
+      "order": 3
+    },
+    {
+      "phase_id": "P3",
+      "name": "StoreKit 2 commercial truth",
+      "depends_on": [
+        "P2"
+      ],
+      "minimum_deliverables": [
+        "entitlement state machine",
+        "localized real price",
+        "restore/refund/grace tests"
+      ],
+      "nonnegotiable_gates": [
+        "Apple SKU required"
+      ],
+      "status": "NOT_VERIFIED",
+      "do_not_execute_until_dependencies_pass": true,
+      "order": 4
+    },
+    {
+      "phase_id": "P4",
+      "name": "Governed local AI + memory",
+      "depends_on": [
+        "P1",
+        "P2"
+      ],
+      "minimum_deliverables": [
+        "personal graph",
+        "local adapter benchmarks",
+        "prompt/egress guards",
+        "fallback"
+      ],
+      "nonnegotiable_gates": [
+        "deny remote by default"
+      ],
+      "status": "NOT_VERIFIED",
+      "do_not_execute_until_dependencies_pass": true,
+      "order": 5
+    },
+    {
+      "phase_id": "P5",
+      "name": "Future Self with actual lessons and proof",
+      "depends_on": [
+        "P2",
+        "P4"
+      ],
+      "minimum_deliverables": [
+        "goal DAG",
+        "micro-lesson catalog",
+        "P0-P2 proof flows",
+        "skill rubrics",
+        "optional mentor"
+      ],
+      "nonnegotiable_gates": [
+        "no evidence fabrication"
+      ],
+      "status": "NOT_VERIFIED",
+      "do_not_execute_until_dependencies_pass": true,
+      "order": 6
+    },
+    {
+      "phase_id": "P6",
+      "name": "Verified astrology and geospatial kernel",
+      "depends_on": [
+        "P1",
+        "P4"
+      ],
+      "minimum_deliverables": [
+        "time zones",
+        "licensed ephemeris",
+        "school profiles",
+        "local astro maps",
+        "independent vectors"
+      ],
+      "nonnegotiable_gates": [
+        "licenses and numerical tests"
+      ],
+      "status": "NOT_VERIFIED",
+      "do_not_execute_until_dependencies_pass": true,
+      "order": 7
+    },
+    {
+      "phase_id": "P7",
+      "name": "Independent Human Design kernel",
+      "depends_on": [
+        "P1",
+        "P6"
+      ],
+      "minimum_deliverables": [
+        "full scan coverage ledger",
+        "gate/line map",
+        "centers/channels",
+        "type/authority/profile",
+        "original SVG/UI",
+        "goldens"
+      ],
+      "nonnegotiable_gates": [
+        "book-rights and method uncertainty"
+      ],
+      "status": "NOT_VERIFIED",
+      "do_not_execute_until_dependencies_pass": true,
+      "order": 8
+    },
+    {
+      "phase_id": "P8",
+      "name": "Comparative wisdom and psychology",
+      "depends_on": [
+        "P4",
+        "P5"
+      ],
+      "minimum_deliverables": [
+        "sources and editions",
+        "original lessons",
+        "nonclinical 16-style reflection",
+        "physics/science explanations",
+        "history atlas"
+      ],
+      "nonnegotiable_gates": [
+        "claim and rights checks"
+      ],
+      "status": "NOT_VERIFIED",
+      "do_not_execute_until_dependencies_pass": true,
+      "order": 9
+    },
+    {
+      "phase_id": "P9",
+      "name": "Future AHTOVIA interop contract (no app coding)",
+      "depends_on": [
+        "P5"
+      ],
+      "minimum_deliverables": [
+        "versioned learning intent and proof receipt types",
+        "denied-by-default cross-domain tests"
+      ],
+      "nonnegotiable_gates": [
+        "AHTOVIA external master and consent absent"
+      ],
+      "status": "NOT_VERIFIED",
+      "do_not_execute_until_dependencies_pass": true,
+      "order": 10
+    },
+    {
+      "phase_id": "P10",
+      "name": "Pilot readiness and release safety",
+      "depends_on": [
+        "P3",
+        "P5",
+        "P6",
+        "P7",
+        "P8"
+      ],
+      "minimum_deliverables": [
+        "privacy audit",
+        "security pen tests",
+        "licensed sources verified",
+        "device benchmarks",
+        "Apple review and controlled beta"
+      ],
+      "nonnegotiable_gates": [
+        "APP_REVIEW_NOT_GUARANTEED"
+      ],
+      "status": "NOT_VERIFIED",
+      "do_not_execute_until_dependencies_pass": true,
+      "order": 11
+    }
+  ]
+}

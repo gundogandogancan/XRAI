@@ -1,0 +1,3 @@
+# XRAI pixel & user experience handoff
+
+5 tabs Bugün/Ben/Keşfet/Yolum/XRAI; accountless real free Life Path, progressive why/method/source/disclosure, accessible independent chart reading, careful mystery aesthetic lavender/green-beige/gold optional. Each screen has state machine unknown/time uncertainty/offline/no-model/permission denied/loading/error/partial/ready; 44pt tappable targets, Dynamic Type, VoiceOver, localization, screenshot QA, reduced motion, dark mode, contrast. No fake lab-scanner meters or covert profiling. Goals are user editable and evidence P0–P5 genuine. Figma/Fable tools not assumed installed. Reference master §88 and registry UX_PIXEL_SCREEN_CONTRACTS.

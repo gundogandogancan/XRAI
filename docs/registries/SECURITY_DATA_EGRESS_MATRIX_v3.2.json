@@ -1,0 +1,110 @@
+{
+  "version": "3.2",
+  "flows": [
+    {
+      "field": "birth_date",
+      "default_destination": "DEVICE_ONLY",
+      "purpose": "deterministic computation",
+      "hard_rule": "none by default",
+      "status": "SPEC_ONLY"
+    },
+    {
+      "field": "birth_place",
+      "default_destination": "DEVICE_ONLY",
+      "purpose": "optional astronomy",
+      "hard_rule": "no current-location permission",
+      "status": "SPEC_ONLY"
+    },
+    {
+      "field": "birth_time",
+      "default_destination": "DEVICE_ONLY",
+      "purpose": "precision propagation",
+      "hard_rule": "unknown is allowed",
+      "status": "SPEC_ONLY"
+    },
+    {
+      "field": "parents_names",
+      "default_destination": "DEVICE_ONLY_HIGH_SENSITIVITY",
+      "purpose": "optional explicit symbolism",
+      "hard_rule": "no analytics/no shared model",
+      "status": "SPEC_ONLY"
+    },
+    {
+      "field": "sibling_order",
+      "default_destination": "DEVICE_ONLY_PRIVATE",
+      "purpose": "optional autobiographical lens",
+      "hard_rule": "never guessed",
+      "status": "SPEC_ONLY"
+    },
+    {
+      "field": "spiritual_practices",
+      "default_destination": "DEVICE_ONLY_SENSITIVE",
+      "purpose": "optional personal choice",
+      "hard_rule": "never inferred",
+      "status": "SPEC_ONLY"
+    },
+    {
+      "field": "psychometrics",
+      "default_destination": "DEVICE_ONLY_SENSITIVE",
+      "purpose": "licensed user survey",
+      "hard_rule": "no diagnostic backend",
+      "status": "SPEC_ONLY"
+    },
+    {
+      "field": "journal",
+      "default_destination": "DEVICE_ONLY_SENSITIVE",
+      "purpose": "user-owned meaning",
+      "hard_rule": "exclude from crash logs/LLM by default",
+      "status": "SPEC_ONLY"
+    },
+    {
+      "field": "goal_roadmap",
+      "default_destination": "DEVICE_ONLY_PRIVATE",
+      "purpose": "own development graph",
+      "hard_rule": "revoke data lineage",
+      "status": "SPEC_ONLY"
+    },
+    {
+      "field": "evidence_files",
+      "default_destination": "DEVICE_ONLY_PRIVATE",
+      "purpose": "user supplied proof",
+      "hard_rule": "no background upload",
+      "status": "SPEC_ONLY"
+    },
+    {
+      "field": "ephemeris_bundle",
+      "default_destination": "SIGNED_CONTENT_PUBLIC",
+      "purpose": "offline planet positions",
+      "hard_rule": "licensed packaging",
+      "status": "SPEC_ONLY"
+    },
+    {
+      "field": "learning_assets",
+      "default_destination": "SIGNED_CONTENT_PUBLIC",
+      "purpose": "original rights cleared education",
+      "hard_rule": "CDN optional with standard telemetry only",
+      "status": "SPEC_ONLY"
+    },
+    {
+      "field": "purchase_entitlement",
+      "default_destination": "APPLE_STOREKIT",
+      "purpose": "StoreKit verified subscription",
+      "hard_rule": "no journal DOB upload",
+      "status": "SPEC_ONLY"
+    },
+    {
+      "field": "provider_ai",
+      "default_destination": "PER_CALL_EXPLICIT_CONSENT",
+      "purpose": "optional rich answer",
+      "hard_rule": "minimal scoped payload, no default fallback",
+      "status": "SPEC_ONLY"
+    },
+    {
+      "field": "anonymous_feedback",
+      "default_destination": "SEPARATE_OPT_IN_REVIEWED",
+      "purpose": "quality evaluation",
+      "hard_rule": "no sensitive raw user input",
+      "status": "SPEC_ONLY"
+    }
+  ]
+}

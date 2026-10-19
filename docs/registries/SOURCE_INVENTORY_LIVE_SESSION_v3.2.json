@@ -1,0 +1,413 @@
+{
+  "generated": "2026-10-19",
+  "source_count": 58,
+  "scope": "only extant /mnt/data root-level files; NOT all historical conversations or user Mac repo",
+  "sources": [
+    {
+      "filename": "Human design 12.pdf",
+      "size_bytes": 79106727,
+      "sha256": "c0114b455ff578124c9aebf5a1f4c31f7d24067cc76fd39773614612d23b7e49",
+      "status": "PRIVATE_BOOK_SCAN_INDEXED_NOT_LICENSED_FOR_APP",
+      "embedded": false
+    },
+    {
+      "filename": "Human design13.pdf",
+      "size_bytes": 22787542,
+      "sha256": "0ed963764c77bcc214e570d9d535651f61a564cc42cbbc757552a38188b7645f",
+      "status": "PRIVATE_BOOK_SCAN_INDEXED_NOT_LICENSED_FOR_APP",
+      "embedded": false
+    },
+    {
+      "filename": "Human desing 10.pdf",
+      "size_bytes": 82701769,
+      "sha256": "8f3a32b6374cf191f3db9124f7035ae0a808fb96747c9b040e7c74d6afb5b7be",
+      "status": "PRIVATE_BOOK_SCAN_INDEXED_NOT_LICENSED_FOR_APP",
+      "embedded": false
+    },
+    {
+      "filename": "Human desing 11.pdf",
+      "size_bytes": 71389803,
+      "sha256": "ac835db65d904f087fe4af076e41af3053e111b690c5c87f5bbaacecb803f04c",
+      "status": "PRIVATE_BOOK_SCAN_INDEXED_NOT_LICENSED_FOR_APP",
+      "embedded": false
+    },
+    {
+      "filename": "Human desing 5.pdf",
+      "size_bytes": 65118207,
+      "sha256": "e711f016cd0b8aa67e74c3d8683b9a2403fc9b4e9027f9419b283b8b8aac4f0a",
+      "status": "PRIVATE_BOOK_SCAN_INDEXED_NOT_LICENSED_FOR_APP",
+      "embedded": false
+    },
+    {
+      "filename": "Human desing 8.pdf",
+      "size_bytes": 75498121,
+      "sha256": "3e8b72ad5296150b00add8e155d704a842df1dde36fd3a0785f77bb0d9ed9d60",
+      "status": "PRIVATE_BOOK_SCAN_INDEXED_NOT_LICENSED_FOR_APP",
+      "embedded": false
+    },
+    {
+      "filename": "Human desing(1).pdf",
+      "size_bytes": 58647362,
+      "sha256": "3844444393b8bf3c5d6363f427fa36d67eb775c2a1c5d231b59e9812cbf5b18d",
+      "status": "PRIVATE_BOOK_SCAN_INDEXED_NOT_LICENSED_FOR_APP",
+      "embedded": false
+    },
+    {
+      "filename": "Human desing.pdf",
+      "size_bytes": 58647362,
+      "sha256": "3844444393b8bf3c5d6363f427fa36d67eb775c2a1c5d231b59e9812cbf5b18d",
+      "status": "PRIVATE_BOOK_SCAN_INDEXED_NOT_LICENSED_FOR_APP",
+      "embedded": false
+    },
+    {
+      "filename": "Human desing2(1).pdf",
+      "size_bytes": 68079966,
+      "sha256": "8f6af3434745e0e56a37cd30eea502bcf310a4d8022c36493ac602f151beef10",
+      "status": "PRIVATE_BOOK_SCAN_INDEXED_NOT_LICENSED_FOR_APP",
+      "embedded": false
+    },
+    {
+      "filename": "Human desing2.pdf",
+      "size_bytes": 68079966,
+      "sha256": "8f6af3434745e0e56a37cd30eea502bcf310a4d8022c36493ac602f151beef10",
+      "status": "PRIVATE_BOOK_SCAN_INDEXED_NOT_LICENSED_FOR_APP",
+      "embedded": false
+    },
+    {
+      "filename": "Human desing3(1).pdf",
+      "size_bytes": 75169101,
+      "sha256": "4b0d916de3f214c3bb5b23bda2277553b92aa628c1c13b8507e2605fc1192280",
+      "status": "PRIVATE_BOOK_SCAN_INDEXED_NOT_LICENSED_FOR_APP",
+      "embedded": false
+    },
+    {
+      "filename": "Human desing3.pdf",
+      "size_bytes": 75169101,
+      "sha256": "4b0d916de3f214c3bb5b23bda2277553b92aa628c1c13b8507e2605fc1192280",
+      "status": "PRIVATE_BOOK_SCAN_INDEXED_NOT_LICENSED_FOR_APP",
+      "embedded": false
+    },
+    {
+      "filename": "Human desing4(1).pdf",
+      "size_bytes": 65700919,
+      "sha256": "9e5f2ae0467f5fecf70d62cdbd98d5946a59cb03823d268738ea023fd8d8b1bc",
+      "status": "PRIVATE_BOOK_SCAN_INDEXED_NOT_LICENSED_FOR_APP",
+      "embedded": false
+    },
+    {
+      "filename": "Human desing4.pdf",
+      "size_bytes": 65700919,
+      "sha256": "9e5f2ae0467f5fecf70d62cdbd98d5946a59cb03823d268738ea023fd8d8b1bc",
+      "status": "PRIVATE_BOOK_SCAN_INDEXED_NOT_LICENSED_FOR_APP",
+      "embedded": false
+    },
+    {
+      "filename": "Human desng6.pdf",
+      "size_bytes": 65195948,
+      "sha256": "73b1edeabc69b5db4744844700a7865f6240924e420523268df1acadea7fe163",
+      "status": "PRIVATE_BOOK_SCAN_INDEXED_NOT_LICENSED_FOR_APP",
+      "embedded": false
+    },
+    {
+      "filename": "Human desng7.pdf",
+      "size_bytes": 71119466,
+      "sha256": "54b7baa9ce55cc78f290cb97b81790191269faf77923055e92c2fc9d3e793e5d",
+      "status": "PRIVATE_BOOK_SCAN_INDEXED_NOT_LICENSED_FOR_APP",
+      "embedded": false
+    },
+    {
+      "filename": "Human desng9.pdf",
+      "size_bytes": 75746755,
+      "sha256": "083a559bc5535cf9772f2c114a319443b62380df7c669e71f8cc5755e24914d5",
+      "status": "PRIVATE_BOOK_SCAN_INDEXED_NOT_LICENSED_FOR_APP",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_AHTOVIA_GOD_LEVEL_MASTER_EXECUTION_PACKAGE_v1.5.zip",
+      "size_bytes": 514308,
+      "sha256": "1e658d2126bbf530419c0c5c1471adee51848441dc18e917a6a2021e6ddff366",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_CLAUDE_CLASSICAL_ASTROLOGY_EXECUTION_PACKAGE_v2.1.zip",
+      "size_bytes": 351785,
+      "sha256": "deb3eb0afac052684e24ae799a8b7ceb9e56dcd8c71c1de8f564582d8b6e315d",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_CLAUDE_COMPARATIVE_WISDOM_ATLAS_PACKAGE_v1.9.zip",
+      "size_bytes": 314200,
+      "sha256": "5fdf03902f90945e08e2b146d3df7bcde999cfd1c4af72a05e103aca2b696533",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_CLAUDE_COMPLETE_BOOK_RESEARCH_PACKAGE_v2.0.zip",
+      "size_bytes": 349833,
+      "sha256": "2da2cbefce25a04af6617ed3456eded330eea487aec5e88978b864875b89e11d",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_CLAUDE_FIRST_BOOT_GOD_LEVEL_2026-10-17.zip",
+      "size_bytes": 340924,
+      "sha256": "aeb7f529143b0df0a11a9899242cba0840bc6bff0fde6903a9436cbd83e676a6",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_CLAUDE_FIRST_PROMPT_BUILD_v3.0.md",
+      "size_bytes": 4223,
+      "sha256": "58f87bffbfe2c01cd009db72b7c71bfea13c37ac90ab412a1a92fe794808364d",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_CLAUDE_GOD_LEVEL_EXECUTION_PACKAGE_v1.0.zip",
+      "size_bytes": 271040,
+      "sha256": "f2bca2c43c4f7a1b0fe726f835a81f060217f93509a00a3ca53b99ee6b3ac6b4",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_CLAUDE_GOD_LEVEL_GAP_CLOSURE_EXECUTION_PACKAGE_v1.6.zip",
+      "size_bytes": 315498,
+      "sha256": "fc588e9200db6f222ab03de543536ce7d605f918add1d11b5edc0489d01f2268",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_CLAUDE_LIFELONG_FLOURISHING_EXECUTION_PACKAGE_v1.4.zip",
+      "size_bytes": 236534,
+      "sha256": "2b0951153f3e7fe647e864110621373419bd9feaa065f894fce00c9cc282e4f7",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_CLAUDE_ORIGINAL_INTELLIGENCE_EXECUTION_PACKAGE_v1.8.zip",
+      "size_bytes": 315354,
+      "sha256": "c04ce1efab91068acf619122213b12201c19fe028a21717208e60fc0833ab364",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_CLAUDE_SECURE_INTELLIGENCE_CORE_EXECUTION_PACKAGE_v1.7.zip",
+      "size_bytes": 309909,
+      "sha256": "68ed3847a689b550a93e19c1f113a0961633b3ec83491bbb6852e6d7da7ada5f",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_CLAUDE_SELF_TRANSCENDENCE_EXECUTION_PACKAGE_v1.3.zip",
+      "size_bytes": 254852,
+      "sha256": "9d5e3247d819704bd1074796bfd072097a2409c866c27d2ce9d8b30c554f6d90",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_CLAUDE_ULU_EVREN_EXECUTION_PACKAGE_v1.0.zip",
+      "size_bytes": 145137,
+      "sha256": "c1117f38d937d3b00c57f816ef0f18896c0aeed2c398fb20b072599d4c1f420a",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_CLAUDE_ULU_EVREN_MASTER_EXECUTION_PACKAGE_v1.1.zip",
+      "size_bytes": 448998,
+      "sha256": "42654d801f01fe55fa3e7b4cfd907ab7a5dc8992323cf66cb2c12487eb3a1f9e",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_CLAUDE_ULU_EVREN_MASTER_EXECUTION_PACKAGE_v1.2.zip",
+      "size_bytes": 386237,
+      "sha256": "f582040cc5ffc70fc57fc30181bc8f46294fd044386064040503db1c0a77abbf",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_FIRST_CLAUDE_PROMPT_2026-10-17.md",
+      "size_bytes": 14024,
+      "sha256": "ab273c772362237a0aebc3aa8376bd94863a86bf51b866a2be397edb37316b2a",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_HUMAN_DESIGN_BATCH1_RESEARCH_NOTES.zip",
+      "size_bytes": 9649,
+      "sha256": "c66fbb328a91bac54c6295a2a4fb2cfff7cd291c7e82bb14fc9cbeda278b0d08",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_HUMAN_DESIGN_DUPLICATE_AND_COVERAGE_AUDIT_2026-10-19.md",
+      "size_bytes": 2565,
+      "sha256": "e3782664056d0f6cd028a2a146da3c862fa04994bda5fc8868c2eec4c69672bb",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_Master_Kodlama_Devir_Notu_2026-10-12.md",
+      "size_bytes": 15535,
+      "sha256": "26fe2625f3e3101e3ed0a46f90f9f1d026eba82cd515f11050602fa40336d6d6",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_Master_Kodlama_Devir_Notu_v0_2.md",
+      "size_bytes": 29586,
+      "sha256": "735d6b3319e5ff1c4cc5ab48542cc9d3e0f8c0ead918a9835c5434cedbd2db44",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_Master_Kodlama_Devir_Notu_v0_3.md",
+      "size_bytes": 41470,
+      "sha256": "52da34bddcd86c145a9cb9f4251c1dedaf5b937d0099a9d752e26f6e7290ba34",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_Master_Kodlama_Devir_Notu_v0_4.md",
+      "size_bytes": 53401,
+      "sha256": "0ebe9a5cdb527ade51cd69aa43b66e2084d0a89f9239d78e358a6adbc63513f6",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_PURPOSE_HUMAN_DESIGN_LOCAL_PRIVACY_ADDENDUM_v1.1.md",
+      "size_bytes": 35678,
+      "sha256": "f78990e391fe2f3bc8b9883f9a75d5251ffc4d21d0f553982ae1bf5c149c58b9",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_START_HERE_BUILD_v3.0.md",
+      "size_bytes": 3153,
+      "sha256": "354bfd524b6c3ea4332a4d677363f36b05690be4d4feac670278c577c8e13af8",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_BUILD_MASTER_CONSTITUTION_v3.0.md",
+      "size_bytes": 1678258,
+      "sha256": "c615fe0a78aa72ea60b6c8aa8b201a750dc39d0bf28fc4aea93a977b4f64f7d6",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_BUILD_PACKAGE_v3.0.zip",
+      "size_bytes": 5690683,
+      "sha256": "3622abdbce175dba0a4cdab5a7a1cf272bd4e207f65ad0e688181430ae7c8dd4",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.0.md",
+      "size_bytes": 644230,
+      "sha256": "6dd4f88ae5153e6ca55922f3b88cabbcaaa8eb415fa5cbe7d99d9cb36d3ad0e9",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.1.md",
+      "size_bytes": 680437,
+      "sha256": "2c1b5d145240d569dfea33648bdb207464b2a46cc211a3225f973b1969a4e787",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.2.md",
+      "size_bytes": 1068119,
+      "sha256": "5ec3705182b7bdb3087d8657c262804b53dba1e6c9ea42197c333813be5473e9",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.3.md",
+      "size_bytes": 1163550,
+      "sha256": "5c6510f25d0bcb95aebe2efcf5d5fd9f9442191803b1ddb5d32a54b559c3338a",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.4.md",
+      "size_bytes": 1217077,
+      "sha256": "7eacd0cdc668545c0bd11e6b86bee2ae8fcd36164426a93edeb8d9c39e286fde",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.5.md",
+      "size_bytes": 1332805,
+      "sha256": "d30933fde7d0381edf2851e2d1dac7b0d9740f6c870df50c743d9654b8122279",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.6.md",
+      "size_bytes": 1387635,
+      "sha256": "97ee62c349572fda795da462c8a74a3bde12b66b123be8c6b3379bcbc7764242",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.7.md",
+      "size_bytes": 1421204,
+      "sha256": "8a1fa0229c252384f35a53dc10d751ae66e9829c94c7a02ec4c1e6bac5017a0d",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.8.md",
+      "size_bytes": 1444927,
+      "sha256": "c1249b4e5553e806722723460e0e64251c4e0389733de04a48fbe89b18b29d1f",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v1.9.md",
+      "size_bytes": 1468950,
+      "sha256": "963c71f453baf536cd44993b31f650106dfe9cd34990ba67716870263393b190",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v2.0.md",
+      "size_bytes": 1567095,
+      "sha256": "55ece60d611ccbc705555415e3917b01a619a877a3835b80f5c8c792e5d067b4",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_CONSTITUTION_v2.1.md",
+      "size_bytes": 1640972,
+      "sha256": "3c27db7dffba1eb2082e2dc3836acb0469963a950faa678a19bb2da546b28af7",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_CLAUDE_MASTER_SPEC_v1.0.md",
+      "size_bytes": 163526,
+      "sha256": "f9925614f843ba0b941ac4c0573c158c500fbc2d4aa6a3dc39c65a916b35cd7f",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    },
+    {
+      "filename": "XRAI_ULU_EVREN_ORIGINAL_INTELLIGENCE_FULL_CLAUDE_BUILD_v3.1.zip",
+      "size_bytes": 6033810,
+      "sha256": "94bb09fd81d2ae233f0fa81fcf9446eee18e1dffb4c53926a1ea30604beda927",
+      "status": "VERIFIED_ZIP_IMPORTED",
+      "embedded": false
+    },
+    {
+      "filename": "_xrai_addendum_backup.md",
+      "size_bytes": 37051,
+      "sha256": "09e86751d2c9bb645fdd8f200c5b0aa0a22d98d343132bc6b4ac3a9f2dedf7e7",
+      "status": "REFERENCE_PRESENT_NOT_FULLY_REVIEWED",
+      "embedded": false
+    }
+  ]
+}

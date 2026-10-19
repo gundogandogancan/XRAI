@@ -1,0 +1,14 @@
+{
+  "scan_rows": 298,
+  "unique_book_pdf_files": 13,
+  "review_level": "VISUAL_OVERVIEW",
+  "detailed_review_remaining": 298,
+  "known_uncertainties": [
+    "printed frontmatter 1-8",
+    "printed p300 presence",
+    "warped/or too dark frames and facing pages",
+    "full citation/copyright edition not verified"
+  ],
+  "not_licensed_for_app_corpus": true,
+  "all_rows_have_scan_ids": true
+}

@@ -1,0 +1,152 @@
+{
+  "version": "3.1",
+  "engines": [
+    {
+      "engine": "IdentityInput",
+      "first_phase": "P02",
+      "responsibility": "identity, birth order, birth time/place, parental names voluntary; origin accuracy",
+      "data_zone": "local_sensitive",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "ExactMath",
+      "first_phase": "P01",
+      "responsibility": "dates, Unicode, number methods, timezone, astronomical numeric primitive",
+      "data_zone": "local_pure",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "Numerology",
+      "first_phase": "P01",
+      "responsibility": "Life Path, expression, soul urge, personality, master numbers, cycles, place name",
+      "data_zone": "local_symbolic",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "Astronomy",
+      "first_phase": "P08",
+      "responsibility": "UTC TT ephemeris Julian dates, longitude/latitude, nodes and houses",
+      "data_zone": "licensed_local",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "LocalSpace",
+      "first_phase": "P08",
+      "responsibility": "geodetic place, azimuth altitude, astrocartography, relocation, parans",
+      "data_zone": "local_location_ephemeral",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "HumanDesign",
+      "first_phase": "P09",
+      "responsibility": "88-degree solar longitude inversion, gates lines channels centers types profiles",
+      "data_zone": "licensed_local_symbolic",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "WisdomAtlas",
+      "first_phase": "P10",
+      "responsibility": "Hermeticism, Kabala, Tarot, I Ching, BaZi, cosmology, science lab",
+      "data_zone": "licensed_public_knowledge",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "Psychology",
+      "first_phase": "P07",
+      "responsibility": "voluntary 16-type, Big Five, Jung, Maslow, psychometric evaluation",
+      "data_zone": "local_sensitive",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "KnowledgeDNA",
+      "first_phase": "P04",
+      "responsibility": "source claims versions rights conflicts citation graph and independent research",
+      "data_zone": "public_rights_checked",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "PrivacyKernel",
+      "first_phase": "P02",
+      "responsibility": "purpose data class revocation denial audit outbound privacy gateway",
+      "data_zone": "local_security",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "SecureVault",
+      "first_phase": "P02",
+      "responsibility": "CryptoKit, Keychain, encrypted persistence, recovery and migration",
+      "data_zone": "local_high_sensitivity",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "PersonalBrain",
+      "first_phase": "P05",
+      "responsibility": "typed encrypted life graph, narratives, user self-report and graph search",
+      "data_zone": "local_high_sensitivity",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "FutureSelf",
+      "first_phase": "P05",
+      "responsibility": "user-chosen possibilities, goal DAG, life chapters, multi-horizon actions",
+      "data_zone": "local_sensitive",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "Learning",
+      "first_phase": "P04",
+      "responsibility": "original lessons experiments skills rubrics, evidence tiers P0-P5",
+      "data_zone": "local_then_optional_bridge",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "LocalModelRuntime",
+      "first_phase": "P06",
+      "responsibility": "model availability Turkish reliability and battery-aware routing",
+      "data_zone": "local_or_explicit_remote",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "OctopusOrchestrator",
+      "first_phase": "P06",
+      "responsibility": "intent, authorized least privilege tools, deterministic work first",
+      "data_zone": "local_control_plane",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "ResponseVerifier",
+      "first_phase": "P06",
+      "responsibility": "claim citations source classes provenance, numbers safety and UX",
+      "data_zone": "local_control_plane",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "DesignSystem",
+      "first_phase": "P03",
+      "responsibility": "SwiftUI 5 tabs pixel tokens accessible responsive layouts and haptics",
+      "data_zone": "local_ui",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "StoreKit",
+      "first_phase": "P11",
+      "responsibility": "real prices, entitlement, refunds, restore, subscriptions",
+      "data_zone": "storekit_network",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "EvolutionGovernor",
+      "first_phase": "P13",
+      "responsibility": "local adaptation, optional clean feedback, model eval/signed rollout",
+      "data_zone": "split_governed",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    },
+    {
+      "engine": "AHTOVIAContract",
+      "first_phase": "FUTURE",
+      "responsibility": "only typed LearningIntent and signed receipt boundary, no code yet",
+      "data_zone": "cross_app_explicit_optin",
+      "status": "DESIGNED_NOT_IMPLEMENTED_UNTIL_REPO_AUDIT"
+    }
+  ]
+}

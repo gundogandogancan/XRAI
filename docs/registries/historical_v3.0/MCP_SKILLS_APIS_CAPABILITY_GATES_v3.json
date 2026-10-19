@@ -1,0 +1,145 @@
+{
+  "installation_policy": "PROPOSE_ONLY; DO NOT INSTALL/CONNECT/ACCESS PAYWALL WITHOUT EXPLICIT APPROVAL",
+  "items": [
+    {
+      "capability_id": "xcode-swift",
+      "purpose": "Native Swift 6, Xcode SDK, SPM and concurrency",
+      "kind": "CLI/SDK",
+      "gate": "Local; safe after repo audit",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "swiftui-accessibility",
+      "purpose": "Apple HIG, SwiftUI patterns, VoiceOver testing",
+      "kind": "specialist role",
+      "gate": "Native tools first",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "swift-test-golden",
+      "purpose": "Swift Testing/XCTest, property/golden and snapshot",
+      "kind": "framework",
+      "gate": "Built-in toolchain",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "crypto-store",
+      "purpose": "CryptoKit, Keychain, protected encrypted storage",
+      "kind": "native-framework",
+      "gate": "Threat model / no invented encryption",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "local-ml",
+      "purpose": "Apple Foundation Models/Core ML, Gemma approved on-device",
+      "kind": "model provider candidates",
+      "gate": "Benchmark required",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "jpl-reference",
+      "purpose": "Ephemeris goldens via independent JPL data",
+      "kind": "reference-only",
+      "gate": "No private birth uploads, verify data use",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "swiss-ephemeris",
+      "purpose": "Local precise ephemeris",
+      "kind": "licensable library",
+      "gate": "AGPL/commercial license gate",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "tzdata",
+      "purpose": "IANA historical zone database",
+      "kind": "library/data",
+      "gate": "Version pin, DST edge tests",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "geo-math",
+      "purpose": "Geo geometry/coordinate transforms for astrocartography",
+      "kind": "code/library",
+      "gate": "Accuracy/golden tests",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "human-design-method",
+      "purpose": "Independent Design solar/gate/tradition sources",
+      "kind": "research specialist",
+      "gate": "No protected copying, source rights review",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "replica-skill",
+      "purpose": "Third-party skill suite for observing competitor UX",
+      "kind": "UNTRUSTED_CANDIDATE",
+      "gate": "Review code, license, requested permissions; do not auto-install",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "github",
+      "purpose": "Repo source control and audits",
+      "kind": "MCP/CLI candidate",
+      "gate": "Approval needed to connect; no force push",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "science-literacy",
+      "purpose": "Empirical vs symbolic claim review",
+      "kind": "domain specialist",
+      "gate": "Primary sources and caveats",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "psychometrics",
+      "purpose": "Original voluntary self-report and scale legality",
+      "kind": "domain specialist",
+      "gate": "Validity/licence gate",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "classical-astrology",
+      "purpose": "Separate school historical research and mathematical implementations",
+      "kind": "domain specialist",
+      "gate": "Editions rights and method variability",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "wisdom-rights",
+      "purpose": "Hermetic/Kabbalah/Book of Wisdom and cultural rights curation",
+      "kind": "domain specialist",
+      "gate": "No protected book content in runtime/training",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "learning-pedagogy",
+      "purpose": "Curriculum/rubrics/lesson ownership",
+      "kind": "domain specialist",
+      "gate": "Available content and evidence",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "privacy-compliance",
+      "purpose": "GDPR/KVKK/Apple App Privacy, privacy threats",
+      "kind": "domain specialist",
+      "gate": "Independent legal/security review",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "storekit2",
+      "purpose": "Subscription, refunds, offer/gift states",
+      "kind": "native-framework",
+      "gate": "Price from StoreKit, no fake $5.55 listing",
+      "installed": "NOT_VERIFIED"
+    },
+    {
+      "capability_id": "growth-unit-econ",
+      "purpose": "Cohort conversion, cost, trust and safety",
+      "kind": "domain specialist",
+      "gate": "Opt-in and measured economics",
+      "installed": "NOT_VERIFIED"
+    }
+  ]
+}

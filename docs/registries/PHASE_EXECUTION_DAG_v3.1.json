@@ -1,0 +1,222 @@
+{
+  "version": "3.1",
+  "canonical_build_sequence": [
+    {
+      "phase_id": "P00",
+      "title": "Repo Reality Audit",
+      "dependencies": [],
+      "exit_evidence": [
+        "Git/code/toolchain baseline",
+        "source authority and 20 blockers status",
+        "safe working tree and reports"
+      ],
+      "status": "NOT_VERIFIED",
+      "owner": "XRAI only",
+      "do_not_skip": true
+    },
+    {
+      "phase_id": "P01",
+      "title": "Exact First Code",
+      "dependencies": [
+        "P00"
+      ],
+      "exit_evidence": [
+        "LifePath pure Swift API and minimal contracts",
+        "independent Swift Testing/XCTest vectors",
+        "swift test EXIT 0 evidence"
+      ],
+      "status": "NOT_VERIFIED",
+      "owner": "XRAI only",
+      "do_not_skip": true
+    },
+    {
+      "phase_id": "P02",
+      "title": "Local Privacy Vault",
+      "dependencies": [
+        "P01"
+      ],
+      "exit_evidence": [
+        "security schema and data class policies",
+        "Keychain/CryptoKit + encrypted persistence",
+        "physical device backup/revocation/network-negative"
+      ],
+      "status": "NOT_VERIFIED",
+      "owner": "XRAI only",
+      "do_not_skip": true
+    },
+    {
+      "phase_id": "P03",
+      "title": "Five-tab App Shell & Free Flow",
+      "dependencies": [
+        "P02"
+      ],
+      "exit_evidence": [
+        "SwiftUI 5 tabs and source cards",
+        "free real local preview",
+        "dynamic type/VoiceOver/night/offline"
+      ],
+      "status": "NOT_VERIFIED",
+      "owner": "XRAI only",
+      "do_not_skip": true
+    },
+    {
+      "phase_id": "P04",
+      "title": "Knowledge DNA & Real Lessons",
+      "dependencies": [
+        "P03"
+      ],
+      "exit_evidence": [
+        "source rights ledger",
+        "original sourced content and lesson MVP",
+        "unsafe/copyright-negative tests"
+      ],
+      "status": "NOT_VERIFIED",
+      "owner": "XRAI only",
+      "do_not_skip": true
+    },
+    {
+      "phase_id": "P05",
+      "title": "Personal Brain/Future Self",
+      "dependencies": [
+        "P02",
+        "P04"
+      ],
+      "exit_evidence": [
+        "encrypted life graph and voluntary goals",
+        "user-owned Future Self scenario",
+        "local action and P0-P2 evidence"
+      ],
+      "status": "NOT_VERIFIED",
+      "owner": "XRAI only",
+      "do_not_skip": true
+    },
+    {
+      "phase_id": "P06",
+      "title": "Local AI + Orchestrator",
+      "dependencies": [
+        "P02",
+        "P05"
+      ],
+      "exit_evidence": [
+        "model candidates device benchmark",
+        "typed tool calling and claim verifier",
+        "Turkish hallucination/latency/thermal metrics"
+      ],
+      "status": "NOT_VERIFIED",
+      "owner": "XRAI only",
+      "do_not_skip": true
+    },
+    {
+      "phase_id": "P07",
+      "title": "Deeper Numerology & Optional Psych",
+      "dependencies": [
+        "P04",
+        "P06"
+      ],
+      "exit_evidence": [
+        "multitradition numerology methods",
+        "user selected questionnaire with validation",
+        "Maslow/Jung pedagogy rights/science gate"
+      ],
+      "status": "NOT_VERIFIED",
+      "owner": "XRAI only",
+      "do_not_skip": true
+    },
+    {
+      "phase_id": "P08",
+      "title": "Astronomy/Astrology/Local Space",
+      "dependencies": [
+        "P04"
+      ],
+      "exit_evidence": [
+        "astronomical ephemeris licenses approved",
+        "UTC/TT/natal/chart + Hellenistic variants",
+        "geo/uncertainty golden tests"
+      ],
+      "status": "NOT_VERIFIED",
+      "owner": "XRAI only",
+      "do_not_skip": true
+    },
+    {
+      "phase_id": "P09",
+      "title": "Human Design Calculator",
+      "dependencies": [
+        "P08"
+      ],
+      "exit_evidence": [
+        "−88° solver correct verified",
+        "gates/lines/centers/type authority golden charts",
+        "original diagram with rights review"
+      ],
+      "status": "NOT_VERIFIED",
+      "owner": "XRAI only",
+      "do_not_skip": true
+    },
+    {
+      "phase_id": "P10",
+      "title": "Wisdom / Hermetic / Physics Atlas",
+      "dependencies": [
+        "P04"
+      ],
+      "exit_evidence": [
+        "original sourced essays and interactive science lab",
+        "separate physical fact from symbolic metaphors",
+        "history/cultural pluralism/rights gates"
+      ],
+      "status": "NOT_VERIFIED",
+      "owner": "XRAI only",
+      "do_not_skip": true
+    },
+    {
+      "phase_id": "P11",
+      "title": "StoreKit Premium",
+      "dependencies": [
+        "P03",
+        "P04",
+        "P06"
+      ],
+      "exit_evidence": [
+        "actual StoreKit price/receipt restore/refund",
+        "access appropriate to implemented value",
+        "review compliance and cost limits"
+      ],
+      "status": "NOT_VERIFIED",
+      "owner": "XRAI only",
+      "do_not_skip": true
+    },
+    {
+      "phase_id": "P12",
+      "title": "Release QA & External Security",
+      "dependencies": [
+        "P03",
+        "P04",
+        "P05",
+        "P06"
+      ],
+      "exit_evidence": [
+        "full production app integration",
+        "physical-device battery/secure egress/pen testing",
+        "legal/App Store/TestFlight audit"
+      ],
+      "status": "NOT_VERIFIED",
+      "owner": "XRAI only",
+      "do_not_skip": true
+    },
+    {
+      "phase_id": "P13",
+      "title": "Release & Evolution",
+      "dependencies": [
+        "P12"
+      ],
+      "exit_evidence": [
+        "sign build and signed catalogs",
+        "incident/delete/export playbook",
+        "reviewed model changes and rollback"
+      ],
+      "status": "NOT_VERIFIED",
+      "owner": "XRAI only",
+      "do_not_skip": true
+    }
+  ],
+  "future_AHTOVIA": "INTERFACE_RESERVED_CODE_NOT_AUTHORIZED"
+}

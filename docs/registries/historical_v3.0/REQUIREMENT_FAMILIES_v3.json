@@ -1,0 +1,1288 @@
+{
+  "version": "3.0",
+  "classification": "canonical_family_index_not_exhaustive_line_by_line_map",
+  "requires_full_v2_1_source": true,
+  "count": 80,
+  "requirements": [
+    {
+      "req_id": "XRAI-FREE_VALUE",
+      "category": "PRODUCT_UI",
+      "intent": "Accountless useful local real Life Path; transparent symbolic preview",
+      "canonical_source": "§§ product v0.1–v0.4; §32; §39–41",
+      "phase": "P2",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-FIVE_TAB_UX",
+      "category": "PRODUCT_UI",
+      "intent": "Bugün / Ben / Keşfet / Yolum / XRAI",
+      "canonical_source": "§§ product v0.1–v0.4; §32; §39–41",
+      "phase": "P2",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-PROGRESSIVE_ONBOARD",
+      "category": "PRODUCT_UI",
+      "intent": "Minimal optional questions, birth place/time never compelled",
+      "canonical_source": "§§ product v0.1–v0.4; §32; §39–41",
+      "phase": "P2",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-ACCESSIBILITY",
+      "category": "PRODUCT_UI",
+      "intent": "Dynamic Type, VoiceOver, reduced motion, contrast, localization",
+      "canonical_source": "§§ product v0.1–v0.4; §32; §39–41",
+      "phase": "P2",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-OFFLINE_STATES",
+      "category": "PRODUCT_UI",
+      "intent": "Airplane-mode service with honest online limitations",
+      "canonical_source": "§§ product v0.1–v0.4; §32; §39–41",
+      "phase": "P2",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-FALLBACK_STATES",
+      "category": "PRODUCT_UI",
+      "intent": "Loading/empty/error/lost-key/consent-revoked/model-absent",
+      "canonical_source": "§§ product v0.1–v0.4; §32; §39–41",
+      "phase": "P2",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-DESIGN_TOKENS",
+      "category": "PRODUCT_UI",
+      "intent": "Native SwiftUI visual identity, reusable tokens, snapshot standards",
+      "canonical_source": "§§ product v0.1–v0.4; §32; §39–41",
+      "phase": "P2",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-CONTENT_FILTERS",
+      "category": "PRODUCT_UI",
+      "intent": "Confidence/citation/method/rights disclosure without overwhelming UX",
+      "canonical_source": "§§ product v0.1–v0.4; §32; §39–41",
+      "phase": "P2",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-USER_AGENCY",
+      "category": "PRODUCT_UI",
+      "intent": "No addiction loops, no forced spiritual scoring, export and off switch",
+      "canonical_source": "§§ product v0.1–v0.4; §32; §39–41",
+      "phase": "P2",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-CALENDAR",
+      "category": "CALCULATION",
+      "intent": "Exact Gregorian dates, leap days and invalid input",
+      "canonical_source": "§28–29; §34–35; §38; §43",
+      "phase": "BOOT-01",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-PYTHAGOREAN_LP",
+      "category": "CALCULATION",
+      "intent": "Life Path compound/root/master with explicitly declared method version",
+      "canonical_source": "§28–29; §34–35; §38; §43",
+      "phase": "BOOT-01",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-NAMES_UNICODE",
+      "category": "CALCULATION",
+      "intent": "Vowel/consonant expression under normalized chosen name/diacritic variations",
+      "canonical_source": "§28–29; §34–35; §38; §43",
+      "phase": "BOOT-01",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-MATRIX_METHODS",
+      "category": "CALCULATION",
+      "intent": "1–9 matrix missing/overrepresented digits; traditions distinct",
+      "canonical_source": "§28–29; §34–35; §38; §43",
+      "phase": "BOOT-01",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-TIMEZONE",
+      "category": "CALCULATION",
+      "intent": "Historic UTC conversion, offset ambiguity, DST, missing time",
+      "canonical_source": "§28–29; §34–35; §38; §43",
+      "phase": "BOOT-01",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-EPHEMERIS",
+      "category": "CALCULATION",
+      "intent": "Licensed precision astronomy and error envelopes",
+      "canonical_source": "§28–29; §34–35; §38; §43",
+      "phase": "BOOT-01",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-NATAL_ASTRO",
+      "category": "CALCULATION",
+      "intent": "Houses/aspects/nodes/rulership and school-specific delineation",
+      "canonical_source": "§28–29; §34–35; §38; §43",
+      "phase": "BOOT-01",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-CLASSICAL_ASTRO",
+      "category": "CALCULATION",
+      "intent": "Ptolemy/Dorotheus/Valens/Lilly non-conflated methods",
+      "canonical_source": "§28–29; §34–35; §38; §43",
+      "phase": "BOOT-01",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-ASTROCARTOGRAPHY",
+      "category": "CALCULATION",
+      "intent": "AC/DC/MC/IC geometry, relocation, Local Space, parans",
+      "canonical_source": "§28–29; §34–35; §38; §43",
+      "phase": "BOOT-01",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-HD_DESIGN_EPOCH",
+      "category": "CALCULATION",
+      "intent": "Solar longitude −88° in specific version; not 88 days",
+      "canonical_source": "§28–29; §34–35; §38; §43",
+      "phase": "BOOT-01",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-HD_GATES_LINES",
+      "category": "CALCULATION",
+      "intent": "64 gate and six-line source map with wrap/tolerance",
+      "canonical_source": "§28–29; §34–35; §38; §43",
+      "phase": "BOOT-01",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-HD_CENTERS_CHANNELS",
+      "category": "CALCULATION",
+      "intent": "36 complete channel edges, 9 centers, color/definition",
+      "canonical_source": "§28–29; §34–35; §38; §43",
+      "phase": "BOOT-01",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-HD_TYPE_AUTHORITY",
+      "category": "CALCULATION",
+      "intent": "Tradition-versioned type and authority decision tree",
+      "canonical_source": "§28–29; §34–35; §38; §43",
+      "phase": "BOOT-01",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-HD_PROFILE",
+      "category": "CALCULATION",
+      "intent": "Twelve classic profile combinations as symbolic classification",
+      "canonical_source": "§28–29; §34–35; §38; §43",
+      "phase": "BOOT-01",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-UNSURE_BIRTHTIME",
+      "category": "CALCULATION",
+      "intent": "Robust abstention or plausible interval instead of fabricated precision",
+      "canonical_source": "§28–29; §34–35; §38; §43",
+      "phase": "BOOT-01",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-BRAIN_9RESP",
+      "category": "INTELLIGENCE",
+      "intent": "Governed responsibilities rather than autonomous uncapped LLM swarm",
+      "canonical_source": "§33–35; §42–44",
+      "phase": "P4",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-MODEL_ROUTER",
+      "category": "INTELLIGENCE",
+      "intent": "Deterministic → local model → explicit remote with consent and budget",
+      "canonical_source": "§33–35; §42–44",
+      "phase": "P4",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-LOCAL_MODEL_BENCH",
+      "category": "INTELLIGENCE",
+      "intent": "Apple/Gemma/Core ML/Metal comparative device evidence",
+      "canonical_source": "§33–35; §42–44",
+      "phase": "P4",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-PERSONAL_GRAPH",
+      "category": "INTELLIGENCE",
+      "intent": "Encrypted, user-controlled events, aspirations, citations and memory",
+      "canonical_source": "§33–35; §42–44",
+      "phase": "P4",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-RAG_PROVENANCE",
+      "category": "INTELLIGENCE",
+      "intent": "Per-claim source, rights, method, contradictions and versions",
+      "canonical_source": "§33–35; §42–44",
+      "phase": "P4",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-OIE",
+      "category": "INTELLIGENCE",
+      "intent": "Original symbolic interpretation with non-deterministic phrasing",
+      "canonical_source": "§33–35; §42–44",
+      "phase": "P4",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-MENTOR_LENSES",
+      "category": "INTELLIGENCE",
+      "intent": "Historical mentor inspiration with no imposture or fabricated quotations",
+      "canonical_source": "§33–35; §42–44",
+      "phase": "P4",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-FUTURE_SELF",
+      "category": "INTELLIGENCE",
+      "intent": "Counterfactual scenario twin, no prediction or true simulated consciousness",
+      "canonical_source": "§33–35; §42–44",
+      "phase": "P4",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-QUALITY_EVAL",
+      "category": "INTELLIGENCE",
+      "intent": "Grounding, refusal, hallucination, poisoning, offline regressions",
+      "canonical_source": "§33–35; §42–44",
+      "phase": "P4",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-COLLECTIVE_OPTIN",
+      "category": "INTELLIGENCE",
+      "intent": "Privacy-governed optional quality signals and public source correction",
+      "canonical_source": "§33–35; §42–44",
+      "phase": "P4",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-MIGRATION_MODELS",
+      "category": "INTELLIGENCE",
+      "intent": "Version update, rollback, prompt/model golden regression",
+      "canonical_source": "§33–35; §42–44",
+      "phase": "P4",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-16PERSONALITIES",
+      "category": "PSYCHOLOGY_WISDOM",
+      "intent": "16-type style nonclinical self-report; rights and validity limitations",
+      "canonical_source": "§29–31; §36–38; §43–47",
+      "phase": "P8",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-BIG_FIVE",
+      "category": "PSYCHOLOGY_WISDOM",
+      "intent": "Evidence-aware optional traits and licensed instruments",
+      "canonical_source": "§29–31; §36–38; §43–47",
+      "phase": "P8",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-JUNG",
+      "category": "PSYCHOLOGY_WISDOM",
+      "intent": "Individuation, archetypes and Jung historical context",
+      "canonical_source": "§29–31; §36–38; §43–47",
+      "phase": "P8",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-MASLOW",
+      "category": "PSYCHOLOGY_WISDOM",
+      "intent": "Needs and growth with no human-worth transcendence score",
+      "canonical_source": "§29–31; §36–38; §43–47",
+      "phase": "P8",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-PHILOSOPHY",
+      "category": "PSYCHOLOGY_WISDOM",
+      "intent": "Pythagoras/Socrates/Plato/Aristotle/Jung/Einstein/Tesla/Lovelace etc.",
+      "canonical_source": "§29–31; §36–38; §43–47",
+      "phase": "P8",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-HERMETICISM",
+      "category": "PSYCHOLOGY_WISDOM",
+      "intent": "As above so below, historical Hermeticism and alchemical history",
+      "canonical_source": "§29–31; §36–38; §43–47",
+      "phase": "P8",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-NUM_SYMBOL",
+      "category": "PSYCHOLOGY_WISDOM",
+      "intent": "Kabbalah/Gematria, Tarot, I Ching, Chinese BaZi traditions separate",
+      "canonical_source": "§29–31; §36–38; §43–47",
+      "phase": "P8",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-CHAKRA_MUDRA",
+      "category": "PSYCHOLOGY_WISDOM",
+      "intent": "Cultural contemplative practices, not clinical evidence",
+      "canonical_source": "§29–31; §36–38; §43–47",
+      "phase": "P8",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-ENERGY_PHYSICS",
+      "category": "PSYCHOLOGY_WISDOM",
+      "intent": "Hertz/E=mc²/quantum/double slit/torus scientifically correct, non-spiritual proof",
+      "canonical_source": "§29–31; §36–38; §43–47",
+      "phase": "P8",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-BOOK_OF_WISDOM",
+      "category": "PSYCHOLOGY_WISDOM",
+      "intent": "Source-limited Harry B. Joseph book screenshot thematic research ledger",
+      "canonical_source": "§29–31; §36–38; §43–47",
+      "phase": "P8",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-CLASSICAL_BOOKS",
+      "category": "PSYCHOLOGY_WISDOM",
+      "intent": "Classical astrology edition and rights provenance",
+      "canonical_source": "§29–31; §36–38; §43–47",
+      "phase": "P8",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-SPIRITUAL_BOUNDARIES",
+      "category": "PSYCHOLOGY_WISDOM",
+      "intent": "Meaning, values, purpose only user-chosen, never certainty",
+      "canonical_source": "§29–31; §36–38; §43–47",
+      "phase": "P8",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-FACE_PALM",
+      "category": "PSYCHOLOGY_WISDOM",
+      "intent": "Optional historical-symbolic curiosity; no sensitive or cognitive inference",
+      "canonical_source": "§29–31; §36–38; §43–47",
+      "phase": "P8",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-SECURE_VAULT",
+      "category": "SECURITY_PRIVACY",
+      "intent": "Encrypted local user data with keychain-managed envelope policy",
+      "canonical_source": "§33–35; §39; §45",
+      "phase": "P1",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-KEY_RECOVERY",
+      "category": "SECURITY_PRIVACY",
+      "intent": "DeviceOnly vs recoverability and backup documented honestly",
+      "canonical_source": "§33–35; §39; §45",
+      "phase": "P1",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-LOG_CACHE_WAL",
+      "category": "SECURITY_PRIVACY",
+      "intent": "Encrypted ephemeral files, crash traces, embedding indexes and backups",
+      "canonical_source": "§33–35; §39; §45",
+      "phase": "P1",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-EGRESS_DENY",
+      "category": "SECURITY_PRIVACY",
+      "intent": "Fail-closed capability broker per-data-class",
+      "canonical_source": "§33–35; §39; §45",
+      "phase": "P1",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-CLOUD_AI_OPTIN",
+      "category": "SECURITY_PRIVACY",
+      "intent": "Specific consent, redact, show recipients, no automatic fallback",
+      "canonical_source": "§33–35; §39; §45",
+      "phase": "P1",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-CRYPTO_AGILITY",
+      "category": "SECURITY_PRIVACY",
+      "intent": "Audited crypto; key rotation, PQ migration planning",
+      "canonical_source": "§33–35; §39; §45",
+      "phase": "P1",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-THREAT_MODEL",
+      "category": "SECURITY_PRIVACY",
+      "intent": "Prompt injection, compromised SDK, thief, jailbreak, insider, poisoned PDF",
+      "canonical_source": "§33–35; §39; §45",
+      "phase": "P1",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-DELETION_EXPORT",
+      "category": "SECURITY_PRIVACY",
+      "intent": "Verified device export/delete/consent revocation semantics",
+      "canonical_source": "§33–35; §39; §45",
+      "phase": "P1",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-APP_PERMISSIONS",
+      "category": "SECURITY_PRIVACY",
+      "intent": "Minimal microphone/photo/location/camera purpose and life-cycle gates",
+      "canonical_source": "§33–35; §39; §45",
+      "phase": "P1",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-MINOR_SEPARATION",
+      "category": "SECURITY_PRIVACY",
+      "intent": "Adult private XRAI not used for school/minor spiritual profiling",
+      "canonical_source": "§33–35; §39; §45",
+      "phase": "P1",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-SEVEN_DIMENSIONS",
+      "category": "FLOURISHING_EDUCATION",
+      "intent": "7 nonlinear and user-selected growth dimensions",
+      "canonical_source": "§30–33; §41; §46",
+      "phase": "P5",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-GOAL_DAG",
+      "category": "FLOURISHING_EDUCATION",
+      "intent": "5–10y→year→90d→month→week→day, rest and capacity",
+      "canonical_source": "§30–33; §41; §46",
+      "phase": "P5",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-MICRO_LESSONS",
+      "category": "FLOURISHING_EDUCATION",
+      "intent": "Real available original/licensed lessons and exercises",
+      "canonical_source": "§30–33; §41; §46",
+      "phase": "P5",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-PRACTICE_LABS",
+      "category": "FLOURISHING_EDUCATION",
+      "intent": "Hands-on challenges, lab, feedback and safe fallbacks",
+      "canonical_source": "§30–33; §41; §46",
+      "phase": "P5",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-PROOF_P0_P5",
+      "category": "FLOURISHING_EDUCATION",
+      "intent": "Intention to retention rubric/provenance without fake skill claims",
+      "canonical_source": "§30–33; §41; §46",
+      "phase": "P5",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-USER_VALUE",
+      "category": "FLOURISHING_EDUCATION",
+      "intent": "No imposed moral rank or altruism, user freely chooses goals",
+      "canonical_source": "§30–33; §41; §46",
+      "phase": "P5",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-REPLAN",
+      "category": "FLOURISHING_EDUCATION",
+      "intent": "Evidence-based iteration and user correction, reversible suggestions",
+      "canonical_source": "§30–33; §41; §46",
+      "phase": "P5",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-AHTOVIA_BRIDGE",
+      "category": "FLOURISHING_EDUCATION",
+      "intent": "Future scoped typed learning receipts, separate trust domain",
+      "canonical_source": "§30–33; §41; §46",
+      "phase": "P5",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-INDEPENDENCE",
+      "category": "FLOURISHING_EDUCATION",
+      "intent": "Success includes graduation from AI dependency",
+      "canonical_source": "§30–33; §41; §46",
+      "phase": "P5",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-FREEMIUM",
+      "category": "MONETIZATION_RELEASE",
+      "intent": "Free actual value, paid unlock only for real shipped functionality",
+      "canonical_source": "§32–34; §48–50",
+      "phase": "P10",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-STOREKIT2",
+      "category": "MONETIZATION_RELEASE",
+      "intent": "Price localized and signed purchase/restore/refunds/grace",
+      "canonical_source": "§32–34; §48–50",
+      "phase": "P10",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-APPLE_4_3",
+      "category": "MONETIZATION_RELEASE",
+      "intent": "Original differentiated product and truthful descriptions",
+      "canonical_source": "§32–34; §48–50",
+      "phase": "P10",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-LEGAL_IP",
+      "category": "MONETIZATION_RELEASE",
+      "intent": "Edition/ephemeris/HD assets, trademark, privacy policy, age",
+      "canonical_source": "§32–34; §48–50",
+      "phase": "P10",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-DEVOPS",
+      "category": "MONETIZATION_RELEASE",
+      "intent": "CI, release signing, SBOM, crash recovery, staged rollout",
+      "canonical_source": "§32–34; §48–50",
+      "phase": "P10",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-METRICS",
+      "category": "MONETIZATION_RELEASE",
+      "intent": "Measured latency/thermal/cost/quality and opt-in privacy-safe analytics",
+      "canonical_source": "§32–34; §48–50",
+      "phase": "P10",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-QUALITY_GATES",
+      "category": "MONETIZATION_RELEASE",
+      "intent": "Independent security, privacy, accessibility, source and Apple review audits",
+      "canonical_source": "§32–34; §48–50",
+      "phase": "P10",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-GLOBAL_LOCALIZE",
+      "category": "MONETIZATION_RELEASE",
+      "intent": "Locale, laws, taxes, translations, CDN cost",
+      "canonical_source": "§32–34; §48–50",
+      "phase": "P10",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-REPLICA_RECON",
+      "category": "COMPETITOR_TOOLS",
+      "intent": "Permitted UX competitor observation; no decompilation/DRM/access circumvention",
+      "canonical_source": "§35; §39–48",
+      "phase": "BOOT-00",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-SKILLS_MCP_AUDIT",
+      "category": "COMPETITOR_TOOLS",
+      "intent": "Inspect skill prompts/scripts/license/permissions before install",
+      "canonical_source": "§35; §39–48",
+      "phase": "BOOT-00",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-PROVIDER_EVAL",
+      "category": "COMPETITOR_TOOLS",
+      "intent": "Measure local models and remote providers rather than vendor lock",
+      "canonical_source": "§35; §39–48",
+      "phase": "BOOT-00",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-CLEAN_ROOM",
+      "category": "COMPETITOR_TOOLS",
+      "intent": "Separate public behavioral specs from original code and rights",
+      "canonical_source": "§35; §39–48",
+      "phase": "BOOT-00",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    },
+    {
+      "req_id": "XRAI-CODE_DISCIPLINE",
+      "category": "COMPETITOR_TOOLS",
+      "intent": "SwiftUI modular worktrees, golden tests, no false DONE",
+      "canonical_source": "§35; §39–48",
+      "phase": "BOOT-00",
+      "status": "SPECIFIED_NOT_VERIFIED",
+      "runtime_implementation": "UNDETERMINED_AUDIT_REAL_REPO",
+      "acceptance_evidence_required": [
+        "source_method_and_rights_gate",
+        "working_code_path",
+        "executed_test_log",
+        "negative_privacy_test_if_sensitive",
+        "manual_review_if_relevant"
+      ]
+    }
+  ]
+}

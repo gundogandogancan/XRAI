@@ -1,0 +1,95 @@
+{
+  "version": "3.1",
+  "policy": {
+    "private_fields": [
+      "name",
+      "birth_date",
+      "birth_time",
+      "birth_place",
+      "birth_order",
+      "parent_names",
+      "journals",
+      "mental_health",
+      "psychometric_answers",
+      "precise_location",
+      "human_design_chart",
+      "astrology_chart",
+      "personal_graph",
+      "embeddings",
+      "learning_evidence"
+    ],
+    "default_egress": "DENY",
+    "default_cloud_models": "OFF",
+    "default_shared_learning": "OFF",
+    "explicit_cloud_requires": [
+      "purpose_bound_optin",
+      "per_provider_processing_terms",
+      "minimum_payload_preview",
+      "TLS_transport",
+      "storage_retention_review",
+      "deny_on_failure",
+      "revocation_route"
+    ],
+    "routing": [
+      "PURE_DETERMINISTIC_CALCULATOR",
+      "AUTHORIZED_LOCAL_KNOWLEDGE",
+      "LOCAL_RULES",
+      "LOCAL_LLM_IF_AVAILABLE_AND_BENCHMARKED",
+      "OPTIONAL_REMOTE_ONLY_EXPLICIT_CONSENT"
+    ],
+    "supported_locale_must_be_checked": true,
+    "privacy_unit_tests": [
+      "birth_date_denied_network",
+      "parent_names_denied_network",
+      "embeddings_denied_network",
+      "cloud_optin_revoke",
+      "simulated_prompt_injection_does_not_execute",
+      "offline_calculate_life_path"
+    ]
+  },
+  "candidate_models": [
+    {
+      "id": "APPLE_FM_LOCAL",
+      "status": "BENCHMARK_REQUIRED",
+      "checks": [
+        "SDK",
+        "supportsLocale Turkish",
+        "true local not PCC",
+        "RAM",
+        "thermal"
+      ]
+    },
+    {
+      "id": "GEMMA_LITERT_LM",
+      "status": "BENCHMARK_REQUIRED",
+      "checks": [
+        "commercial model license",
+        "memory",
+        "Turkish eval",
+        "LiteRT-LM API",
+        "iOS availability"
+      ]
+    },
+    {
+      "id": "COREML_MLX",
+      "status": "EXPERIMENTAL",
+      "checks": [
+        "model license",
+        "deploy target",
+        "weight storage",
+        "thermal"
+      ]
+    },
+    {
+      "id": "CLOUD_LLM",
+      "status": "OPTIN_ONLY",
+      "checks": [
+        "consent",
+        "retention",
+        "security",
+        "cost",
+        "payload preview"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,260 @@
+{
+  "version": "3.2",
+  "tasks": [
+    {
+      "id": "V32-00-01",
+      "phase": "P00",
+      "title": "Crosswalk 100 v3.1 requirement records and preserved older references",
+      "depends_on": [
+        "P00-W01"
+      ],
+      "deliverables": [
+        "CROSSWALK.json",
+        "UNREAD_SOURCE_LEDGER.json"
+      ],
+      "acceptance_test": "validate every ID unique, sources known or explicitly missing",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "V32-00-02",
+      "phase": "P00",
+      "title": "Tooling and Claude Opus/Fable workflow capability audit",
+      "depends_on": [
+        "V32-00-01"
+      ],
+      "deliverables": [
+        "TOOLCAPABILITIES.md",
+        "THIRD_PARTY_PERMISSIONS.md"
+      ],
+      "acceptance_test": "source-checked installed tools; no invented Fable API",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "V32-01-01",
+      "phase": "P01",
+      "title": "Time/name/domain type contracts",
+      "depends_on": [
+        "V32-00-01"
+      ],
+      "deliverables": [
+        "CivilDate.swift",
+        "MethodID.swift",
+        "ClaimNode.swift"
+      ],
+      "acceptance_test": "independent pure Swift golden compilation",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "V32-01-02",
+      "phase": "P01",
+      "title": "Hand-derived Life Path tests and typed trace",
+      "depends_on": [
+        "V32-01-01"
+      ],
+      "deliverables": [
+        "LifePath.swift",
+        "LifePathTests.swift"
+      ],
+      "acceptance_test": "swift test exit 0; 1900/2000/11/22 checks",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "V32-02-01",
+      "phase": "P02",
+      "title": "Envelope crypto+backup recovery ADR",
+      "depends_on": [
+        "V32-01-02"
+      ],
+      "deliverables": [
+        "SecurityADR.md",
+        "Vault.swift"
+      ],
+      "acceptance_test": "device loss/privacy explicit, negative log/network tests",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "V32-02-02",
+      "phase": "P02",
+      "title": "Derived data invalidation and deletion graph",
+      "depends_on": [
+        "V32-02-01"
+      ],
+      "deliverables": [
+        "DataLineage.swift",
+        "DeletionTests.swift"
+      ],
+      "acceptance_test": "delete parent source removes local dependent outputs",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "V32-03-01",
+      "phase": "P03",
+      "title": "UI semantic tokens and 5 tabs",
+      "depends_on": [
+        "V32-02-01"
+      ],
+      "deliverables": [
+        "DesignTokens.swift",
+        "AppShell.swift"
+      ],
+      "acceptance_test": "VoiceOver, Dynamic Type, offline smoke tests",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "V32-03-02",
+      "phase": "P03",
+      "title": "One honest free local result",
+      "depends_on": [
+        "V32-03-01"
+      ],
+      "deliverables": [
+        "FreeInsightView.swift",
+        "SourceDisclosureView.swift"
+      ],
+      "acceptance_test": "single session with no account/network; next action optional",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "V32-04-01",
+      "phase": "P04",
+      "title": "Sourced claim graph, original lesson rights registry",
+      "depends_on": [
+        "V32-01-01"
+      ],
+      "deliverables": [
+        "SourceRegistry.swift",
+        "ClaimGraph.swift"
+      ],
+      "acceptance_test": "source/rights negative fixtures; prompt injection review",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "V32-05-01",
+      "phase": "P05",
+      "title": "User-controlled purpose and evidence activity scaffold",
+      "depends_on": [
+        "V32-04-01",
+        "V32-02-01"
+      ],
+      "deliverables": [
+        "PurposeGraph.swift",
+        "EvidenceRecord.swift"
+      ],
+      "acceptance_test": "opt-out / correction / P0 vs P3 proof separation",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "V32-06-01",
+      "phase": "P06",
+      "title": "Model runtime availability/locale benchmark",
+      "depends_on": [
+        "V32-02-01"
+      ],
+      "deliverables": [
+        "MODEL_BENCHMARK.md",
+        "ModelRouter.swift"
+      ],
+      "acceptance_test": "physical iPhone Turkish, memory, battery, thermal, on-device proof",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "V32-07-01",
+      "phase": "P07",
+      "title": "Versioned full name algorithms and 16-type safe exploration",
+      "depends_on": [
+        "V32-01-02"
+      ],
+      "deliverables": [
+        "NameNumerology.swift",
+        "PsychometricsADR.md"
+      ],
+      "acceptance_test": "Turkish unicode variants, no unauthorized MBTI copyrighted scale",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "V32-08-01",
+      "phase": "P08",
+      "title": "Ephemeris license and Local Space geometry",
+      "depends_on": [
+        "V32-01-01"
+      ],
+      "deliverables": [
+        "ASTRO_LICENSE_RECEIPT.md",
+        "LocalSpace.swift"
+      ],
+      "acceptance_test": "license before distribution, independent location fixtures",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "V32-09-01",
+      "phase": "P09",
+      "title": "HD −88° root and legal gate map requirements",
+      "depends_on": [
+        "V32-08-01"
+      ],
+      "deliverables": [
+        "HumanDesignMethodRegistry.swift",
+        "HD_RIGHTS.md"
+      ],
+      "acceptance_test": "true numeric root and not 88 days; gate map fails closed",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "V32-10-01",
+      "phase": "P10",
+      "title": "Hermetic/Kabala Wisdom Atlas with physics separate",
+      "depends_on": [
+        "V32-04-01"
+      ],
+      "deliverables": [
+        "TraditionRegistry.swift",
+        "WisdomLensView.swift"
+      ],
+      "acceptance_test": "cite cultural sources; ban science-overclaim",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "V32-11-01",
+      "phase": "P11",
+      "title": "StoreKit price dynamically and refund restore",
+      "depends_on": [
+        "V32-03-02"
+      ],
+      "deliverables": [
+        "Entitlements.swift",
+        "StoreTests.swift"
+      ],
+      "acceptance_test": "verified entitlements, no unsupported price claim",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "V32-12-01",
+      "phase": "P12",
+      "title": "Quality and privacy security release tests",
+      "depends_on": [
+        "V32-02-02",
+        "V32-11-01"
+      ],
+      "deliverables": [
+        "DEVICE_QA.md",
+        "THREAT_MODEL.md"
+      ],
+      "acceptance_test": "real device network negative, rights/App Review and accessibility",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "V32-13-01",
+      "phase": "P13",
+      "title": "Governed model/content evolution and rollback",
+      "depends_on": [
+        "V32-12-01"
+      ],
+      "deliverables": [
+        "EVOLUTION_ADR.md",
+        "ROLLBACK_PLAN.md"
+      ],
+      "acceptance_test": "signed updates + opt-in + evaluated holdout, rollback",
+      "state": "NOT_STARTED"
+    }
+  ]
+}

@@ -1,0 +1,5149 @@
+{
+  "project": "XRAI",
+  "version": "1.1",
+  "generated": "2026-10-15",
+  "authority": "CONSTITUTION_v1.1 §28.8, existing v1.0 scoped flows unchanged; counts are candidates, not implemented",
+  "user_screen_count": 99,
+  "operations_screen_count": 20,
+  "screens": [
+    {
+      "action_description": "View storefront accurate features/prices; choose download",
+      "data_types": [
+        "AppListing",
+        "Offer"
+      ],
+      "commands": [
+        "OpenStoreListing"
+      ],
+      "events": [
+        "STORE_VISIT_ATTRIBUTED"
+      ],
+      "unique_acceptance": "Screenshot accurate; no unfinished feature marketed",
+      "screen_id": "A01",
+      "title": "App Store ürün sayfası",
+      "area": "A — Satın alma ve onboarding",
+      "surface": "external_app_store",
+      "release_target": "V1.1",
+      "purchase_gate": "public",
+      "privacy_class": "MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "A01-T01: main action produces only declared domain command/event and authorization passes",
+        "A01-T02: offline/denied permission yields truthful user-controllable fallback",
+        "A01-T03: no sensitive analytics, notifications or screenshot leakage",
+        "A01-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Resolve active purchase rights; restore or continue free",
+      "data_types": [
+        "EntitlementSnapshot",
+        "StoreTransaction"
+      ],
+      "commands": [
+        "ResolveEntitlement",
+        "RestorePurchase"
+      ],
+      "events": [
+        "ENTITLEMENT_RESOLVED"
+      ],
+      "unique_acceptance": "Pending/refund/offline/race and signed transaction tested",
+      "screen_id": "A02",
+      "title": "Satın alma hakkı ve açılış",
+      "area": "A — Satın alma ve onboarding",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "public",
+      "privacy_class": "MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "A02-T01: main action produces only declared domain command/event and authorization passes",
+        "A02-T02: offline/denied permission yields truthful user-controllable fallback",
+        "A02-T03: no sensitive analytics, notifications or screenshot leakage",
+        "A02-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Learn value, choose guest/continue",
+      "data_types": [
+        "AppConfig",
+        "WelcomeCopy"
+      ],
+      "commands": [
+        "BeginGuestOnboarding"
+      ],
+      "events": [
+        "ONBOARDING_STARTED"
+      ],
+      "unique_acceptance": "No account or permission forced",
+      "screen_id": "A03",
+      "title": "XRAI hoş geldin",
+      "area": "A — Satın alma ve onboarding",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "public",
+      "privacy_class": "MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "A03-T01: main action produces only declared domain command/event and authorization passes",
+        "A03-T02: offline/denied permission yields truthful user-controllable fallback",
+        "A03-T03: no sensitive analytics, notifications or screenshot leakage",
+        "A03-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Read data purposes; select local-first, optional notices",
+      "data_types": [
+        "PrivacyNotice",
+        "ConsentGrant"
+      ],
+      "commands": [
+        "AcceptRequiredNotice",
+        "ConfigureOptionalPurposes"
+      ],
+      "events": [
+        "CONSENT_DECISION_RECORDED"
+      ],
+      "unique_acceptance": "Separate opt-ins, reject still uses free core",
+      "screen_id": "A04",
+      "title": "Gizlilik tanıtımı",
+      "area": "A — Satın alma ve onboarding",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "public",
+      "privacy_class": "MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "A04-T01: main action produces only declared domain command/event and authorization passes",
+        "A04-T02: offline/denied permission yields truthful user-controllable fallback",
+        "A04-T03: no sensitive analytics, notifications or screenshot leakage",
+        "A04-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Enter preferred name; optional legal full name",
+      "data_types": [
+        "UserIdentity",
+        "NameEntry"
+      ],
+      "commands": [
+        "SavePreferredName",
+        "SaveOptionalFullName"
+      ],
+      "events": [
+        "IDENTITY_UPDATED"
+      ],
+      "unique_acceptance": "Blank full name allowed; no raw name analytics",
+      "screen_id": "A05",
+      "title": "Kimlik bilgileri",
+      "area": "A — Satın alma ve onboarding",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "public",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "A05-T01: main action produces only declared domain command/event and authorization passes",
+        "A05-T02: offline/denied permission yields truthful user-controllable fallback",
+        "A05-T03: no sensitive analytics, notifications or screenshot leakage",
+        "A05-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Enter date, optional time/location, uncertainty",
+      "data_types": [
+        "BirthContext",
+        "TimeZoneVersion"
+      ],
+      "commands": [
+        "SetBirthContext"
+      ],
+      "events": [
+        "BIRTH_CONTEXT_UPDATED"
+      ],
+      "unique_acceptance": "Leap dates, unknown hour, historical timezone, manual place",
+      "screen_id": "A06",
+      "title": "Doğum bağlamı",
+      "area": "A — Satın alma ve onboarding",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "public",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "A06-T01: main action produces only declared domain command/event and authorization passes",
+        "A06-T02: offline/denied permission yields truthful user-controllable fallback",
+        "A06-T03: no sensitive analytics, notifications or screenshot leakage",
+        "A06-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Answer or skip brief self-report items",
+      "data_types": [
+        "AssessmentSession",
+        "InstrumentVersion"
+      ],
+      "commands": [
+        "SaveAssessmentAnswer",
+        "SkipAssessment"
+      ],
+      "events": [
+        "ASSESSMENT_RECORDED"
+      ],
+      "unique_acceptance": "Psychometric scoring guarded; localization validated",
+      "screen_id": "A07",
+      "title": "Mini kişilik keşfi",
+      "area": "A — Satın alma ve onboarding",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "public",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "A07-T01: main action produces only declared domain command/event and authorization passes",
+        "A07-T02: offline/denied permission yields truthful user-controllable fallback",
+        "A07-T03: no sensitive analytics, notifications or screenshot leakage",
+        "A07-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Choose interests, skip or change",
+      "data_types": [
+        "InterestClaim"
+      ],
+      "commands": [
+        "SetInterests"
+      ],
+      "events": [
+        "INTEREST_CHANGED"
+      ],
+      "unique_acceptance": "Never treat interest as demonstrated talent",
+      "screen_id": "A08",
+      "title": "Merak keşfi",
+      "area": "A — Satın alma ve onboarding",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "public",
+      "privacy_class": "MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "A08-T01: main action produces only declared domain command/event and authorization passes",
+        "A08-T02: offline/denied permission yields truthful user-controllable fallback",
+        "A08-T03: no sensitive analytics, notifications or screenshot leakage",
+        "A08-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Choose or defer initial life direction",
+      "data_types": [
+        "GoalDraft",
+        "ValueClaim"
+      ],
+      "commands": [
+        "ProposeLifeGoal",
+        "DeferGoal"
+      ],
+      "events": [
+        "LIFE_DIRECTION_SELECTED"
+      ],
+      "unique_acceptance": "Goal only active with user's approval",
+      "screen_id": "A09",
+      "title": "Yaşam yönü seçimi",
+      "area": "A — Satın alma ve onboarding",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "public",
+      "privacy_class": "MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "A09-T01: main action produces only declared domain command/event and authorization passes",
+        "A09-T02: offline/denied permission yields truthful user-controllable fallback",
+        "A09-T03: no sensitive analytics, notifications or screenshot leakage",
+        "A09-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "View short personal atlas + first action",
+      "data_types": [
+        "Claim",
+        "LifePathResult",
+        "InterestClaim"
+      ],
+      "commands": [
+        "AcknowledgeAtlas",
+        "StartFirstExperience"
+      ],
+      "events": [
+        "FIRST_ATLAS_VIEWED"
+      ],
+      "unique_acceptance": "Only known inputs; no fabricated personality claims",
+      "screen_id": "A10",
+      "title": "İlk kişisel atlas",
+      "area": "A — Satın alma ve onboarding",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "public",
+      "privacy_class": "MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "A10-T01: main action produces only declared domain command/event and authorization passes",
+        "A10-T02: offline/denied permission yields truthful user-controllable fallback",
+        "A10-T03: no sensitive analytics, notifications or screenshot leakage",
+        "A10-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Inspect today overview and one meaningful action",
+      "data_types": [
+        "DailyContext",
+        "DailyAction"
+      ],
+      "commands": [
+        "OpenDailyAction"
+      ],
+      "events": [
+        "TODAY_OPENED"
+      ],
+      "unique_acceptance": "Local/offline, nonpunitive zero-action state",
+      "screen_id": "B01",
+      "title": "Bugün ana ekranı",
+      "area": "B — Bugün",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "B01-T01: main action produces only declared domain command/event and authorization passes",
+        "B01-T02: offline/denied permission yields truthful user-controllable fallback",
+        "B01-T03: no sensitive analytics, notifications or screenshot leakage",
+        "B01-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Record optional physical/mental/emotional/social energy",
+      "data_types": [
+        "DailyCheckIn"
+      ],
+      "commands": [
+        "RecordEnergyCheckIn",
+        "DeleteCheckIn"
+      ],
+      "events": [
+        "DAILY_CHECKIN_RECORDED"
+      ],
+      "unique_acceptance": "Not a clinical assessment; avoid symbolic energy mixing",
+      "screen_id": "B02",
+      "title": "Enerji check-in",
+      "area": "B — Bugün",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "B02-T01: main action produces only declared domain command/event and authorization passes",
+        "B02-T02: offline/denied permission yields truthful user-controllable fallback",
+        "B02-T03: no sensitive analytics, notifications or screenshot leakage",
+        "B02-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Read source-tagged optional symbolic day theme",
+      "data_types": [
+        "SymbolicDayTheme",
+        "MethodVersion"
+      ],
+      "commands": [
+        "ShowSymbolicTheme"
+      ],
+      "events": [
+        "SYMBOLIC_THEME_VIEWED"
+      ],
+      "unique_acceptance": "Symbolism labeled; no medical/financial advice",
+      "screen_id": "B03",
+      "title": "Günün sembolik teması",
+      "area": "B — Bugün",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "B03-T01: main action produces only declared domain command/event and authorization passes",
+        "B03-T02: offline/denied permission yields truthful user-controllable fallback",
+        "B03-T03: no sensitive analytics, notifications or screenshot leakage",
+        "B03-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Start, defer, change or rest from daily action",
+      "data_types": [
+        "DailyAction",
+        "GoalNode"
+      ],
+      "commands": [
+        "StartDailyAction",
+        "SkipDailyAction"
+      ],
+      "events": [
+        "DAILY_ACTION_CHANGED"
+      ],
+      "unique_acceptance": "Skip not failure; explain parent goal",
+      "screen_id": "B04",
+      "title": "Günün anlamlı eylemi",
+      "area": "B — Bugün",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "B04-T01: main action produces only declared domain command/event and authorization passes",
+        "B04-T02: offline/denied permission yields truthful user-controllable fallback",
+        "B04-T03: no sensitive analytics, notifications or screenshot leakage",
+        "B04-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "View and approve calendar-aware plan",
+      "data_types": [
+        "WeekPlan",
+        "CalendarPermission"
+      ],
+      "commands": [
+        "SuggestDayPlan",
+        "ApproveDayPlan"
+      ],
+      "events": [
+        "DAILY_PLAN_APPROVED"
+      ],
+      "unique_acceptance": "No calendar read permission when not necessary",
+      "screen_id": "B05",
+      "title": "Gün planlayıcısı",
+      "area": "B — Bugün",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "calendar (contextual)",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "B05-T01: main action produces only declared domain command/event and authorization passes",
+        "B05-T02: offline/denied permission yields truthful user-controllable fallback",
+        "B05-T03: no sensitive analytics, notifications or screenshot leakage",
+        "B05-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "View alerts and why shown; mute",
+      "data_types": [
+        "NotificationDecision"
+      ],
+      "commands": [
+        "DismissNotification",
+        "MuteNotifications"
+      ],
+      "events": [
+        "NOTIFICATION_PREFERENCE_CHANGED"
+      ],
+      "unique_acceptance": "No silent notifications; respects quiet hours",
+      "screen_id": "B06",
+      "title": "Bildirim merkezi",
+      "area": "B — Bugün",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "B06-T01: main action produces only declared domain command/event and authorization passes",
+        "B06-T02: offline/denied permission yields truthful user-controllable fallback",
+        "B06-T03: no sensitive analytics, notifications or screenshot leakage",
+        "B06-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Write or skip end-of-day reflection",
+      "data_types": [
+        "ReflectionNote",
+        "MemoryClaim"
+      ],
+      "commands": [
+        "SaveReflection",
+        "SkipReflection"
+      ],
+      "events": [
+        "REFLECTION_RECORDED"
+      ],
+      "unique_acceptance": "Local-only default; don't hallucinate summary",
+      "screen_id": "B07",
+      "title": "Akşam yansıtma",
+      "area": "B — Bugün",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "B07-T01: main action produces only declared domain command/event and authorization passes",
+        "B07-T02: offline/denied permission yields truthful user-controllable fallback",
+        "B07-T03: no sensitive analytics, notifications or screenshot leakage",
+        "B07-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Review weekly observations and unmeasured areas",
+      "data_types": [
+        "WeekReview",
+        "ProgressEvidence"
+      ],
+      "commands": [
+        "ApproveWeeklyReview"
+      ],
+      "events": [
+        "WEEKLY_REVIEW_COMPLETE"
+      ],
+      "unique_acceptance": "Evidence coverage and uncertainty shown",
+      "screen_id": "B08",
+      "title": "Haftalık öngörü/gözlem",
+      "area": "B — Bugün",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "B08-T01: main action produces only declared domain command/event and authorization passes",
+        "B08-T02: offline/denied permission yields truthful user-controllable fallback",
+        "B08-T03: no sensitive analytics, notifications or screenshot leakage",
+        "B08-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "View/edit personal identity atlas",
+      "data_types": [
+        "Claim",
+        "PersonalProfile"
+      ],
+      "commands": [
+        "EditProfileClaim"
+      ],
+      "events": [
+        "IDENTITY_CLAIM_EDITED"
+      ],
+      "unique_acceptance": "Differentiate user report vs AI inference",
+      "screen_id": "C01",
+      "title": "Kimlik atlası",
+      "area": "C — Ben",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "C01-T01: main action produces only declared domain command/event and authorization passes",
+        "C01-T02: offline/denied permission yields truthful user-controllable fallback",
+        "C01-T03: no sensitive analytics, notifications or screenshot leakage",
+        "C01-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Inspect evidence levels per attribute",
+      "data_types": [
+        "Claim",
+        "EvidenceObservation"
+      ],
+      "commands": [
+        "InspectClaimEvidence"
+      ],
+      "events": [
+        "EVIDENCE_PORTRAIT_OPENED"
+      ],
+      "unique_acceptance": "No universal personality certainty",
+      "screen_id": "C02",
+      "title": "Kanıt portresi",
+      "area": "C — Ben",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "C02-T01: main action produces only declared domain command/event and authorization passes",
+        "C02-T02: offline/denied permission yields truthful user-controllable fallback",
+        "C02-T03: no sensitive analytics, notifications or screenshot leakage",
+        "C02-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Review optional personality test results",
+      "data_types": [
+        "AssessmentSession",
+        "InstrumentVersion"
+      ],
+      "commands": [
+        "RetakeAssessment"
+      ],
+      "events": [
+        "ASSESSMENT_RETAKEN"
+      ],
+      "unique_acceptance": "Psychometrics limitations; no diagnoses",
+      "screen_id": "C03",
+      "title": "Kişilik keşfi",
+      "area": "C — Ben",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "C03-T01: main action produces only declared domain command/event and authorization passes",
+        "C03-T02: offline/denied permission yields truthful user-controllable fallback",
+        "C03-T03: no sensitive analytics, notifications or screenshot leakage",
+        "C03-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Edit values in user's language",
+      "data_types": [
+        "ValueClaim"
+      ],
+      "commands": [
+        "UpdateValuePriority"
+      ],
+      "events": [
+        "VALUE_CHANGED"
+      ],
+      "unique_acceptance": "User sovereignty over values",
+      "screen_id": "C04",
+      "title": "Değerlerim",
+      "area": "C — Ben",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "C04-T01: main action produces only declared domain command/event and authorization passes",
+        "C04-T02: offline/denied permission yields truthful user-controllable fallback",
+        "C04-T03: no sensitive analytics, notifications or screenshot leakage",
+        "C04-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "View skill map and linked proof",
+      "data_types": [
+        "SkillNode",
+        "EvidenceObservation"
+      ],
+      "commands": [
+        "OpenSkillEvidence"
+      ],
+      "events": [
+        "SKILL_GRAPH_OPENED"
+      ],
+      "unique_acceptance": "No verified skill without rubric proof",
+      "screen_id": "C05",
+      "title": "Becerilerim",
+      "area": "C — Ben",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "C05-T01: main action produces only declared domain command/event and authorization passes",
+        "C05-T02: offline/denied permission yields truthful user-controllable fallback",
+        "C05-T03: no sensitive analytics, notifications or screenshot leakage",
+        "C05-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Create/update curiosity ideas",
+      "data_types": [
+        "InterestClaim"
+      ],
+      "commands": [
+        "AddCuriosity",
+        "ArchiveCuriosity"
+      ],
+      "events": [
+        "CURIOSITY_UPDATED"
+      ],
+      "unique_acceptance": "Old interests not forced current",
+      "screen_id": "C06",
+      "title": "Meraklarım",
+      "area": "C — Ben",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "C06-T01: main action produces only declared domain command/event and authorization passes",
+        "C06-T02: offline/denied permission yields truthful user-controllable fallback",
+        "C06-T03: no sensitive analytics, notifications or screenshot leakage",
+        "C06-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Explore local life chapters and edits",
+      "data_types": [
+        "LifeChapter",
+        "LifeEvent"
+      ],
+      "commands": [
+        "AddLifeEvent",
+        "DeleteLifeEvent"
+      ],
+      "events": [
+        "LIFE_EVENT_CHANGED"
+      ],
+      "unique_acceptance": "Time and source; user delete honored",
+      "screen_id": "C07",
+      "title": "Yaşam zaman çizelgesi",
+      "area": "C — Ben",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "C07-T01: main action produces only declared domain command/event and authorization passes",
+        "C07-T02: offline/denied permission yields truthful user-controllable fallback",
+        "C07-T03: no sensitive analytics, notifications or screenshot leakage",
+        "C07-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Search/edit/delete private memories",
+      "data_types": [
+        "MemoryItem",
+        "MemoryProvenance"
+      ],
+      "commands": [
+        "DisputeMemory",
+        "DeleteMemory"
+      ],
+      "events": [
+        "MEMORY_CLAIM_DISPUTED"
+      ],
+      "unique_acceptance": "Reindex on correction and deletion",
+      "screen_id": "C08",
+      "title": "Hafıza gezgini",
+      "area": "C — Ben",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "C08-T01: main action produces only declared domain command/event and authorization passes",
+        "C08-T02: offline/denied permission yields truthful user-controllable fallback",
+        "C08-T03: no sensitive analytics, notifications or screenshot leakage",
+        "C08-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Why inference? show sources and reject",
+      "data_types": [
+        "Claim",
+        "InferenceTrace"
+      ],
+      "commands": [
+        "DisputeClaim",
+        "ConfirmClaim"
+      ],
+      "events": [
+        "CLAIM_REVIEWED"
+      ],
+      "unique_acceptance": "Source trace; one-tap correction",
+      "screen_id": "C09",
+      "title": "Bu çıkarım neden var?",
+      "area": "C — Ben",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "C09-T01: main action produces only declared domain command/event and authorization passes",
+        "C09-T02: offline/denied permission yields truthful user-controllable fallback",
+        "C09-T03: no sensitive analytics, notifications or screenshot leakage",
+        "C09-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Choose symbolic research branch",
+      "data_types": [
+        "ModuleCatalog",
+        "RightsRecord"
+      ],
+      "commands": [
+        "OpenSymbolicModule"
+      ],
+      "events": [
+        "DISCOVERY_MODULE_OPENED"
+      ],
+      "unique_acceptance": "Blocked module never misleadingly enabled",
+      "screen_id": "D01",
+      "title": "Keşif evreni",
+      "area": "D — Keşfet",
+      "surface": "ios",
+      "release_target": "LATER_RIGHTS_GATED",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "D01-T01: main action produces only declared domain command/event and authorization passes",
+        "D01-T02: offline/denied permission yields truthful user-controllable fallback",
+        "D01-T03: no sensitive analytics, notifications or screenshot leakage",
+        "D01-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Review birth input precision & edit",
+      "data_types": [
+        "BirthContext",
+        "CalculationAudit"
+      ],
+      "commands": [
+        "CorrectBirthContext"
+      ],
+      "events": [
+        "BIRTH_CONTEXT_CORRECTED"
+      ],
+      "unique_acceptance": "Trigger versioned recalculation and diff",
+      "screen_id": "D02",
+      "title": "Doğum ayrıntıları",
+      "area": "D — Keşfet",
+      "surface": "ios",
+      "release_target": "LATER_RIGHTS_GATED",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "D02-T01: main action produces only declared domain command/event and authorization passes",
+        "D02-T02: offline/denied permission yields truthful user-controllable fallback",
+        "D02-T03: no sensitive analytics, notifications or screenshot leakage",
+        "D02-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Explore name/date numerology",
+      "data_types": [
+        "NumerologyResult",
+        "CalculationAudit"
+      ],
+      "commands": [
+        "CalculateNumerology"
+      ],
+      "events": [
+        "NUMEROLOGY_CALCULATED"
+      ],
+      "unique_acceptance": "Compound/master/root method and diacritics traced",
+      "screen_id": "D03",
+      "title": "Numeroloji atlası",
+      "area": "D — Keşfet",
+      "surface": "ios",
+      "release_target": "LATER_RIGHTS_GATED",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "D03-T01: main action produces only declared domain command/event and authorization passes",
+        "D03-T02: offline/denied permission yields truthful user-controllable fallback",
+        "D03-T03: no sensitive analytics, notifications or screenshot leakage",
+        "D03-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "See every arithmetic/method step",
+      "data_types": [
+        "CalculationTrace",
+        "MethodVersion"
+      ],
+      "commands": [
+        "InspectCalculationTrace"
+      ],
+      "events": [
+        "CALC_TRACE_VIEWED"
+      ],
+      "unique_acceptance": "Deterministic independent audit",
+      "screen_id": "D04",
+      "title": "Hesaplama dökümü",
+      "area": "D — Keşfet",
+      "surface": "ios",
+      "release_target": "LATER_RIGHTS_GATED",
+      "purchase_gate": "public_free_lifepath_calculation_trace_only; otherwise premium",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "D04-T01: main action produces only declared domain command/event and authorization passes",
+        "D04-T02: offline/denied permission yields truthful user-controllable fallback",
+        "D04-T03: no sensitive analytics, notifications or screenshot leakage",
+        "D04-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Inspect licensed astronomy natal chart",
+      "data_types": [
+        "AstroChart",
+        "BirthContext"
+      ],
+      "commands": [
+        "CalculateNatalChart"
+      ],
+      "events": [
+        "ASTRO_CHART_CALCULATED"
+      ],
+      "unique_acceptance": "Ephemeris legal gate; uncertainty if birth hour unknown",
+      "screen_id": "D05",
+      "title": "Astroloji haritası",
+      "area": "D — Keşfet",
+      "surface": "ios",
+      "release_target": "LATER_RIGHTS_GATED",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "D05-T01: main action produces only declared domain command/event and authorization passes",
+        "D05-T02: offline/denied permission yields truthful user-controllable fallback",
+        "D05-T03: no sensitive analytics, notifications or screenshot leakage",
+        "D05-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "View dated transits with symbolic caveats",
+      "data_types": [
+        "TransitResult",
+        "EphemerisVersion"
+      ],
+      "commands": [
+        "ComputeTransit"
+      ],
+      "events": [
+        "TRANSIT_COMPUTED"
+      ],
+      "unique_acceptance": "Precise time + interpretation separated",
+      "screen_id": "D06",
+      "title": "Transit keşfi",
+      "area": "D — Keşfet",
+      "surface": "ios",
+      "release_target": "LATER_RIGHTS_GATED",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "D06-T01: main action produces only declared domain command/event and authorization passes",
+        "D06-T02: offline/denied permission yields truthful user-controllable fallback",
+        "D06-T03: no sensitive analytics, notifications or screenshot leakage",
+        "D06-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Zoom accessible HD BodyGraph",
+      "data_types": [
+        "BodyGraph",
+        "RightsRecord"
+      ],
+      "commands": [
+        "ComputeBodyGraph"
+      ],
+      "events": [
+        "BODYGRAPH_COMPUTED"
+      ],
+      "unique_acceptance": "Licensed or blocked; independent chart tests",
+      "screen_id": "D07",
+      "title": "Human Design BodyGraph",
+      "area": "D — Keşfet",
+      "surface": "ios",
+      "release_target": "LATER_RIGHTS_GATED",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "D07-T01: main action produces only declared domain command/event and authorization passes",
+        "D07-T02: offline/denied permission yields truthful user-controllable fallback",
+        "D07-T03: no sensitive analytics, notifications or screenshot leakage",
+        "D07-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Explain gates, centers and channels",
+      "data_types": [
+        "HDGate",
+        "HDChannel",
+        "HDProvenance"
+      ],
+      "commands": [
+        "InspectHDGate"
+      ],
+      "events": [
+        "HD_MECHANIC_VIEWED"
+      ],
+      "unique_acceptance": "Never confuse open vs undefined",
+      "screen_id": "D08",
+      "title": "HD kapılar ve kanallar",
+      "area": "D — Keşfet",
+      "surface": "ios",
+      "release_target": "LATER_RIGHTS_GATED",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "D08-T01: main action produces only declared domain command/event and authorization passes",
+        "D08-T02: offline/denied permission yields truthful user-controllable fallback",
+        "D08-T03: no sensitive analytics, notifications or screenshot leakage",
+        "D08-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Inspect rights-cleared HD advanced only",
+      "data_types": [
+        "HDVariable",
+        "HDProfile",
+        "HDCross"
+      ],
+      "commands": [
+        "ComputeHDAdvanced"
+      ],
+      "events": [
+        "HD_ADVANCED_COMPUTED"
+      ],
+      "unique_acceptance": "Only if rule-set and rights cleared",
+      "screen_id": "D09",
+      "title": "HD ileri analiz",
+      "area": "D — Keşfet",
+      "surface": "ios",
+      "release_target": "LATER_RIGHTS_GATED",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "D09-T01: main action produces only declared domain command/event and authorization passes",
+        "D09-T02: offline/denied permission yields truthful user-controllable fallback",
+        "D09-T03: no sensitive analytics, notifications or screenshot leakage",
+        "D09-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Choose palm image, local cropping/erase",
+      "data_types": [
+        "LocalImageRef",
+        "MediaConsent"
+      ],
+      "commands": [
+        "ImportPalmImage",
+        "DeleteImage"
+      ],
+      "events": [
+        "PALM_IMAGE_IMPORTED"
+      ],
+      "unique_acceptance": "No forced camera or network upload",
+      "screen_id": "D10",
+      "title": "El görüntüsü yakalama",
+      "area": "D — Keşfet",
+      "surface": "ios",
+      "release_target": "LATER_RIGHTS_GATED",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "photos or selected photo picker",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "D10-T01: main action produces only declared domain command/event and authorization passes",
+        "D10-T02: offline/denied permission yields truthful user-controllable fallback",
+        "D10-T03: no sensitive analytics, notifications or screenshot leakage",
+        "D10-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Read historical palm symbolism optionally",
+      "data_types": [
+        "PalmMarkup",
+        "TraditionSource"
+      ],
+      "commands": [
+        "ExplorePalmSymbolism"
+      ],
+      "events": [
+        "PALM_SYMBOLISM_VIEWED"
+      ],
+      "unique_acceptance": "No longevity/illness prediction",
+      "screen_id": "D11",
+      "title": "El sembolizmi",
+      "area": "D — Keşfet",
+      "surface": "ios",
+      "release_target": "LATER_RIGHTS_GATED",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "D11-T01: main action produces only declared domain command/event and authorization passes",
+        "D11-T02: offline/denied permission yields truthful user-controllable fallback",
+        "D11-T03: no sensitive analytics, notifications or screenshot leakage",
+        "D11-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Local face geometry preview or skip",
+      "data_types": [
+        "LocalImageRef",
+        "FaceGeometry"
+      ],
+      "commands": [
+        "AnalyzeFaceGeometryLocal"
+      ],
+      "events": [
+        "FACE_GEOMETRY_VIEWED"
+      ],
+      "unique_acceptance": "No IQ/ethnicity/trustworthiness inference",
+      "screen_id": "D12",
+      "title": "Yüz geometrisi",
+      "area": "D — Keşfet",
+      "surface": "ios",
+      "release_target": "LATER_RIGHTS_GATED",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "photos or selected photo picker",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "D12-T01: main action produces only declared domain command/event and authorization passes",
+        "D12-T02: offline/denied permission yields truthful user-controllable fallback",
+        "D12-T03: no sensitive analytics, notifications or screenshot leakage",
+        "D12-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Read history and limits of physiognomy",
+      "data_types": [
+        "HistorySource",
+        "RightsRecord"
+      ],
+      "commands": [
+        "ExploreHistoricalClaim"
+      ],
+      "events": [
+        "HISTORICAL_CLAIM_VIEWED"
+      ],
+      "unique_acceptance": "Cultural history, no profiling",
+      "screen_id": "D13",
+      "title": "Fizyonomi tarihi",
+      "area": "D — Keşfet",
+      "surface": "ios",
+      "release_target": "LATER_RIGHTS_GATED",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "D13-T01: main action produces only declared domain command/event and authorization passes",
+        "D13-T02: offline/denied permission yields truthful user-controllable fallback",
+        "D13-T03: no sensitive analytics, notifications or screenshot leakage",
+        "D13-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Explore optional home/place number calculations",
+      "data_types": [
+        "PlaceNumberContext"
+      ],
+      "commands": [
+        "ComputePlaceNumerology"
+      ],
+      "events": [
+        "PLACE_NUMEROLOGY_CALCULATED"
+      ],
+      "unique_acceptance": "Manual address optional; minimize precise location",
+      "screen_id": "D14",
+      "title": "Ev ve yer numerolojisi",
+      "area": "D — Keşfet",
+      "surface": "ios",
+      "release_target": "LATER_RIGHTS_GATED",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "D14-T01: main action produces only declared domain command/event and authorization passes",
+        "D14-T02: offline/denied permission yields truthful user-controllable fallback",
+        "D14-T03: no sensitive analytics, notifications or screenshot leakage",
+        "D14-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Review or change user's future scenario",
+      "data_types": [
+        "FutureSelfScenario"
+      ],
+      "commands": [
+        "CreateFutureScenario",
+        "ReviseScenario"
+      ],
+      "events": [
+        "FUTURE_SCENARIO_REVISED"
+      ],
+      "unique_acceptance": "Always labeled hypothetical",
+      "screen_id": "E01",
+      "title": "Future Self",
+      "area": "E — Yolum",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "E01-T01: main action produces only declared domain command/event and authorization passes",
+        "E01-T02: offline/denied permission yields truthful user-controllable fallback",
+        "E01-T03: no sensitive analytics, notifications or screenshot leakage",
+        "E01-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Build future scenario values and constraints",
+      "data_types": [
+        "FutureSelfScenarioDraft"
+      ],
+      "commands": [
+        "SaveFutureScenarioDraft",
+        "ApproveScenario"
+      ],
+      "events": [
+        "FUTURE_SCENARIO_APPROVED"
+      ],
+      "unique_acceptance": "Not fate; alternatives preserved",
+      "screen_id": "E02",
+      "title": "Gelecek senaryosu oluşturucu",
+      "area": "E — Yolum",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "E02-T01: main action produces only declared domain command/event and authorization passes",
+        "E02-T02: offline/denied permission yields truthful user-controllable fallback",
+        "E02-T03: no sensitive analytics, notifications or screenshot leakage",
+        "E02-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Compare alternative goals/tradeoffs",
+      "data_types": [
+        "FutureSelfScenario",
+        "ScenarioTradeoff"
+      ],
+      "commands": [
+        "CompareFutureScenarios"
+      ],
+      "events": [
+        "SCENARIO_COMPARISON_VIEWED"
+      ],
+      "unique_acceptance": "No unauthorized high risk decision",
+      "screen_id": "E03",
+      "title": "Senaryo karşılaştırma",
+      "area": "E — Yolum",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "E03-T01: main action produces only declared domain command/event and authorization passes",
+        "E03-T02: offline/denied permission yields truthful user-controllable fallback",
+        "E03-T03: no sensitive analytics, notifications or screenshot leakage",
+        "E03-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Set, pause, resume, abandon goals",
+      "data_types": [
+        "GoalNode",
+        "GoalRevision"
+      ],
+      "commands": [
+        "ApproveGoal",
+        "PauseGoal",
+        "AbandonGoal"
+      ],
+      "events": [
+        "GOAL_STATUS_CHANGED"
+      ],
+      "unique_acceptance": "Explicit approval and preservation of history",
+      "screen_id": "E04",
+      "title": "Hedef merkezi",
+      "area": "E — Yolum",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "E04-T01: main action produces only declared domain command/event and authorization passes",
+        "E04-T02: offline/denied permission yields truthful user-controllable fallback",
+        "E04-T03: no sensitive analytics, notifications or screenshot leakage",
+        "E04-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "See requirements & measured skill gap",
+      "data_types": [
+        "SkillNode",
+        "PrerequisiteEdge"
+      ],
+      "commands": [
+        "ReviewSkillGap"
+      ],
+      "events": [
+        "SKILL_GAP_REVIEWED"
+      ],
+      "unique_acceptance": "Missing baseline labeled unknown",
+      "screen_id": "E05",
+      "title": "Beceri açığı",
+      "area": "E — Yolum",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "E05-T01: main action produces only declared domain command/event and authorization passes",
+        "E05-T02: offline/denied permission yields truthful user-controllable fallback",
+        "E05-T03: no sensitive analytics, notifications or screenshot leakage",
+        "E05-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Choose learning path by time/level/language",
+      "data_types": [
+        "LearningRoadmap",
+        "ResourcePassport"
+      ],
+      "commands": [
+        "ApproveRoadmap",
+        "ReplaceLearningResource"
+      ],
+      "events": [
+        "ROADMAP_APPROVED"
+      ],
+      "unique_acceptance": "Evidence/cost/license/level checks",
+      "screen_id": "E06",
+      "title": "Öğrenme rotası",
+      "area": "E — Yolum",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "E06-T01: main action produces only declared domain command/event and authorization passes",
+        "E06-T02: offline/denied permission yields truthful user-controllable fallback",
+        "E06-T03: no sensitive analytics, notifications or screenshot leakage",
+        "E06-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "View actual resource metadata and alternate",
+      "data_types": [
+        "LearningResource",
+        "ResourceEvidence"
+      ],
+      "commands": [
+        "OpenResource",
+        "ReportResourceIssue"
+      ],
+      "events": [
+        "RESOURCE_OPENED"
+      ],
+      "unique_acceptance": "Price, access and rights verified or unknown",
+      "screen_id": "E07",
+      "title": "Kaynak ayrıntısı",
+      "area": "E — Yolum",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "E07-T01: main action produces only declared domain command/event and authorization passes",
+        "E07-T02: offline/denied permission yields truthful user-controllable fallback",
+        "E07-T03: no sensitive analytics, notifications or screenshot leakage",
+        "E07-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Complete original lesson/interactive exercise",
+      "data_types": [
+        "LearningLesson",
+        "AssessmentRubric"
+      ],
+      "commands": [
+        "StartLesson",
+        "SubmitLessonAnswer"
+      ],
+      "events": [
+        "LESSON_ASSESSED"
+      ],
+      "unique_acceptance": "Correct responses sourced; no fake skill verification",
+      "screen_id": "E08",
+      "title": "XRAI etkileşimli ders",
+      "area": "E — Yolum",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "E08-T01: main action produces only declared domain command/event and authorization passes",
+        "E08-T02: offline/denied permission yields truthful user-controllable fallback",
+        "E08-T03: no sensitive analytics, notifications or screenshot leakage",
+        "E08-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Open third-party link and return gracefully",
+      "data_types": [
+        "ResourceHandoff",
+        "LicenseRecord"
+      ],
+      "commands": [
+        "OpenExternalResource"
+      ],
+      "events": [
+        "EXTERNAL_HANDOFF_STARTED"
+      ],
+      "unique_acceptance": "No claim video fully watched or scraped",
+      "screen_id": "E09",
+      "title": "Dış kaynak geçişi",
+      "area": "E — Yolum",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "E09-T01: main action produces only declared domain command/event and authorization passes",
+        "E09-T02: offline/denied permission yields truthful user-controllable fallback",
+        "E09-T03: no sensitive analytics, notifications or screenshot leakage",
+        "E09-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Perform/skip real-world mission",
+      "data_types": [
+        "RealWorldMission",
+        "ActionFeedback"
+      ],
+      "commands": [
+        "RecordMissionAction"
+      ],
+      "events": [
+        "MISSION_ACTION_RECORDED"
+      ],
+      "unique_acceptance": "No surveillance; self-report tagged",
+      "screen_id": "E10",
+      "title": "Gerçek dünya görevi",
+      "area": "E — Yolum",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "E10-T01: main action produces only declared domain command/event and authorization passes",
+        "E10-T02: offline/denied permission yields truthful user-controllable fallback",
+        "E10-T03: no sensitive analytics, notifications or screenshot leakage",
+        "E10-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Try targeted skill assessment",
+      "data_types": [
+        "SkillAssessment",
+        "RubricVersion"
+      ],
+      "commands": [
+        "SubmitSkillAssessment"
+      ],
+      "events": [
+        "SKILL_ASSESSMENT_COMPLETED"
+      ],
+      "unique_acceptance": "Assessment validity and cheating limits",
+      "screen_id": "E11",
+      "title": "Beceri değerlendirmesi",
+      "area": "E — Yolum",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "E11-T01: main action produces only declared domain command/event and authorization passes",
+        "E11-T02: offline/denied permission yields truthful user-controllable fallback",
+        "E11-T03: no sensitive analytics, notifications or screenshot leakage",
+        "E11-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Inspect proof tiers and evidence coverage",
+      "data_types": [
+        "ImpactReview",
+        "EvidenceObservation"
+      ],
+      "commands": [
+        "ReviewImpactEvidence"
+      ],
+      "events": [
+        "GROWTH_EVIDENCE_VIEWED"
+      ],
+      "unique_acceptance": "Improvement != XRAI caused it",
+      "screen_id": "E12",
+      "title": "Gelişim kanıtları",
+      "area": "E — Yolum",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "E12-T01: main action produces only declared domain command/event and authorization passes",
+        "E12-T02: offline/denied permission yields truthful user-controllable fallback",
+        "E12-T03: no sensitive analytics, notifications or screenshot leakage",
+        "E12-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Ask XRAI with private context scopes",
+      "data_types": [
+        "GuideRequest",
+        "ConsentGrant"
+      ],
+      "commands": [
+        "AskGuide"
+      ],
+      "events": [
+        "GUIDE_RESPONSE_DELIVERED"
+      ],
+      "unique_acceptance": "Uncertain/grounded; no unauthorized raw data",
+      "screen_id": "F01",
+      "title": "Kişisel rehber",
+      "area": "F — XRAI Rehber",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "F01-T01: main action produces only declared domain command/event and authorization passes",
+        "F01-T02: offline/denied permission yields truthful user-controllable fallback",
+        "F01-T03: no sensitive analytics, notifications or screenshot leakage",
+        "F01-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Run nonmanipulative Socratic reflection",
+      "data_types": [
+        "SocraticSession"
+      ],
+      "commands": [
+        "AnswerSocraticPrompt",
+        "EndSession"
+      ],
+      "events": [
+        "SOCRATIC_SESSION_ENDED"
+      ],
+      "unique_acceptance": "User can stop at any point",
+      "screen_id": "F02",
+      "title": "Sokratik keşif",
+      "area": "F — XRAI Rehber",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "F02-T01: main action produces only declared domain command/event and authorization passes",
+        "F02-T02: offline/denied permission yields truthful user-controllable fallback",
+        "F02-T03: no sensitive analytics, notifications or screenshot leakage",
+        "F02-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Speak with declared simulated Future Self",
+      "data_types": [
+        "FutureSelfScenario",
+        "GuideRequest"
+      ],
+      "commands": [
+        "AskFutureMentor"
+      ],
+      "events": [
+        "FUTURE_MENTOR_USED"
+      ],
+      "unique_acceptance": "Clearly artificial; no psychic foreknowledge",
+      "screen_id": "F03",
+      "title": "Future Self Mentor",
+      "area": "F — XRAI Rehber",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "F03-T01: main action produces only declared domain command/event and authorization passes",
+        "F03-T02: offline/denied permission yields truthful user-controllable fallback",
+        "F03-T03: no sensitive analytics, notifications or screenshot leakage",
+        "F03-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Compare choice with risks/alternatives",
+      "data_types": [
+        "DecisionRecord",
+        "DecisionOption"
+      ],
+      "commands": [
+        "CreateDecisionReflection"
+      ],
+      "events": [
+        "DECISION_REFLECTION_CREATED"
+      ],
+      "unique_acceptance": "High-stakes requires escalation/external expertise",
+      "screen_id": "F04",
+      "title": "Karar keşfi",
+      "area": "F — XRAI Rehber",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "F04-T01: main action produces only declared domain command/event and authorization passes",
+        "F04-T02: offline/denied permission yields truthful user-controllable fallback",
+        "F04-T03: no sensitive analytics, notifications or screenshot leakage",
+        "F04-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Review answer citations and uncertainty",
+      "data_types": [
+        "ResponseTrace",
+        "SourceRecord"
+      ],
+      "commands": [
+        "InspectResponseSource"
+      ],
+      "events": [
+        "GUIDANCE_SOURCE_OPENED"
+      ],
+      "unique_acceptance": "Never fabricate sources or citations",
+      "screen_id": "F05",
+      "title": "Gerekçe ve kaynaklar",
+      "area": "F — XRAI Rehber",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "F05-T01: main action produces only declared domain command/event and authorization passes",
+        "F05-T02: offline/denied permission yields truthful user-controllable fallback",
+        "F05-T03: no sensitive analytics, notifications or screenshot leakage",
+        "F05-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Reject/correct suggestion",
+      "data_types": [
+        "Recommendation",
+        "UserFeedback"
+      ],
+      "commands": [
+        "RejectRecommendation",
+        "RateRecommendation"
+      ],
+      "events": [
+        "RECOMMENDATION_FEEDBACK"
+      ],
+      "unique_acceptance": "Personal learning opt-in distinct from global",
+      "screen_id": "F06",
+      "title": "Öneri geribildirimi",
+      "area": "F — XRAI Rehber",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "F06-T01: main action produces only declared domain command/event and authorization passes",
+        "F06-T02: offline/denied permission yields truthful user-controllable fallback",
+        "F06-T03: no sensitive analytics, notifications or screenshot leakage",
+        "F06-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Enable opt-in mic and local voice",
+      "data_types": [
+        "VoicePermission",
+        "AudioCapture"
+      ],
+      "commands": [
+        "StartVoiceCapture",
+        "StopVoiceCapture"
+      ],
+      "events": [
+        "VOICE_SESSION_ENDED"
+      ],
+      "unique_acceptance": "No background mic; local default",
+      "screen_id": "F07",
+      "title": "Sesli etkileşim",
+      "area": "F — XRAI Rehber",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "microphone (explicit)",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "F07-T01: main action produces only declared domain command/event and authorization passes",
+        "F07-T02: offline/denied permission yields truthful user-controllable fallback",
+        "F07-T03: no sensitive analytics, notifications or screenshot leakage",
+        "F07-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Read safety/help support options",
+      "data_types": [
+        "SafetySupportResource"
+      ],
+      "commands": [
+        "OpenSafetySupport"
+      ],
+      "events": [
+        "SAFETY_SUPPORT_OPENED"
+      ],
+      "unique_acceptance": "Not therapy or emergency dispatch claim",
+      "screen_id": "F08",
+      "title": "Destek ve güvenlik",
+      "area": "F — XRAI Rehber",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "F08-T01: main action produces only declared domain command/event and authorization passes",
+        "F08-T02: offline/denied permission yields truthful user-controllable fallback",
+        "F08-T03: no sensitive analytics, notifications or screenshot leakage",
+        "F08-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Open preferences and user controls",
+      "data_types": [
+        "UserSettings"
+      ],
+      "commands": [
+        "UpdateSetting"
+      ],
+      "events": [
+        "SETTING_CHANGED"
+      ],
+      "unique_acceptance": "No hidden tracking defaults",
+      "screen_id": "G01",
+      "title": "Ayarlar",
+      "area": "G — Ayarlar / Gizlilik",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "public",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "G01-T01: main action produces only declared domain command/event and authorization passes",
+        "G01-T02: offline/denied permission yields truthful user-controllable fallback",
+        "G01-T03: no sensitive analytics, notifications or screenshot leakage",
+        "G01-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "View scope, revoke permissions",
+      "data_types": [
+        "ConsentGrant"
+      ],
+      "commands": [
+        "GrantConsent",
+        "RevokeConsent"
+      ],
+      "events": [
+        "CONSENT_REVOKED"
+      ],
+      "unique_acceptance": "Queued future access stops promptly",
+      "screen_id": "G02",
+      "title": "İzinler",
+      "area": "G — Ayarlar / Gizlilik",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "public",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "G02-T01: main action produces only declared domain command/event and authorization passes",
+        "G02-T02: offline/denied permission yields truthful user-controllable fallback",
+        "G02-T03: no sensitive analytics, notifications or screenshot leakage",
+        "G02-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Manage collective-learning opt-in separately",
+      "data_types": [
+        "ContributionConsent"
+      ],
+      "commands": [
+        "ChangeContributionConsent"
+      ],
+      "events": [
+        "CONTRIBUTION_CONSENT_CHANGED"
+      ],
+      "unique_acceptance": "No implicit sharing of journals",
+      "screen_id": "G03",
+      "title": "Ortak zekâya katkı",
+      "area": "G — Ayarlar / Gizlilik",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "collective-learning opt-in",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "G03-T01: main action produces only declared domain command/event and authorization passes",
+        "G03-T02: offline/denied permission yields truthful user-controllable fallback",
+        "G03-T03: no sensitive analytics, notifications or screenshot leakage",
+        "G03-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Choose local vs each external AI provider",
+      "data_types": [
+        "AIProviderPolicy"
+      ],
+      "commands": [
+        "SetAIProviderConsent"
+      ],
+      "events": [
+        "AI_PROVIDER_CONSENT_CHANGED"
+      ],
+      "unique_acceptance": "Provider/purpose/data shown clearly",
+      "screen_id": "G04",
+      "title": "AI servis izinleri",
+      "area": "G — Ayarlar / Gizlilik",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "AI provider opt-in",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "G04-T01: main action produces only declared domain command/event and authorization passes",
+        "G04-T02: offline/denied permission yields truthful user-controllable fallback",
+        "G04-T03: no sensitive analytics, notifications or screenshot leakage",
+        "G04-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Create encrypted or structured export",
+      "data_types": [
+        "ExportRequest"
+      ],
+      "commands": [
+        "RequestDataExport"
+      ],
+      "events": [
+        "DATA_EXPORT_CREATED"
+      ],
+      "unique_acceptance": "Secure local export, no unnecessary server",
+      "screen_id": "G05",
+      "title": "Veri dışa aktarma",
+      "area": "G — Ayarlar / Gizlilik",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "public",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "G05-T01: main action produces only declared domain command/event and authorization passes",
+        "G05-T02: offline/denied permission yields truthful user-controllable fallback",
+        "G05-T03: no sensitive analytics, notifications or screenshot leakage",
+        "G05-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Delete selected data/account with confirmation",
+      "data_types": [
+        "DeletionRequest"
+      ],
+      "commands": [
+        "DeletePersonalData",
+        "DeleteAccount"
+      ],
+      "events": [
+        "PERSONAL_DATA_DELETED"
+      ],
+      "unique_acceptance": "Cache/index/backup scope explained and tested",
+      "screen_id": "G06",
+      "title": "Veri ve hesap silme",
+      "area": "G — Ayarlar / Gizlilik",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "public",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "G06-T01: main action produces only declared domain command/event and authorization passes",
+        "G06-T02: offline/denied permission yields truthful user-controllable fallback",
+        "G06-T03: no sensitive analytics, notifications or screenshot leakage",
+        "G06-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Set notification budget and quiet times",
+      "data_types": [
+        "NotificationPreferences"
+      ],
+      "commands": [
+        "SetQuietHours",
+        "MuteNotifications"
+      ],
+      "events": [
+        "NOTIFICATION_PREFERENCE_CHANGED"
+      ],
+      "unique_acceptance": "Exact controls and nonjudgmental reminders",
+      "screen_id": "G07",
+      "title": "Bildirim tercihleri",
+      "area": "G — Ayarlar / Gizlilik",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "G07-T01: main action produces only declared domain command/event and authorization passes",
+        "G07-T02: offline/denied permission yields truthful user-controllable fallback",
+        "G07-T03: no sensitive analytics, notifications or screenshot leakage",
+        "G07-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Inspect offline and optional E2EE sync status",
+      "data_types": [
+        "VaultSyncStatus",
+        "RecoverySettings"
+      ],
+      "commands": [
+        "EnableSync",
+        "DisableSync"
+      ],
+      "events": [
+        "SYNC_SETTING_CHANGED"
+      ],
+      "unique_acceptance": "Data loss risk when device-only keys",
+      "screen_id": "G08",
+      "title": "Offline ve senkronizasyon",
+      "area": "G — Ayarlar / Gizlilik",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "backup/sync distinct opt-in",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "G08-T01: main action produces only declared domain command/event and authorization passes",
+        "G08-T02: offline/denied permission yields truthful user-controllable fallback",
+        "G08-T03: no sensitive analytics, notifications or screenshot leakage",
+        "G08-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "See purchase price and restore/cancel status",
+      "data_types": [
+        "EntitlementSnapshot"
+      ],
+      "commands": [
+        "RestorePurchase",
+        "OpenManageSubscriptions"
+      ],
+      "events": [
+        "ENTITLEMENT_SCREEN_VIEWED"
+      ],
+      "unique_acceptance": "No manual local flag subscription forgery",
+      "screen_id": "G09",
+      "title": "Satın alma ve erişim hakları",
+      "area": "G — Ayarlar / Gizlilik",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "public",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "G09-T01: main action produces only declared domain command/event and authorization passes",
+        "G09-T02: offline/denied permission yields truthful user-controllable fallback",
+        "G09-T03: no sensitive analytics, notifications or screenshot leakage",
+        "G09-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Review source methods/privacy/legal info",
+      "data_types": [
+        "RightsRegistry",
+        "MethodVersion"
+      ],
+      "commands": [
+        "OpenLegalSource"
+      ],
+      "events": [
+        "LEGAL_SOURCE_OPENED"
+      ],
+      "unique_acceptance": "Attribution and current legal versions",
+      "screen_id": "G10",
+      "title": "Hukuk ve bilgi kaynakları",
+      "area": "G — Ayarlar / Gizlilik",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "public",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "G10-T01: main action produces only declared domain command/event and authorization passes",
+        "G10-T02: offline/denied permission yields truthful user-controllable fallback",
+        "G10-T03: no sensitive analytics, notifications or screenshot leakage",
+        "G10-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Set language, accessibility and reduce-motion",
+      "data_types": [
+        "AccessibilityPreferences"
+      ],
+      "commands": [
+        "UpdateAccessibilitySettings"
+      ],
+      "events": [
+        "ACCESSIBILITY_CHANGED"
+      ],
+      "unique_acceptance": "VoiceOver and Dynamic Type validated",
+      "screen_id": "G11",
+      "title": "Erişilebilirlik ve dil",
+      "area": "G — Ayarlar / Gizlilik",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "public",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "G11-T01: main action produces only declared domain command/event and authorization passes",
+        "G11-T02: offline/denied permission yields truthful user-controllable fallback",
+        "G11-T03: no sensitive analytics, notifications or screenshot leakage",
+        "G11-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Report defect or request support without exposing secrets",
+      "data_types": [
+        "SupportTicket"
+      ],
+      "commands": [
+        "SubmitFeedback"
+      ],
+      "events": [
+        "FEEDBACK_SUBMITTED"
+      ],
+      "unique_acceptance": "Log files stripped PII",
+      "screen_id": "G12",
+      "title": "Yardım ve geri bildirim",
+      "area": "G — Ayarlar / Gizlilik",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "public",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "G12-T01: main action produces only declared domain command/event and authorization passes",
+        "G12-T02: offline/denied permission yields truthful user-controllable fallback",
+        "G12-T03: no sensitive analytics, notifications or screenshot leakage",
+        "G12-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Monitor production services and alerts",
+      "data_types": [
+        "OperationalMetrics"
+      ],
+      "commands": [
+        "AcknowledgeIncident"
+      ],
+      "events": [
+        "OPS_INCIDENT_ACKNOWLEDGED"
+      ],
+      "unique_acceptance": "RBAC+MFA and privacy-safe dashboard",
+      "screen_id": "H01",
+      "title": "Operasyon görünümü",
+      "area": "H — Operasyon panelleri",
+      "surface": "admin_web",
+      "release_target": "OPS_PHASED",
+      "purchase_gate": "public",
+      "privacy_class": "ADMIN_MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "H01-T01: main action produces only declared domain command/event and authorization passes",
+        "H01-T02: offline/denied permission yields truthful user-controllable fallback",
+        "H01-T03: no sensitive analytics, notifications or screenshot leakage",
+        "H01-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Approve traceable knowledge records",
+      "data_types": [
+        "SourceRecord",
+        "KnowledgeClaim"
+      ],
+      "commands": [
+        "ReviewKnowledgeClaim"
+      ],
+      "events": [
+        "KNOWLEDGE_REVIEWED"
+      ],
+      "unique_acceptance": "Dual review for high-impact content",
+      "screen_id": "H02",
+      "title": "Bilgi kaynağı kayıtları",
+      "area": "H — Operasyon panelleri",
+      "surface": "admin_web",
+      "release_target": "OPS_PHASED",
+      "purchase_gate": "public",
+      "privacy_class": "ADMIN_MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "H02-T01: main action produces only declared domain command/event and authorization passes",
+        "H02-T02: offline/denied permission yields truthful user-controllable fallback",
+        "H02-T03: no sensitive analytics, notifications or screenshot leakage",
+        "H02-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Assess provider/curriculum integrity",
+      "data_types": [
+        "ResourcePassport",
+        "ProviderAudit"
+      ],
+      "commands": [
+        "ReviewResourceQuality"
+      ],
+      "events": [
+        "RESOURCE_AUDITED"
+      ],
+      "unique_acceptance": "Rights/price/latency/level checked",
+      "screen_id": "H03",
+      "title": "Kaynak kalite stüdyosu",
+      "area": "H — Operasyon panelleri",
+      "surface": "admin_web",
+      "release_target": "OPS_PHASED",
+      "purchase_gate": "public",
+      "privacy_class": "ADMIN_MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "H03-T01: main action produces only declared domain command/event and authorization passes",
+        "H03-T02: offline/denied permission yields truthful user-controllable fallback",
+        "H03-T03: no sensitive analytics, notifications or screenshot leakage",
+        "H03-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Track legal rights and license expiry",
+      "data_types": [
+        "RightsRecord",
+        "LicenseDocument"
+      ],
+      "commands": [
+        "UpdateRightsStatus"
+      ],
+      "events": [
+        "RIGHTS_STATUS_CHANGED"
+      ],
+      "unique_acceptance": "BLOCKED package unshippable",
+      "screen_id": "H04",
+      "title": "Haklar ve lisanslar",
+      "area": "H — Operasyon panelleri",
+      "surface": "admin_web",
+      "release_target": "OPS_PHASED",
+      "purchase_gate": "public",
+      "privacy_class": "ADMIN_MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "H04-T01: main action produces only declared domain command/event and authorization passes",
+        "H04-T02: offline/denied permission yields truthful user-controllable fallback",
+        "H04-T03: no sensitive analytics, notifications or screenshot leakage",
+        "H04-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Manage agent/model version safety",
+      "data_types": [
+        "AgentCard",
+        "ModelVersion"
+      ],
+      "commands": [
+        "ProposeAgentVersion"
+      ],
+      "events": [
+        "AGENT_VERSION_PROPOSED"
+      ],
+      "unique_acceptance": "No self-approval or prompt secret exposure",
+      "screen_id": "H05",
+      "title": "Ajan ve model kayıtları",
+      "area": "H — Operasyon panelleri",
+      "surface": "admin_web",
+      "release_target": "OPS_PHASED",
+      "purchase_gate": "public",
+      "privacy_class": "ADMIN_MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "H05-T01: main action produces only declared domain command/event and authorization passes",
+        "H05-T02: offline/denied permission yields truthful user-controllable fallback",
+        "H05-T03: no sensitive analytics, notifications or screenshot leakage",
+        "H05-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Run golden/adversarial harness",
+      "data_types": [
+        "EvaluationRun",
+        "TestCase"
+      ],
+      "commands": [
+        "ExecuteEvalSuite"
+      ],
+      "events": [
+        "EVAL_RUN_COMPLETED"
+      ],
+      "unique_acceptance": "Unrun isn't pass; blind independent review",
+      "screen_id": "H06",
+      "title": "Değerlendirme laboratuvarı",
+      "area": "H — Operasyon panelleri",
+      "surface": "admin_web",
+      "release_target": "OPS_PHASED",
+      "purchase_gate": "public",
+      "privacy_class": "ADMIN_MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "H06-T01: main action produces only declared domain command/event and authorization passes",
+        "H06-T02: offline/denied permission yields truthful user-controllable fallback",
+        "H06-T03: no sensitive analytics, notifications or screenshot leakage",
+        "H06-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Triage incident and rollback",
+      "data_types": [
+        "SecurityIncident"
+      ],
+      "commands": [
+        "OpenIncident",
+        "ContainIncident"
+      ],
+      "events": [
+        "SECURITY_INCIDENT_OPENED"
+      ],
+      "unique_acceptance": "No false corrected log",
+      "screen_id": "H07",
+      "title": "Güvenlik olay merkezi",
+      "area": "H — Operasyon panelleri",
+      "surface": "admin_web",
+      "release_target": "OPS_PHASED",
+      "purchase_gate": "public",
+      "privacy_class": "ADMIN_MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "H07-T01: main action produces only declared domain command/event and authorization passes",
+        "H07-T02: offline/denied permission yields truthful user-controllable fallback",
+        "H07-T03: no sensitive analytics, notifications or screenshot leakage",
+        "H07-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Manage canary and rollback",
+      "data_types": [
+        "ReleaseManifest",
+        "FeatureFlag"
+      ],
+      "commands": [
+        "ApproveCanary",
+        "RollbackRelease"
+      ],
+      "events": [
+        "CANARY_STATUS_CHANGED"
+      ],
+      "unique_acceptance": "Metrics and safety floor monitored",
+      "screen_id": "H08",
+      "title": "Deney ve dağıtım",
+      "area": "H — Operasyon panelleri",
+      "surface": "admin_web",
+      "release_target": "OPS_PHASED",
+      "purchase_gate": "public",
+      "privacy_class": "ADMIN_MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "H08-T01: main action produces only declared domain command/event and authorization passes",
+        "H08-T02: offline/denied permission yields truthful user-controllable fallback",
+        "H08-T03: no sensitive analytics, notifications or screenshot leakage",
+        "H08-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Monitor API/model/infra cost guard",
+      "data_types": [
+        "CostLedger",
+        "UsageBudget"
+      ],
+      "commands": [
+        "AdjustBudgetLimit"
+      ],
+      "events": [
+        "BUDGET_CHANGED"
+      ],
+      "unique_acceptance": "Finance permissions and audit",
+      "screen_id": "H09",
+      "title": "Maliyet zekâsı",
+      "area": "H — Operasyon panelleri",
+      "surface": "admin_web",
+      "release_target": "OPS_PHASED",
+      "purchase_gate": "public",
+      "privacy_class": "ADMIN_MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "H09-T01: main action produces only declared domain command/event and authorization passes",
+        "H09-T02: offline/denied permission yields truthful user-controllable fallback",
+        "H09-T03: no sensitive analytics, notifications or screenshot leakage",
+        "H09-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Manage privacy requests and audit safely",
+      "data_types": [
+        "PrivacyRequest",
+        "AuditEvent"
+      ],
+      "commands": [
+        "ReviewPrivacyRequest"
+      ],
+      "events": [
+        "PRIVACY_REQUEST_REVIEWED"
+      ],
+      "unique_acceptance": "RBAC no mass reading user vault",
+      "screen_id": "H10",
+      "title": "Gizlilik ve denetim",
+      "area": "H — Operasyon panelleri",
+      "surface": "admin_web",
+      "release_target": "OPS_PHASED",
+      "purchase_gate": "public",
+      "privacy_class": "ADMIN_MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "H10-T01: main action produces only declared domain command/event and authorization passes",
+        "H10-T02: offline/denied permission yields truthful user-controllable fallback",
+        "H10-T03: no sensitive analytics, notifications or screenshot leakage",
+        "H10-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Show true free Life Path calculations with limited explanation",
+      "data_types": [
+        "LifePathResult",
+        "CalculationTrace"
+      ],
+      "commands": [
+        "CalculateLifePath",
+        "SaveLocalFreeResult"
+      ],
+      "events": [
+        "FREE_PREVIEW_SHOWN"
+      ],
+      "unique_acceptance": "Only date required; correct 11/22/33 and date invalid cases",
+      "screen_id": "M01",
+      "title": "Life Path ücretsiz önizleme detayı",
+      "area": "M — Freemium ve Viral",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "public",
+      "privacy_class": "MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "M01-T01: main action produces only declared domain command/event and authorization passes",
+        "M01-T02: offline/denied permission yields truthful user-controllable fallback",
+        "M01-T03: no sensitive analytics, notifications or screenshot leakage",
+        "M01-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Read real StoreKit offer and buy/restore/exit",
+      "data_types": [
+        "ProductOffer",
+        "EntitlementSnapshot"
+      ],
+      "commands": [
+        "PurchasePremium",
+        "RestorePurchase"
+      ],
+      "events": [
+        "PAYWALL_OUTCOME"
+      ],
+      "unique_acceptance": "Accurate price and policy, continue free works",
+      "screen_id": "M02",
+      "title": "Premium abonelik paywall",
+      "area": "M — Freemium ve Viral",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "public",
+      "privacy_class": "MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "M02-T01: main action produces only declared domain command/event and authorization passes",
+        "M02-T02: offline/denied permission yields truthful user-controllable fallback",
+        "M02-T03: no sensitive analytics, notifications or screenshot leakage",
+        "M02-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Choose share fields, preview, export/share",
+      "data_types": [
+        "ShareCard",
+        "SharingPreferences"
+      ],
+      "commands": [
+        "GenerateShareCard",
+        "ShareWithSystem"
+      ],
+      "events": [
+        "SHARE_CARD_CREATED"
+      ],
+      "unique_acceptance": "No raw DOB/name/location unless explicit chosen",
+      "screen_id": "M03",
+      "title": "Gizlilik kontrollü paylaşım kartı",
+      "area": "M — Freemium ve Viral",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "public",
+      "privacy_class": "MINIMIZED",
+      "permission_requirements": "system share explicit action",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "M03-T01: main action produces only declared domain command/event and authorization passes",
+        "M03-T02: offline/denied permission yields truthful user-controllable fallback",
+        "M03-T03: no sensitive analytics, notifications or screenshot leakage",
+        "M03-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Handle referral landing with no invasive contacts",
+      "data_types": [
+        "ReferralToken",
+        "CampaignAttribution"
+      ],
+      "commands": [
+        "AcceptReferral"
+      ],
+      "events": [
+        "REFERRAL_ATTRIBUTED"
+      ],
+      "unique_acceptance": "Dedupe, expiry, fraud and nonidentifying payload",
+      "screen_id": "M04",
+      "title": "Davet ve kampanya karşılama akışı",
+      "area": "M — Freemium ve Viral",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "public",
+      "privacy_class": "MINIMIZED",
+      "permission_requirements": "referral program optional",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "M04-T01: main action produces only declared domain command/event and authorization passes",
+        "M04-T02: offline/denied permission yields truthful user-controllable fallback",
+        "M04-T03: no sensitive analytics, notifications or screenshot leakage",
+        "M04-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "See minimal campaign acquisition funnel",
+      "data_types": [
+        "AcquisitionAggregate"
+      ],
+      "commands": [
+        "ReviewAcquisitionReport"
+      ],
+      "events": [
+        "ACQUISITION_REVIEWED"
+      ],
+      "unique_acceptance": "No private user content in ads",
+      "screen_id": "H11",
+      "title": "Growth Acquisition Analytics",
+      "area": "H — Operasyon",
+      "surface": "admin_web",
+      "release_target": "OPS_PHASED",
+      "purchase_gate": "public",
+      "privacy_class": "ADMIN_MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "H11-T01: main action produces only declared domain command/event and authorization passes",
+        "H11-T02: offline/denied permission yields truthful user-controllable fallback",
+        "H11-T03: no sensitive analytics, notifications or screenshot leakage",
+        "H11-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Review paywall experiments and honest metrics",
+      "data_types": [
+        "PaywallExperiment"
+      ],
+      "commands": [
+        "ApprovePaywallExperiment"
+      ],
+      "events": [
+        "PAYWALL_EXPERIMENT_CHANGED"
+      ],
+      "unique_acceptance": "No manipulative price/claim tests",
+      "screen_id": "H12",
+      "title": "Paywall & Growth Experiment Console",
+      "area": "H — Operasyon",
+      "surface": "admin_web",
+      "release_target": "OPS_PHASED",
+      "purchase_gate": "public",
+      "privacy_class": "ADMIN_MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "H12-T01: main action produces only declared domain command/event and authorization passes",
+        "H12-T02: offline/denied permission yields truthful user-controllable fallback",
+        "H12-T03: no sensitive analytics, notifications or screenshot leakage",
+        "H12-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Manage localized ASO creatives and campaigns",
+      "data_types": [
+        "ASOAsset",
+        "Campaign"
+      ],
+      "commands": [
+        "PublishCampaignDraft"
+      ],
+      "events": [
+        "CAMPAIGN_PUBLISHED"
+      ],
+      "unique_acceptance": "Sponsorship disclosure and asset licences",
+      "screen_id": "H13",
+      "title": "Campaign and ASO Studio",
+      "area": "H — Operasyon",
+      "surface": "admin_web",
+      "release_target": "OPS_PHASED",
+      "purchase_gate": "public",
+      "privacy_class": "ADMIN_MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "H13-T01: main action produces only declared domain command/event and authorization passes",
+        "H13-T02: offline/denied permission yields truthful user-controllable fallback",
+        "H13-T03: no sensitive analytics, notifications or screenshot leakage",
+        "H13-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Investigate referral manipulation without user private data",
+      "data_types": [
+        "ReferralFraudSignal"
+      ],
+      "commands": [
+        "ReviewReferralFraud"
+      ],
+      "events": [
+        "REFERRAL_FRAUD_REVIEWED"
+      ],
+      "unique_acceptance": "No fingerprinting beyond authorized scope",
+      "screen_id": "H14",
+      "title": "Referral Integrity & Abuse Console",
+      "area": "H — Operasyon",
+      "surface": "admin_web",
+      "release_target": "OPS_PHASED",
+      "purchase_gate": "public",
+      "privacy_class": "ADMIN_MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "H14-T01: main action produces only declared domain command/event and authorization passes",
+        "H14-T02: offline/denied permission yields truthful user-controllable fallback",
+        "H14-T03: no sensitive analytics, notifications or screenshot leakage",
+        "H14-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Set yearly direction and optional themes",
+      "data_types": [
+        "YearlyOutcome",
+        "LifeVision"
+      ],
+      "commands": [
+        "ApproveYearlyOutcome"
+      ],
+      "events": [
+        "YEARLY_OUTCOME_APPROVED"
+      ],
+      "unique_acceptance": "User-defined year, no age norms",
+      "screen_id": "L01",
+      "title": "Yıllık Pusula & Life Compass",
+      "area": "L — Lifelong Evolution",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "L01-T01: main action produces only declared domain command/event and authorization passes",
+        "L01-T02: offline/denied permission yields truthful user-controllable fallback",
+        "L01-T03: no sensitive analytics, notifications or screenshot leakage",
+        "L01-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Review 90-day milestones and tradeoffs",
+      "data_types": [
+        "QuarterlyMilestone"
+      ],
+      "commands": [
+        "ApproveMilestone"
+      ],
+      "events": [
+        "MILESTONE_APPROVED"
+      ],
+      "unique_acceptance": "DAG valid; feasible capacity",
+      "screen_id": "L02",
+      "title": "90 Günlük Kilometre Taşları",
+      "area": "L — Lifelong Evolution",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "L02-T01: main action produces only declared domain command/event and authorization passes",
+        "L02-T02: offline/denied permission yields truthful user-controllable fallback",
+        "L02-T03: no sensitive analytics, notifications or screenshot leakage",
+        "L02-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Manage monthly sprint with source plan",
+      "data_types": [
+        "MonthlySprint"
+      ],
+      "commands": [
+        "ApproveMonthlySprint"
+      ],
+      "events": [
+        "MONTHLY_SPRINT_APPROVED"
+      ],
+      "unique_acceptance": "No overcommitment from missing energy",
+      "screen_id": "L03",
+      "title": "Aylık Gelişim Sprinti",
+      "area": "L — Lifelong Evolution",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "L03-T01: main action produces only declared domain command/event and authorization passes",
+        "L03-T02: offline/denied permission yields truthful user-controllable fallback",
+        "L03-T03: no sensitive analytics, notifications or screenshot leakage",
+        "L03-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Plan weekly commitments and adapt",
+      "data_types": [
+        "WeeklyCommitment",
+        "WeekReview"
+      ],
+      "commands": [
+        "ApproveWeeklyPlan",
+        "CompleteWeekReview"
+      ],
+      "events": [
+        "WEEKLY_PLAN_APPROVED"
+      ],
+      "unique_acceptance": "No guilt for downtime",
+      "screen_id": "L04",
+      "title": "Haftalık Plan ve Yansıtma",
+      "area": "L — Lifelong Evolution",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "L04-T01: main action produces only declared domain command/event and authorization passes",
+        "L04-T02: offline/denied permission yields truthful user-controllable fallback",
+        "L04-T03: no sensitive analytics, notifications or screenshot leakage",
+        "L04-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Explore years of life chapters and progress",
+      "data_types": [
+        "LifeChapter",
+        "ImpactReview"
+      ],
+      "commands": [
+        "ReviewLifeChapter"
+      ],
+      "events": [
+        "LIFE_HISTORY_VIEWED"
+      ],
+      "unique_acceptance": "Long-term local encrypted export",
+      "screen_id": "L05",
+      "title": "Yıllar İçinde Gelişim & Life Chapters",
+      "area": "L — Lifelong Evolution",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "L05-T01: main action produces only declared domain command/event and authorization passes",
+        "L05-T02: offline/denied permission yields truthful user-controllable fallback",
+        "L05-T03: no sensitive analytics, notifications or screenshot leakage",
+        "L05-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Pause, resume, change goal plan",
+      "data_types": [
+        "GoalRevision",
+        "PlanRevision"
+      ],
+      "commands": [
+        "RequestReplan",
+        "ApproveReplan",
+        "PauseGoal"
+      ],
+      "events": [
+        "PLAN_REVISION_APPROVED"
+      ],
+      "unique_acceptance": "Old reminders deactivated after change",
+      "screen_id": "L06",
+      "title": "Yeniden Planlama / Ara Ver / Devam Et",
+      "area": "L — Lifelong Evolution",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "L06-T01: main action produces only declared domain command/event and authorization passes",
+        "L06-T02: offline/denied permission yields truthful user-controllable fallback",
+        "L06-T03: no sensitive analytics, notifications or screenshot leakage",
+        "L06-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Select goal success definition and baseline",
+      "data_types": [
+        "ImpactGoal",
+        "BaselineAssessment"
+      ],
+      "commands": [
+        "ApproveSuccessCriteria",
+        "RecordBaseline"
+      ],
+      "events": [
+        "BASELINE_RECORDED"
+      ],
+      "unique_acceptance": "Missing baseline not synthesized",
+      "screen_id": "I01",
+      "title": "Başlangıç Düzeyi ve Başarı Tanımı",
+      "area": "I — Real-World Impact & Proof",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "I01-T01: main action produces only declared domain command/event and authorization passes",
+        "I01-T02: offline/denied permission yields truthful user-controllable fallback",
+        "I01-T03: no sensitive analytics, notifications or screenshot leakage",
+        "I01-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Record document/artifact provenance locally",
+      "data_types": [
+        "EvidenceObservation",
+        "LocalArtifact"
+      ],
+      "commands": [
+        "RecordEvidence",
+        "DeleteEvidence"
+      ],
+      "events": [
+        "EVIDENCE_RECORDED"
+      ],
+      "unique_acceptance": "Hash != proof of authorship",
+      "screen_id": "I02",
+      "title": "Somut Kanıt Kaydı",
+      "area": "I — Real-World Impact & Proof",
+      "surface": "ios",
+      "release_target": "V1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "selected local file only",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "I02-T01: main action produces only declared domain command/event and authorization passes",
+        "I02-T02: offline/denied permission yields truthful user-controllable fallback",
+        "I02-T03: no sensitive analytics, notifications or screenshot leakage",
+        "I02-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Do rubric-based skill demonstration",
+      "data_types": [
+        "SkillAssessment",
+        "RubricVersion"
+      ],
+      "commands": [
+        "SubmitSkillDemonstration"
+      ],
+      "events": [
+        "SKILL_DEMONSTRATED"
+      ],
+      "unique_acceptance": "AI-produced help disclosed; blind rubric",
+      "screen_id": "I03",
+      "title": "Beceri Gösterimi",
+      "area": "I — Real-World Impact & Proof",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "optional chosen assessment media",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "I03-T01: main action produces only declared domain command/event and authorization passes",
+        "I03-T02: offline/denied permission yields truthful user-controllable fallback",
+        "I03-T03: no sensitive analytics, notifications or screenshot leakage",
+        "I03-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Track real-world transfer and delayed retest",
+      "data_types": [
+        "TransferObservation",
+        "FollowupPlan"
+      ],
+      "commands": [
+        "RecordTransfer",
+        "ScheduleFollowup"
+      ],
+      "events": [
+        "TRANSFER_OBSERVED"
+      ],
+      "unique_acceptance": "Self-report distinct from independent observation",
+      "screen_id": "I04",
+      "title": "Gerçek Hayata Aktarım ve Takip",
+      "area": "I — Real-World Impact & Proof",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "optional separate sharing",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "I04-T01: main action produces only declared domain command/event and authorization passes",
+        "I04-T02: offline/denied permission yields truthful user-controllable fallback",
+        "I04-T03: no sensitive analytics, notifications or screenshot leakage",
+        "I04-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "See outcome, validity, confounders, causal caveat",
+      "data_types": [
+        "ImpactReview",
+        "MeasurementCoverage"
+      ],
+      "commands": [
+        "InspectImpactReview"
+      ],
+      "events": [
+        "IMPACT_REVIEW_OPENED"
+      ],
+      "unique_acceptance": "No 100 percent self-actualization score",
+      "screen_id": "I05",
+      "title": "Gerçek Yaşam Etkisi Haritası",
+      "area": "I — Real-World Impact & Proof",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "I05-T01: main action produces only declared domain command/event and authorization passes",
+        "I05-T02: offline/denied permission yields truthful user-controllable fallback",
+        "I05-T03: no sensitive analytics, notifications or screenshot leakage",
+        "I05-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Dispute or delete falsely credited evidence",
+      "data_types": [
+        "EvidenceDispute",
+        "ImpactReview"
+      ],
+      "commands": [
+        "DisputeEvidence",
+        "CorrectEvidence"
+      ],
+      "events": [
+        "EVIDENCE_DISPUTED"
+      ],
+      "unique_acceptance": "Recompute downstream scores and claims",
+      "screen_id": "I06",
+      "title": "Kanıtı İncele, Düzelt ve İtiraz Et",
+      "area": "I — Real-World Impact & Proof",
+      "surface": "ios",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_current_release",
+      "privacy_class": "SENSITIVE_LOCAL",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "I06-T01: main action produces only declared domain command/event and authorization passes",
+        "I06-T02: offline/denied permission yields truthful user-controllable fallback",
+        "I06-T03: no sensitive analytics, notifications or screenshot leakage",
+        "I06-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Inspect provenance of proof label/rubric integrity",
+      "data_types": [
+        "IntegrityAudit"
+      ],
+      "commands": [
+        "AuditEvidenceRule"
+      ],
+      "events": [
+        "PROOF_RULE_AUDITED"
+      ],
+      "unique_acceptance": "Fake verified test blocks release",
+      "screen_id": "Q01",
+      "title": "Ölçüm ve Kanıt Bütünlüğü",
+      "area": "Q — Impact and Global Quality Operations",
+      "surface": "admin_web",
+      "release_target": "OPS_PHASED",
+      "purchase_gate": "public",
+      "privacy_class": "ADMIN_MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "Q01-T01: main action produces only declared domain command/event and authorization passes",
+        "Q01-T02: offline/denied permission yields truthful user-controllable fallback",
+        "Q01-T03: no sensitive analytics, notifications or screenshot leakage",
+        "Q01-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Design ethical impact measurement pilots",
+      "data_types": [
+        "ImpactExperiment"
+      ],
+      "commands": [
+        "ApproveImpactStudy"
+      ],
+      "events": [
+        "IMPACT_STUDY_APPROVED"
+      ],
+      "unique_acceptance": "Selection bias, counterfactual caveat and privacy",
+      "screen_id": "Q02",
+      "title": "Gerçek Yaşam Etki Laboratuvarı",
+      "area": "Q — Impact and Global Quality Operations",
+      "surface": "admin_web",
+      "release_target": "OPS_PHASED",
+      "purchase_gate": "public",
+      "privacy_class": "ADMIN_MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "Q02-T01: main action produces only declared domain command/event and authorization passes",
+        "Q02-T02: offline/denied permission yields truthful user-controllable fallback",
+        "Q02-T03: no sensitive analytics, notifications or screenshot leakage",
+        "Q02-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "action_description": "Monitor localized global quality, ratings and stability",
+      "data_types": [
+        "GlobalQualityMetric"
+      ],
+      "commands": [
+        "ReviewGlobalQuality"
+      ],
+      "events": [
+        "GLOBAL_QUALITY_REVIEWED"
+      ],
+      "unique_acceptance": "No fake chart ranking guarantee",
+      "screen_id": "Q03",
+      "title": "Küresel Ürün Kalitesi ve Mağaza Analitiği",
+      "area": "Q — Impact and Global Quality Operations",
+      "surface": "admin_web",
+      "release_target": "OPS_PHASED",
+      "purchase_gate": "public",
+      "privacy_class": "ADMIN_MINIMIZED",
+      "permission_requirements": "none beyond the purpose-based local app data access; optional cloud only after distinct consent",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion"
+      ],
+      "shared_acceptance": [
+        "Q03-T01: main action produces only declared domain command/event and authorization passes",
+        "Q03-T02: offline/denied permission yields truthful user-controllable fallback",
+        "Q03-T03: no sensitive analytics, notifications or screenshot leakage",
+        "Q03-T04: VoiceOver, large type and empty/error states operable"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "XRAI_v0.4_screen_registry + constitution_v1.0_enrichment"
+    },
+    {
+      "screen_id": "PUP01",
+      "title": "Purpose Discovery Welcome",
+      "area": "ValuesGoals",
+      "surface": "ios_contextual_flow",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_or_internal",
+      "privacy_class": "HIGHLY_SENSITIVE",
+      "data_types": [
+        "PurposeHypothesis"
+      ],
+      "commands": [
+        "OpenPurposeDiscovery"
+      ],
+      "events": [
+        "PURPOSE_DISCOVERY_STARTED"
+      ],
+      "action_description": "See XRAI v1.1 section 28.8 for flow, purpose, provenance and user autonomy",
+      "unique_acceptance": "No unsupported destiny, science or copyright claims; correct consent and state; all flows auditable; local-only for sensitive records",
+      "permission_requirements": "Explicit purpose-specific consent; no silent remote processing",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion",
+        "conflict"
+      ],
+      "shared_acceptance": [
+        "PUP01-T01: launch only declared command/event with authorization and provenance",
+        "PUP01-T02: offline and denied consent fallback without hidden cloud call",
+        "PUP01-T03: no pseudodiagnostic or proprietary text leakage",
+        "PUP01-T04: accessibility and pause/delete controls test"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "v1.1 §28.8"
+    },
+    {
+      "screen_id": "PUP02",
+      "title": "My Values & Meaning Compass",
+      "area": "MeaningReflection",
+      "surface": "ios_contextual_flow",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_or_internal",
+      "privacy_class": "HIGHLY_SENSITIVE",
+      "data_types": [
+        "UserValue",
+        "MeaningDimension"
+      ],
+      "commands": [
+        "UpdateMeaningCompass"
+      ],
+      "events": [
+        "MEANING_COMPASS_UPDATED"
+      ],
+      "action_description": "See XRAI v1.1 section 28.8 for flow, purpose, provenance and user autonomy",
+      "unique_acceptance": "No unsupported destiny, science or copyright claims; correct consent and state; all flows auditable; local-only for sensitive records",
+      "permission_requirements": "Explicit purpose-specific consent; no silent remote processing",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion",
+        "conflict"
+      ],
+      "shared_acceptance": [
+        "PUP02-T01: launch only declared command/event with authorization and provenance",
+        "PUP02-T02: offline and denied consent fallback without hidden cloud call",
+        "PUP02-T03: no pseudodiagnostic or proprietary text leakage",
+        "PUP02-T04: accessibility and pause/delete controls test"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "v1.1 §28.8"
+    },
+    {
+      "screen_id": "PUP03",
+      "title": "Possible Purpose Hypotheses",
+      "area": "FutureSelf",
+      "surface": "ios_contextual_flow",
+      "release_target": "V1.2",
+      "purchase_gate": "premium_or_internal",
+      "privacy_class": "HIGHLY_SENSITIVE",
+      "data_types": [
+        "PurposeHypothesis"
+      ],
+      "commands": [
+        "RevisePurposeHypothesis"
+      ],
+      "events": [
+        "PURPOSE_HYPOTHESIS_REVISED"
+      ],
+      "action_description": "See XRAI v1.1 section 28.8 for flow, purpose, provenance and user autonomy",
+      "unique_acceptance": "No unsupported destiny, science or copyright claims; correct consent and state; all flows auditable; local-only for sensitive records",
+      "permission_requirements": "Explicit purpose-specific consent; no silent remote processing",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion",
+        "conflict"
+      ],
+      "shared_acceptance": [
+        "PUP03-T01: launch only declared command/event with authorization and provenance",
+        "PUP03-T02: offline and denied consent fallback without hidden cloud call",
+        "PUP03-T03: no pseudodiagnostic or proprietary text leakage",
+        "PUP03-T04: accessibility and pause/delete controls test"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "v1.1 §28.8"
+    },
+    {
+      "screen_id": "PUP04",
+      "title": "First Purpose Experiment",
+      "area": "Learning",
+      "surface": "ios_contextual_flow",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_or_internal",
+      "privacy_class": "HIGHLY_SENSITIVE",
+      "data_types": [
+        "PurposeExperiment",
+        "LearningMission"
+      ],
+      "commands": [
+        "StartPurposeExperiment"
+      ],
+      "events": [
+        "PURPOSE_EXPERIMENT_STARTED"
+      ],
+      "action_description": "See XRAI v1.1 section 28.8 for flow, purpose, provenance and user autonomy",
+      "unique_acceptance": "No unsupported destiny, science or copyright claims; correct consent and state; all flows auditable; local-only for sensitive records",
+      "permission_requirements": "Explicit purpose-specific consent; no silent remote processing",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion",
+        "conflict"
+      ],
+      "shared_acceptance": [
+        "PUP04-T01: launch only declared command/event with authorization and provenance",
+        "PUP04-T02: offline and denied consent fallback without hidden cloud call",
+        "PUP04-T03: no pseudodiagnostic or proprietary text leakage",
+        "PUP04-T04: accessibility and pause/delete controls test"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "v1.1 §28.8"
+    },
+    {
+      "screen_id": "PUP05",
+      "title": "Meaning Reflection and Revision",
+      "area": "Reflect",
+      "surface": "ios_contextual_flow",
+      "release_target": "V1.2",
+      "purchase_gate": "premium_or_internal",
+      "privacy_class": "HIGHLY_SENSITIVE",
+      "data_types": [
+        "PurposeReflection"
+      ],
+      "commands": [
+        "SubmitMeaningReflection"
+      ],
+      "events": [
+        "PURPOSE_REFLECTION_RECORDED"
+      ],
+      "action_description": "See XRAI v1.1 section 28.8 for flow, purpose, provenance and user autonomy",
+      "unique_acceptance": "No unsupported destiny, science or copyright claims; correct consent and state; all flows auditable; local-only for sensitive records",
+      "permission_requirements": "Explicit purpose-specific consent; no silent remote processing",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion",
+        "conflict"
+      ],
+      "shared_acceptance": [
+        "PUP05-T01: launch only declared command/event with authorization and provenance",
+        "PUP05-T02: offline and denied consent fallback without hidden cloud call",
+        "PUP05-T03: no pseudodiagnostic or proprietary text leakage",
+        "PUP05-T04: accessibility and pause/delete controls test"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "v1.1 §28.8"
+    },
+    {
+      "screen_id": "PUP06",
+      "title": "Nonlinear Flourishing Reflection",
+      "area": "Identity",
+      "surface": "ios_contextual_flow",
+      "release_target": "V1.2",
+      "purchase_gate": "premium_or_internal",
+      "privacy_class": "HIGHLY_SENSITIVE",
+      "data_types": [
+        "NeedCheckIn"
+      ],
+      "commands": [
+        "RecordNeedReflection"
+      ],
+      "events": [
+        "FLOURISHING_REFLECTION_RECORDED"
+      ],
+      "action_description": "See XRAI v1.1 section 28.8 for flow, purpose, provenance and user autonomy",
+      "unique_acceptance": "No unsupported destiny, science or copyright claims; correct consent and state; all flows auditable; local-only for sensitive records",
+      "permission_requirements": "Explicit purpose-specific consent; no silent remote processing",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion",
+        "conflict"
+      ],
+      "shared_acceptance": [
+        "PUP06-T01: launch only declared command/event with authorization and provenance",
+        "PUP06-T02: offline and denied consent fallback without hidden cloud call",
+        "PUP06-T03: no pseudodiagnostic or proprietary text leakage",
+        "PUP06-T04: accessibility and pause/delete controls test"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "v1.1 §28.8"
+    },
+    {
+      "screen_id": "PUP07",
+      "title": "XRAI Deep Atlas Evidence Explorer",
+      "area": "Identity",
+      "surface": "ios_contextual_flow",
+      "release_target": "V1.2",
+      "purchase_gate": "premium_or_internal",
+      "privacy_class": "HIGHLY_SENSITIVE",
+      "data_types": [
+        "Claim",
+        "PurposeHypothesis"
+      ],
+      "commands": [
+        "OpenEvidenceProvenance"
+      ],
+      "events": [
+        "EVIDENCE_PROVENANCE_VIEWED"
+      ],
+      "action_description": "See XRAI v1.1 section 28.8 for flow, purpose, provenance and user autonomy",
+      "unique_acceptance": "No unsupported destiny, science or copyright claims; correct consent and state; all flows auditable; local-only for sensitive records",
+      "permission_requirements": "Explicit purpose-specific consent; no silent remote processing",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion",
+        "conflict"
+      ],
+      "shared_acceptance": [
+        "PUP07-T01: launch only declared command/event with authorization and provenance",
+        "PUP07-T02: offline and denied consent fallback without hidden cloud call",
+        "PUP07-T03: no pseudodiagnostic or proprietary text leakage",
+        "PUP07-T04: accessibility and pause/delete controls test"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "v1.1 §28.8"
+    },
+    {
+      "screen_id": "PUP08",
+      "title": "Strict Local-Only Mode & Traffic Status",
+      "area": "Privacy",
+      "surface": "ios_contextual_flow",
+      "release_target": "V1.1",
+      "purchase_gate": "premium_or_internal",
+      "privacy_class": "HIGHLY_SENSITIVE",
+      "data_types": [
+        "ConsentGrant"
+      ],
+      "commands": [
+        "ChangeLocalOnlyMode"
+      ],
+      "events": [
+        "PRIVACY_MODE_CHANGED"
+      ],
+      "action_description": "See XRAI v1.1 section 28.8 for flow, purpose, provenance and user autonomy",
+      "unique_acceptance": "No unsupported destiny, science or copyright claims; correct consent and state; all flows auditable; local-only for sensitive records",
+      "permission_requirements": "Explicit purpose-specific consent; no silent remote processing",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion",
+        "conflict"
+      ],
+      "shared_acceptance": [
+        "PUP08-T01: launch only declared command/event with authorization and provenance",
+        "PUP08-T02: offline and denied consent fallback without hidden cloud call",
+        "PUP08-T03: no pseudodiagnostic or proprietary text leakage",
+        "PUP08-T04: accessibility and pause/delete controls test"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "v1.1 §28.8"
+    },
+    {
+      "screen_id": "PUP09",
+      "title": "Birth-Time Sensitivity and HD Trace",
+      "area": "Symbolic",
+      "surface": "ios_contextual_flow",
+      "release_target": "LATER_RIGHTS_GATED",
+      "purchase_gate": "premium_or_internal",
+      "privacy_class": "HIGHLY_SENSITIVE",
+      "data_types": [
+        "BirthContext",
+        "CalculationTrace"
+      ],
+      "commands": [
+        "ViewHDSensitivity"
+      ],
+      "events": [
+        "HD_SENSITIVITY_OPENED"
+      ],
+      "action_description": "See XRAI v1.1 section 28.8 for flow, purpose, provenance and user autonomy",
+      "unique_acceptance": "No unsupported destiny, science or copyright claims; correct consent and state; all flows auditable; local-only for sensitive records",
+      "permission_requirements": "Explicit purpose-specific consent; no silent remote processing",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion",
+        "conflict"
+      ],
+      "shared_acceptance": [
+        "PUP09-T01: launch only declared command/event with authorization and provenance",
+        "PUP09-T02: offline and denied consent fallback without hidden cloud call",
+        "PUP09-T03: no pseudodiagnostic or proprietary text leakage",
+        "PUP09-T04: accessibility and pause/delete controls test"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "v1.1 §28.8"
+    },
+    {
+      "screen_id": "PUP10",
+      "title": "Long-Term Purpose & Impact Review",
+      "area": "LifeJourney",
+      "surface": "ios_contextual_flow",
+      "release_target": "V1.2",
+      "purchase_gate": "premium_or_internal",
+      "privacy_class": "HIGHLY_SENSITIVE",
+      "data_types": [
+        "ImpactReview",
+        "LifeChapter"
+      ],
+      "commands": [
+        "ReviewPurposeJourney"
+      ],
+      "events": [
+        "PURPOSE_JOURNEY_REVIEWED"
+      ],
+      "action_description": "See XRAI v1.1 section 28.8 for flow, purpose, provenance and user autonomy",
+      "unique_acceptance": "No unsupported destiny, science or copyright claims; correct consent and state; all flows auditable; local-only for sensitive records",
+      "permission_requirements": "Explicit purpose-specific consent; no silent remote processing",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion",
+        "conflict"
+      ],
+      "shared_acceptance": [
+        "PUP10-T01: launch only declared command/event with authorization and provenance",
+        "PUP10-T02: offline and denied consent fallback without hidden cloud call",
+        "PUP10-T03: no pseudodiagnostic or proprietary text leakage",
+        "PUP10-T04: accessibility and pause/delete controls test"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "v1.1 §28.8"
+    },
+    {
+      "screen_id": "OPS01",
+      "title": "Book Source & Rights Research Console",
+      "area": "Research",
+      "surface": "operations_web",
+      "release_target": "INTERNAL_ONLY",
+      "purchase_gate": "staff_only",
+      "privacy_class": "RESEARCH_RIGHTS_CONTROLLED",
+      "data_types": [
+        "BookSourceRecord",
+        "ResearchClaim"
+      ],
+      "commands": [
+        "ReviewBookRights"
+      ],
+      "events": [
+        "BOOK_SOURCE_REVIEWED"
+      ],
+      "action_description": "See XRAI v1.1 section 28.8 for flow, purpose, provenance and user autonomy",
+      "unique_acceptance": "No unsupported destiny, science or copyright claims; correct consent and state; all flows auditable; local-only for sensitive records",
+      "permission_requirements": "Explicit purpose-specific consent; no silent remote processing",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion",
+        "conflict"
+      ],
+      "shared_acceptance": [
+        "OPS01-T01: launch only declared command/event with authorization and provenance",
+        "OPS01-T02: offline and denied consent fallback without hidden cloud call",
+        "OPS01-T03: no pseudodiagnostic or proprietary text leakage",
+        "OPS01-T04: accessibility and pause/delete controls test"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "v1.1 §28.8"
+    },
+    {
+      "screen_id": "OPS02",
+      "title": "Human Design Method & Fixture Audit",
+      "area": "Quality",
+      "surface": "operations_web",
+      "release_target": "INTERNAL_ONLY",
+      "purchase_gate": "staff_only",
+      "privacy_class": "RESEARCH_RIGHTS_CONTROLLED",
+      "data_types": [
+        "MethodRegistry"
+      ],
+      "commands": [
+        "AuditHDMethod"
+      ],
+      "events": [
+        "HD_METHOD_AUDITED"
+      ],
+      "action_description": "See XRAI v1.1 section 28.8 for flow, purpose, provenance and user autonomy",
+      "unique_acceptance": "No unsupported destiny, science or copyright claims; correct consent and state; all flows auditable; local-only for sensitive records",
+      "permission_requirements": "Explicit purpose-specific consent; no silent remote processing",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion",
+        "conflict"
+      ],
+      "shared_acceptance": [
+        "OPS02-T01: launch only declared command/event with authorization and provenance",
+        "OPS02-T02: offline and denied consent fallback without hidden cloud call",
+        "OPS02-T03: no pseudodiagnostic or proprietary text leakage",
+        "OPS02-T04: accessibility and pause/delete controls test"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "v1.1 §28.8"
+    },
+    {
+      "screen_id": "OPS03",
+      "title": "Meaning Claims & Safety Evaluation",
+      "area": "Safety",
+      "surface": "operations_web",
+      "release_target": "INTERNAL_ONLY",
+      "purchase_gate": "staff_only",
+      "privacy_class": "RESEARCH_RIGHTS_CONTROLLED",
+      "data_types": [
+        "PurposeHypothesis"
+      ],
+      "commands": [
+        "AuditMeaningClaims"
+      ],
+      "events": [
+        "MEANING_SAFETY_AUDITED"
+      ],
+      "action_description": "See XRAI v1.1 section 28.8 for flow, purpose, provenance and user autonomy",
+      "unique_acceptance": "No unsupported destiny, science or copyright claims; correct consent and state; all flows auditable; local-only for sensitive records",
+      "permission_requirements": "Explicit purpose-specific consent; no silent remote processing",
+      "required_states": [
+        "initial",
+        "loading",
+        "empty",
+        "partial",
+        "error",
+        "offline",
+        "denied_permission",
+        "return_from_background",
+        "large_dynamic_type",
+        "voiceover",
+        "reduced_motion",
+        "conflict"
+      ],
+      "shared_acceptance": [
+        "OPS03-T01: launch only declared command/event with authorization and provenance",
+        "OPS03-T02: offline and denied consent fallback without hidden cloud call",
+        "OPS03-T03: no pseudodiagnostic or proprietary text leakage",
+        "OPS03-T04: accessibility and pause/delete controls test"
+      ],
+      "implementation_status": "SPECIFIED_NOT_IMPLEMENTED",
+      "source": "v1.1 §28.8"
+    }
+  ]
+}

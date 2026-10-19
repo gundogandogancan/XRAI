@@ -1,0 +1,95 @@
+[0/1] Planning build
+Building for debugging...
+[0/2] Write swift-version--58304C5D6DBC2206.txt
+Build complete! (0.08s)
+Test Suite 'All tests' started at 2026-10-19 21:41:39.951.
+Test Suite 'All tests' passed at 2026-10-19 21:41:39.952.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite "Privacy negative tests — XRAICore production sources" started.
+◇ Suite "CivilDate validity — hand-derived fixtures" started.
+◇ Suite "Life Path — typed errors and registry" started.
+◇ Suite "Life Path — arithmetic properties over the whole supported domain sample" started.
+◇ Suite "Life Path — num.life_path.components.v1 golden fixtures" started.
+◇ Suite "CivilDate digits, ordering and redaction" started.
+◇ Test "trace description and debug description never contain the birth digits" started.
+◇ Suite "Life Path — num.life_path.digits.v1 golden fixtures" started.
+◇ Test "supported year window is 1583...9999 inclusive" started.
+◇ Test "production sources exist for both modules" started.
+◇ Test "valid date but unregistered method → methodUnavailable" started.
+◇ Test "an empty registry makes every method unavailable" started.
+◇ Test "2024-02-29 valid, 2023-02-29 invalid" started.
+◇ Test "trace hash is an integrity fingerprint: stable, and distinct for distinct inputs/methods" started.
+◇ Test "registry v1 exposes exactly the two BOOT-01 methods" started.
+◇ Test "types are not Codable here: no serialization path for a DOB in the pure module" started.
+◇ Test "April 31 is invalid" started.
+◇ Test "1900-02-29 is invalid (century, not divisible by 400)" started.
+◇ Test "every reduction step strictly decreases and ends at the root" started.
+◇ Test "2000-02-29 is valid (divisible by 400)" started.
+◇ Test "day 0 and day 32 are invalid" started.
+◇ Test "month 13 and month 0 are invalid" started.
+◇ Test "reduce_all root equals the digital root of the compound, and both methods agree" started.
+◇ Test "leap-year table" started.
+◇ Test "preserve policy roots are in 1...9 or {11,22,33} and master is set iff root is master" started.
+◇ Test "no production file imports Foundation/Network/OSLog or references IO, logging or networking APIs" started.
+◇ Test "F9 2000-02-29 → 2 + 2 + 11(preserved) = 15 → 6; reduce_all: 2 + 2 + 2 = 6" started.
+◇ Test "F8 1955-01-01 → year 20→2, month 1, day 1 → compound 4 → root 4 (differs from digits method 22)" started.
+◇ Test "F11 1984-11-22 → 22 + 11 + 22 = 55 → 10 → 1; reduce_all: 4 + 2 + 4 = 10 → 1" started.
+◇ Test "F1 1998-06-30 → compound 36 → root 9" started.
+◇ Test "Comparable orders by year, month, day" started.
+◇ Test "F7 1999-07-03 → compound 38 → 11 reached at a reduction step (preserved) / → 2" started.
+◇ Test "literal YYYYMMDD digits preserve order and zero padding" started.
+◇ Test "date-only type has exactly three stored properties and no time or zone" started.
+◇ Test "description never contains the birth date (privacy negative test)" started.
+◇ Test "CivilDate is not Codable in this module (persistence belongs to the vault layer)" started.
+◇ Test "F4 2000-01-08 → compound 11: preserved as master 11 / reduced to 2" started.
+◇ Test "F2 2000-02-29 (valid leap day) → compound 15 → root 6" started.
+◇ Test "F6 1969-05-21 → compound 33: preserved as master 33 / reduced to 6" started.
+◇ Test "determinism: same inputs give identical trace and hash" started.
+◇ Test "F5 1955-01-01 → compound 22: preserved as master 22 / reduced to 4" started.
+◇ Test "F10 permutation: 1998-03-06 shares compound 36 with F1 but trace and hash differ" started.
+✔ Test "registry v1 exposes exactly the two BOOT-01 methods" passed after 0.001 seconds.
+✔ Test "trace description and debug description never contain the birth digits" passed after 0.001 seconds.
+✔ Test "types are not Codable here: no serialization path for a DOB in the pure module" passed after 0.001 seconds.
+✔ Test "trace hash is an integrity fingerprint: stable, and distinct for distinct inputs/methods" passed after 0.001 seconds.
+✔ Test "valid date but unregistered method → methodUnavailable" passed after 0.001 seconds.
+✔ Test "2000-02-29 is valid (divisible by 400)" passed after 0.001 seconds.
+✔ Test "an empty registry makes every method unavailable" passed after 0.001 seconds.
+✔ Test "2024-02-29 valid, 2023-02-29 invalid" passed after 0.001 seconds.
+✔ Test "April 31 is invalid" passed after 0.001 seconds.
+✔ Test "every reduction step strictly decreases and ends at the root" passed after 0.001 seconds.
+✔ Test "leap-year table" passed after 0.001 seconds.
+✔ Test "1900-02-29 is invalid (century, not divisible by 400)" passed after 0.001 seconds.
+✔ Test "month 13 and month 0 are invalid" passed after 0.001 seconds.
+✔ Test "supported year window is 1583...9999 inclusive" passed after 0.001 seconds.
+✔ Test "F8 1955-01-01 → year 20→2, month 1, day 1 → compound 4 → root 4 (differs from digits method 22)" passed after 0.001 seconds.
+✔ Test "F11 1984-11-22 → 22 + 11 + 22 = 55 → 10 → 1; reduce_all: 4 + 2 + 4 = 10 → 1" passed after 0.001 seconds.
+✔ Test "Comparable orders by year, month, day" passed after 0.001 seconds.
+✔ Test "date-only type has exactly three stored properties and no time or zone" passed after 0.001 seconds.
+✔ Test "day 0 and day 32 are invalid" passed after 0.001 seconds.
+✔ Test "F1 1998-06-30 → compound 36 → root 9" passed after 0.001 seconds.
+✔ Test "F9 2000-02-29 → 2 + 2 + 11(preserved) = 15 → 6; reduce_all: 2 + 2 + 2 = 6" passed after 0.001 seconds.
+✔ Test "CivilDate is not Codable in this module (persistence belongs to the vault layer)" passed after 0.001 seconds.
+✔ Test "literal YYYYMMDD digits preserve order and zero padding" passed after 0.001 seconds.
+✔ Test "F7 1999-07-03 → compound 38 → 11 reached at a reduction step (preserved) / → 2" passed after 0.001 seconds.
+✔ Test "F4 2000-01-08 → compound 11: preserved as master 11 / reduced to 2" passed after 0.001 seconds.
+✔ Test "F2 2000-02-29 (valid leap day) → compound 15 → root 6" passed after 0.001 seconds.
+✔ Test "description never contains the birth date (privacy negative test)" passed after 0.001 seconds.
+✔ Test "F10 permutation: 1998-03-06 shares compound 36 with F1 but trace and hash differ" passed after 0.001 seconds.
+✔ Test "F6 1969-05-21 → compound 33: preserved as master 33 / reduced to 6" passed after 0.001 seconds.
+✔ Suite "Life Path — typed errors and registry" passed after 0.001 seconds.
+✔ Test "determinism: same inputs give identical trace and hash" passed after 0.001 seconds.
+✔ Suite "Life Path — num.life_path.components.v1 golden fixtures" passed after 0.001 seconds.
+✔ Test "F5 1955-01-01 → compound 22: preserved as master 22 / reduced to 4" passed after 0.001 seconds.
+✔ Suite "CivilDate digits, ordering and redaction" passed after 0.001 seconds.
+✔ Suite "CivilDate validity — hand-derived fixtures" passed after 0.001 seconds.
+✔ Test "production sources exist for both modules" passed after 0.001 seconds.
+✔ Suite "Life Path — num.life_path.digits.v1 golden fixtures" passed after 0.001 seconds.
+✔ Test "no production file imports Foundation/Network/OSLog or references IO, logging or networking APIs" passed after 0.005 seconds.
+✔ Suite "Privacy negative tests — XRAICore production sources" passed after 0.006 seconds.
+✔ Test "preserve policy roots are in 1...9 or {11,22,33} and master is set iff root is master" passed after 0.073 seconds.
+✔ Test "reduce_all root equals the digital root of the compound, and both methods agree" passed after 0.140 seconds.
+✔ Suite "Life Path — arithmetic properties over the whole supported domain sample" passed after 0.140 seconds.
+✔ Test run with 35 tests in 7 suites passed after 0.140 seconds.
