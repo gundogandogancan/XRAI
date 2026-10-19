@@ -11,9 +11,11 @@ public struct SystemClock: VaultClock {
     public func now() throws -> Int64 { Int64(Date().timeIntervalSince1970.rounded(.down)) }
 }
 
-/// Rejects time that moves backwards beyond `toleranceSeconds` relative to the highest value
-/// observed in this process. Limits: a clock set back BEFORE the first observation is undetectable;
-/// the high-water mark is per process (persisting it is a store-layer task).
+/// Effective-time policy (P02-02 GATE 0A): the returned time NEVER goes below the highest value
+/// observed in this process. A base clock within `toleranceSeconds` below the high-water mark
+/// yields the high-water mark itself (so a revoked consent or an expired token cannot come back);
+/// a base clock further back throws `clockRegressed`. Limits: a clock set back BEFORE the first
+/// observation is undetectable; the high-water mark is per process (persisting it is AUTHZ_PERSISTENCE).
 public final class MonotonicGuardClock: VaultClock, @unchecked Sendable {
     public let toleranceSeconds: Int64
     private let base: any VaultClock
@@ -28,8 +30,11 @@ public final class MonotonicGuardClock: VaultClock, @unchecked Sendable {
     public func now() throws -> Int64 {
         let t = try base.now()
         lock.lock(); defer { lock.unlock() }
-        if let hw = highWater, t < hw - toleranceSeconds { throw VaultError.clockRegressed }
-        if highWater == nil || t > highWater! { highWater = t }
+        if let hw = highWater {
+            if t < hw - toleranceSeconds { throw VaultError.clockRegressed }
+            if t < hw { return hw }   // never hand out time below the mark
+        }
+        highWater = t
         return t
     }
 }

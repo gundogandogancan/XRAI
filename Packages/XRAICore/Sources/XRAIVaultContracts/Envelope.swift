@@ -27,6 +27,45 @@ public enum VaultError: Error, Equatable, Sendable {
     /// Backup AEAD failed: wrong recovery key OR altered backup. Indistinguishable by design.
     case backupIntegrityFailed
     case recoveryKeyInvalid(reason: String)
+    /// Keychain refused or is not reachable (locked device, missing entitlement, access denied). Status is the raw OSStatus.
+    case keychainUnavailable(status: Int32)
+    /// A Keychain item exists but its content is not what this provider wrote (wrong length, bad encoding, mode mismatch).
+    case keychainCorrupted(reason: String)
+    /// An item for this key id/version already exists with different material; never overwritten.
+    case keychainConflict
+    /// Secure Enclave is required by configuration but not available on this device/runtime.
+    case secureEnclaveUnavailable
+    /// The clock guard refuses to return time below the observed high-water mark beyond tolerance.
+    case clockUnavailable
+}
+
+/// How a key-encryption key is protected at rest. Surfaced by every `KeyProvider` so the app can
+/// show the truth and tests can refuse silent downgrades.
+public enum KeyProtection: Hashable, Sendable {
+    /// Process memory only. Test/development double; never production.
+    case inMemoryTestOnly
+    /// macOS login (file-based) keychain used because the data-protection keychain needs an
+    /// entitlement the test host lacks. Test-only; not device-bound.
+    case keychainLegacyMacOSTestOnly
+    /// Data-protection keychain, non-synchronizable, this-device-only, with the given accessibility.
+    case keychainDeviceBound(accessibility: String)
+    /// As above, and the KEK is additionally wrapped by a Secure Enclave P-256 key (non-extractable).
+    case secureEnclaveWrapped(accessibility: String)
+
+    public var isProductionGrade: Bool {
+        switch self {
+        case .inMemoryTestOnly, .keychainLegacyMacOSTestOnly: return false
+        case .keychainDeviceBound, .secureEnclaveWrapped: return true
+        }
+    }
+}
+
+/// Port: trusted registry of quarantined record ids. The vault consults it on every read; a
+/// `QuarantinedRecord` value held by a caller is not the source of truth.
+public protocol QuarantineAuthority: Sendable {
+    func isQuarantined(_ recordID: RecordID) -> Bool
+    func quarantine(_ recordID: RecordID, reason: DenialReason)
+    func release(_ recordID: RecordID)
 }
 
 /// Algorithm identifiers are part of the authenticated header so downgrade is detectable.
@@ -281,6 +320,8 @@ public struct KeyIdentity: Hashable, Sendable {
 /// A Secure Enclave-backed implementation can satisfy this with non-extractable keys.
 public protocol KeyProvider: Sendable {
     var currentKey: KeyIdentity { get }
+    /// Truthful statement of how the KEK is protected.
+    var protection: KeyProtection { get }
     func wrapDataKey(_ dek: [UInt8], boundTo recordID: RecordID) throws -> WrappedKey
     func unwrapDataKey(_ wrapped: WrappedKey) throws -> [UInt8]
     /// Creates a new KEK version. Old versions stay available for unwrapping until `forget`.

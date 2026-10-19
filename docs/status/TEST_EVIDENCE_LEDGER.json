@@ -146,6 +146,61 @@
       "command": "git diff --stat on XRAIIdentityTime/XRAINumerology sources and tests",
       "exit_code": 0,
       "result": "empty diff"
+    },
+    {
+      "run_id": "P02-02-BUILD",
+      "command": "swift build",
+      "cwd": "Packages/XRAICore",
+      "exit_code": 0,
+      "log": "docs/status/evidence/p02_02_swift_build.log",
+      "log_sha256": "dd5decb9c4fc4baf7b70fed66dd807293e3c9ae42f8672454aaa8a46a14d29e1"
+    },
+    {
+      "run_id": "P02-02-TEST-RUN1",
+      "command": "swift test",
+      "cwd": "Packages/XRAICore",
+      "exit_code": 1,
+      "result": "100 tests, 98 passed, 2 issues (comment false positive; quarantined-open error kind changed by design)",
+      "log": "docs/status/evidence/p02_02_swift_test_run1_FAILED_2_of_100.log",
+      "log_sha256": "4d0ab634462e8642ac42de8423929cd9161ae860115667c1addead830120afad"
+    },
+    {
+      "run_id": "P02-02-TEST-RUN5-MACOS",
+      "command": "swift test",
+      "cwd": "Packages/XRAICore",
+      "host": "macOS 26.4 Apple silicon, unsigned CLI; real login Keychain (test flag) + real Secure Enclave",
+      "exit_code": 0,
+      "result": "100 tests in 24 suites passed; 0 test keychain items left",
+      "log": "docs/status/evidence/p02_02_swift_test_run5_macos.log",
+      "log_sha256": "1ababf13190a21a59cd662a5ff57d1c56301f59df8f3db2ff763e389c7c27175"
+    },
+    {
+      "run_id": "P02-02-SIM-RUN1",
+      "command": "xcodebuild test -scheme XRAICore-Package -destination 'platform=iOS Simulator,name=iPhone 17' -only-testing:XRAIVaultKeychainTests",
+      "exit_code": 65,
+      "result": "14 tests: 2 passed, 12 failed with keychainUnavailable(-34018) = fail closed (host-less logic bundle has no keychain entitlement)",
+      "log": "docs/status/evidence/p02_02_xcodebuild_sim_keychain_run1_FAIL_CLOSED.log",
+      "log_sha256": "b7bea6cec508f3129f06b9ff81a68a910e9a65151282762fd826b9043e515b14"
+    },
+    {
+      "run_id": "P02-02-SIM-RUN2",
+      "command": "same, after accepting fail-closed in the production-config test",
+      "exit_code": 65,
+      "result": "3 passed, 11 keychain-functional tests blocked (SIM_HOST_APP)",
+      "log": "docs/status/evidence/p02_02_xcodebuild_sim_keychain_run2.log",
+      "log_sha256": "c8d0e5b0ffb3ad7658b24d4fed15102ebfedeabd78d1ffbee6155c17852f7626"
+    },
+    {
+      "run_id": "P02-02-DEVICE",
+      "command": "physical iPhone",
+      "exit_code": null,
+      "result": "NOT_RUN — DEVICE_VERIFIED: NO"
+    },
+    {
+      "run_id": "P02-02-NUMEROLOGY-REGRESSION",
+      "command": "git diff --stat on pure core dirs",
+      "exit_code": 0,
+      "result": "empty diff"
     }
   ],
   "acceptance_test_mapping": [
@@ -239,16 +294,17 @@
     "vault.contracts.v1": "TESTED (hardened H1)",
     "vault.aes256gcm.envelope.v1": "TESTED (library; SECURITY_REVIEWED: NO; DEVICE_VERIFIED: NO)",
     "vault.backup.recoverykey.v1": "TESTED (library)",
-    "vault.keychain_provider": "NOT_STARTED",
+    "vault.keychain_provider": "CODED + TESTED (macOS host real Keychain/SE); DEVICE_VERIFIED: NO",
     "vault.backup.sealed.v2": "TESTED (library; v1 format retired)",
     "vault.secure_vault.facade": "TESTED",
     "vault.consent_authority": "PORT_ONLY (production registry NOT_STARTED)",
     "vault.access_contract.h2": "TESTED (library)",
     "vault.authorization_issuer": "TESTED (not an OS boundary)",
-    "vault.clock_guard": "TESTED (per-process)",
-    "vault.quarantine": "TESTED",
+    "vault.clock_guard": "TESTED (effective time never below mark; per-process)",
+    "vault.quarantine": "TESTED (trusted registry enforced on open)",
     "vault.compile_negative_boundary": "TESTED with swiftc",
-    "vault.envelope.header": "v2 (consentPurpose authenticated)"
+    "vault.envelope.header": "v2 (consentPurpose authenticated)",
+    "vault.secure_enclave_wrapper": "TESTED on Apple-silicon Mac enclave; iPhone NOT_RUN"
   },
   "not_evidence": [
     "docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"

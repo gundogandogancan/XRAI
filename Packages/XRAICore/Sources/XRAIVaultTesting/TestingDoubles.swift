@@ -18,6 +18,8 @@ public final class InMemoryKeyProvider: KeyProvider, @unchecked Sendable {
         self.keks[1] = SymmetricKey(size: .bits256)
     }
 
+    public var protection: KeyProtection { .inMemoryTestOnly }
+
     public var currentKey: KeyIdentity {
         lock.lock(); defer { lock.unlock() }
         return KeyIdentity(keyID: keyID, version: current)
@@ -102,4 +104,15 @@ public final class ManualClock: VaultClock, @unchecked Sendable {
     public func now() throws -> Int64 { lock.lock(); defer { lock.unlock() }; return time }
     public func set(_ t: Int64) { lock.lock(); time = t; lock.unlock() }
     public func advance(_ seconds: Int64) { lock.lock(); time += seconds; lock.unlock() }
+}
+
+/// In-memory quarantine registry (test/dev). Production needs a persisted, integrity-protected one.
+public final class InMemoryQuarantineRegistry: QuarantineAuthority, @unchecked Sendable {
+    private let lock = NSLock()
+    private var ids: [String: DenialReason] = [:]
+    public init() {}
+    public func isQuarantined(_ recordID: RecordID) -> Bool { lock.lock(); defer { lock.unlock() }; return ids[recordID.hex] != nil }
+    public func quarantine(_ recordID: RecordID, reason: DenialReason) { lock.lock(); ids[recordID.hex] = reason; lock.unlock() }
+    public func release(_ recordID: RecordID) { lock.lock(); ids[recordID.hex] = nil; lock.unlock() }
+    public var count: Int { lock.lock(); defer { lock.unlock() }; return ids.count }
 }

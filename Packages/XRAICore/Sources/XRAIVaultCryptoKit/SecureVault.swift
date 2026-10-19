@@ -22,20 +22,24 @@ public struct SecureVault: Sendable {
     private let consentAuthority: any ConsentAuthority
     private let clock: any VaultClock
     private let authorizations: any AuthorizationValidator
+    private let quarantine: any QuarantineAuthority
     private let sealer: AESGCMEnvelopeSealer
 
     /// The composition root constructs this once, injecting production ports. `InMemoryKeyProvider`
     /// lives in the `XRAIVaultTesting` target and is not available to production modules.
-    public init(keyProvider: any KeyProvider, consentAuthority: any ConsentAuthority, clock: any VaultClock, authorizations: any AuthorizationValidator) {
+    public init(keyProvider: any KeyProvider, consentAuthority: any ConsentAuthority, clock: any VaultClock, authorizations: any AuthorizationValidator, quarantine: any QuarantineAuthority) {
         self.keyProvider = keyProvider
         self.consentAuthority = consentAuthority
         self.clock = clock
         self.authorizations = authorizations
+        self.quarantine = quarantine
         self.sealer = AESGCMEnvelopeSealer(keyProvider: keyProvider)
     }
 
     /// Key identity only (no material), for status screens and audits.
     public var currentKeyIdentity: KeyIdentity { keyProvider.currentKey }
+    /// Truthful key-protection level of the active provider.
+    public var keyProtection: KeyProtection { keyProvider.protection }
 
     // MARK: Authorization helpers
 
@@ -71,6 +75,8 @@ public struct SecureVault: Sendable {
     public func open(_ envelope: RecordEnvelope, authorization: OperationAuthorization) throws -> [UInt8] {
         try envelope.header.validate()
         let (_, now) = try authorize(authorization, for: .read(recordIDs: nil), recordID: envelope.header.recordID, purpose: envelope.header.consentPurpose)
+        // GATE 0B: quarantine is enforced by the trusted registry, not by the caller's value.
+        if quarantine.isQuarantined(envelope.header.recordID) { throw VaultError.quarantined(.consentRequired) }
         try requireActiveConsent(envelope.header, now: now)
         return try sealer.open(envelope)
     }
@@ -127,6 +133,7 @@ public struct SecureVault: Sendable {
             }
             do { _ = try sealer.open(env) } catch { throw VaultError.backupIntegrityFailed }
             if case .denied(let reason) = VaultPolicy.mayRead(env.header.dataClass, consentPurpose: env.header.consentPurpose, authority: consentAuthority, atUnixSeconds: now) {
+                quarantine.quarantine(env.header.recordID, reason: reason)
                 quarantined.append(QuarantinedRecord(envelope: env, reason: reason))
             } else {
                 active.append(env)
@@ -135,15 +142,19 @@ public struct SecureVault: Sendable {
         return RestoreResult(active: active, quarantined: quarantined)
     }
 
-    /// Releases a quarantined record after the user granted consent again. Requires a
-    /// `.releaseQuarantine` token and an active grant for the record's purpose NOW.
+    /// Releases a quarantined record after the user granted consent again. Requires BOTH a
+    /// `.releaseQuarantine` token and an active grant for the record's purpose NOW; only then is the
+    /// id removed from the trusted quarantine registry. Re-granting consent alone never releases.
     public func releaseQuarantine(_ record: QuarantinedRecord, authorization: OperationAuthorization) throws -> RecordEnvelope {
         try record.envelope.header.validate()
+        let id = record.envelope.header.recordID
         let (_, now) = try authorize(authorization, for: .releaseQuarantine, recordID: nil, purpose: nil)
+        guard quarantine.isQuarantined(id) else { throw VaultError.quarantined(.notListed) }
         if case .denied(let reason) = VaultPolicy.mayRead(record.envelope.header.dataClass, consentPurpose: record.envelope.header.consentPurpose, authority: consentAuthority, atUnixSeconds: now) {
             throw VaultError.quarantined(reason)
         }
         _ = try sealer.open(record.envelope)
+        quarantine.release(id)
         return record.envelope
     }
 

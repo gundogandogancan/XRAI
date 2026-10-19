@@ -73,14 +73,14 @@ struct AESGCMEnvelopeSealer: EnvelopeSealer {
     }
 }
 
-/// Internal AES-256-GCM DEK wrapper over a raw KEK. Used for the backup key derived from the
-/// recovery key. It is NOT a `KeyProvider` and is not exposed.
-struct GCMKeyWrapper {
-    let keyID: String
-    let version: UInt32
+/// AES-256-GCM DEK wrapper over a raw KEK. Used for the backup key derived from the recovery key
+/// and by the Keychain provider. `package` access: reachable inside XRAICore only, never by apps.
+package struct GCMKeyWrapper {
+    package let keyID: String
+    package let version: UInt32
     private let kek: SymmetricKey
 
-    init(keyID: String, version: UInt32, material: [UInt8]) throws {
+    package init(keyID: String, version: UInt32, material: [UInt8]) throws {
         guard material.count == CryptoConstants.keyBytes else {
             throw VaultError.invalidLength(field: "kek", expected: CryptoConstants.keyBytes, actual: material.count)
         }
@@ -89,7 +89,7 @@ struct GCMKeyWrapper {
         self.kek = SymmetricKey(data: material)
     }
 
-    func wrap(_ dek: [UInt8], boundTo recordID: RecordID) throws -> WrappedKey {
+    package func wrap(_ dek: [UInt8], boundTo recordID: RecordID) throws -> WrappedKey {
         let nonce = AES.GCM.Nonce()
         let ad = WrappedKey.associatedData(keyID: keyID, keyVersion: version, recordID: recordID)
         let box = try AES.GCM.seal(dek, using: kek, nonce: nonce, authenticating: ad)
@@ -97,7 +97,7 @@ struct GCMKeyWrapper {
                           nonce: nonce.withUnsafeBytes { Array($0) }, ciphertext: Array(box.ciphertext), tag: Array(box.tag))
     }
 
-    func unwrap(_ wrapped: WrappedKey) throws -> [UInt8] {
+    package func unwrap(_ wrapped: WrappedKey) throws -> [UInt8] {
         guard wrapped.keyID == keyID, wrapped.keyVersion == version else { throw VaultError.keyUnavailable(version: wrapped.keyVersion) }
         let ad = WrappedKey.associatedData(keyID: wrapped.keyID, keyVersion: wrapped.keyVersion, recordID: wrapped.boundRecordID)
         do {

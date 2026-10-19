@@ -91,7 +91,7 @@ struct ClockAndTokenTests {
         let base = ManualClock(t0)
         let guardClock = MonotonicGuardClock(wrapping: base, toleranceSeconds: 5)
         let keys = InMemoryKeyProvider(keyID: "d"); let issuer = AuthorizationIssuer(clock: guardClock)
-        let vault = SecureVault(keyProvider: keys, consentAuthority: NoConsentAuthority(), clock: guardClock, authorizations: issuer)
+        let vault = SecureVault(keyProvider: keys, consentAuthority: NoConsentAuthority(), clock: guardClock, authorizations: issuer, quarantine: InMemoryQuarantineRegistry())
         let tok = try issuer.issue(scope: .write(.birthDate), ttlSeconds: 10)
         base.set(t0 + 20)
         _ = try guardClock.now()
@@ -100,8 +100,8 @@ struct ClockAndTokenTests {
         let tok2 = OperationAuthorization(id: tok.id, scope: tok.scope, purpose: "", issuedAtUnixSeconds: t0, expiresAtUnixSeconds: t0 + 10)
         #expect(throws: VaultError.clockRegressed) { try vault.seal(plaintext: [1], descriptor: try RecordDescriptor(dataClass: .birthDate, retention: .untilUserDeletes, createdAtUnixSeconds: t0), authorization: tok2) }
         #expect(throws: VaultError.clockRegressed) { try issuer.issue(scope: .write(.birthDate)) }
-        base.set(t0 + 17) // within tolerance of the high-water mark 20
-        _ = try guardClock.now()
+        base.set(t0 + 17) // within tolerance of the high-water mark 20: effective time stays at the mark
+        #expect(try guardClock.now() == t0 + 20)
     }
 
     @Test("forged tokens (unknown id), replayed tokens, expired tokens, not-yet-valid tokens and over-long TTLs are rejected")
@@ -172,7 +172,8 @@ struct IntegrityAndQuarantineTests {
         #expect(result.active.map(\.header.dataClass) == [.birthDate])
         #expect(result.quarantined.count == 1 && result.quarantined[0].reason == .consentRequired && result.quarantined[0].envelope.header.dataClass == .parentsNames)
         let q = result.quarantined[0]
-        #expect(throws: VaultError.notAuthorized(.consentRequired)) { try h.open(q.envelope) }
+        // GATE 0B: the trusted registry answers first; the error names the quarantine, not just consent.
+        #expect(throws: VaultError.quarantined(.consentRequired)) { try h.open(q.envelope) }
         #expect(throws: VaultError.quarantined(.consentRequired)) { try h.vault.releaseQuarantine(q, authorization: try h.token(.releaseQuarantine)) }
         #expect(throws: VaultError.authorizationInvalid(.scopeMismatch)) { try h.vault.releaseQuarantine(q, authorization: try h.token(.read(recordIDs: nil))) }
         h.grant(.parentsNames, purpose: "family_lens", id: "c2")

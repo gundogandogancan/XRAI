@@ -11,6 +11,7 @@ let package = Package(
         .library(name: "XRAINumerology", targets: ["XRAINumerology"]),
         .library(name: "XRAIVaultContracts", targets: ["XRAIVaultContracts"]),
         .library(name: "XRAIVaultCryptoKit", targets: ["XRAIVaultCryptoKit"]),
+        .library(name: "XRAIVaultKeychain", targets: ["XRAIVaultKeychain"]),
     ],
     targets: [
         .target(
@@ -47,6 +48,15 @@ let package = Package(
         .testTarget(
             name: "XRAIVaultTests",
             dependencies: ["XRAIVaultContracts", "XRAIVaultCryptoKit", "XRAIVaultTesting"]
+        ),
+        // P02-02: production KeyProvider on Apple Keychain / Secure Enclave (Security + CryptoKit).
+        .target(
+            name: "XRAIVaultKeychain",
+            dependencies: ["XRAIVaultContracts", "XRAIVaultCryptoKit"]
+        ),
+        .testTarget(
+            name: "XRAIVaultKeychainTests",
+            dependencies: ["XRAIVaultContracts", "XRAIVaultCryptoKit", "XRAIVaultKeychain", "XRAIVaultTesting"]
         ),
     ],
     swiftLanguageModes: [.v6]

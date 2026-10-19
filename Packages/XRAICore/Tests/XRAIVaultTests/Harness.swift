@@ -11,6 +11,7 @@ struct Harness {
     let authority: InMemoryConsentAuthority
     let clock: ManualClock
     let issuer: AuthorizationIssuer
+    let quarantine: InMemoryQuarantineRegistry
     let vault: SecureVault
 
     init(keyID: String = "device", start: Int64 = t0) {
@@ -18,7 +19,8 @@ struct Harness {
         authority = InMemoryConsentAuthority()
         clock = ManualClock(start)
         issuer = AuthorizationIssuer(clock: clock)
-        vault = SecureVault(keyProvider: keys, consentAuthority: authority, clock: clock, authorizations: issuer)
+        quarantine = InMemoryQuarantineRegistry()
+        vault = SecureVault(keyProvider: keys, consentAuthority: authority, clock: clock, authorizations: issuer, quarantine: quarantine)
     }
 
     func token(_ scope: OperationScope, purpose: String = "", ttl: Int64 = 60) throws -> OperationAuthorization {

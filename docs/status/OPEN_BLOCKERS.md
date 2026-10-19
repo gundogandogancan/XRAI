@@ -17,11 +17,16 @@ Vocabulary: `BLOCKED` (cannot proceed without an external fact/right/decision), 
 | IPHONE_TEST | P02 | NOT_VERIFIED | a physical iPhone + developer signing to test vault, model, thermals. |
 | DEVICE_BACKUP_POLICY | P02 | RESOLVED 2026-10-19 (founder decisions 3–4) | Optional user-held 256-bit recovery key + E2EE portable backup; fresh device keys on restore; loss of both = unrecoverable, stated plainly. Implemented at library level (ADR-BOOT-005). |
 | JOURNAL_SECURITY | P02 | NOT_VERIFIED | encrypted store engine choice (GRDB/SQLCipher licence) + WAL/temp/backup leak tests on device. Envelope layer exists (ADR-BOOT-005); persistence layer NOT_STARTED. |
-| KEYCHAIN_PROVIDER | P02-02 | NOT_STARTED | production `KeyProvider` on Keychain/Secure Enclave; needs physical iPhone; until then no real data is persisted. |
+| KEYCHAIN_PROVIDER | P02-02 | CODED + TESTED (macOS host) | `KeychainKeyProvider` + Secure Enclave wrapping exist (ADR-BOOT-006). DEVICE_VERIFIED: NO. |
+| DEVICE_TESTS_KEYCHAIN_SE | P02-02+ | NOT_RUN | physical iPhone: ThisDeviceOnly semantics, lock/unlock, passcode removal, reinstall, SE on A-series. Requires signing + device. |
+| SIM_HOST_APP | P03 | NOT_STARTED | signed host app so Keychain tests can run on the iOS Simulator (host-less bundles get errSecMissingEntitlement). |
+| REINSTALL_KEY_POLICY | P03 | DESIGN | on fresh install with no store: adopt key set explicitly or `wipeAllKeys()`; user told that device-only keys need the recovery-key backup. |
+| AUTHZ_ISSUER_UI_BINDING | pre-persistence | OPEN | `AuthorizationIssuer.issue()` must be callable only from trusted user-interaction paths; no integration proves tokens come from real user actions yet. |
+| DELETION_GRANT_VALIDATION | pre-persistence | OPEN | store layer must validate/consume `DeletionGrant`. |
 | VAULT_SECURITY_REVIEW | P02/P12 | NOT_DONE | independent review/pen test before any 'vault complete' claim. ChatGPT code review round 1 (V32-02-01H) applied: 5 findings closed, see P02_01H report. |
 | CONSENT_AUTHORITY_IMPL | P02+ | NOT_STARTED | production consent registry behind the `ConsentAuthority` port (encrypted store, audit trail, UI). |
 | AUTHZ_PERSISTENCE | P02+ | NOT_STARTED | persist the monotonic clock high-water mark and consumed-token ids (currently per process). |
-| IN_PROCESS_ISOLATION | P02-02 | OPEN | Swift access control is not a boundary; needs Keychain/Secure Enclave non-extractable keys and app hardening. |
+| IN_PROCESS_ISOLATION | P02-02+ | PARTIAL | SE-wrapped KEK means the Keychain item alone is useless, but in-process code can still call the provider; app hardening and review remain. |
 | BACKUP_SIZE_SIDECHANNEL | P02+ | PARTIAL | 4 KiB block padding only; bucketed padding once backup cadence is designed. |
 | PARENT_NAME_SCOPE | P02 | RESOLVED 2026-10-19 (founder decision 6) | Optional; purpose-bound consent required to store; never analytics/model/cloud/ads. Encoded in `VaultPolicy` and tested. |
 | APPLE_ACCOUNT | P11 | NOT_VERIFIED | Apple Developer account, bundle id, entitlements, privacy labels. |

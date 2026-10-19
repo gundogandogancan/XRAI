@@ -1,4 +1,4 @@
-# XRAI Vault — Threat model v1.2 (P02, V32-02-01 + H1 + H2 authorization gate, 2026-10-19)
+# XRAI Vault — Threat model v1.3 (P02-01 + H1 + H2 + P02-02 Keychain/Secure Enclave, 2026-10-19)
 
 **Scope:** the on-device personal vault (encrypted records of birth data, names, optional family data, psychometrics, journals, goals, evidence, consent receipts) and the optional user-held encrypted backup. **Out of scope here:** UI, network broker, model router, StoreKit (own threat models later). **Status:** design + library-level tests; **no device verification, no independent security review yet.** Nothing in this document claims the vault is unbreakable (constitution §83: "No 'unbreakable' promise").
 
@@ -12,7 +12,7 @@ B1 process boundary of the app (other apps, extensions, keyboards, clipboard) ·
 
 | id | adversary / scenario | control | state |
 |---|---|---|---|
-| T1 | Stolen encrypted store (file copied off device, backup extracted) | Every record is AES-256-GCM under a random per-record DEK; DEK wrapped by the device KEK; without the KEK the file is noise. | IMPLEMENTED (adapter) · TESTED (wrong-key, tamper) · KEK-at-rest protection NOT_STARTED (Keychain/SE adapter, P02-02) |
+| T1 | Stolen encrypted store (file copied off device, backup extracted) | Every record is AES-256-GCM under a random per-record DEK; DEK wrapped by the device KEK; KEK in the data-protection Keychain (ThisDeviceOnly, non-sync) and, where the hardware exists, usable only through this device's Secure Enclave (ADR-BOOT-006). | TESTED (library; macOS host real Keychain/SE) · DEVICE_VERIFIED: NO |
 | T2 | Tampering: modify ciphertext, tag, nonce, wrapped key, or metadata (downgrade tier, change retention, change record class) | AEAD tag covers payload; header canonical bytes are associated data; wrapped DEK carries its own AEAD bound to (keyID, version, recordID). | TESTED (`SealAdversarialTests`) |
 | T3 | DEK substitution / record confusion (move one record's key to another) | Wrap AAD binds DEK to recordID; sealer rejects header/wrap recordID mismatch before any crypto. | TESTED (`dekSwap`) |
 | T4 | Nonce reuse (catastrophic for GCM) | Fresh 96-bit nonce from CryptoKit's system CSPRNG per seal and per wrap; DEK is per record, so even a nonce collision would be under a different key. | TESTED (500-seal uniqueness, same plaintext distinct ciphertext) · formal bound: 2^96 space, random; per-key message count is 1 for payloads |
@@ -27,7 +27,7 @@ B1 process boundary of the app (other apps, extensions, keyboards, clipboard) ·
 | T13 | Supply chain (CryptoKit misuse, third-party crypto) | Only Apple CryptoKit; no third-party crypto; the only module importing CryptoKit is `XRAIVaultCryptoKit` (test-enforced). | TESTED (`ImportBoundaryTests`) |
 | T14 | Format/algorithm downgrade | `formatVersion` and algorithm id inside the authenticated header; unknown versions/algorithms rejected typed. | TESTED |
 | T15 | Timing side channel on MAC compare | Constant-time compare for backup tag (AES-GCM tag compare is CryptoKit's own). | IMPLEMENTED |
-| T16 | Hardware capability over-claim (Secure Enclave on devices/simulators without it) | Decision 2: `KeyProvider` is a port; SE is used only where `SecureEnclave.isAvailable`; otherwise Keychain-only with explicit capability flag in the key identity. | DESIGN (P02-02) |
+| T16 | Hardware capability over-claim (Secure Enclave on devices/simulators without it) | `SecureEnclavePolicy.required` fails closed; `preferred` reports `keychainDeviceBound` truthfully; `KeyProvider.protection` / `SecureVault.keyProtection` expose the level; stored mode vs configuration mismatch fails closed. | TESTED (`secureEnclaveRequired`, `truthfulProtection`, `modeMismatch`) |
 | T17 | Minors / shared devices | Out of scope of the vault; separate age gate and AHTOVIA boundary (FUTURE_CHILD_SAFETY). | OPEN |
 | T18 | Backup size side channel | Zero padding to 4 KiB blocks; total volume still leaks coarsely. Bucketed/fixed-size padding deferred until backup cadence is designed. | PARTIAL, residual documented |
 | T19 | Policy bypass by calling crypto directly; forged/stale/revoked consent receipts | `SecureVault` is the only public path; raw sealer/codec internal (test-enforced); `ConsentAuthority` port is the sole source of grants; revocation/expiry honoured at the instant. | TESTED (`EnforcementTests`, `PolicyTests`) |
@@ -37,15 +37,19 @@ B1 process boundary of the app (other apps, extensions, keyboards, clipboard) ·
 | T23 | Same-process code calls the key provider or raw crypto directly, bypassing policy | Vault ports private; raw sealer/codec/wrapper internal; dev doubles in a separate never-linked target; compile-negative test. **Residual:** `KeyProvider`/`ConsentAuthority` are public protocols; Swift access control is not a boundary against malicious in-process code or `@testable`. Real isolation needs SE non-extractable keys (P02-02). | PARTIAL, residual documented |
 | T24 | Reading a record after consent was revoked/expired, or under another purpose | `consentPurpose` authenticated in the header; `open` needs a purpose-matching token and an active grant at trusted time. | TESTED (`ReadAccessTests`) |
 | T25 | Caller forges time or "user initiated" flags; replays or widens a token; uses a stale clock | `VaultClock` port + monotonic guard; issuer-held token copies, single use, TTL ≤ 300 s, replay rejected. **Residual:** per-process high-water mark; rollback before first observation undetectable; not an OS boundary. | TESTED (`ClockAndTokenTests`) |
-| T26 | Old backup silently re-enables sensitive records whose consent was revoked; corrupted record re-wrapped as valid | Quarantine on restore, release only with fresh grant + token; `rewrap` verifies payload first. | TESTED (`IntegrityAndQuarantineTests`) |
+| T26 | Old backup silently re-enables sensitive records whose consent was revoked; corrupted record re-wrapped as valid | Quarantine registered in the trusted `QuarantineAuthority` on restore and checked on every `open`; release needs token AND fresh grant; `rewrap` verifies payload first. | TESTED (`IntegrityAndQuarantineTests`, `QuarantineEnforcementTests`) |
+| T27 | Clock set back within tolerance re-activates revoked consent or expired tokens | Effective time never goes below the process high-water mark (returns the mark); beyond tolerance → `clockRegressed`. **Residual:** mark is per process (AUTHZ_PERSISTENCE). | TESTED (`ClockRollbackTests`) |
+| T28 | Keychain item tampered, truncated, replaced, or deleted (passcode removal, OS cleanup) | Fixed-length / magic / version checks; SE blob AEAD; missing item → `keyUnavailable`; provider init fails closed; never overwrites (`SecItemAdd` only). | TESTED on macOS host (`corruption`, `conflict`, `interruptedRotation`) · device NOT_RUN |
+| T29 | Locked device, access denied, missing entitlement | Typed `keychainUnavailable(status:)`, no fallback in production configuration; legacy macOS keychain only with an explicit test flag and reported as test-only. | TESTED (status mapping; production config fail-closed on macOS CLI and on host-less iOS Simulator) |
+| T30 | App reinstall finds stale keys; interrupted rotation leaves inconsistent state | Orphan versions above `current` are unusable and block the next rotation (conflict); reinstall policy recorded as blocker `REINSTALL_KEY_POLICY` (P03 must adopt or wipe explicitly). | PARTIAL (rotation TESTED; reinstall policy DESIGN) |
 
 ## Residual risks stated honestly
 - Keys live in process memory while in use; a compromised OS or a debugger can read them.
 - A device with passcode removed or a jailbroken device weakens Keychain guarantees.
 - A user who loses both backup and recovery key loses the data. This is intended.
-- The in-memory `KeyProvider` is a development double; the production Keychain/SE provider does not exist yet. **Until it does, nothing may be persisted.**
+- The production `KeychainKeyProvider` exists and is tested on a macOS host with a real Keychain and Secure Enclave, but **not on a physical iPhone**; nothing is persisted yet because no store layer exists.
 - The `ConsentAuthority` is a port; its production implementation (own encrypted store, audit trail, UI) is future work.
 - No independent security review or penetration test has happened. Statuses are library TESTED, not SECURITY_REVIEWED.
 
 ## Test-to-threat map
-`VaultContractsTests.swift` → T6, T9, T10, T14, T19, T20, T21 · `VaultCryptoTests.swift` → T1–T5, T7, T8, T11, T13, T14, T18–T22 · `AuthorizationGateTests.swift` → T24, T25, T26 · `CompositionBoundaryTests.swift` → T13, T23 · `PrivacyNegativeTests.swift` (BOOT-01) → T11 for pure math modules.
+`VaultContractsTests.swift` → T6, T9, T10, T14, T19, T20, T21 · `VaultCryptoTests.swift` → T1–T5, T7, T8, T11, T13, T14, T18–T22 · `AuthorizationGateTests.swift` → T24, T25, T26 · `CompositionBoundaryTests.swift` → T13, T23 · `Gate0Tests.swift` → T26, T27 · `KeychainKeyProviderTests.swift` → T1, T16, T28, T29, T30 · `PrivacyNegativeTests.swift` (BOOT-01) → T11 for pure math modules.

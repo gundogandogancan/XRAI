@@ -25,6 +25,7 @@ struct CompositionBoundaryTests {
         for d in manifest.components(separatedBy: ".target(").dropFirst() {
             let block = d.components(separatedBy: "),").first ?? d
             if block.contains("\"XRAIVaultTesting\"") && block.contains("dependencies") && !block.contains("name: \"XRAIVaultTesting\"") { sawTestingDependency = true }
+            if block.contains("name: \"XRAIVaultKeychain\"") { #expect(!block.contains("XRAIVaultTesting"), "Keychain target must not depend on the testing target") }
         }
         #expect(!sawTestingDependency, "a production target depends on XRAIVaultTesting")
         #expect(decls.count >= 7)
@@ -50,8 +51,9 @@ struct CompositionBoundaryTests {
         #expect(!codec.contains("public enum BackupCodec"))
     }
 
+    #if os(macOS)
     /// Runs `swiftc -typecheck` against the built module interfaces. The positive control must
-    /// compile; each negative snippet must fail with an access/lookup error.
+    /// compile; each negative snippet must fail with an access/lookup error. macOS host only.
     @Test("compile-negative: external code cannot reach AESGCMEnvelopeSealer, BackupCodec, GCMKeyWrapper, SecureVault.keyProvider, or InMemoryKeyProvider via the adapter")
     func compileNegative() throws {
         let root = Self.packageRoot()
@@ -64,6 +66,7 @@ struct CompositionBoundaryTests {
         import XRAIVaultCryptoKit
         func f(v: SecureVault, e: RecordEnvelope, t: OperationAuthorization) throws -> [UInt8] { try v.open(e, authorization: t) }
         let _ = SystemClock()
+        func g(v: SecureVault) -> KeyProtection { v.keyProtection }
         """
         let pos = try Self.typecheck(positive, modulesDir: modulesDir)
         #expect(pos.exit == 0, Comment(rawValue: "positive control failed to compile:\n\(pos.stderr)"))
@@ -76,6 +79,7 @@ struct CompositionBoundaryTests {
             ("vault.keyProvider", "import XRAIVaultContracts\nimport XRAIVaultCryptoKit\nfunc f(v: SecureVault) { _ = v.keyProvider }"),
             ("vault.sealer", "import XRAIVaultContracts\nimport XRAIVaultCryptoKit\nfunc f(v: SecureVault) { _ = v.sealer }"),
             ("in-memory provider without the testing module", "import XRAIVaultContracts\nimport XRAIVaultCryptoKit\nfunc f() { _ = InMemoryKeyProvider(keyID: \"x\") }"),
+            ("keychain debug hooks are package-internal", "import XRAIVaultContracts\nimport XRAIVaultKeychain\nfunc f(p: KeychainKeyProvider) throws { try p.debugDeleteItem(version: 1) }"),
         ]
         for (name, code) in negatives {
             let r = try Self.typecheck(code, modulesDir: modulesDir)
@@ -83,6 +87,8 @@ struct CompositionBoundaryTests {
             #expect(r.stderr.contains("cannot find") || r.stderr.contains("inaccessible") || r.stderr.contains("is not a member") || r.stderr.contains("private"), Comment(rawValue: "\(name): unexpected diagnostics:\n\(r.stderr)"))
         }
     }
+
+    #endif
 
     private static func findModulesDir(under build: URL) -> URL? {
         guard let e = FileManager.default.enumerator(at: build, includingPropertiesForKeys: [.isDirectoryKey]) else { return nil }
@@ -93,6 +99,7 @@ struct CompositionBoundaryTests {
         return nil
     }
 
+    #if os(macOS)
     private static func typecheck(_ code: String, modulesDir: URL) throws -> (exit: Int32, stderr: String) {
         let dir = FileManager.default.temporaryDirectory.appendingPathComponent("xrai-compile-neg-\(RecordID().hex)", isDirectory: true)
         try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
@@ -110,4 +117,5 @@ struct CompositionBoundaryTests {
         let data = err.fileHandleForReading.readDataToEndOfFile()
         return (p.terminationStatus, String(decoding: data, as: UTF8.self))
     }
+    #endif
 }
