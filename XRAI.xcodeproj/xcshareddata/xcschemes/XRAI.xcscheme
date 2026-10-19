@@ -35,6 +35,20 @@
                ReferencedContainer = "container:XRAI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FF78F56C5A1EC0C035132193"
+               BuildableName = "XRAIUITests.xctest"
+               BlueprintName = "XRAIUITests"
+               ReferencedContainer = "container:XRAI.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -60,6 +74,16 @@
                BlueprintIdentifier = "BC4EC122DAE45B68B2D5D4B6"
                BuildableName = "XRAIHostedTests.xctest"
                BlueprintName = "XRAIHostedTests"
+               ReferencedContainer = "container:XRAI.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FF78F56C5A1EC0C035132193"
+               BuildableName = "XRAIUITests.xctest"
+               BlueprintName = "XRAIUITests"
                ReferencedContainer = "container:XRAI.xcodeproj">
             </BuildableReference>
          </TestableReference>

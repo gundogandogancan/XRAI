@@ -13,6 +13,7 @@ options:
     iOS: "17.0"
   createIntermediateGroups: true
   xcodeVersion: "26.0"
+  developmentLanguage: tr
 
 packages:
   XRAICore:
@@ -81,7 +82,12 @@ targets:
       properties:
         CFBundleDisplayName: XRAI
         CFBundleName: XRAI
-        UILaunchScreen: {}
+        UILaunchScreen:
+          UIImageName: LaunchLogo
+          UIColorName: LaunchBackground
+          UIImageRespectsSafeAreaInsets: true
+        CFBundleDevelopmentRegion: tr
+        CFBundleLocalizations: [tr, en]
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         ITSAppUsesNonExemptEncryption: false
         NSHumanReadableCopyright: "© 2026 Dogancan Gundogan"
@@ -126,15 +132,35 @@ targets:
           - "@executable_path/Frameworks"
           - "@loader_path/Frameworks"
 
+  XRAIUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: App/XRAIUITests
+    dependencies:
+      - target: XRAI
+    settings:
+      base:
+        PRODUCT_NAME: XRAIUITests
+        PRODUCT_BUNDLE_IDENTIFIER: com.xrai.app.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: XRAI
+        LD_RUNPATH_SEARCH_PATHS:
+          - $(inherited)
+          - "@executable_path/Frameworks"
+          - "@loader_path/Frameworks"
+
 schemes:
   XRAI:
     build:
       targets:
         XRAI: all
         XRAIHostedTests: [test]
+        XRAIUITests: [test]
     run:
       config: Debug
     test:
       config: Debug
       targets:
         - XRAIHostedTests
+        - XRAIUITests

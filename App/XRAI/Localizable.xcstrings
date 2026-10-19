@@ -1,0 +1,636 @@
+{
+  "sourceLanguage": "tr",
+  "version": "1.0",
+  "strings": {
+    "XRAI": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XRAI"
+          }
+        }
+      }
+    },
+    "Bugün": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today"
+          }
+        }
+      }
+    },
+    "Ben": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Me"
+          }
+        }
+      }
+    },
+    "Keşfet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Explore"
+          }
+        }
+      }
+    },
+    "Yolum": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My Path"
+          }
+        }
+      }
+    },
+    "Kendini keşfet. Kendi hızında, kendi cihazında.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discover yourself. At your pace, on your device."
+          }
+        }
+      }
+    },
+    "Başla": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start"
+          }
+        }
+      }
+    },
+    "Şimdilik atla": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skip for now"
+          }
+        }
+      }
+    },
+    "Devam": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue"
+          }
+        }
+      }
+    },
+    "Geri": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back"
+          }
+        }
+      }
+    },
+    "Anladım, devam": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Got it, continue"
+          }
+        }
+      }
+    },
+    "XRAI ne yapar, ne yapmaz": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What XRAI does and does not do"
+          }
+        }
+      }
+    },
+    "Bu sürümde yapar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In this version it does"
+          }
+        }
+      }
+    },
+    "Henüz yapmaz": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not yet"
+          }
+        }
+      }
+    },
+    "Verilerin senin kontrolünde": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your data stays under your control"
+          }
+        }
+      }
+    },
+    "Doğum tarihin (isteğe bağlı)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your birth date (optional)"
+          }
+        }
+      }
+    },
+    "Önizlemeyi hesapla": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compute the preview"
+          }
+        }
+      }
+    },
+    "Tarih girmeden devam et": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue without a date"
+          }
+        }
+      }
+    },
+    "İlk önizlemen": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your first preview"
+          }
+        }
+      }
+    },
+    "Uygulamaya geç": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go to the app"
+          }
+        }
+      }
+    },
+    "Yıl": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Year"
+          }
+        }
+      }
+    },
+    "Ay": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Month"
+          }
+        }
+      }
+    },
+    "Gün": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Day"
+          }
+        }
+      }
+    },
+    "Yaşam Yolu": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Life Path"
+          }
+        }
+      }
+    },
+    "Yöntem": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Method"
+          }
+        }
+      }
+    },
+    "Bileşik": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compound"
+          }
+        }
+      }
+    },
+    "İndirgeme": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reduction"
+          }
+        }
+      }
+    },
+    "Ana sayı kuralı": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Master number rule"
+          }
+        }
+      }
+    },
+    "Hesapla": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compute"
+          }
+        }
+      }
+    },
+    "Tarihi unut": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forget the date"
+          }
+        }
+      }
+    },
+    "Hesaplama izi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calculation trace"
+          }
+        }
+      }
+    },
+    "Sembolik yorum": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Symbolic reading"
+          }
+        }
+      }
+    },
+    "Kesin matematik": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exact math"
+          }
+        }
+      }
+    },
+    "Sembolik gelenek": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Symbolic tradition"
+          }
+        }
+      }
+    },
+    "Senin beyanın": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your own report"
+          }
+        }
+      }
+    },
+    "Henüz yok": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not built yet"
+          }
+        }
+      }
+    },
+    "Güvenlik durumu (bu derleme)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Security status (this build)"
+          }
+        }
+      }
+    },
+    "Kendi kendini sına": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Self-test"
+          }
+        }
+      }
+    },
+    "Tercihler": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferences"
+          }
+        }
+      }
+    },
+    "Tanıtımı yeniden göster": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show the introduction again"
+          }
+        }
+      }
+    },
+    "Anahtar koruması": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key protection"
+          }
+        }
+      }
+    },
+    "Secure Enclave": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Secure Enclave"
+          }
+        }
+      }
+    },
+    "Kalıcı kişisel veri": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Persisted personal data"
+          }
+        }
+      }
+    },
+    "İzin kaydı": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Consent registry"
+          }
+        }
+      }
+    },
+    "Yedekleme / kurtarma anahtarı": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Backup / recovery key"
+          }
+        }
+      }
+    },
+    "Cihazda doğrulandı": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Device verified"
+          }
+        }
+      }
+    },
+    "Bağımsız güvenlik denetimi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Independent security review"
+          }
+        }
+      }
+    },
+    "Derleme": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Build"
+          }
+        }
+      }
+    },
+    "Bugünün daveti": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today's invitation"
+          }
+        }
+      }
+    },
+    "Henüz bir başlangıç noktası yok": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No starting point yet"
+          }
+        }
+      }
+    },
+    "Günlük içerik": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily content"
+          }
+        }
+      }
+    },
+    "Bilgelik Atlası": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wisdom Atlas"
+          }
+        }
+      }
+    },
+    "Mini dersler ve deneyler": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mini lessons and experiments"
+          }
+        }
+      }
+    },
+    "Astroloji, Human Design, isim analizi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Astrology, Human Design, name analysis"
+          }
+        }
+      }
+    },
+    "Gelecek Benlik ve hedefler": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Future Self and goals"
+          }
+        }
+      }
+    },
+    "Kanıt cüzdanı": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Evidence wallet"
+          }
+        }
+      }
+    },
+    "Rehber henüz etkin değil": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The guide is not active yet"
+          }
+        }
+      }
+    },
+    "Tek bir anlamlı adım yeter.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One meaningful step is enough."
+          }
+        }
+      }
+    },
+    "Ay 1 ile 12 arasında olmalı.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Month must be between 1 and 12."
+          }
+        }
+      }
+    },
+    "Yıl 1583 ile 9999 arasında olmalı.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Year must be between 1583 and 9999."
+          }
+        }
+      }
+    },
+    "Yıl, ay ve günü sayı olarak gir.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter year, month and day as numbers."
+          }
+        }
+      }
+    },
+    "Tarih girmek isteğe bağlı. Boş bırakabilirsin.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entering a date is optional. You can leave it empty."
+          }
+        }
+      }
+    },
+    "Bu bir hesaptır, bir yorum değil. Sembolik anlam henüz eklenmedi.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This is a calculation, not an interpretation. Symbolic meaning has not been added yet."
+          }
+        }
+      }
+    }
+  }
+}

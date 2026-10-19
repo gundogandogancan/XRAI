@@ -312,6 +312,78 @@
       "command": "git diff --stat on pure core dirs",
       "exit_code": 0,
       "result": "empty diff"
+    },
+    {
+      "run_id": "P03-01-MAC",
+      "command": "swift test --package-path Packages/XRAICore",
+      "exit_code": 0,
+      "result": "108 tests in 27 suites passed (package unchanged in this phase)",
+      "log": "docs/status/evidence/p03_01_swift_test_macos.log",
+      "log_sha256": "daf1b13a0c3a31c7c9bdcad8943847eb4333d8f2aa6003e7b97619ce102c46cd"
+    },
+    {
+      "run_id": "P03-01-SIM-BUILD",
+      "command": "xcodebuild build-for-testing … iPhone 17 Simulator",
+      "exit_code": 0,
+      "result": "app + hosted + UI test bundles built",
+      "log": "docs/status/evidence/p03_01_xcodebuild_sim_build_for_testing.log",
+      "log_sha256": "76a495ce907d43c1edadf3a7789738c20d61b93d826cbcd4b349698eef0e0cb0"
+    },
+    {
+      "run_id": "P03-01-SIM-RUN1",
+      "command": "xcodebuild test-without-building … iPhone 17 Simulator (light)",
+      "exit_code": 0,
+      "result": "38/38 (33 hosted incl. 9 new onboarding/session + 5 UI)",
+      "log": "docs/status/evidence/p03_01_xcodebuild_sim_tests_run1.log",
+      "log_sha256": "97cac2892a8fa91267983c011ddd463c1f9bb82a1aaaff3a1cfd4980b18d133c"
+    },
+    {
+      "run_id": "P03-01-SIM-DARK-UI",
+      "command": "simctl ui appearance dark; xcodebuild test-without-building -only-testing:XRAIUITests",
+      "exit_code": 0,
+      "result": "5/5 UI; 18 dark-mode screenshots (captured with the pre-identifier-fix UI test build)",
+      "log": "docs/status/evidence/p03_01_xcodebuild_sim_dark_ui_tests.log",
+      "log_sha256": "f3be564247776c3ff617eba3f92050a661f3d7107c92da12ca0d8054c802a093"
+    },
+    {
+      "run_id": "P03-01-DEVICE-RUN1",
+      "command": "xcodebuild test … iPhone 14 Pro Max",
+      "exit_code": 65,
+      "result": "37/38: UI testBackgroundAndForegroundKeepsSession missed 'onboarding.next' (tap swallowed during transition)",
+      "log": "docs/status/evidence/p03_01_xcodebuild_device_tests_run1_1_UI_FAIL.log",
+      "log_sha256": "d4a3830ec1ba2c001bf17f50df424b3e5b6c5538295f745c05aa436d14ea2e28"
+    },
+    {
+      "run_id": "P03-01-DEVICE-UI-RUN2",
+      "command": "xcodebuild test -only-testing:XRAIUITests … device (re-tap helper)",
+      "exit_code": 65,
+      "result": "2/5: the re-tap heuristic combined with a duplicated identifier ('onboarding.next' on two steps) advanced two steps; UI hierarchy dump proved the app was on the birth-date step",
+      "log": "docs/status/evidence/p03_01_xcodebuild_device_ui_run2_3_FAIL_double_tap.log",
+      "log_sha256": "783407bddb457707f1928dc12c2f93fbb9e0c87b5a8f89e3587c3499ee7afa29"
+    },
+    {
+      "run_id": "P03-01-DEVICE-RUN3",
+      "command": "xcodebuild test … iPhone 14 Pro Max (unique step identifiers, wait-for-hittable, single tap)",
+      "exit_code": 0,
+      "result": "38/38 on the physical iPhone (33 hosted + 5 UI); 18 device screenshots",
+      "log": "docs/status/evidence/p03_01_xcodebuild_device_tests_run3.log",
+      "log_sha256": "9f09e057157679a33e91cac536097ca94923d6fd0adce84871e8dc4dcaaf254f",
+      "xcresult_summary": "docs/status/evidence/p03_01_device_xcresult_summary.json"
+    },
+    {
+      "run_id": "P03-01-SIM-RUN2",
+      "command": "xcodebuild test … iPhone 17 Simulator (final code)",
+      "exit_code": 0,
+      "result": "38/38; 18 light screenshots refreshed",
+      "log": "docs/status/evidence/p03_01_xcodebuild_sim_tests_run2.log",
+      "log_sha256": "7f3b0c89ce8d32b81f4933ca8bbf721a9a87c1f753db88b9639e19cc07cc246a",
+      "xcresult_summary": "docs/status/evidence/p03_01_sim_xcresult_summary.json"
+    },
+    {
+      "run_id": "P03-01-SCREENSHOTS",
+      "command": "xcresulttool export attachments",
+      "exit_code": 0,
+      "result": "docs/status/evidence/screenshots/{simulator-light,simulator-dark,device}: 18 PNG each"
     }
   ],
   "acceptance_test_mapping": [
@@ -421,7 +493,12 @@
     "vault.rotation_recovery": "TESTED (pointer refresh, orphan adopt/repair, two-phase retire→forget, confirmed wipe)",
     "vault.debug_surface": "REMOVED from production (compile-negative + source scan)",
     "vault.rotation_serialization": "TESTED in-process; cross-process BLOCKED (ownership rule)",
-    "app.packaging_rpath": "FIXED in project.yml; verified with otool/codesign on device"
+    "app.packaging_rpath": "FIXED in project.yml; verified with otool/codesign on device",
+    "app.design_system": "CODED (tokens, components, dark/light, Dynamic Type, Reduce Motion) — visual QA by screenshots, no automated contrast gate yet",
+    "app.onboarding": "CODED + TESTED (models + UI, simulator + device)",
+    "app.lifepath_feature": "CODED + TESTED (uses NumerologyLifePath; nothing stored)",
+    "app.localization": "tr source + en catalog (63 strings); not yet proofread by a native English reviewer",
+    "app.launch_screen": "CODED (LaunchLogo + LaunchBackground)"
   },
   "not_evidence": [
     "docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"

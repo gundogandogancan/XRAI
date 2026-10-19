@@ -131,3 +131,18 @@ DATE:
 SCOPE_APPROVED:
 CHANGES_REQUESTED:
 ```
+
+---
+
+## P03-01 RESULT (2026-10-20) — FIRST EXPERIENCE & ONBOARDING, STOP
+
+Design system (tokens/components, dark/light, Dynamic Type, Reduce Motion), honest optional onboarding, Life Path feature with trace and separate "symbolic — not yet" card, five tabs, launch screen + AppIcon, tr/en catalog. macOS 108/108; Simulator 38/38 light + 5/5 dark UI; iPhone 14 Pro Max 38/38; 54 screenshots in evidence. No personal persistence (asserted). Report: `docs/status/P03_01_FIRST_EXPERIENCE_REVIEW_REPORT.md`. ADR-BOOT-008.
+
+Proposed next: **P03-02 UX polish and gates** (F-UX-1/2/3, contrast + a11y gates, VoiceOver/Reduce Motion checklist, English proofreading). Awaiting ChatGPT code and screen review.
+
+```
+APPROVED_BY:
+DATE:
+SCOPE_APPROVED:
+CHANGES_REQUESTED:
+```

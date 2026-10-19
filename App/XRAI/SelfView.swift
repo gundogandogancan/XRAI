@@ -1,60 +1,63 @@
-// "Ben": the only tab with working content in P03-00 — the truthful security status of this build
-// and a free, on-device Life Path calculation that stores nothing and claims no meaning.
+// "Ben": the person's own surface — session data (never persisted), the first feature, the truthful
+// security status of this build, and privacy controls that exist today.
 import SwiftUI
-import XRAIIdentityTime
-import XRAINumerology
 import XRAIVaultContracts
 
 struct SelfView: View {
     @Environment(SecurityStatus.self) private var security
+    @Environment(SessionState.self) private var session
 
     var body: some View {
         NavigationStack {
-            List {
-                Section {
-                    LifePathPreview()
-                } header: {
-                    Text("Ücretsiz hesap: Yaşam Yolu")
-                } footer: {
-                    Text("Yalnızca rakam aritmetiği (EXACT_MATH). Kişilik, sağlık veya kader anlamı taşımaz. Girdiğin tarih cihazda saklanmaz.")
+            XRPage {
+                XRSectionTitle(text: "Ben")
+                Text("Burada yalnızca sen varsın. Bu sürümde hiçbir şey kaydedilmez.").font(XRFont.secondary).foregroundStyle(XRColor.textSecondary)
+
+                LifePathFeatureView()
+
+                XRCard {
+                    Text("Güvenlik durumu (bu derleme)").font(XRFont.heading).foregroundStyle(XRColor.text)
+                    keyRows
+                    XRLabeledValue(label: "Secure Enclave", value: security.secureEnclaveAvailable ? "Var" : "Yok")
+                    XRLabeledValue(label: "Anahtar önbelleği", value: "\(security.cacheTTLSeconds) sn, arka planda temizlenir")
+                    XRLabeledValue(label: "Kalıcı kişisel veri", value: security.persistenceImplemented ? "Var" : "Yok")
+                    XRLabeledValue(label: "İzin kaydı", value: security.consentRegistryImplemented ? "Var" : "Yok")
+                    XRLabeledValue(label: "Yedekleme / kurtarma anahtarı", value: "Henüz çalışmıyor")
+                    XRLabeledValue(label: "Cihazda doğrulandı", value: security.deviceVerified ? "Evet" : "Kısmen")
+                    XRLabeledValue(label: "Bağımsız güvenlik denetimi", value: security.securityReviewed ? "Evet" : "Hayır")
+                    XRLabeledValue(label: "Derleme", value: security.buildIsDebug ? "Debug (test/demo)" : "Release")
+                    Text("Anahtar zincirinde yalnızca şifreleme anahtarları durur; kişisel kayıt yok. Kayıt saklama, izin kaydı ve yedek daha sonra, açık izninle gelir.")
+                        .font(XRFont.caption).foregroundStyle(XRColor.textSecondary)
                 }
 
-                Section("Güvenlik durumu (bu derleme)") {
-                    keyRow
-                    LabeledContent("Secure Enclave", value: security.secureEnclaveAvailable ? "Var" : "Yok (simülatör veya desteklemeyen cihaz)")
-                    LabeledContent("Anahtar önbelleği", value: "\(security.cacheTTLSeconds) sn, arka planda temizlenir")
-                    LabeledContent("Kalıcı kişisel veri", value: security.persistenceImplemented ? "Var" : "Yok — hiçbir kayıt saklanmıyor")
-                    LabeledContent("İzin kaydı", value: security.consentRegistryImplemented ? "Var" : "Yok — izin gerektiren sınıflar reddedilir")
-                    LabeledContent("Karantina kaydı", value: security.quarantineRegistryPersisted ? "Kalıcı" : "Bellek içi, kalıcı değil")
-                    LabeledContent("Cihazda doğrulandı", value: security.deviceVerified ? "Evet" : "Hayır")
-                    LabeledContent("Bağımsız güvenlik denetimi", value: security.securityReviewed ? "Evet" : "Hayır")
-                    LabeledContent("Derleme", value: security.buildIsDebug ? "Debug (test/demo)" : "Release")
+                XRCard {
+                    Text("Kendi kendini sına").font(XRFont.heading).foregroundStyle(XRColor.text)
+                    Text("Gerçek kasa ile sentetik veri şifrelenir, açılır ve atılır. Hiçbir şey saklanmaz.").font(XRFont.caption).foregroundStyle(XRColor.textSecondary)
+                    Button("Sentetik kaydı mühürle ve aç") { security.runSelfTest() }.buttonStyle(XRSecondaryButtonStyle()).accessibilityIdentifier("security.selftest")
+                    if let r = security.selfTestResult { Text(r).font(XRFont.caption).foregroundStyle(XRColor.text).accessibilityIdentifier("security.selftest.result") }
+                    Button("Anahtar önbelleğini temizle") { security.purgeKeyCache() }.buttonStyle(XRQuietButtonStyle())
+                    XRLabeledValue(label: "Bellekteki anahtar sürümleri", value: security.cachedKeyVersions.isEmpty ? "yok" : security.cachedKeyVersions.map(String.init).joined(separator: ", "))
                 }
 
-                Section("Kendi kendini sına") {
-                    Button("Sentetik kaydı mühürle ve aç") { security.runSelfTest() }
-                        .accessibilityHint("Gerçek kasa ile sentetik veri şifrelenir, açılır ve atılır. Hiçbir şey saklanmaz.")
-                    if let r = security.selfTestResult {
-                        Text(r).font(.footnote)
-                    }
-                    Button("Anahtar önbelleğini temizle") { security.purgeKeyCache() }
-                    LabeledContent("Bellekteki anahtar sürümleri", value: security.cachedKeyVersions.isEmpty ? "yok" : security.cachedKeyVersions.map(String.init).joined(separator: ", "))
+                XRCard {
+                    Text("Tercihler").font(XRFont.heading).foregroundStyle(XRColor.text)
+                    Button("Tanıtımı yeniden göster") { session.resetOnboarding() }.buttonStyle(XRQuietButtonStyle()).accessibilityIdentifier("prefs.resetOnboarding")
+                    Text("Kaydedilen tek şey, tanıtımın tamamlandığını belirten kişisel olmayan bir işarettir.").font(XRFont.caption).foregroundStyle(XRColor.textSecondary)
                 }
             }
-            .navigationTitle("Ben")
         }
     }
 
-    @ViewBuilder private var keyRow: some View {
+    @ViewBuilder private var keyRows: some View {
         switch security.keyState {
         case .notStarted:
-            LabeledContent("Anahtar koruması", value: "Başlatılıyor…")
+            XRLabeledValue(label: "Anahtar koruması", value: "Başlatılıyor…")
         case .ready(let protection, let key):
-            LabeledContent("Anahtar koruması", value: Self.describe(protection))
-            LabeledContent("Anahtar sürümü", value: "\(key.keyID) #\(key.version)")
+            XRLabeledValue(label: "Anahtar koruması", value: Self.describe(protection))
+            XRLabeledValue(label: "Anahtar sürümü", value: "\(key.keyID) #\(key.version)", mono: true)
         case .failedClosed(let reason):
-            LabeledContent("Anahtar koruması", value: "Kapalı (fail-closed)")
-            Text(reason).font(.footnote).foregroundStyle(.secondary)
+            XRLabeledValue(label: "Anahtar koruması", value: "Kapalı (fail-closed)")
+            Text(reason).font(XRFont.caption).foregroundStyle(XRColor.textSecondary)
         }
     }
 
@@ -62,43 +65,8 @@ struct SelfView: View {
         switch p {
         case .inMemoryTestOnly: return "Bellek içi (yalnız test)"
         case .keychainLegacyMacOSTestOnly: return "macOS eski keychain (yalnız test)"
-        case .keychainDeviceBound(let a): return "Keychain, cihaza bağlı (\(a))"
-        case .secureEnclaveWrapped(let a): return "Secure Enclave ile sarılı Keychain (\(a))"
-        }
-    }
-}
-
-/// Free Life Path: validated civil date → exact trace. Nothing is stored; the date lives in view state only.
-struct LifePathPreview: View {
-    @State private var year = ""
-    @State private var month = ""
-    @State private var day = ""
-    @State private var result: String?
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                TextField("Yıl", text: $year).keyboardType(.numberPad).accessibilityLabel("Doğum yılı")
-                TextField("Ay", text: $month).keyboardType(.numberPad).accessibilityLabel("Doğum ayı")
-                TextField("Gün", text: $day).keyboardType(.numberPad).accessibilityLabel("Doğum günü")
-            }
-            .textFieldStyle(.roundedBorder)
-            Button("Hesapla") { compute() }
-            if let result { Text(result).font(.footnote) }
-        }
-    }
-
-    private func compute() {
-        guard let y = Int(year), let m = Int(month), let d = Int(day) else { result = "Üç alanı da sayı olarak gir."; return }
-        do {
-            let date = try CivilDate(year: y, month: m, day: d)
-            let t = try NumerologyLifePath.calculate(date, method: .lifePathDigitsV1)
-            let master = t.masterNumber.map { " (ana sayı \($0) korundu)" } ?? ""
-            result = "num.life_path.digits.v1 · bileşik \(t.compound) → kök \(t.root)\(master). Yorum yok; yalnızca aritmetik."
-        } catch let e as CivilDateError {
-            result = "Geçersiz tarih: \(String(reflecting: e))"
-        } catch {
-            result = "Hesaplanamadı."
+        case .keychainDeviceBound: return "Keychain, cihaza bağlı"
+        case .secureEnclaveWrapped: return "Secure Enclave ile sarılı Keychain"
         }
     }
 }
