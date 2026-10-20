@@ -346,12 +346,12 @@ struct StoreRevokeTests {
 @Suite("H1 — permanent deletion ledger and fail-closed restore admission", .serialized)
 struct StoreLedgerTests {
     /// P03-04b: v3 backup of every active record through the store, restored through the facade.
-    private func backup(of f: StoreFixture, _ s: FileVaultStore, ids: [RecordID]) async throws -> (RestoreResult, RecoveryKey) {
+    private func backup(of f: StoreFixture, _ s: FileVaultStore, ids: [RecordID]) async throws -> (RestoreResult, RecoveryKey, [UInt8]) {
         let rk = try SecureVault.generateRecoveryKey()
         let bytes = try await s.exportBackup(recoveryKey: rk, authorization: try s.issuer.issue(scope: .exportBackup))
         let result = try s.vault.restoreBackup(bytes: bytes, recoveryKey: rk, authorization: try s.issuer.issue(scope: .restoreBackup))
         #expect(Set(result.active.map(\.header.recordID)).isSuperset(of: ids))
-        return (result, rk)
+        return (result, rk, bytes)
     }
 
     @Test("NT-H1-01/04: a deleted id in a backup is skipped, never reactivated — not even through release; reimport creates a NEW id with provenance")
@@ -359,7 +359,7 @@ struct StoreLedgerTests {
         let f = StoreFixture(); defer { f.cleanup() }
         let s = try await f.open()
         let a = try await f.put(s, "A"), b = try await f.put(s, "B")
-        let (result, _) = try await backup(of: f, s, ids: [a, b])
+        let (result, _, _) = try await backup(of: f, s, ids: [a, b])
         try await f.delete(s, [a])
         let rep = try await s.admitRestored(result, authorization: try s.issuer.issue(scope: .admitRestored))
         #expect(rep.skippedDeleted == [a] && rep.skippedExisting == [b] && rep.staged.isEmpty)
@@ -378,7 +378,7 @@ struct StoreLedgerTests {
         let f = StoreFixture(); defer { f.cleanup() }
         let s = try await f.open()
         let a = try await f.put(s, "A")
-        let (result, _) = try await backup(of: f, s, ids: [a])
+        let (_, rk, bytes) = try await backup(of: f, s, ids: [a])
         try await f.delete(s, [a])
         try await s.close()
         let lp = f.systemPath("ledger.v1")
@@ -386,6 +386,8 @@ struct StoreLedgerTests {
         var bad = Array(good); bad[100] ^= 0x01; try Data(bad).write(to: lp)
         let s2 = try await f.open()
         #expect(s2.deletionHistoryTrusted == false && (s2.mode) == .readWrite)
+        // P03-04bH: a result is verified only by the facade instance that restored it → restore again in this session
+        let result = try s2.vault.restoreBackup(bytes: bytes, recoveryKey: rk, authorization: try s2.issuer.issue(scope: .restoreBackup))
         let rep = try await s2.admitRestored(result, authorization: try s2.issuer.issue(scope: .admitRestored))
         #expect(rep.staged == [a] && rep.risks[a]?.contains(.untrustedLocalHistory) == true, "with no trustworthy history, nothing becomes active without acknowledging it")
         #expect(s2.state(of: a) == .quarantined)
@@ -404,27 +406,31 @@ struct StoreLedgerTests {
         let f = StoreFixture(); defer { f.cleanup() }
         let s = try await f.open()
         let a = try await f.put(s, "A")
-        let (result, _) = try await backup(of: f, s, ids: [a])
+        let (result, _, _) = try await backup(of: f, s, ids: [a])
         try await f.delete(s, [a])
         _ = try await f.put(s, "local")
-        let foreignProv = BackupProvenance(formatVersion: 3, bodySchemaVersion: 1, createdAtUnixSeconds: storeT0, vaultInstanceID: [UInt8](repeating: 9, count: 16), backupGeneration: 1, sourceManifestGeneration: 1, sourceManifestHash: Manifest.zeroHash, deletionLedgerBytes: nil, deletionLedgerHash: nil, deletionHistoryTrusted: true)
-        let rep1 = try await s.admitRestored(RestoreResult(active: result.active, quarantined: [], provenance: foreignProv), authorization: try s.issuer.issue(scope: .admitRestored))
-        #expect(rep1.skippedDeleted == [a] && rep1.staged.isEmpty, "the local ledger wins even for a foreign backup")
-        let fresh = try s.vault.seal(plaintext: Array("foreign".utf8), descriptor: try f.descriptor(), authorization: try s.issuer.issue(scope: .write(.birthDate)))
-        let rep2 = try await s.admitRestored(RestoreResult(active: [fresh], quarantined: [], provenance: foreignProv), authorization: try s.issuer.issue(scope: .admitRestored))
-        let fid = fresh.header.recordID
+        let rep1 = try await s.admitRestored(result, authorization: try s.issuer.issue(scope: .admitRestored))
+        #expect(rep1.skippedDeleted == [a] && rep1.staged.isEmpty, "the local ledger wins")
+        // a GENUINE foreign backup: exported by another vault instance, restored through this facade (verified)
+        let g = StoreFixture(); defer { g.cleanup() }
+        let sg = try await g.open()
+        let fid = try await g.put(sg, "foreign")
+        let rk = try SecureVault.generateRecoveryKey()
+        let foreignBytes = try await sg.exportBackup(recoveryKey: rk, authorization: try sg.issuer.issue(scope: .exportBackup))
+        try await sg.close()
+        let rep2 = try await s.admitRestored(try s.vault.restoreBackup(bytes: foreignBytes, recoveryKey: rk, authorization: try s.issuer.issue(scope: .restoreBackup)), authorization: try s.issuer.issue(scope: .admitRestored))
         #expect(rep2.staged == [fid] && rep2.risks[fid] == [.foreignInstance] && s.state(of: fid) == .quarantined)
         #expect(f.quarantine.isQuarantined(fid))
         await expectVaultError(.recordNotActive(state: "quarantined")) { try await f.get(s, fid) }
         await expectVaultError(.notEligible(reason: "restored records activate through activateRestored")) { try await s.releaseQuarantined(fid, authorization: try s.issuer.issue(scope: .releaseQuarantine)) }
-        await expectVaultError(.notEligible(reason: "unacknowledged restore risks: 1")) { try await s.activateRestored([fid], acknowledging: [], authorization: try s.issuer.issue(scope: .activateRestored(recordIDs: [fid]))) }
+        await expectVaultError(.notEligible(reason: "restore risks must be acknowledged exactly: need 1 got ")) { try await s.activateRestored([fid], acknowledging: [], authorization: try s.issuer.issue(scope: .activateRestored(recordIDs: [fid]))) }
         #expect(s.state(of: fid) == .quarantined)
         try await s.activateRestored([fid], acknowledging: [.foreignInstance], authorization: try s.issuer.issue(scope: .activateRestored(recordIDs: [fid])))
         #expect(try await f.get(s, fid) == "foreign" && s.entry(of: fid)?.restoreRisks == 0 && !f.quarantine.isQuarantined(fid))
-        // unknown origin (caller-built result) = legacy risk
+        // P03-04bH: a caller-built result (unknown origin) is not verified and is refused outright
         let fresh2 = try s.vault.seal(plaintext: Array("legacy".utf8), descriptor: try f.descriptor(), authorization: try s.issuer.issue(scope: .write(.birthDate)))
-        let rep3 = try await s.admitRestored(RestoreResult(active: [fresh2], quarantined: []), authorization: try s.issuer.issue(scope: .admitRestored))
-        #expect(rep3.risks[fresh2.header.recordID] == [.legacyFormat])
+        await expectVaultError(.restoreUnverified) { try await s.admitRestored(RestoreResult(active: [fresh2], quarantined: []), authorization: try s.issuer.issue(scope: .admitRestored)) }
+        #expect(s.state(of: fresh2.header.recordID) == nil)
         try await s.close()
     }
 
@@ -449,7 +455,7 @@ struct StoreLedgerTests {
         let s = try await f.open()
         var ids: [RecordID] = []
         for i in 0..<6 { ids.append(try await f.put(s, "r\(i)")) }
-        let (result, _) = try await backup(of: f, s, ids: ids)
+        let (result, _, _) = try await backup(of: f, s, ids: ids)
         try await f.delete(s, Set(ids))
         let byHex = ids.sorted { $0.hex < $1.hex }   // the cascade orders roots by id, so the two newest ledger entries are the two highest ids
         #expect(s.deletionLookup(byHex[0]) == .possiblyDeleted && s.deletionLookup(byHex[5]) == .deleted)

@@ -54,3 +54,14 @@ Explicitly NOT claimed: survival of every power loss (no power-cut rig; APFS dir
 
 Still PROPOSED; app wiring, consent UI and InteractionGate remain P03-05.
 
+## Amendment H.3 (2026-10-20, P03-04bH) — restore identity and trust after the second independent review
+
+| original | amended | where |
+|---|---|---|
+| `possiblyDeleted` = a risk the user could acknowledge | `possiblyDeleted` is PERMANENT for that id; the only way forward is `reimportPossiblyDeleted` → new id, fresh DEK, old id exactly deleted (`SecureVault.reimport`, scope `.reimport(recordID:)`) | NT-BH-01/02 |
+| `putEnvelope` (caller-sealed envelope + `.write` token) | removed; writes are `seal`/`createAttachment` or verified admission | NT-BH-03 |
+| `RestoreResult`/`BackupProvenance` trusted as given | facade-produced results carry an HMAC seal; the store admits only verified results; caller-built/altered → `restoreUnverified` | NT-BH-04 |
+| `isSubset` acknowledgment; two independent file opens for the attachment passes; no completeness flag | exact acknowledgment; one descriptor for both passes; `excludedAttachmentCount` in the body (schema 2) | NT-BH-06/07/08 |
+
+Still PROPOSED; P03-05 remains NO-GO for app persistence until the next review.
+

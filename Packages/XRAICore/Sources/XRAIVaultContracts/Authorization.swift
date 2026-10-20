@@ -51,6 +51,9 @@ public enum OperationScope: Hashable, Sendable {
     /// P03-04b GATE 3 (phase 2): activate staged restored records after the user acknowledged their
     /// restore risks; narrowed to the listed ids.
     case activateRestored(recordIDs: Set<RecordID>)
+    /// P03-04bH: explicit re-import of ONE quarantined restored record under a NEW id (the old id stays
+    /// deleted forever). Purpose must match the record's bound purpose.
+    case reimport(recordID: RecordID)
 
     /// Whether this scope covers `op` for `recordID` (nil when the operation is not record-bound).
     public func covers(_ op: OperationScope, recordID: RecordID?) -> Bool {
@@ -68,6 +71,7 @@ public enum OperationScope: Hashable, Sendable {
         case (.retireKey(let a), .retireKey(let b)): return a == b
         case (.admitRestored, .admitRestored): return true
         case (.activateRestored(let a), .activateRestored(let b)): return b.isSubset(of: a)
+        case (.reimport(let a), .reimport(let b)): return a == b
         default: return false
         }
     }
@@ -127,7 +131,23 @@ public struct RestoreResult: Hashable, Sendable {
     public let active: [RecordEnvelope]
     public let quarantined: [QuarantinedRecord]
     public let provenance: BackupProvenance
-    public init(active: [RecordEnvelope], quarantined: [QuarantinedRecord], provenance: BackupProvenance = .unknown) { self.active = active; self.quarantined = quarantined; self.provenance = provenance }
+    /// P03-04bH (F-P04B-03): MAC over every field, produced ONLY by the vault facade that performed the
+    /// restore (per-instance key). A caller-built result has an empty seal and is never admitted; a
+    /// result altered after the restore fails verification. In-process trust boundary (documented).
+    public let verificationSeal: [UInt8]
+    public init(active: [RecordEnvelope], quarantined: [QuarantinedRecord], provenance: BackupProvenance = .unknown) { self.active = active; self.quarantined = quarantined; self.provenance = provenance; verificationSeal = [] }
+    /// Used by the facade only (the seal is meaningless without the facade's key).
+    public init(active: [RecordEnvelope], quarantined: [QuarantinedRecord], provenance: BackupProvenance, verificationSeal: [UInt8]) { self.active = active; self.quarantined = quarantined; self.provenance = provenance; self.verificationSeal = verificationSeal }
+
+    /// Canonical bytes the seal covers: provenance, every envelope (active and quarantined with its reason).
+    public func sealedBytes() -> [UInt8] {
+        var e = CanonicalEncoder()
+        e.appendString("xrai.restore.seal.v1")
+        provenance.encode(into: &e)
+        e.appendU32(UInt32(active.count)); for env in active { env.encode(into: &e) }
+        e.appendU32(UInt32(quarantined.count)); for q in quarantined { q.envelope.encode(into: &e); e.appendString(q.reason.rawValue) }
+        return e.bytes
+    }
 }
 
 /// Authorization for the store layer to delete records. The vault issues it only through the

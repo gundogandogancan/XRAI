@@ -47,6 +47,7 @@ final class FaultingFileSystem: VaultFileSystem, @unchecked Sendable {
     func openRegularForRead(_ path: String) throws -> (fd: Int32, size: Int64) { try real.openRegularForRead(path) }
     func read(_ fd: Int32, maxBytes: Int) throws -> [UInt8] { try real.read(fd, maxBytes: maxBytes) }
     func entryCount(_ dir: String) throws -> Int { try real.entryCount(dir) }
+    func rewind(_ fd: Int32) throws { try real.rewind(fd) }
     func openExclusive(_ path: String) throws -> Int32 { try tick("open"); return try real.openExclusive(path) }
     func write(_ fd: Int32, _ bytes: [UInt8]) throws { try tick("write"); try real.write(fd, bytes) }
     func sync(_ fd: Int32) throws { try tick("fsync"); try real.sync(fd) }

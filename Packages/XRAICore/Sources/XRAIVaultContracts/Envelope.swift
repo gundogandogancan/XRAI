@@ -68,6 +68,12 @@ public enum VaultError: Error, Equatable, Sendable {
     /// names the syscall step (open, write, fullfsync, fsync, dirsync, rename, unlink, close, …) and
     /// `errno` is the raw value. Never carries a path or record id.
     case ioFailed(operation: String, errno: Int32)
+    /// P03-04bH (F-P04B-03): a restore result that the vault facade did not produce (or that was altered
+    /// since) carries no verified provenance; the store admits only verified results.
+    case restoreUnverified
+    /// P03-04bH (F-P04B-01): the id hits the compacted deletion digest; it can never become active
+    /// under this id again — only an explicit re-import under a NEW id is possible.
+    case possiblyDeletedForever
     /// `derivedFrom` names an unknown, non-active or later record (back-edge), or itself.
     case unknownDependency
     /// A deletion grant was already consumed or does not cover the ids.

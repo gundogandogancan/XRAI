@@ -114,6 +114,27 @@ else:
     store_src = (root / "Packages/XRAICore/Sources/XRAIVaultStore/FileVaultStore.swift").read_text()
     if "sourceVaultInstanceID:" in store_src: problems.append("admission still takes the instance id from the caller (P03-04b requires provenance from the backup)")
 
+# P03-04bH: the restore/authorization report exists, cites its baseline, NT-BH rows exist, T51 exists, putEnvelope is gone
+rev_h = root / "docs/status/P03_04BH_RESTORE_AUTHORIZATION_SECURITY_REPORT.md"
+if not rev_h.exists(): problems.append("missing P03_04BH_RESTORE_AUTHORIZATION_SECURITY_REPORT.md")
+else:
+    rt = rev_h.read_text()
+    if "6194075" not in rt: problems.append("P03-04bH report does not cite the baseline 6194075")
+    for nid in set(re.findall(r"NT-[A-Z0-9]+-\d+", rt)):
+        if nid not in matrix_ids: problems.append(f"P03-04bH report references {nid} which is not a matrix row")
+    for i in range(1, 10):
+        if f"NT-BH-{i:02d}" not in matrix_ids: problems.append(f"matrix lacks NT-BH-{i:02d}")
+    if "| T51 |" not in tm: problems.append("threat model lacks row T51")
+    for bid in ("F_P04B_01_BLOOM_RESURRECTION", "F_P04B_02_UNAUTHORIZED_ENVELOPE_WRITE", "F_P04B_03_VERIFIED_PROVENANCE"):
+        if bid not in blockers: problems.append(f"OPEN_BLOCKERS lacks {bid}")
+    if "<!-- HOSTS2 -->" in matrix_h: problems.append("matrix P03-04bH rows still carry the HOSTS2 placeholder")
+    store_src = (root / "Packages/XRAICore/Sources/XRAIVaultStore/FileVaultStore.swift").read_text()
+    if "public func putEnvelope" in store_src: problems.append("putEnvelope is back on the production surface (F-P04B-02)")
+    if "guard vault.isVerified(result)" not in store_src: problems.append("admission no longer requires a verified restore result (F-P04B-03)")
+    if "possiblyDeletedForever" not in store_src: problems.append("activation no longer refuses possibly-deleted ids (F-P04B-01)")
+    for word in ("GO/NO-GO", "HEAD SHA"):
+        if word not in rt: problems.append(f"P03-04bH report lacks '{word}'")
+
 if problems:
     print("FAIL"); [print(" -", p) for p in problems]; sys.exit(1)
-print(f"PASS P03-03/P03-03H/P03-04/P03-04H/P03-04b docs: {len(cases)} data classes cross-checked, blockers resolved, ADRs present, no app groups, {len(matrix_ids)} NT rows, T44–T48 present, filesystem review consistent")
+print(f"PASS P03-03/P03-03H/P03-04/P03-04H/P03-04b/P03-04bH docs: {len(cases)} data classes cross-checked, blockers resolved, ADRs present, no app groups, {len(matrix_ids)} NT rows, T44–T48 present, filesystem review consistent")

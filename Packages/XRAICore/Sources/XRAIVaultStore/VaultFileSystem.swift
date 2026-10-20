@@ -33,6 +33,8 @@ public protocol VaultFileSystem: Sendable {
     func read(_ fd: Int32, maxBytes: Int) throws -> [UInt8]
     /// Number of directory entries (bounded listing for recovery limits).
     func entryCount(_ dir: String) throws -> Int
+    /// Rewinds a read descriptor to offset 0 (P03-04bH: both attachment passes read the SAME inode).
+    func rewind(_ fd: Int32) throws
     /// Creates a new file exclusively and atomically (`O_CREAT|O_EXCL|O_NOFOLLOW`, mode 0600). A
     /// pre-existing path (file, symlink, anything) is refused untouched. On iOS the descriptor carries
     /// Data Protection "complete" before the first byte is written, verified on the descriptor.
@@ -152,6 +154,10 @@ public struct RealFileSystem: VaultFileSystem {
     }
 
     public func entryCount(_ dir: String) throws -> Int { try FileManager.default.contentsOfDirectory(atPath: dir).count }
+
+    public func rewind(_ fd: Int32) throws {
+        guard lseek(fd, 0, SEEK_SET) == 0 else { throw VaultError.ioFailed(operation: "lseek", errno: errno) }
+    }
 
     public func openExclusive(_ path: String) throws -> Int32 {
         let fd = Self.retryingEINTR { open(path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600) }

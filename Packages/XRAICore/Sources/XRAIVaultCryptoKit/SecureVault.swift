@@ -24,6 +24,9 @@ public struct SecureVault: Sendable {
     private let authorizations: any AuthorizationValidator
     private let quarantine: any QuarantineAuthority
     private let sealer: AESGCMEnvelopeSealer
+    /// P03-04bH (F-P04B-03): per-instance random key that MACs every `RestoreResult` this facade
+    /// produced. Never persisted, never exported; the store verifies with the same instance.
+    private let restoreSealKey: SymmetricKey
 
     /// The composition root constructs this once, injecting production ports. `InMemoryKeyProvider`
     /// lives in the `XRAIVaultTesting` target and is not available to production modules.
@@ -34,6 +37,19 @@ public struct SecureVault: Sendable {
         self.authorizations = authorizations
         self.quarantine = quarantine
         self.sealer = AESGCMEnvelopeSealer(keyProvider: keyProvider)
+        self.restoreSealKey = SymmetricKey(size: .bits256)
+    }
+
+    private func seal(_ r: RestoreResult) -> RestoreResult {
+        let mac = HMAC<SHA256>.authenticationCode(for: r.sealedBytes(), using: restoreSealKey)
+        return RestoreResult(active: r.active, quarantined: r.quarantined, provenance: r.provenance, verificationSeal: Array(mac))
+    }
+
+    /// Whether `result` was produced by THIS facade and is unchanged since (provenance, every envelope,
+    /// every quarantine reason). Caller-built or altered results are not verified.
+    public func isVerified(_ result: RestoreResult) -> Bool {
+        guard result.verificationSeal.count == 32 else { return false }
+        return HMAC<SHA256>.isValidAuthenticationCode(result.verificationSeal, authenticating: result.sealedBytes(), using: restoreSealKey)
     }
 
     /// Key identity only (no material), for status screens and audits.
@@ -153,7 +169,26 @@ public struct SecureVault: Sendable {
                 active.append(env)
             }
         }
-        return RestoreResult(active: active, quarantined: quarantined, provenance: provenance)
+        return seal(RestoreResult(active: active, quarantined: quarantined, provenance: provenance))
+    }
+
+    /// P03-04bH (F-P04B-01): explicit re-import of a quarantined restored record whose id can never be
+    /// active again (compacted deletion evidence). Requires a `.reimport(recordID:)` token whose purpose
+    /// equals the record's bound purpose, an active grant for the NEW descriptor (same class and
+    /// purpose), and a verified payload; returns a fresh envelope under the NEW id. The quarantine
+    /// registry is deliberately bypassed for this one explicit, authorized step — the old id stays
+    /// quarantined/deleted at the store.
+    public func reimport(_ envelope: RecordEnvelope, newDescriptor: RecordDescriptor, authorization: OperationAuthorization) throws -> RecordEnvelope {
+        try envelope.header.validate()
+        let old = envelope.header
+        guard newDescriptor.dataClass == old.dataClass, newDescriptor.consentPurpose == old.consentPurpose, newDescriptor.recordID != old.recordID else { throw VaultError.notAuthorized(.notListed) }
+        try VaultPolicy.validateTier(newDescriptor.privacyTier, for: newDescriptor.dataClass)
+        let (_, now) = try authorize(authorization, for: .reimport(recordID: old.recordID), recordID: nil, purpose: old.consentPurpose)
+        if case .denied(let reason) = VaultPolicy.mayStore(newDescriptor.dataClass, purpose: newDescriptor.consentPurpose, authority: consentAuthority, atUnixSeconds: now) {
+            throw VaultError.notAuthorized(reason)
+        }
+        let plaintext = try sealer.open(envelope)
+        return try sealer.seal(plaintext: plaintext, descriptor: newDescriptor)
     }
 
     /// Releases a quarantined record after the user granted consent again. Requires BOTH a

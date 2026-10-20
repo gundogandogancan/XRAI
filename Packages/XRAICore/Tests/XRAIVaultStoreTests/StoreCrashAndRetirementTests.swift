@@ -277,13 +277,14 @@ struct StoreRetirementTests {
         _ = try f.keys.rotate()
         let (a, m) = try tokens(s, 1)
         let proof = try await s.prepareRetirement(of: 1, authorization: a, maintenance: m)
-        let id = RecordID()
-        let w = try f.keys.wrapDataKeyUnderVersion([UInt8](repeating: 5, count: 32), version: 1, boundTo: id)
-        let env = RecordEnvelope(header: EnvelopeHeader(algorithm: .aes256gcm, descriptor: try RecordDescriptor(recordID: id, dataClass: .birthDate, retention: .untilUserDeletes, createdAtUnixSeconds: storeT0)), wrappedDEK: w, nonce: [UInt8](repeating: 0, count: 12), ciphertext: [1], tag: [UInt8](repeating: 0, count: 16))
-        await expectVaultError(.staleKeyVersion(minimum: 2)) { try await s.putEnvelope(env, authorization: try s.issuer.issue(scope: .write(.birthDate))) }
+        // P03-04bH (F-P04B-02): `putEnvelope` no longer exists — an externally sealed envelope has no write
+        // path; writes go through `SecureVault.seal` (always the current key) or the verified restore path
+        // (the facade re-wraps every DEK under the current key). The freeze guard remains in `storeEnvelope`
+        // and in admission as defense in depth. Here: the freeze is durable and a seal under the current key works.
         try await s.forgetRetired(1, proof: proof)
-        await expectVaultError(.staleKeyVersion(minimum: 2)) { try await s.putEnvelope(env, authorization: try s.issuer.issue(scope: .write(.birthDate))) }
         #expect(s.minimumWrapVersion == 2)
+        let fresh = try await f.put(s, "under v2")
+        #expect(s.entry(of: fresh)?.keyVersion == 2)
         try await s.close()
         let s2 = try await f.open()   // the freeze is durable across relaunch
         #expect(s2.minimumWrapVersion == 2)

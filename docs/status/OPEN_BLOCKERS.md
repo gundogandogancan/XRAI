@@ -56,6 +56,19 @@ Vocabulary: `BLOCKED` (cannot proceed without an external fact/right/decision), 
 | SOURCE_COVERAGE_GAPS | see `SOURCE_COVERAGE_AND_TRACEABILITY_AUDIT.md` and `MISSING_REQUIREMENTS_REGISTER.json` | requirements found in older material without a v3.1 id. |
 | SWIFTLINT_FORMAT | low | not installed; optional for P03. |
 
+## New in P03-04bH (2026-10-20, restore identity, authorization & deletion integrity gate)
+| id | status | detail |
+|---|---|---|
+| F_P04B_01_BLOOM_RESURRECTION | RESOLVED (CODED + TESTED) | `activateRestored` and `releaseQuarantined` refuse any id whose deletion evidence is compacted (`possiblyDeletedForever`); `reimportPossiblyDeleted` (new scope `.reimport(recordID:)`, `SecureVault.reimport`) re-encrypts under a NEW id and deletes the old id exactly. Found on the way: `DeletionLedger.append` skipped ids that only hit the digest, so a re-deletion never became exact evidence — fixed (NT-BH-01). |
+| F_P04B_02_UNAUTHORIZED_ENVELOPE_WRITE | RESOLVED (CODED + TESTED) | `putEnvelope` removed from the production surface (compile-negative); writes = `put`/`putAttachment` (full `SecureVault.seal` checks) or verified admission (the facade re-wraps and re-verifies every payload). No trusted-migration seam exists; if migration is ever needed it must be a new, reviewed facade path (NT-BH-03). |
+| F_P04B_03_VERIFIED_PROVENANCE | RESOLVED (CODED + TESTED; in-process boundary) | `RestoreResult.verificationSeal` = HMAC over provenance + entries + reasons under a per-facade random key; `SecureVault.isVerified`; admission requires it; history merges only from verified results; legacy v2 stays verified with its explicit risk (NT-BH-04). LIMIT: the seal binds results to the facade instance in this process — not an OS boundary. |
+| REIMPORT_DEPENDENCY_MIGRATION | LIMIT (refused, not implemented) | a possibly-deleted record that other records derive from cannot be re-imported until those dependents are deleted (NT-BH-02). Rewriting authenticated `derivedFrom` edges would require re-sealing dependents; deferred with evidence. |
+| QUARANTINE_REGISTRY_RELEASE_ON_REPLAY | RESOLVED (found by NT-BH-09) | an activation committed by journal replay left the in-memory registry entry; recovery now mirrors the manifest both ways (untrusted-journal ids stay quarantined and are flagged `needsRecovery`). |
+| EXACT_RISK_ACKNOWLEDGMENT | RESOLVED | `isSubset` → exact set equality, matching the documented UX contract (NT-BH-06). |
+| ATTACHMENT_READ_SINGLE_DESCRIPTOR | RESOLVED (mitigation) | both passes read one open descriptor; a path substitution mid-read cannot change the delivered bytes (NT-BH-07). In-place writes by a same-UID process remain out of model (every chunk is still authenticated in pass 2). |
+| INCOMPLETE_BACKUP_FLAG | RESOLVED | `excludedAttachmentCount` travels inside the sealed body (schema 2); importers stage with `attachmentsMissing` (NT-BH-08). |
+| STALE_KEY_ADMISSION_GUARD_UNREACHABLE | NOTE | the `staleKeyVersion` guard in admission is unreachable through the verified path (the facade re-wraps under the current key); kept as defense in depth, like NT-H2-01. |
+
 ## New in P03-04b (2026-10-20, backup integrity, restore reconciliation, attachments — library)
 | id | status | detail |
 |---|---|---|

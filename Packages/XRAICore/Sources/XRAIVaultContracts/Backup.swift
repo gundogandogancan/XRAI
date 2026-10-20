@@ -89,7 +89,10 @@ public struct BackupExportFacts: Hashable, Sendable {
     /// Whether the source vault trusted its own history at export time (a corrupt-then-rewritten
     /// ledger is exported with `false`; the importer never merges such history).
     public let deletionHistoryTrusted: Bool
-    public init(vaultInstanceID: [UInt8], backupGeneration: UInt64, sourceManifestGeneration: UInt64, sourceManifestHash: [UInt8], deletionLedgerBytes: [UInt8], deletionLedgerHash: [UInt8], deletionHistoryTrusted: Bool = true) throws {
+    /// P03-04bH: attachments the source vault held but did NOT include (this body carries none). An
+    /// importer must show the backup as incomplete when this is non-zero.
+    public let excludedAttachmentCount: UInt32
+    public init(vaultInstanceID: [UInt8], backupGeneration: UInt64, sourceManifestGeneration: UInt64, sourceManifestHash: [UInt8], deletionLedgerBytes: [UInt8], deletionLedgerHash: [UInt8], deletionHistoryTrusted: Bool = true, excludedAttachmentCount: UInt32 = 0) throws {
         guard vaultInstanceID.count == VaultAnchor.instanceIDBytes else { throw VaultError.invalidLength(field: "vaultInstanceID", expected: VaultAnchor.instanceIDBytes, actual: vaultInstanceID.count) }
         guard sourceManifestHash.count == 32 else { throw VaultError.invalidLength(field: "manifestHash", expected: 32, actual: sourceManifestHash.count) }
         guard deletionLedgerHash.count == 32 else { throw VaultError.invalidLength(field: "ledgerHash", expected: 32, actual: deletionLedgerHash.count) }
@@ -97,6 +100,7 @@ public struct BackupExportFacts: Hashable, Sendable {
         self.vaultInstanceID = vaultInstanceID; self.backupGeneration = backupGeneration; self.sourceManifestGeneration = sourceManifestGeneration
         self.sourceManifestHash = sourceManifestHash; self.deletionLedgerBytes = deletionLedgerBytes; self.deletionLedgerHash = deletionLedgerHash
         self.deletionHistoryTrusted = deletionHistoryTrusted
+        self.excludedAttachmentCount = excludedAttachmentCount
     }
 }
 
@@ -113,11 +117,20 @@ public struct BackupProvenance: Hashable, Sendable {
     public let deletionLedgerBytes: [UInt8]?
     public let deletionLedgerHash: [UInt8]?
     public let deletionHistoryTrusted: Bool
-    public init(formatVersion: UInt16, bodySchemaVersion: UInt16, createdAtUnixSeconds: Int64, vaultInstanceID: [UInt8]?, backupGeneration: UInt64?, sourceManifestGeneration: UInt64?, sourceManifestHash: [UInt8]?, deletionLedgerBytes: [UInt8]?, deletionLedgerHash: [UInt8]?, deletionHistoryTrusted: Bool = false) {
+    public let excludedAttachmentCount: UInt32
+    public init(formatVersion: UInt16, bodySchemaVersion: UInt16, createdAtUnixSeconds: Int64, vaultInstanceID: [UInt8]?, backupGeneration: UInt64?, sourceManifestGeneration: UInt64?, sourceManifestHash: [UInt8]?, deletionLedgerBytes: [UInt8]?, deletionLedgerHash: [UInt8]?, deletionHistoryTrusted: Bool = false, excludedAttachmentCount: UInt32 = 0) {
         self.formatVersion = formatVersion; self.bodySchemaVersion = bodySchemaVersion; self.createdAtUnixSeconds = createdAtUnixSeconds
         self.vaultInstanceID = vaultInstanceID; self.backupGeneration = backupGeneration; self.sourceManifestGeneration = sourceManifestGeneration
         self.sourceManifestHash = sourceManifestHash; self.deletionLedgerBytes = deletionLedgerBytes; self.deletionLedgerHash = deletionLedgerHash
-        self.deletionHistoryTrusted = deletionHistoryTrusted
+        self.deletionHistoryTrusted = deletionHistoryTrusted; self.excludedAttachmentCount = excludedAttachmentCount
+    }
+    /// Canonical encoding (seal input).
+    public func encode(into e: inout CanonicalEncoder) {
+        e.appendU16(formatVersion); e.appendU16(bodySchemaVersion); e.appendI64(createdAtUnixSeconds)
+        e.appendBytes(vaultInstanceID ?? []); e.appendU64(backupGeneration ?? 0); e.appendU64(sourceManifestGeneration ?? 0)
+        e.appendBytes(sourceManifestHash ?? []); e.appendBytes(deletionLedgerBytes ?? []); e.appendBytes(deletionLedgerHash ?? [])
+        e.appendU8(deletionHistoryTrusted ? 1 : 0); e.appendU32(excludedAttachmentCount)
+        e.appendU8(vaultInstanceID == nil ? 0 : 1)
     }
     /// Unknown origin (caller-built results, legacy v2 bodies).
     public static let unknown = BackupProvenance(formatVersion: 0, bodySchemaVersion: 0, createdAtUnixSeconds: 0, vaultInstanceID: nil, backupGeneration: nil, sourceManifestGeneration: nil, sourceManifestHash: nil, deletionLedgerBytes: nil, deletionLedgerHash: nil)
@@ -126,7 +139,7 @@ public struct BackupProvenance: Hashable, Sendable {
 
 /// P03-04b: encrypted body of a v3 sealed backup.
 public struct BackupBodyV3: Hashable, Sendable {
-    public static let currentSchemaVersion: UInt16 = 1
+    public static let currentSchemaVersion: UInt16 = 2   // 1 never shipped; 2 adds excludedAttachmentCount
     public let schemaVersion: UInt16
     public let createdAtUnixSeconds: Int64
     public let facts: BackupExportFacts
@@ -143,6 +156,7 @@ public struct BackupBodyV3: Hashable, Sendable {
         e.appendBytes(facts.vaultInstanceID); e.appendU64(facts.backupGeneration)
         e.appendU64(facts.sourceManifestGeneration); e.appendBytes(facts.sourceManifestHash)
         e.appendBytes(facts.deletionLedgerBytes); e.appendBytes(facts.deletionLedgerHash); e.appendU8(facts.deletionHistoryTrusted ? 1 : 0)
+        e.appendU32(facts.excludedAttachmentCount)
         e.appendU32(UInt32(entries.count))
         for env in entries { env.encode(into: &e) }
         return e.bytes
@@ -157,7 +171,8 @@ public struct BackupBodyV3: Hashable, Sendable {
         let inst = try d.readBytes(); let gen = try d.readU64(); let mg = try d.readU64(); let mh = try d.readBytes()
         let lb = try d.readBytes(); let lh = try d.readBytes()
         let trusted = try d.readU8(); guard trusted <= 1 else { throw VaultError.backupCorrupted(reason: "history flag") }
-        let facts = try BackupExportFacts(vaultInstanceID: inst, backupGeneration: gen, sourceManifestGeneration: mg, sourceManifestHash: mh, deletionLedgerBytes: lb, deletionLedgerHash: lh, deletionHistoryTrusted: trusted == 1)
+        let excluded = try d.readU32()
+        let facts = try BackupExportFacts(vaultInstanceID: inst, backupGeneration: gen, sourceManifestGeneration: mg, sourceManifestHash: mh, deletionLedgerBytes: lb, deletionLedgerHash: lh, deletionHistoryTrusted: trusted == 1, excludedAttachmentCount: excluded)
         let n = Int(try d.readU32())
         guard n <= BackupLimits.maxEntries else { throw VaultError.limitExceeded("entry count") }
         var entries: [RecordEnvelope] = []

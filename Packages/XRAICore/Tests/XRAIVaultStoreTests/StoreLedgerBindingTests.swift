@@ -184,9 +184,14 @@ struct StoreLedgerBindingTests {
         try await s2.close()
         let s3 = try await f.open()
         #expect(s3.mode == .readWrite && s3.deletionHistoryTrusted == false, "sticky across relaunch (manifest flag)")
-        let env = try s3.vault.seal(plaintext: [1], descriptor: try f.descriptor(), authorization: try s3.issuer.issue(scope: .write(.birthDate)))
-        let rep = try await s3.admitRestored(RestoreResult(active: [env], quarantined: []), authorization: try s3.issuer.issue(scope: .admitRestored))
-        #expect(rep.staged == [env.header.recordID] && rep.risks[env.header.recordID]?.contains(.untrustedLocalHistory) == true)
+        let g = StoreFixture(); defer { g.cleanup() }
+        let sg = try await g.open()
+        let foreignID = try await g.put(sg, "from another vault")
+        let rk = try SecureVault.generateRecoveryKey()
+        let bytes = try await sg.exportBackup(recoveryKey: rk, authorization: try sg.issuer.issue(scope: .exportBackup))
+        try await sg.close()
+        let rep = try await s3.admitRestored(try s3.vault.restoreBackup(bytes: bytes, recoveryKey: rk, authorization: try s3.issuer.issue(scope: .restoreBackup)), authorization: try s3.issuer.issue(scope: .admitRestored))
+        #expect(rep.staged == [foreignID] && rep.risks[foreignID]?.contains(.untrustedLocalHistory) == true)
         try await s3.close()
     }
 

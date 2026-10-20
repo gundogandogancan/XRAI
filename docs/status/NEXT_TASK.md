@@ -244,3 +244,18 @@ SCOPE_APPROVED:
 CHANGES_REQUESTED:
 ```
 
+---
+
+## P03-04bH RESULT (2026-10-20) — RESTORE IDENTITY, AUTHORIZATION & DELETION INTEGRITY GATE, STOP
+
+Three findings of the P03-04b review closed: F-P04B-01 (a compacted deletion could be acknowledged away → `possiblyDeletedForever`, explicit `reimportPossiblyDeleted` under a NEW id, old id exactly deleted), F-P04B-02 (`putEnvelope` removed; every personal write goes through `SecureVault.seal`/`createAttachment` or verified admission), F-P04B-03 (facade-sealed `RestoreResult`, `restoreUnverified` for anything else; history merges only from verified inputs). Six additional checks: cycle refusal, trusted-time re-check (ok), exact acknowledgment, single-descriptor two-pass attachment read, `excludedAttachmentCount` in the body, registry/manifest consistency after crash. Two more defects found by the new tests and fixed (ledger append, registry release on replay). Results: macOS 200/200, Simulator 126/126, iPhone 14 Pro Max 126/126 (non-destructive). SECURITY_REVIEWED: NO. Report: `docs/status/P03_04BH_RESTORE_AUTHORIZATION_SECURITY_REPORT.md`.
+
+Proposed next: P03-05 remains NO-GO for app persistence until the next independent review accepts this gate; the review should look first at `SecureVault.reimport`, the restore seal and the removed write path.
+
+```
+APPROVED_BY:
+DATE:
+SCOPE_APPROVED:
+CHANGES_REQUESTED:
+```
+

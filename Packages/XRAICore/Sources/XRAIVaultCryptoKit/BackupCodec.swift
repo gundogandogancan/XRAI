@@ -97,7 +97,7 @@ enum BackupCodec {
             let body = try BackupBodyV3.decode(plain)
             guard Array(SHA256.hash(data: body.facts.deletionLedgerBytes)) == body.facts.deletionLedgerHash else { throw VaultError.backupCorrupted(reason: "ledger digest") }
             entries = body.entries
-            provenance = BackupProvenance(formatVersion: 3, bodySchemaVersion: body.schemaVersion, createdAtUnixSeconds: body.createdAtUnixSeconds, vaultInstanceID: body.facts.vaultInstanceID, backupGeneration: body.facts.backupGeneration, sourceManifestGeneration: body.facts.sourceManifestGeneration, sourceManifestHash: body.facts.sourceManifestHash, deletionLedgerBytes: body.facts.deletionLedgerBytes, deletionLedgerHash: body.facts.deletionLedgerHash, deletionHistoryTrusted: body.facts.deletionHistoryTrusted)
+            provenance = BackupProvenance(formatVersion: 3, bodySchemaVersion: body.schemaVersion, createdAtUnixSeconds: body.createdAtUnixSeconds, vaultInstanceID: body.facts.vaultInstanceID, backupGeneration: body.facts.backupGeneration, sourceManifestGeneration: body.facts.sourceManifestGeneration, sourceManifestHash: body.facts.sourceManifestHash, deletionLedgerBytes: body.facts.deletionLedgerBytes, deletionLedgerHash: body.facts.deletionLedgerHash, deletionHistoryTrusted: body.facts.deletionHistoryTrusted, excludedAttachmentCount: body.facts.excludedAttachmentCount)
         } else {
             let body = try BackupBody.decode(plain)
             entries = body.entries

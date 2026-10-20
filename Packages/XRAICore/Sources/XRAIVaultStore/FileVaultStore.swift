@@ -169,6 +169,7 @@ public actor FileVaultStore {
         self.fs = fs; self.keyProvider = keyProvider; anchorStore = anchor; self.composition = composition
         manifest = l.manifest; ledger = l.ledger; authz = l.authz; modeValue = l.mode; ledgerTrusted = l.ledgerTrusted
         pendingJournals = l.journals
+        needsRecoveryIDs = Set(l.untrustedIDs.map { $0.hex })
     }
 
     // MARK: Paths
@@ -355,16 +356,20 @@ public actor FileVaultStore {
             corruptFiles.insert(id.hex); throw VaultError.recordNotActive(state: "corrupt")
         }
         guard layout.totalBytes == e.attachmentBytes, layout.chunkCount == e.chunkCount else { corruptFiles.insert(id.hex); throw VaultError.recordNotActive(state: "corrupt") }
+        // P03-04bH: both passes read the SAME open descriptor (inode): a file replaced under the path
+        // between the passes cannot change what pass 2 reads; in-place writes by a same-UID process remain
+        // out of the model (every chunk is still authenticated in pass 2, so they fail, never leak).
+        let (fd, _) = try fs.openRegularForRead(attachmentPath(id))
+        defer { try? fs.close(fd) }
         do {
-            try streamChunks(id, layout: layout, cipher: cipher) { _, _ in }            // pass 1: authenticate everything
-            try streamChunks(id, layout: layout, cipher: cipher, deliver: sink)         // pass 2: decrypt and deliver
+            try streamChunks(fd, layout: layout, cipher: cipher) { _, _ in }            // pass 1: authenticate everything
+            try fs.rewind(fd)
+            try streamChunks(fd, layout: layout, cipher: cipher, deliver: sink)         // pass 2: decrypt and deliver
         } catch VaultError.authenticationFailed { corruptFiles.insert(id.hex); throw VaultError.recordNotActive(state: "corrupt") }
         catch VaultError.storeIntegrityFailed { corruptFiles.insert(id.hex); throw VaultError.recordNotActive(state: "corrupt") }
     }
 
-    private func streamChunks(_ id: RecordID, layout: AttachmentLayout, cipher: AttachmentCipher, deliver: (UInt32, [UInt8]) throws -> Void) throws {
-        let (fd, _) = try fs.openRegularForRead(attachmentPath(id))
-        defer { try? fs.close(fd) }
+    private func streamChunks(_ fd: Int32, layout: AttachmentLayout, cipher: AttachmentCipher, deliver: (UInt32, [UInt8]) throws -> Void) throws {
         guard try AttachmentFile.readFrame(fd, fileSystem: fs, maxBytes: AttachmentFile.maxHeaderFrameBytes) != nil else { throw VaultError.storeIntegrityFailed(reason: "attachment header missing") }
         let maxChunkFrame = Int(layout.chunkBytes) + 16
         for index in 0..<layout.chunkCount {
@@ -420,16 +425,9 @@ public actor FileVaultStore {
         return env.header.recordID
     }
 
-    /// Stores an already-sealed envelope (restore/migration paths). Requires a `.write(class)` token
-    /// consumed through `SecureVault`; the payload is verified at read time by AEAD.
-    public func putEnvelope(_ env: RecordEnvelope, authorization: OperationAuthorization, provenance: RecordProvenance = .created) throws {
-        try requireWritable()
-        try env.header.validate()
-        _ = try vault.consumeAuthorization(authorization, for: .write(env.header.dataClass))
-        try validateSources(env.header.derivedFrom, newCreatedAt: env.header.createdAtUnixSeconds, newID: env.header.recordID)
-        guard manifest.records[env.header.recordID.hex] == nil else { throw VaultError.duplicateRecordID }
-        try storeEnvelope(env, tokenID: authorization.id, provenance: provenance)
-    }
+    // P03-04bH (F-P04B-02): `putEnvelope` (a caller-sealed envelope stored with only a `.write` token) was
+    // REMOVED. Every personal write now goes through `SecureVault.seal` / `createAttachment` (purpose,
+    // consent, tier, key binding, AEAD) or through the verified restore path (`admitRestored`).
 
     private func storeEnvelope(_ env: RecordEnvelope, tokenID: String, provenance: RecordProvenance) throws {
         guard env.header.dataClass != .storeMetadata else { throw VaultError.unsupportedSystemClass }
@@ -580,7 +578,8 @@ public actor FileVaultStore {
             return true
         }
         let lb = ledger.encode()
-        let facts = try BackupExportFacts(vaultInstanceID: manifest.vaultInstanceID, backupGeneration: gen, sourceManifestGeneration: manifest.generation, sourceManifestHash: manifest.hash, deletionLedgerBytes: lb, deletionLedgerHash: VaultDigest.sha256(lb), deletionHistoryTrusted: ledgerTrusted)
+        let excluded = manifest.records.values.filter { $0.kind == .attachment && $0.state == .active }.count
+        let facts = try BackupExportFacts(vaultInstanceID: manifest.vaultInstanceID, backupGeneration: gen, sourceManifestGeneration: manifest.generation, sourceManifestHash: manifest.hash, deletionLedgerBytes: lb, deletionLedgerHash: VaultDigest.sha256(lb), deletionHistoryTrusted: ledgerTrusted, excludedAttachmentCount: UInt32(clamping: excluded))
         return try vault.exportBackup(envs, facts: facts, recoveryKey: recoveryKey, authorization: authorization)
     }
 
@@ -592,6 +591,8 @@ public actor FileVaultStore {
     public func admitRestored(_ result: RestoreResult, authorization: OperationAuthorization) throws -> AdmissionReport {
         try requireWritable()
         _ = try vault.consumeAuthorization(authorization, for: .admitRestored)
+        // F-P04B-03: only a result this facade produced and that is unchanged since carries trust.
+        guard vault.isVerified(result) else { throw VaultError.restoreUnverified }
         let prov = result.provenance
         var embedded: DeletionLedger? = nil
         if let lb = prov.deletionLedgerBytes {
@@ -617,12 +618,14 @@ public actor FileVaultStore {
         if !ledgerTrusted { base.insert(.untrustedLocalHistory) }
         if older { base.insert(.olderBackupGeneration) }
         if unmerged { base.insert(.unmergedBackupHistory) }
+        if prov.excludedAttachmentCount > 0 { base.insert(.attachmentsMissing) }
         var staged: [(RecordEnvelope, Set<RestoreRisk>)] = []
         var skippedDeleted: [RecordID] = [], skippedExisting: [RecordID] = []
         for (env, pre) in result.active.map({ ($0, false) }) + result.quarantined.map({ ($0.envelope, true) }) {
             try env.header.validate()
             guard env.header.dataClass != .storeMetadata else { continue }
             let id = env.header.recordID
+            guard !env.header.derivedFrom.contains(id) else { throw VaultError.unknownDependency }
             if manifest.records[id.hex] != nil { skippedExisting.append(id); continue }
             var risks = base
             switch merged.lookup(id) {
@@ -670,12 +673,20 @@ public actor FileVaultStore {
             guard let e = manifest.records[id.hex] else { throw VaultError.recordMissing }
             guard e.state == .quarantined, e.provenance == .restoredFromBackup else { throw VaultError.recordNotActive(state: e.state.name) }
             let need = RestoreRisk.set(e.restoreRisks)
-            guard need.isSubset(of: risks) else {
-                throw VaultError.notEligible(reason: "unacknowledged restore risks: " + need.subtracting(risks).map { String($0.rawValue) }.sorted().joined(separator: ","))
+            // F-P04B-01: compacted deletion evidence is permanent — never activatable under this id.
+            guard !need.contains(.possiblyDeleted) else { throw VaultError.possiblyDeletedForever }
+            // Exact acknowledgment (documented UX contract): the UI must show precisely these risks.
+            guard need == risks else {
+                throw VaultError.notEligible(reason: "restore risks must be acknowledged exactly: need " + need.map { String($0.rawValue) }.sorted().joined(separator: ",") + " got " + risks.map { String($0.rawValue) }.sorted().joined(separator: ","))
             }
-            guard ledger.lookup(id) != .deleted else { throw VaultError.notEligible(reason: "known deleted") }
+            switch ledger.lookup(id) {
+            case .deleted: throw VaultError.notEligible(reason: "known deleted")
+            case .possiblyDeleted: throw VaultError.possiblyDeletedForever
+            case .notDeleted: break
+            }
             for src in e.derivedFrom {
                 guard let sEntry = manifest.records[src.hex], sEntry.state == .active || ids.contains(src) else { throw VaultError.recordNotActive(state: "sourceInactive") }
+                guard sEntry.createdAtUnixSeconds <= e.createdAtUnixSeconds else { throw VaultError.unknownDependency }
             }
             if case .denied(let reason) = VaultPolicy.mayRead(e.dataClass, consentPurpose: e.consentPurpose, authority: composition.consentAuthority, atUnixSeconds: now) {
                 throw VaultError.notAuthorized(reason)
@@ -683,12 +694,62 @@ public actor FileVaultStore {
             guard !missingFiles.contains(id.hex), !corruptFiles.contains(id.hex) else { throw VaultError.recordMissing }
             _ = try readRecordFile(id)
         }
+        // Derived-data graph: no cycle may be admitted through a restored batch (DFS over the batch's edges).
+        try Self.refuseCycles(among: ids, in: manifest)
         try runMutation(op: "activate", tokenID: authorization.id, ids: list, params: []) { m, _, step in
             for id in list { if var e = m.records[id.hex] { e.state = .active; e.restoreRisks = 0; m.records[id.hex] = e } }
             try step("activate", 0)
             return true
         }
         for id in list { composition.quarantine.release(id) }
+    }
+
+    /// Refuses a batch whose `derivedFrom` edges (restricted to the batch) contain a cycle.
+    static func refuseCycles(among ids: Set<RecordID>, in m: Manifest) throws {
+        var state: [String: UInt8] = [:]   // 1 = visiting, 2 = done
+        func visit(_ id: RecordID) throws {
+            if state[id.hex] == 2 { return }
+            if state[id.hex] == 1 { throw VaultError.unknownDependency }
+            state[id.hex] = 1
+            for src in m.records[id.hex]?.derivedFrom ?? [] where ids.contains(src) { try visit(src) }
+            state[id.hex] = 2
+        }
+        for id in ids { try visit(id) }
+    }
+
+    /// P03-04bH (F-P04B-01): explicit re-import of ONE staged record whose old id can never be active
+    /// again (compacted deletion evidence). `.reimport(recordID:)` token with the record's purpose, an
+    /// active grant, verified payload (through `SecureVault.reimport`), NEW id and fresh DEK; the old
+    /// id is deleted (file removed, ledger entry) in the same journaled mutation. Refused while any
+    /// record derives from the old id (dependency migration is not implemented: fail closed).
+    @discardableResult
+    public func reimportPossiblyDeleted(_ id: RecordID, authorization: OperationAuthorization) throws -> RecordID {
+        try requireWritable()
+        guard let e = manifest.records[id.hex] else { throw VaultError.recordMissing }
+        guard e.state == .quarantined, e.provenance == .restoredFromBackup, e.kind == .record else { throw VaultError.recordNotActive(state: e.state.name) }
+        guard RestoreRisk.set(e.restoreRisks).contains(.possiblyDeleted) else { throw VaultError.notEligible(reason: "reimport is only for compacted-deletion quarantine") }
+        guard manifest.dependents(of: id).isEmpty else { throw VaultError.notEligible(reason: "records derive from this id") }
+        for src in e.derivedFrom {
+            guard let sEntry = manifest.records[src.hex], sEntry.state == .active else { throw VaultError.recordNotActive(state: "sourceInactive") }
+        }
+        let env = try readRecordFile(id)
+        let now = try clock.now()
+        let d = try RecordDescriptor(dataClass: e.dataClass, privacyTier: e.privacyTier, retention: e.retention, consentPurpose: e.consentPurpose, createdAtUnixSeconds: now, derivedFrom: e.derivedFrom)
+        let fresh = try vault.reimport(env, newDescriptor: d, authorization: authorization)
+        let newID = fresh.header.recordID
+        let bytes = FileFraming.frame(EnvelopeCodec.encode(fresh))
+        try runMutation(op: "reimport", tokenID: authorization.id, ids: [newID, id], params: [now]) { m, l, step in
+            try AtomicWriter.replace(self.fs, bytes: bytes, at: self.recordPath(newID), tempName: self.tempName())
+            try step("file", 0)
+            try self.fs.remove(self.recordPath(id))
+            l.append(DeletionLedger.Entry(recordID: id, deletedAtUnixSeconds: now, manifestGeneration: m.generation + 1))
+            m.records[id.hex] = nil
+            m.records[newID.hex] = ManifestEntry(header: fresh.header, keyVersion: fresh.wrappedDEK.keyVersion, provenance: .reimportedAfterDeletion)
+            try step("unlink", 0)
+            return true
+        }
+        composition.quarantine.release(id)
+        return newID
     }
 
     /// Releases ONE quarantined record: `.releaseQuarantine` token + active consent now (checked by
@@ -919,8 +980,14 @@ public actor FileVaultStore {
             try resolveJournal(j)
         }
         pendingJournals = []
-        // 2. Quarantine registry mirrors the manifest.
-        for (key, e) in manifest.records where e.state == .quarantined { if let id = try? RecordID(hex: key) { composition.quarantine.quarantine(id, reason: e.provenance == .restoredFromBackup ? .pendingUserConfirmation : .consentRequired) } }
+        // 2. Quarantine registry mirrors the manifest (P03-04bH: an id activated by a replayed journal is
+        //    released here too, so a crash between the commit and the in-memory release cannot leave a
+        //    stale registry entry behind).
+        for (key, e) in manifest.records {
+            guard let id = try? RecordID(hex: key) else { continue }
+            if e.state == .quarantined { composition.quarantine.quarantine(id, reason: e.provenance == .restoredFromBackup ? .pendingUserConfirmation : .consentRequired) }
+            else if !needsRecoveryIDs.contains(key) { composition.quarantine.release(id) }   // untrusted-journal ids stay quarantined
+        }
         // 3. Files ↔ manifest (records/ and attachments/). Bounded: a directory above the entry limit
         //    is not scanned at all — the vault opens read-only (GATE 5 resource limit, fail closed).
         var seen = Set<String>()
@@ -1019,6 +1086,20 @@ public actor FileVaultStore {
             }
             if any || diskIsPost { try commitTail(target: target, newManifest: m, newLedger: ledger, ledgerChanged: diskIsPost, entries: &entries) } else { try fs.remove(path(StoreLayout.journalDir, j.name)) }
             journalsReplayed += 1
+        case "reimport":
+            // ids = [new, old]; params = [deletedAt]. All-or-nothing: the new file must exist, else nothing happened.
+            guard ids.count == 2, try fs.kind(of: recordPath(ids[0])) == .regular, let fresh = try? readRecordFile(ids[0]) else {
+                if ids.count == 2 { try fs.remove(recordPath(ids[0])) }
+                try fs.remove(path(StoreLayout.journalDir, j.name)); journalsReconciled += 1; return
+            }
+            var m = manifest, l = ledger
+            try fs.remove(recordPath(ids[1]))
+            l.append(DeletionLedger.Entry(recordID: ids[1], deletedAtUnixSeconds: params.first ?? 0, manifestGeneration: target))
+            m.records[ids[1].hex] = nil
+            composition.quarantine.release(ids[1])
+            m.records[ids[0].hex] = ManifestEntry(header: fresh.header, keyVersion: fresh.wrappedDEK.keyVersion, provenance: .reimportedAfterDeletion)
+            try commitTail(target: target, newManifest: m, newLedger: l, ledgerChanged: true, entries: &entries)
+            journalsReplayed += 1
         case "history":
             if diskIsPost { try commitTail(target: target, newManifest: manifest, newLedger: ledger, ledgerChanged: true, entries: &entries) } else { try fs.remove(path(StoreLayout.journalDir, j.name)) }
             journalsReplayed += 1
@@ -1079,6 +1160,8 @@ public actor FileVaultStore {
             let root: String; let vault: SecureVault; let issuer: AuthorizationIssuer; let clock: MonotonicGuardClock; let epoch: UInt64
             let manifest: Manifest; let ledger: DeletionLedger; let authz: AuthzState; let mode: StoreMode; let ledgerTrusted: Bool
             let journals: [(name: String, entries: [JournalEntry], truncated: Bool, bytes: [UInt8])]
+            /// Ids of an untrusted (mid-file damaged) journal: quarantined and flagged `needsRecovery`.
+            let untrustedIDs: [RecordID]
         }
 
         /// Validator that accepts nothing: the bootstrap vault only opens system records.
@@ -1155,7 +1238,7 @@ public actor FileVaultStore {
                 let authz = AuthzState(epoch: epoch, clockHighWaterMark: clock.highWaterMark, lastManifestGeneration: 1, lastManifestHash: manifest.hash)
                 try writeSystem(StoreLayout.authzFile, authz.encode())
                 try anchor.writeAnchor(try VaultAnchor(vaultInstanceID: instance, manifestGeneration: 1, manifestHash: manifest.hash))
-                return Loaded(root: root, vault: vault, issuer: issuer, clock: clock, epoch: epoch, manifest: manifest, ledger: ledger, authz: authz, mode: .readWrite, ledgerTrusted: true, journals: [])
+                return Loaded(root: root, vault: vault, issuer: issuer, clock: clock, epoch: epoch, manifest: manifest, ledger: ledger, authz: authz, mode: .readWrite, ledgerTrusted: true, journals: [], untrustedIDs: [])
             }
 
             // Existing vault: decode and bind.
@@ -1233,7 +1316,7 @@ public actor FileVaultStore {
                 let issuer = AuthorizationIssuer(clock: clock, epoch: epoch)
                 let vault = SecureVault(keyProvider: keyProvider, consentAuthority: composition.consentAuthority, clock: clock, authorizations: issuer, quarantine: composition.quarantine)
                 for id in untrustedIDs { composition.quarantine.quarantine(id, reason: .unverifiedDeletionHistory) }
-                return Loaded(root: root, vault: vault, issuer: issuer, clock: clock, epoch: epoch, manifest: manifest, ledger: ledger, authz: authz, mode: mode, ledgerTrusted: ledgerTrusted, journals: journals)
+                return Loaded(root: root, vault: vault, issuer: issuer, clock: clock, epoch: epoch, manifest: manifest, ledger: ledger, authz: authz, mode: mode, ledgerTrusted: ledgerTrusted, journals: journals, untrustedIDs: untrustedIDs)
             }
 
             // Anchor ↔ manifest binding (GATE B). An earlier read-only reason (journal damage) is kept.

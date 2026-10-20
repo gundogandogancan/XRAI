@@ -24,7 +24,7 @@ struct BackupV3Tests {
         let keys = BackupCodec.deriveKeys(recoveryKey: rk, salt: sealed.salt, formatVersion: 3)
         let box = try AES.GCM.SealedBox(nonce: AES.GCM.Nonce(data: sealed.nonce), ciphertext: sealed.ciphertext, tag: sealed.tag)
         let body = try BackupBodyV3.decode(try BackupBody.unpad(Array(try AES.GCM.open(box, using: keys.outer, authenticating: sealed.associatedData))))
-        #expect(body.facts.backupGeneration == 7 && body.entries.count == 2 && body.schemaVersion == 1)
+        #expect(body.facts.backupGeneration == 7 && body.entries.count == 2 && body.schemaVersion == 2)   // schema 2 since P03-04bH (excludedAttachmentCount)
         func reseal(_ plain: [UInt8], version: UInt16 = 3) throws -> [UInt8] {
             let k = BackupCodec.deriveKeys(recoveryKey: rk, salt: sealed.salt, formatVersion: version)
             let nonce = AES.GCM.Nonce(); let nb = nonce.withUnsafeBytes { Array($0) }
@@ -36,12 +36,14 @@ struct BackupV3Tests {
         let wrongDigest = BackupBodyV3(createdAtUnixSeconds: body.createdAtUnixSeconds, facts: try facts(hash: [UInt8](repeating: 0xAB, count: 32)), entries: body.entries)
         #expect(throws: VaultError.backupCorrupted(reason: "ledger digest")) { try new.restore(try reseal(BackupBody.pad(wrongDigest.encode())), rk) }
         // unknown schema version
-        var sv = CanonicalEncoder(); sv.appendU16(2)
-        #expect(throws: VaultError.unsupportedFormat(2)) { try new.restore(try reseal(BackupBody.pad(sv.bytes + Array(body.encode().dropFirst(2)))), rk) }
+        var sv = CanonicalEncoder(); sv.appendU16(3)
+        #expect(throws: VaultError.unsupportedFormat(3)) { try new.restore(try reseal(BackupBody.pad(sv.bytes + Array(body.encode().dropFirst(2)))), rk) }
+        var sv1 = CanonicalEncoder(); sv1.appendU16(1)   // schema 1 never shipped: refused, not converted
+        #expect(throws: VaultError.unsupportedFormat(1)) { try new.restore(try reseal(BackupBody.pad(sv1.bytes + Array(body.encode().dropFirst(2)))), rk) }
         // trailing bytes inside the body
         #expect(throws: VaultError.backupCorrupted(reason: "trailing bytes")) { try new.restore(try reseal(BackupBody.pad(body.encode() + [0])), rk) }
         // bad instance id length
-        var enc = CanonicalEncoder(); enc.appendU16(1); enc.appendI64(body.createdAtUnixSeconds); enc.appendBytes([1, 2, 3])
+        var enc = CanonicalEncoder(); enc.appendU16(2); enc.appendI64(body.createdAtUnixSeconds); enc.appendBytes([1, 2, 3])
         #expect(throws: VaultError.self) { try new.restore(try reseal(BackupBody.pad(enc.bytes)), rk) }
         // duplicate ids
         let dup = BackupBodyV3(createdAtUnixSeconds: body.createdAtUnixSeconds, facts: body.facts, entries: body.entries + [body.entries[0]])

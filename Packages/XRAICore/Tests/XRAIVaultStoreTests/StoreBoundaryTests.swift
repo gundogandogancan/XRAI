@@ -25,7 +25,9 @@ struct StoreAuthorizationBoundaryTests {
         #expect(throws: VaultError.unsupportedSystemClass) { try s.vault.rewrapSystem(env) }
         // and a storeMetadata envelope can never be stored as a user record
         let sys = try s.vault.sealSystem(plaintext: [1], descriptor: try RecordDescriptor(dataClass: .storeMetadata, retention: .untilUserDeletes, createdAtUnixSeconds: storeT0))
-        await expectVaultError(.unsupportedSystemClass) { try await s.putEnvelope(sys, authorization: try s.issuer.issue(scope: .write(.storeMetadata))) }
+        // P03-04bH: the only remaining write paths are `put` (seal) and verified admission; both refuse the class
+        await expectVaultError(.unsupportedSystemClass) { try await s.put(plaintext: [1], descriptor: try RecordDescriptor(dataClass: .storeMetadata, retention: .untilUserDeletes, createdAtUnixSeconds: storeT0), authorization: try s.issuer.issue(scope: .write(.storeMetadata))) }
+        _ = sys
         try await s.close()
     }
 
@@ -127,6 +129,7 @@ struct StoreModuleBoundaryTests {
             ("system writer", "import XRAIVaultStore\nfunc f(s: FileVaultStore) async throws { try await s.writeSystem(\"x\", []) }"),
             ("mutation engine", "import XRAIVaultStore\nfunc f(s: FileVaultStore) async throws { try await s.runMutation(op: \"x\", tokenID: \"\", ids: [], params: []) { _, _, _ in true } }"),
             ("atomic writer", "import XRAIVaultStore\nfunc f() { _ = AtomicWriter.self }"),
+            ("putEnvelope removed (F-P04B-02)", "import XRAIVaultContracts\nimport XRAIVaultStore\nfunc f(s: FileVaultStore, e: RecordEnvelope, t: OperationAuthorization) async throws { try await s.putEnvelope(e, authorization: t) }"),
         ]
         for (name, code) in negatives {
             let r = try Self.typecheck(code, modulesDir: modulesDir)

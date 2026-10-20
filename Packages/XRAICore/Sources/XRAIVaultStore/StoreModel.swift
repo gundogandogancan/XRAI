@@ -55,6 +55,8 @@ public enum RestoreRisk: UInt16, Sendable, Hashable, CaseIterable {
     /// The backup carried a history this vault could not (or must not) merge: untrusted at the
     /// source, or a compacted digest incompatible with the local one.
     case unmergedBackupHistory = 64
+    /// P03-04bH: the source vault held attachments that this backup does not contain (incomplete recovery).
+    case attachmentsMissing = 128
 
     public static func mask(_ set: Set<RestoreRisk>) -> UInt16 { set.reduce(0) { $0 | $1.rawValue } }
     public static func set(_ mask: UInt16) -> Set<RestoreRisk> { Set(allCases.filter { mask & $0.rawValue != 0 }) }
@@ -283,9 +285,11 @@ public struct DeletionLedger: Sendable, Hashable {
         return .notDeleted
     }
 
-    /// Idempotent append (an id already present is not duplicated).
+    /// Idempotent append: an id already EXACTLY present is not duplicated. An id that only hits the
+    /// compacted digest (`possiblyDeleted`) IS appended, so that a deletion decided today (e.g. the
+    /// re-import of a possibly-deleted id, P03-04bH) becomes exact evidence again.
     public mutating func append(_ e: Entry) {
-        guard lookup(e.recordID) == .notDeleted else { return }
+        guard !index.contains(e.recordID.hex) else { return }
         entries.append(e)
         index.insert(e.recordID.hex)
     }

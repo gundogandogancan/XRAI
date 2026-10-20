@@ -44,7 +44,7 @@ struct StoreBackupV3Tests {
         let sb = try await b.open()
         let r = try b.restore(sb, bytes, rk)
         let p = r.provenance
-        #expect(p.formatVersion == 3 && p.bodySchemaVersion == 1 && p.vaultInstanceID == sa.vaultInstanceID && p.backupGeneration == 1)
+        #expect(p.formatVersion == 3 && p.bodySchemaVersion == 2 && p.vaultInstanceID == sa.vaultInstanceID && p.backupGeneration == 1 && p.excludedAttachmentCount == 0)
         #expect(p.sourceManifestGeneration == sa.manifestGeneration && p.sourceManifestHash == sa.manifestHash && p.deletionHistoryTrusted)
         let embedded = try DeletionLedger.decode(try #require(p.deletionLedgerBytes))
         #expect(embedded.lookup(y) == .deleted && embedded.lookup(x) == .notDeleted)
@@ -120,7 +120,7 @@ struct StoreBackupV3Tests {
         #expect(r.provenance.formatVersion == 2 && r.provenance.isLegacy && r.provenance.deletionLedgerBytes == nil)
         let rep = try await a.admit(sa, r)                       // empty vault
         #expect(rep.risks[env.header.recordID] == [.legacyFormat] && !rep.historyMerged)
-        await expectVaultError(.notEligible(reason: "unacknowledged restore risks: 2")) { try await a.activate(sa, [env.header.recordID]) }
+        await expectVaultError(.notEligible(reason: "restore risks must be acknowledged exactly: need 2 got ")) { try await a.activate(sa, [env.header.recordID]) }
         try await a.activate(sa, [env.header.recordID], [.legacyFormat])
         #expect(try await a.get(sa, env.header.recordID) == "old")
         let env2 = try sa.vault.seal(plaintext: Array("old2".utf8), descriptor: try a.descriptor(), authorization: try sa.issuer.issue(scope: .write(.birthDate)))
@@ -130,20 +130,25 @@ struct StoreBackupV3Tests {
         try await sa.close()
     }
 
-    @Test("NT-BK-05: the backup generation is durable and monotonic across relaunch; an older generation of our own instance is staged with olderBackupGeneration; export refuses a corrupt record but still burns its generation")
+    @Test("NT-BK-05: the backup generation is durable and monotonic across relaunch; an older generation of our own instance reaches staging only when local history was lost (genuine path) and is marked olderBackupGeneration; export refuses a corrupt record but still burns its generation")
     func generations() async throws {
         let f = StoreFixture(); defer { f.cleanup() }
         let s = try await f.open()
-        let x = try await f.put(s, "x")
-        _ = try await f.exportV3(s); _ = try await f.exportV3(s)
+        let x0 = try await f.put(s, "x0")
+        let (older, rkOlder) = try await f.exportV3(s)            // generation 1 contains x0
+        _ = try await f.exportV3(s)
         #expect(s.lastExportedGeneration == 2)
+        try await f.delete(s, [x0])
         try await s.close()
+        // lose the local history (AEAD-corrupt ledger) → x0 is no longer known as deleted; sticky distrust
+        let lp = f.systemPath("ledger.v1"); var badL = Array(try Data(contentsOf: lp)); badL[100] ^= 0x01; try Data(badL).write(to: lp)
         let s2 = try await f.open()
-        #expect(s2.lastExportedGeneration == 2)
-        let env = try s2.vault.seal(plaintext: [1], descriptor: try f.descriptor(), authorization: try s2.issuer.issue(scope: .write(.birthDate)))
-        let olderProv = BackupProvenance(formatVersion: 3, bodySchemaVersion: 1, createdAtUnixSeconds: storeT0, vaultInstanceID: s2.vaultInstanceID, backupGeneration: 1, sourceManifestGeneration: 2, sourceManifestHash: Manifest.zeroHash, deletionLedgerBytes: nil, deletionLedgerHash: nil, deletionHistoryTrusted: true)
-        let rep = try await s2.admitRestored(RestoreResult(active: [env], quarantined: [], provenance: olderProv), authorization: try s2.issuer.issue(scope: .admitRestored))
-        #expect(rep.risks[env.header.recordID] == [.olderBackupGeneration])
+        #expect(s2.lastExportedGeneration == 2 && s2.deletionHistoryTrusted == false)
+        let x = try await f.put(s2, "x")
+        _ = try await f.exportV3(s2)                               // generation 3
+        let rep = try await s2.admitRestored(try f.restore(s2, older, rkOlder), authorization: try s2.issuer.issue(scope: .admitRestored))
+        #expect(rep.staged == [x0] && rep.risks[x0] == [.untrustedLocalHistory, .olderBackupGeneration], Comment(rawValue: "\(rep.risks)"))
+        #expect(s2.lastExportedGeneration == 3)
         // corrupt record → export fails closed; the generation was still consumed
         let path = f.rootURL.appendingPathComponent("records/\(x.hex).env")
         var bad = Array(try Data(contentsOf: path))
@@ -151,11 +156,11 @@ struct StoreBackupV3Tests {
         bad[4 + n - 3] ^= 0x01   // inside the AEAD tag: the envelope parses but fails authentication at export verification
         try Data(bad).write(to: path)
         await expectVaultError(.envelopeIntegrityFailed) { _ = try await f.exportV3(s2) }
-        #expect(s2.lastExportedGeneration == 3, "the generation was committed before sealing and stays burned")
+        #expect(s2.lastExportedGeneration == 4, "the generation was committed before sealing and stays burned")
         // a record whose file no longer parses fails even earlier (before any generation is consumed)
         bad[10] ^= 0xFF; try Data(bad).write(to: path)
         await expectVaultError(.recordNotActive(state: "corrupt")) { _ = try await f.exportV3(s2) }
-        #expect(s2.lastExportedGeneration == 3)
+        #expect(s2.lastExportedGeneration == 4)
         try await s2.close()
     }
 

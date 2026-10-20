@@ -273,7 +273,10 @@ struct StoreDurabilityFailureTests {
         #expect(s.minimumWrapVersion == 2)
         let fresh = try s.vault.seal(plaintext: [2], descriptor: try f.descriptor(), authorization: try s.issuer.issue(scope: .write(.birthDate)))
         let gen = s.manifestGeneration
-        await expectVaultError(.staleKeyVersion(minimum: 2)) {
+        // P03-04bH: a caller-built result is refused before any check (restoreUnverified); a VERIFIED result can
+        // never carry a stale key version because the facade re-wraps every DEK under the current key, so the
+        // `staleKeyVersion` admission guard is defense in depth (unreachable by construction, like NT-H2-01).
+        await expectVaultError(.restoreUnverified) {
             try await s.admitRestored(RestoreResult(active: [fresh, old], quarantined: []), authorization: try s.issuer.issue(scope: .admitRestored))
         }
         for env in [fresh, old] { #expect(s.state(of: env.header.recordID) == nil && !f.fileExists(env.header.recordID)) }

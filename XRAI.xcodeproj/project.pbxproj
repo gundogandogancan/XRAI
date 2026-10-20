@@ -34,6 +34,7 @@
 		97889E097D7748E2143ADAB9 /* StoreCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF833484BA2085E72393E78C /* StoreCoreTests.swift */; };
 		AEA2E6FFC75BD0D646873392 /* StoreHarness.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF953509178A5547B39EFE27 /* StoreHarness.swift */; };
 		B0E639D08C7DE36721A0C5A1 /* XRAIVaultKeychain in Frameworks */ = {isa = PBXBuildFile; productRef = 31FE44D09BC3828DEBFA63D3 /* XRAIVaultKeychain */; };
+		B5456BA1E30F17119C3DB439 /* StoreRestoreHardeningTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017A9EC023DBB0ED4FE08298 /* StoreRestoreHardeningTests.swift */; };
 		B8B29A0141BAFADCEF1282AC /* LifePathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1F0B3AB29F77D1173CAC6F /* LifePathView.swift */; };
 		BEE3C8A64276672AB151C09C /* SessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F67317BF7CFCF8C6CB6395 /* SessionState.swift */; };
 		C6E39840796C6FEC0B6B6E0C /* XRAIIdentityTime in Frameworks */ = {isa = PBXBuildFile; productRef = 571E70B74A5DFCAEA534A92B /* XRAIIdentityTime */; };
@@ -62,6 +63,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		017A9EC023DBB0ED4FE08298 /* StoreRestoreHardeningTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreRestoreHardeningTests.swift; sourceTree = "<group>"; };
 		0A772EA7549B990FED1D1A54 /* SecurityStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityStatus.swift; sourceTree = "<group>"; };
 		10115E893ADFB4B0FC88A51A /* StoreBoundaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreBoundaryTests.swift; sourceTree = "<group>"; };
 		15F67317BF7CFCF8C6CB6395 /* SessionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionState.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				4785D9218BB6F1C88F02C4D9 /* StoreFileSystemTests.swift */,
 				CF953509178A5547B39EFE27 /* StoreHarness.swift */,
 				3263E3D1BB06AAB8004C21D9 /* StoreLedgerBindingTests.swift */,
+				017A9EC023DBB0ED4FE08298 /* StoreRestoreHardeningTests.swift */,
 				F36796E9967501B6C672D7DF /* StoreScaleTests.swift */,
 			);
 			path = XRAIVaultStoreTests;
@@ -415,6 +418,7 @@
 				2A9EA1BD06D78D38F38844BF /* StoreFileSystemTests.swift in Sources */,
 				AEA2E6FFC75BD0D646873392 /* StoreHarness.swift in Sources */,
 				62D6FAAB653AF3FC029B1221 /* StoreLedgerBindingTests.swift in Sources */,
+				B5456BA1E30F17119C3DB439 /* StoreRestoreHardeningTests.swift in Sources */,
 				63C4443B4C0DDAFDEBE3122C /* StoreScaleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

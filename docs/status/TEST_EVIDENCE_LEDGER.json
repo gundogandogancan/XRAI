@@ -690,6 +690,70 @@
    "result": "PASS: 102 NT rows, T44–T50, P03-04b review consistent",
    "log": "docs/status/evidence/p03_04b_check_docs.log",
    "log_sha256": "6049b63469c9ad3433b0d9f1e9b708bbf083fef08697d5fe61b3ddb86212f2dc"
+  },
+  {
+   "run_id": "P03-04BH-STORE-RUN1",
+   "command": "swift test --filter XRAIVaultStoreTests",
+   "exit_code": 1,
+   "result": "FAILED: 13 issues — 2 product defects found by the new tests (DeletionLedger.append skipped digest-hit ids; quarantine registry not released after replayed activation) + test expectations (schema, messages, seal per session, ordering)",
+   "log": "docs/status/evidence/p03_04bh_store_run1_FAIL_13_issues.log",
+   "log_sha256": "0697bb552331b22ad7aa2817f5374ab9cdb5089e81d273514ca98c7b3e41b1ff"
+  },
+  {
+   "run_id": "P03-04BH-STORE-RUN2",
+   "command": "swift test --filter XRAIVaultStoreTests",
+   "exit_code": 1,
+   "result": "FAILED: 5 issues — registry mirroring released untrusted-journal ids (fixed via needsRecovery); test plaintext/existing-id assumptions",
+   "log": "docs/status/evidence/p03_04bh_store_run2_FAIL_5_issues.log",
+   "log_sha256": "2c8d22a1b4611c7befafc1273b73b3f4b3c4965f2beb751aa3179b0eb3bfc577"
+  },
+  {
+   "run_id": "P03-04BH-SWIFT-MACOS-RUN1",
+   "command": "swift test (Packages/XRAICore)",
+   "exit_code": 1,
+   "result": "FAILED: BackupV3Tests expected body schema 1 (now 2); product unchanged by the correction",
+   "log": "docs/status/evidence/p03_04bh_swift_test_macos_run1_FAIL_schema_expectation.log",
+   "log_sha256": "04c1468c55207fa7ba8ad535167a384419d53a95683e13b7d38270e23fa85efb"
+  },
+  {
+   "run_id": "P03-04BH-SWIFT-MACOS",
+   "command": "swift test (Packages/XRAICore)",
+   "exit_code": 0,
+   "result": "200 tests in 45 suites passed (191 before + 9 new NT-BH)",
+   "log": "docs/status/evidence/p03_04bh_swift_test_macos.log",
+   "log_sha256": "c84ac6afd71608667fc61e84a8e74cb4c40c8a05340495bccb31adc62829b657"
+  },
+  {
+   "run_id": "P03-04BH-SIM-HOSTED",
+   "command": "xcodebuild test -project XRAI.xcodeproj -scheme XRAI -destination 'platform=iOS Simulator,name=iPhone 17' -only-testing:XRAIHostedTests",
+   "exit_code": 0,
+   "result": "126 tests in 29 suites passed",
+   "log": "docs/status/evidence/p03_04bh_xcodebuild_sim_hosted.log",
+   "log_sha256": "0a488c1a49a558bea34b943bcdcec9350c26b4c05336455368c38719fea6c479"
+  },
+  {
+   "run_id": "P03-04BH-DEVICE-HOSTED",
+   "command": "xcodebuild test -project XRAI.xcodeproj -scheme XRAI -destination 'platform=iOS,id=C7C6CE6E-B577-558A-8992-DC6C1F492B39' -only-testing:XRAIHostedTests -allowProvisioningUpdates",
+   "exit_code": 0,
+   "result": "126 tests in 29 suites passed on iPhone 14 Pro Max (iOS 26.6), non-destructive; DEVICE_VERIFIED: PARTIAL",
+   "log": "docs/status/evidence/p03_04bh_xcodebuild_device_hosted.log",
+   "log_sha256": "07a0c0b572614312ae5aff0eadc89693b057f97f14ab64378e53a45b222ff671"
+  },
+  {
+   "run_id": "P03-04BH-STATIC-VALIDATE",
+   "command": "python3 -I validation/validate_package.py",
+   "exit_code": 0,
+   "result": "PASS",
+   "log": "docs/status/evidence/p03_04bh_validate_package.log",
+   "log_sha256": "4da3941f265892431d35df6ce830c4a6877c7901c585a3227c84709c41b60814"
+  },
+  {
+   "run_id": "P03-04BH-STATIC-DOCS",
+   "command": "python3 -I validation/check_p03_03_docs.py",
+   "exit_code": 0,
+   "result": "PASS: 111 NT rows, T44–T51, P03-04bH report consistent, putEnvelope absent, verified-only admission present",
+   "log": "docs/status/evidence/p03_04bh_check_docs.log",
+   "log_sha256": "22b2681506677993658e719639529157e0b0388ab3e3a2f7aa062ea9c881ce97"
   }
  ],
  "acceptance_test_mapping": [
@@ -791,6 +855,15 @@
     "P03-04B-SIM-HOSTED",
     "P03-04B-DEVICE-HOSTED"
    ]
+  },
+  {
+   "rows": "NT-BH-01…09",
+   "tests": "StoreRestoreHardeningTests (+ StoreModuleBoundaryTests.compileNegative putEnvelope snippet)",
+   "runs": [
+    "P03-04BH-SWIFT-MACOS",
+    "P03-04BH-SIM-HOSTED",
+    "P03-04BH-DEVICE-HOSTED"
+   ]
   }
  ],
  "statuses": {
@@ -835,7 +908,8 @@
   "vault.store.filesystem_durability": "CODED + TESTED (P03-04H: NT-FS-01…12 on macOS, Simulator and iPhone 14 Pro Max; F-P04-01/02 fixed); power-loss NOT_RUN (no rig); SECURITY_REVIEWED: NO",
   "vault.backup.sealed.v3": "CODED + TESTED (P03-04b: NT-BK-01…08, NT-RR-01…14 on macOS, Simulator, iPhone 14 Pro Max); attachments not included; SECURITY_REVIEWED: NO",
   "vault.store.ledger_binding": "CODED + TESTED (P03-04b GATE 1: NT-LR-01…08; LEDGER_ONLY_ROLLBACK closed)",
-  "vault.store.attachments": "CODED + TESTED (P03-04b GATE 4: NT-AT-01…11 incl. 64 MiB on device); not in backups; SECURITY_REVIEWED: NO"
+  "vault.store.attachments": "CODED + TESTED (P03-04b GATE 4: NT-AT-01…11 incl. 64 MiB on device); not in backups; SECURITY_REVIEWED: NO",
+  "vault.store.restore_identity": "CODED + TESTED (P03-04bH: NT-BH-01…09 on macOS, Simulator, iPhone 14 Pro Max); F-P04B-01/02/03 closed; SECURITY_REVIEWED: NO"
  },
  "not_evidence": [
   "docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"
