@@ -55,7 +55,7 @@ Deviations from the wording of the matrix, stated honestly:
 | iPhone 14 Pro Max (iOS 26.6, "Dogi (2)") | `xcodebuild test … 'platform=iOS,id=C7C6CE6E-…' -only-testing:XRAIHostedTests` | 0 | **73 tests in 21 suites passed** — non-destructive: temp directory inside the app container, unique keychain services cleaned up; NT-H5-16 asserts `NSFileProtectionComplete` on every vault file and backup exclusion on the root (real device evidence); real Secure Enclave anchor/keychain | `evidence/p03_04_xcodebuild_device_hosted.log` |
 | store suite development runs | `swift test --filter XRAIVaultStoreTests` | 1, 1, 0… | run 1: stale `ledger.v1` under the old key + O(n) ledger lookup (fixed); run 2: 3 issues (manifest-block parsing in a test, verifier timing, clock-regressed open) (fixed); later runs 36/36 | `evidence/p03_04_store_tests_run1_*.log`, `…run2_*.log` |
 | spec validator | `python3 -I validation/validate_package.py` | 0 | PASS | `evidence/p03_04_validate_package.log` |
-| docs consistency | `python3 -I validation/check_p03_03_docs.py` (extended for P03-04) | 0 | see ledger entry P03-04-STATIC-DOCS | `evidence/p03_04_check_docs.log` |
+| docs consistency | `python3 -I validation/check_p03_03_docs.py` (extended for P03-04) | 1 → 0 | first run (commit `b6283d6`) FAILED: `store_metadata` was missing from the P03-03 data inventory and lifecycle matrix; both docs patched in the follow-up commit and the check re-run PASS | `evidence/p03_04_check_docs.log` |
 
 DEVICE_VERIFIED: **PARTIAL** (non-destructive hosted suite incl. the store on a physical iPhone; no reinstall/passcode/lock-transition scenarios). SECURITY_REVIEWED: **NO**. Not run: UI tests and the accessibility audit (no UI changed), destructive scenarios (not authorized).
 

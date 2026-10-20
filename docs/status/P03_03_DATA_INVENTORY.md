@@ -20,6 +20,7 @@ Türkçe özet: XRAI'nın bugün tuttuğu ve ileride tutacağı her veri öğesi
 | D10 | `evidence_files` | user-supplied artifacts (P1–P5 evidence) | learning proof | ACTIVITY_EVIDENCE | DEVICE_ONLY_PRIVATE | no | not collected | P05 |
 | D11 | `consent_receipts` | the consent authority itself | audit of consent | SYSTEM record | DEVICE_ONLY_PRIVATE | n/a | in-memory test double only | P03-04 (persisted registry) |
 | D12 | `derived_result` | computed by engines from D1–D7 (`NumerologyTrace`, later charts) | display/caching | EXACT_MATH / SYMBOLIC | DEVICE_ONLY_PRIVATE | inherits sources | computed on demand, never stored | P04+: optional cache with `derivedFrom[]` |
+| D19 | `store_metadata` (added P03-04) | the store itself | manifest, deletion ledger, authorization state, journal entries | SYSTEM record (ids, classes, generations — never contents) | DEVICE_ONLY_PRIVATE | n/a (sealed/opened only through the `storeMetadata` system path; never in a user backup) | P03-04: `system/*.v1`, `journal/*.j` under `XRAIVaultStore` (library only, app not wired) | same |
 
 New classes required by the planned product (not yet in `DataClass`; to be added by the persistence phase, append-only):
 

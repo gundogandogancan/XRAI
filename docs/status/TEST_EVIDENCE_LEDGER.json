@@ -575,9 +575,9 @@
       "run_id": "P03-04-STATIC-DOCS",
       "command": "python3 -I validation/check_p03_03_docs.py",
       "exit_code": 0,
-      "result": "PASS incl. P03-04 report/matrix checks and app-does-not-link-store check",
+      "result": "first run at commit b6283d6 FAILED (store_metadata missing from the P03-03 inventory/lifecycle docs); docs patched in the follow-up commit; rerun PASS",
       "log": "docs/status/evidence/p03_04_check_docs.log",
-      "log_sha256": "e5dcf8ca7efd232fa39999b20e942976709ecfa757316832382eae753133cdc0"
+      "log_sha256": "b04831a7b6a0941071b89783bae47afe17aa3a8b79508fc827149b87b0ce3639"
     }
   ],
   "acceptance_test_mapping": [
