@@ -16,7 +16,10 @@
 		32CC8B75D5446FD1F9BE0719 /* XRAIVaultContracts in Frameworks */ = {isa = PBXBuildFile; productRef = 3D1A5BE64A21A28AFE64108C /* XRAIVaultContracts */; };
 		369A24F1BBE76695375D95C8 /* KeychainKeyProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922D9A8B5469E016CBD0E74 /* KeychainKeyProviderTests.swift */; };
 		3E34376F1243A0AA807694BA /* XRAIVaultKeychain in Frameworks */ = {isa = PBXBuildFile; productRef = E0B6B3C4DDCE43244FDF7EDC /* XRAIVaultKeychain */; };
+		45B5707695370967A0A0648D /* StoreBackupRestoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC7390DAF45B173884CEB36 /* StoreBackupRestoreTests.swift */; };
 		62503B7E1258BA563E9CE92B /* SelfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095E78D72B6D369A0A22098 /* SelfView.swift */; };
+		62D6FAAB653AF3FC029B1221 /* StoreLedgerBindingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3263E3D1BB06AAB8004C21D9 /* StoreLedgerBindingTests.swift */; };
+		63C4443B4C0DDAFDEBE3122C /* StoreScaleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36796E9967501B6C672D7DF /* StoreScaleTests.swift */; };
 		6DF48DEF2A90D5803297FEBB /* KeychainAnchorStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AAB445F4A824EF2F770E60 /* KeychainAnchorStoreTests.swift */; };
 		71455E7DA2AD2537E19C9E15 /* SecurityStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A772EA7549B990FED1D1A54 /* SecurityStatus.swift */; };
 		71AE1DF0456ED223AC0FF3F3 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542FC2401ACFB40C35F7F27E /* Theme.swift */; };
@@ -36,6 +39,7 @@
 		C6E39840796C6FEC0B6B6E0C /* XRAIIdentityTime in Frameworks */ = {isa = PBXBuildFile; productRef = 571E70B74A5DFCAEA534A92B /* XRAIIdentityTime */; };
 		EEBDAB1CBCD267B97036DDE1 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD914CE2DEEDCE84620C13EE /* Components.swift */; };
 		F1B527A114BEC3A8D01E3C96 /* OnboardingFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4DC610483494AB53AF01ED /* OnboardingFlow.swift */; };
+		F52AF29F80BB9A768D5B8790 /* StoreAttachmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D903B5D443B96C425D4F08 /* StoreAttachmentTests.swift */; };
 		F55F76B3370C663BD6A2DD25 /* XRAIVaultTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 604B3AAB6C699A88BA7D897F /* XRAIVaultTesting */; };
 		FE64764C86A29F4381A98A5A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D67A02E02AE3CF07F3C01F64 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -63,11 +67,14 @@
 		15F67317BF7CFCF8C6CB6395 /* SessionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionState.swift; sourceTree = "<group>"; };
 		1E483975BB21B5C8CB970BAF /* OnboardingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingUITests.swift; sourceTree = "<group>"; };
 		1F014E98379834652AC3671E /* XRAIUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = XRAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2DC7390DAF45B173884CEB36 /* StoreBackupRestoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreBackupRestoreTests.swift; sourceTree = "<group>"; };
+		3263E3D1BB06AAB8004C21D9 /* StoreLedgerBindingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreLedgerBindingTests.swift; sourceTree = "<group>"; };
 		3D9F0227DFDECC29D12FE6E4 /* HostedKeychainSmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostedKeychainSmokeTests.swift; sourceTree = "<group>"; };
 		4785D9218BB6F1C88F02C4D9 /* StoreFileSystemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreFileSystemTests.swift; sourceTree = "<group>"; };
 		4922D9A8B5469E016CBD0E74 /* KeychainKeyProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainKeyProviderTests.swift; sourceTree = "<group>"; };
 		542FC2401ACFB40C35F7F27E /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		61FF336B937C4237E3B2760A /* XRAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XRAI.entitlements; sourceTree = "<group>"; };
+		63D903B5D443B96C425D4F08 /* StoreAttachmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAttachmentTests.swift; sourceTree = "<group>"; };
 		7095E78D72B6D369A0A22098 /* SelfView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfView.swift; sourceTree = "<group>"; };
 		72A6CEE0D16C5DFA26F280FF /* XRAICore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = XRAICore; path = Packages/XRAICore; sourceTree = SOURCE_ROOT; };
 		7E8172814642083526C4E6EF /* XRAIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XRAIApp.swift; sourceTree = "<group>"; };
@@ -85,6 +92,7 @@
 		D1B75040866957FF3325A8D5 /* XRAIHostedTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = XRAIHostedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D430EA75F8F7D8B3D63C162C /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		D67A02E02AE3CF07F3C01F64 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F36796E9967501B6C672D7DF /* StoreScaleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreScaleTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,11 +135,15 @@
 		63634579244C47A966840B79 /* XRAIVaultStoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				63D903B5D443B96C425D4F08 /* StoreAttachmentTests.swift */,
+				2DC7390DAF45B173884CEB36 /* StoreBackupRestoreTests.swift */,
 				10115E893ADFB4B0FC88A51A /* StoreBoundaryTests.swift */,
 				AF833484BA2085E72393E78C /* StoreCoreTests.swift */,
 				87C8A07A6D5AEA2DE136311E /* StoreCrashAndRetirementTests.swift */,
 				4785D9218BB6F1C88F02C4D9 /* StoreFileSystemTests.swift */,
 				CF953509178A5547B39EFE27 /* StoreHarness.swift */,
+				3263E3D1BB06AAB8004C21D9 /* StoreLedgerBindingTests.swift */,
+				F36796E9967501B6C672D7DF /* StoreScaleTests.swift */,
 			);
 			path = XRAIVaultStoreTests;
 			sourceTree = "<group>";
@@ -395,11 +407,15 @@
 				6DF48DEF2A90D5803297FEBB /* KeychainAnchorStoreTests.swift in Sources */,
 				369A24F1BBE76695375D95C8 /* KeychainKeyProviderTests.swift in Sources */,
 				787869CDE31B62307D97834B /* OnboardingAndSessionTests.swift in Sources */,
+				F52AF29F80BB9A768D5B8790 /* StoreAttachmentTests.swift in Sources */,
+				45B5707695370967A0A0648D /* StoreBackupRestoreTests.swift in Sources */,
 				8420BF3DA25D0558D7239377 /* StoreBoundaryTests.swift in Sources */,
 				97889E097D7748E2143ADAB9 /* StoreCoreTests.swift in Sources */,
 				764DF4E2A316C4E609396DD0 /* StoreCrashAndRetirementTests.swift in Sources */,
 				2A9EA1BD06D78D38F38844BF /* StoreFileSystemTests.swift in Sources */,
 				AEA2E6FFC75BD0D646873392 /* StoreHarness.swift in Sources */,
+				62D6FAAB653AF3FC029B1221 /* StoreLedgerBindingTests.swift in Sources */,
+				63C4443B4C0DDAFDEBE3122C /* StoreScaleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

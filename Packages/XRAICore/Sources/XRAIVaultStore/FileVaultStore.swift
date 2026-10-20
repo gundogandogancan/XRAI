@@ -32,10 +32,50 @@ public struct StoreLimits: Sendable {
     public var ledgerRecentKept: Int
     public var ledgerDigestCapacity: Int
     public var maxRecordBytes: Int
-    public init(ledgerCompactionThreshold: Int = 200_000, ledgerRecentKept: Int = 100_000, ledgerDigestCapacity: Int = 1_000_000, maxRecordBytes: Int = BackupLimits.maxRecordCiphertextBytes) {
+    /// P03-04b GATE 4: attachment chunk size (plaintext bytes per AEAD chunk) and the per-attachment cap.
+    public var attachmentChunkBytes: Int
+    public var maxAttachmentBytes: Int
+    /// P03-04b GATE 5: recovery refuses (read-only) a directory with more entries than this.
+    public var maxDirectoryEntries: Int
+    public init(ledgerCompactionThreshold: Int = 200_000, ledgerRecentKept: Int = 100_000, ledgerDigestCapacity: Int = 1_000_000, maxRecordBytes: Int = BackupLimits.maxRecordCiphertextBytes, attachmentChunkBytes: Int = 1 << 20, maxAttachmentBytes: Int = 64 << 20, maxDirectoryEntries: Int = 500_000) {
         self.ledgerCompactionThreshold = ledgerCompactionThreshold; self.ledgerRecentKept = ledgerRecentKept
         self.ledgerDigestCapacity = ledgerDigestCapacity; self.maxRecordBytes = maxRecordBytes
+        self.attachmentChunkBytes = attachmentChunkBytes; self.maxAttachmentBytes = maxAttachmentBytes; self.maxDirectoryEntries = maxDirectoryEntries
     }
+}
+
+/// P03-04b: where attachment plaintext comes from. Read chunk by chunk so the store never holds the
+/// whole attachment in memory. Implementations must return exactly `maxBytes` until the final chunk.
+public protocol AttachmentSource: AnyObject, Sendable {
+    var totalBytes: UInt64 { get }
+    func readChunk(maxBytes: Int) throws -> [UInt8]
+}
+
+/// In-memory source (small attachments, tests).
+public final class InMemoryAttachmentSource: AttachmentSource, @unchecked Sendable {
+    private var bytes: [UInt8]
+    private var offset = 0
+    public init(_ bytes: [UInt8]) { self.bytes = bytes }
+    public var totalBytes: UInt64 { UInt64(bytes.count) }
+    public func readChunk(maxBytes: Int) throws -> [UInt8] {
+        let n = min(maxBytes, bytes.count - offset)
+        defer { offset += n }
+        return Array(bytes[offset..<offset + n])
+    }
+}
+
+/// Streams a regular file through the store's file-system port (no symlinks, bounded reads).
+public final class FileAttachmentSource: AttachmentSource, @unchecked Sendable {
+    private let fs: any VaultFileSystem
+    private let fd: Int32
+    public let totalBytes: UInt64
+    public init(path: String, fileSystem: any VaultFileSystem = RealFileSystem()) throws {
+        fs = fileSystem
+        let (fd, size) = try fileSystem.openRegularForRead(path)
+        self.fd = fd; totalBytes = UInt64(size)
+    }
+    deinit { try? fs.close(fd) }
+    public func readChunk(maxBytes: Int) throws -> [UInt8] { try fs.read(fd, maxBytes: maxBytes) }
 }
 
 /// What to do when the Keychain anchor exists but the directory holds no manifest (app reinstall,
@@ -58,11 +98,15 @@ public enum RevokeMode: Sendable, Equatable {
     case suspend(graceSeconds: Int64)
 }
 
+/// P03-04b GATE 3: phase-1 outcome of a restore. Nothing is active after admission; every staged
+/// record is quarantined with the risks the user must acknowledge in `activateRestored`.
 public struct AdmissionReport: Sendable, Hashable {
-    public let admittedActive: [RecordID]
-    public let quarantined: [RecordID]
+    public let staged: [RecordID]
+    public let risks: [RecordID: Set<RestoreRisk>]
     public let skippedDeleted: [RecordID]
     public let skippedExisting: [RecordID]
+    /// The backup's deletion history was merged into this vault's ledger.
+    public let historyMerged: Bool
 }
 
 public struct StoreIntegrityReport: Sendable, Equatable {
@@ -131,6 +175,8 @@ public actor FileVaultStore {
 
     private nonisolated func path(_ parts: String...) -> String { parts.reduce(root) { ($0 as NSString).appendingPathComponent($1) } }
     private nonisolated func recordPath(_ id: RecordID) -> String { path(StoreLayout.recordsDir, id.hex + StoreLayout.recordSuffix) }
+    private nonisolated func attachmentPath(_ id: RecordID) -> String { path(StoreLayout.attachmentsDir, id.hex + StoreLayout.attachmentSuffix) }
+    private nonisolated func filePath(_ id: RecordID, kind: EntryKind) -> String { kind == .attachment ? attachmentPath(id) : recordPath(id) }
     private nonisolated func journalPath(_ generation: UInt64) -> String { path(StoreLayout.journalDir, String(generation, radix: 16) + StoreLayout.journalSuffix) }
     private nonisolated func tempName() -> String { StoreLayout.tempPrefix + RecordID().hex }
 
@@ -161,6 +207,8 @@ public actor FileVaultStore {
     public nonisolated var manifestHash: [UInt8] { mirror.read { m, _, _ in m.hash } }
     public nonisolated var vaultInstanceID: [UInt8] { mirror.read { m, _, _ in m.vaultInstanceID } }
     public nonisolated var minimumWrapVersion: UInt32 { mirror.read { m, _, _ in m.minimumWrapVersion } }
+    /// P03-04b: the newest backup generation this vault exported (durable, monotonic).
+    public nonisolated var lastExportedGeneration: UInt64 { mirror.read { m, _, _ in m.lastExportedGeneration } }
     public nonisolated var deletionHistoryTrusted: Bool { mirror.read { _, _, r in r.deletionHistoryTrusted } }
     public nonisolated var deletionCount: Int { mirror.read { _, l, _ in l.totalCount } }
     public nonisolated var keyUsage: [UInt32: Int] { mirror.read { m, _, _ in m.keyUsage } }
@@ -187,6 +235,7 @@ public actor FileVaultStore {
         guard !closed else { throw VaultError.storeReadOnly(reason: "closed") }
         if case .readOnly(let r) = modeValue, r == Self.reopenRequiredReason { throw VaultError.storeReadOnly(reason: r) }
         guard let e = manifest.records[id.hex] else { throw VaultError.recordMissing }
+        guard e.kind == .record else { throw VaultError.notEligible(reason: "attachment: use readAttachment") }
         guard !needsRecoveryIDs.contains(id.hex) else { throw VaultError.needsRecovery }
         guard e.state == .active else { throw VaultError.recordNotActive(state: e.state.name) }
         guard !missingFiles.contains(id.hex) else { throw VaultError.recordMissing }
@@ -215,6 +264,143 @@ public actor FileVaultStore {
         catch { corruptFiles.insert(id.hex); throw VaultError.recordNotActive(state: "corrupt") }
         guard env.header.recordID == id else { corruptFiles.insert(id.hex); throw VaultError.storeIntegrityFailed(reason: "record id mismatch") }
         return env
+    }
+
+    private func readAttachmentHeader(_ id: RecordID) throws -> RecordEnvelope {
+        let p = attachmentPath(id)
+        let kind = try fs.kind(of: p)
+        guard kind != .missing else { missingFiles.insert(id.hex); throw VaultError.recordMissing }
+        guard kind == .regular else { throw VaultError.storeIntegrityFailed(reason: "attachment path is not a regular file") }
+        let env: RecordEnvelope
+        do { env = try EnvelopeCodec.decode(try AttachmentFile.readHeaderFrame(p, fileSystem: fs)) }
+        catch { corruptFiles.insert(id.hex); throw VaultError.recordNotActive(state: "corrupt") }
+        guard env.header.recordID == id else { corruptFiles.insert(id.hex); throw VaultError.storeIntegrityFailed(reason: "attachment id mismatch") }
+        return env
+    }
+
+    // MARK: Attachments (P03-04b GATE 4): one DEK, streamed chunks, manifest-bound, cascade-aware
+
+    /// Stores an attachment streamed from `source` (never whole in memory): header record sealed through
+    /// `SecureVault.createAttachment` (`.write(class)` token + consent), chunks sealed with the derived
+    /// chunk key, file written atomically, journaled like a record. `derivedFrom` binds it to its
+    /// parent record(s) so cascade delete and source-consent rules apply.
+    @discardableResult
+    public func putAttachment(from source: any AttachmentSource, descriptor: RecordDescriptor, authorization: OperationAuthorization, provenance: RecordProvenance = .created) throws -> RecordID {
+        try requireWritable()
+        try validateSources(descriptor.derivedFrom, newCreatedAt: descriptor.createdAtUnixSeconds, newID: descriptor.recordID)
+        guard manifest.records[descriptor.recordID.hex] == nil else { throw VaultError.duplicateRecordID }
+        guard vault.currentKeyIdentity.version >= manifest.minimumWrapVersion else { throw VaultError.staleKeyVersion(minimum: manifest.minimumWrapVersion) }
+        guard descriptor.dataClass != .storeMetadata else { throw VaultError.unsupportedSystemClass }
+        let total = source.totalBytes
+        guard total <= UInt64(limits.maxAttachmentBytes) else { throw VaultError.limitExceeded("attachment size") }
+        let chunk = UInt32(limits.attachmentChunkBytes)
+        let count = UInt32(total == 0 ? 1 : (total + UInt64(chunk) - 1) / UInt64(chunk))
+        var prefix = [UInt8](repeating: 0, count: AttachmentLayout.noncePrefixBytes)
+        var rng = SystemRandomNumberGenerator()
+        for i in 0..<prefix.count { prefix[i] = UInt8.random(in: 0...255, using: &rng) }
+        let layout = try AttachmentLayout(chunkBytes: chunk, chunkCount: count, totalBytes: total, noncePrefix: prefix)
+        let (header, cipher) = try vault.createAttachment(descriptor: descriptor, layout: layout, authorization: authorization)
+        let id = header.header.recordID
+        let headerFrame = AttachmentFile.frameBytes(EnvelopeCodec.encode(header))
+        try runMutation(op: "put", tokenID: authorization.id, ids: [id], params: [Int64(provenance.rawValue), Int64(EntryKind.attachment.rawValue), Int64(bitPattern: total), Int64(count)]) { m, _, step in
+            try AtomicWriter.replaceStreaming(self.fs, at: self.attachmentPath(id), tempName: self.tempName()) { fd in
+                try self.fs.write(fd, headerFrame)
+                var written = 0
+                var delivered: UInt64 = 0
+                for index in 0..<count {
+                    let want = layout.length(ofChunk: index)
+                    let plain = try source.readChunk(maxBytes: want)
+                    guard plain.count == want else { throw VaultError.limitExceeded("attachment source short read") }
+                    let sealed = try cipher.seal(chunk: plain, index: index)
+                    let frame = AttachmentFile.frameBytes(sealed)
+                    try self.fs.write(fd, frame)
+                    written += frame.count
+                    delivered += UInt64(plain.count)
+                }
+                guard delivered == total, try source.readChunk(maxBytes: 1).isEmpty else { throw VaultError.limitExceeded("attachment source size mismatch") }
+                let used = headerFrame.count + written
+                let rem = used % FileFraming.block
+                if rem != 0 { try self.fs.write(fd, [UInt8](repeating: 0, count: FileFraming.block - rem)) }
+            }
+            try step("file", 0)
+            m.records[id.hex] = ManifestEntry(header: header.header, keyVersion: header.wrappedDEK.keyVersion, provenance: provenance, kind: .attachment, attachmentBytes: total, chunkCount: count)
+            return true
+        }
+        return id
+    }
+
+    /// Streams an attachment's plaintext to `sink` chunk by chunk after the SAME checks as `get`
+    /// (active, sources active + consented, `.read` token, quarantine, consent) PLUS a full
+    /// authentication pass over every chunk BEFORE the first plaintext byte is delivered: a corrupt,
+    /// truncated, reordered or duplicated chunk yields no plaintext at all (two passes, bounded memory).
+    public func readAttachment(_ id: RecordID, authorization: OperationAuthorization, sink: (UInt32, [UInt8]) throws -> Void) throws {
+        guard !closed else { throw VaultError.storeReadOnly(reason: "closed") }
+        if case .readOnly(let r) = modeValue, r == Self.reopenRequiredReason { throw VaultError.storeReadOnly(reason: r) }
+        guard let e = manifest.records[id.hex] else { throw VaultError.recordMissing }
+        guard e.kind == .attachment else { throw VaultError.notEligible(reason: "record: use get") }
+        guard !needsRecoveryIDs.contains(id.hex) else { throw VaultError.needsRecovery }
+        guard e.state == .active else { throw VaultError.recordNotActive(state: e.state.name) }
+        guard !missingFiles.contains(id.hex) else { throw VaultError.recordMissing }
+        guard !corruptFiles.contains(id.hex) else { throw VaultError.recordNotActive(state: "corrupt") }
+        let now = try clock.now()
+        for src in e.derivedFrom {
+            guard let sEntry = manifest.records[src.hex], sEntry.state == .active, !missingFiles.contains(src.hex) else { throw VaultError.recordNotActive(state: "sourceInactive") }
+            if case .denied(let reason) = VaultPolicy.mayRead(sEntry.dataClass, consentPurpose: sEntry.consentPurpose, authority: composition.consentAuthority, atUnixSeconds: now) {
+                throw VaultError.notAuthorized(reason)
+            }
+        }
+        let header = try readAttachmentHeader(id)
+        let (layout, cipher): (AttachmentLayout, AttachmentCipher)
+        do { (layout, cipher) = try vault.openAttachment(header, authorization: authorization) } catch VaultError.authenticationFailed {
+            corruptFiles.insert(id.hex); throw VaultError.recordNotActive(state: "corrupt")
+        }
+        guard layout.totalBytes == e.attachmentBytes, layout.chunkCount == e.chunkCount else { corruptFiles.insert(id.hex); throw VaultError.recordNotActive(state: "corrupt") }
+        do {
+            try streamChunks(id, layout: layout, cipher: cipher) { _, _ in }            // pass 1: authenticate everything
+            try streamChunks(id, layout: layout, cipher: cipher, deliver: sink)         // pass 2: decrypt and deliver
+        } catch VaultError.authenticationFailed { corruptFiles.insert(id.hex); throw VaultError.recordNotActive(state: "corrupt") }
+        catch VaultError.storeIntegrityFailed { corruptFiles.insert(id.hex); throw VaultError.recordNotActive(state: "corrupt") }
+    }
+
+    private func streamChunks(_ id: RecordID, layout: AttachmentLayout, cipher: AttachmentCipher, deliver: (UInt32, [UInt8]) throws -> Void) throws {
+        let (fd, _) = try fs.openRegularForRead(attachmentPath(id))
+        defer { try? fs.close(fd) }
+        guard try AttachmentFile.readFrame(fd, fileSystem: fs, maxBytes: AttachmentFile.maxHeaderFrameBytes) != nil else { throw VaultError.storeIntegrityFailed(reason: "attachment header missing") }
+        let maxChunkFrame = Int(layout.chunkBytes) + 16
+        for index in 0..<layout.chunkCount {
+            guard let sealed = try AttachmentFile.readFrame(fd, fileSystem: fs, maxBytes: maxChunkFrame) else { throw VaultError.storeIntegrityFailed(reason: "attachment chunk missing") }
+            let plain = try cipher.open(chunk: sealed, index: index)
+            try deliver(index, plain)
+        }
+        // Nothing but zero padding may follow the last chunk (an appended or duplicated chunk fails here).
+        while true {
+            let rest = try fs.read(fd, maxBytes: FileFraming.block)
+            if rest.isEmpty { break }
+            guard rest.allSatisfy({ $0 == 0 }) else { throw VaultError.storeIntegrityFailed(reason: "attachment trailing data") }
+        }
+    }
+
+    /// Rewrites only the header frame of an attachment under a new wrapping (chunks copied verbatim,
+    /// bounded buffer). Used by key maintenance.
+    private func rewriteAttachmentHeader(_ id: RecordID, header: RecordEnvelope) throws {
+        let src = attachmentPath(id)
+        let (inFD, _) = try fs.openRegularForRead(src)
+        defer { try? fs.close(inFD) }
+        guard try AttachmentFile.readFrame(inFD, fileSystem: fs, maxBytes: AttachmentFile.maxHeaderFrameBytes) != nil else { throw VaultError.storeIntegrityFailed(reason: "attachment header missing") }
+        let newHeader = AttachmentFile.frameBytes(EnvelopeCodec.encode(header))
+        try AtomicWriter.replaceStreaming(fs, at: src, tempName: tempName()) { outFD in
+            try self.fs.write(outFD, newHeader)
+            var written = newHeader.count
+            while true {
+                let block = try self.fs.read(inFD, maxBytes: FileFraming.block * 64)
+                if block.isEmpty { break }
+                try self.fs.write(outFD, block)
+                written += block.count
+            }
+            // the old padding was copied too; re-pad only if the header length changed the alignment
+            let rem = written % FileFraming.block
+            if rem != 0 { try self.fs.write(outFD, [UInt8](repeating: 0, count: FileFraming.block - rem)) }
+        }
     }
 
     // MARK: Write
@@ -285,7 +471,7 @@ public actor FileVaultStore {
 
     private func applyDelete(_ order: [RecordID], deletedAt: Int64, m: inout Manifest, l: inout DeletionLedger, step: (String, UInt32) throws -> Void) throws {
         for (i, id) in order.enumerated() {
-            try fs.remove(recordPath(id))
+            try fs.remove(filePath(id, kind: m.records[id.hex]?.kind ?? .record))
             l.append(DeletionLedger.Entry(recordID: id, deletedAtUnixSeconds: deletedAt, manifestGeneration: m.generation + 1))
             m.records[id.hex] = nil
             missingFiles.remove(id.hex); corruptFiles.remove(id.hex)
@@ -375,51 +561,134 @@ public actor FileVaultStore {
         return order
     }
 
-    // MARK: Restore admission (H1) — fail-closed reconciliation foundations
+    // MARK: Restore (H1 + P03-04b GATE 2/3): export v3, two-phase reconciliation
 
-    /// Admits records returned by `SecureVault.restoreBackup`. Known-deleted ids are skipped (never
-    /// reactivated under their id); possibly-deleted ids, an untrusted local ledger, and backups from
-    /// another/unknown vault instance (while this vault holds data) are quarantined pending per-class
-    /// review. Existing ids are kept as they are.
-    public func admitRestored(_ result: RestoreResult, sourceVaultInstanceID: [UInt8]?, authorization: OperationAuthorization) throws -> AdmissionReport {
+    /// P03-04b: exports every active record (attachments excluded in this phase) as a v3 backup bound
+    /// to this vault: instance id, a durable monotonic backup generation, manifest generation + hash,
+    /// and the deletion history (with its trust flag). The generation is committed BEFORE sealing so
+    /// it never repeats. Any corrupt/missing record fails the export closed (typed error).
+    public func exportBackup(recoveryKey: RecoveryKey, authorization: OperationAuthorization) throws -> [UInt8] {
+        try requireWritable()
+        let keys = manifest.records.filter { $0.value.state == .active && $0.value.kind == .record }.keys.sorted()
+        var envs: [RecordEnvelope] = []
+        envs.reserveCapacity(keys.count)
+        for key in keys { envs.append(try readRecordFile(try RecordID(hex: key))) }
+        let gen = manifest.lastExportedGeneration + 1
+        try runMutation(op: "export", tokenID: authorization.id, ids: [], params: [Int64(gen)]) { m, _, step in
+            m.lastExportedGeneration = gen
+            try step("generation", 0)
+            return true
+        }
+        let lb = ledger.encode()
+        let facts = try BackupExportFacts(vaultInstanceID: manifest.vaultInstanceID, backupGeneration: gen, sourceManifestGeneration: manifest.generation, sourceManifestHash: manifest.hash, deletionLedgerBytes: lb, deletionLedgerHash: VaultDigest.sha256(lb), deletionHistoryTrusted: ledgerTrusted)
+        return try vault.exportBackup(envs, facts: facts, recoveryKey: recoveryKey, authorization: authorization)
+    }
+
+    /// Phase 1 — verify and stage. Every record returned by `SecureVault.restoreBackup` is written and
+    /// QUARANTINED with the risks the user must acknowledge; nothing becomes active here. Known-deleted
+    /// ids (local history, merged history, or the backup's own history) are skipped forever; existing
+    /// ids are left as they are. The backup's history is merged only when it is our own instance's or
+    /// this vault is empty (adoption on a fresh device), and only when the source trusted it.
+    public func admitRestored(_ result: RestoreResult, authorization: OperationAuthorization) throws -> AdmissionReport {
         try requireWritable()
         _ = try vault.consumeAuthorization(authorization, for: .admitRestored)
-        let foreign = !manifest.records.isEmpty && (sourceVaultInstanceID == nil || sourceVaultInstanceID! != manifest.vaultInstanceID)
-        var active: [RecordID] = [], quarantined: [RecordID] = [], skippedDeleted: [RecordID] = [], skippedExisting: [RecordID] = []
-        var toWrite: [(RecordEnvelope, Bool, DenialReason?)] = []
-        for (env, preQuarantined) in result.active.map({ ($0, false) }) + result.quarantined.map({ ($0.envelope, true) }) {
+        let prov = result.provenance
+        var embedded: DeletionLedger? = nil
+        if let lb = prov.deletionLedgerBytes {
+            guard let lh = prov.deletionLedgerHash, ConstantTime.equal(VaultDigest.sha256(lb), lh) else { throw VaultError.backupCorrupted(reason: "ledger digest") }
+            guard let l = try? DeletionLedger.decode(lb) else { throw VaultError.backupCorrupted(reason: "ledger encoding") }
+            embedded = l
+        }
+        let legacy = prov.isLegacy
+        let sameInstance = !legacy && prov.vaultInstanceID! == manifest.vaultInstanceID
+        let vaultEmpty = manifest.records.isEmpty
+        let foreign = !vaultEmpty && !sameInstance
+        let older = sameInstance && (prov.backupGeneration ?? 0) < manifest.lastExportedGeneration
+        var merged = ledger
+        var historyMerged = false
+        var unmerged = embedded != nil && !prov.deletionHistoryTrusted
+        if let e = embedded, prov.deletionHistoryTrusted, sameInstance || vaultEmpty {
+            unmerged = !merged.merge(e, manifestGeneration: manifest.generation + 1)
+            historyMerged = true
+        }
+        var base: Set<RestoreRisk> = []
+        if legacy { base.insert(.legacyFormat) }
+        if foreign && !legacy { base.insert(.foreignInstance) }
+        if !ledgerTrusted { base.insert(.untrustedLocalHistory) }
+        if older { base.insert(.olderBackupGeneration) }
+        if unmerged { base.insert(.unmergedBackupHistory) }
+        var staged: [(RecordEnvelope, Set<RestoreRisk>)] = []
+        var skippedDeleted: [RecordID] = [], skippedExisting: [RecordID] = []
+        for (env, pre) in result.active.map({ ($0, false) }) + result.quarantined.map({ ($0.envelope, true) }) {
             try env.header.validate()
             guard env.header.dataClass != .storeMetadata else { continue }
             let id = env.header.recordID
             if manifest.records[id.hex] != nil { skippedExisting.append(id); continue }
-            switch ledger.lookup(id) {
+            var risks = base
+            switch merged.lookup(id) {
             case .deleted: skippedDeleted.append(id); continue
-            case .possiblyDeleted: toWrite.append((env, true, .possiblyDeleted)); continue
+            case .possiblyDeleted: risks.insert(.possiblyDeleted)
             case .notDeleted: break
             }
-            if !ledgerTrusted { toWrite.append((env, true, .unverifiedDeletionHistory)); continue }
-            if foreign { toWrite.append((env, true, .foreignBackupPendingReview)); continue }
-            toWrite.append((env, preQuarantined, preQuarantined ? .consentRequired : nil))
-        }
-        // P03-04H: every check that can refuse the admission runs BEFORE the journal begins, so a refusal
-        // never leaves part of the batch written (all-or-nothing).
-        for (env, _, _) in toWrite {
+            if let e = embedded, !historyMerged, e.lookup(id) != .notDeleted { skippedDeleted.append(id); continue }
+            if pre { risks.insert(.consentInactiveAtRestore) }
             guard env.wrappedDEK.keyVersion >= manifest.minimumWrapVersion else { throw VaultError.staleKeyVersion(minimum: manifest.minimumWrapVersion) }
+            staged.append((env, risks))
         }
-        guard !toWrite.isEmpty else { return AdmissionReport(admittedActive: [], quarantined: [], skippedDeleted: skippedDeleted, skippedExisting: skippedExisting) }
-        let ids = toWrite.map { $0.0.header.recordID }
-        let flags = toWrite.map { Int64($0.1 ? 1 : 0) }
-        try runMutation(op: "admit", tokenID: authorization.id, ids: ids, params: flags) { m, _, step in
-            for (i, (env, q, reason)) in toWrite.enumerated() {
+        let riskMap = Dictionary(uniqueKeysWithValues: staged.map { ($0.0.header.recordID, $0.1) })
+        let report = AdmissionReport(staged: staged.map { $0.0.header.recordID }, risks: riskMap, skippedDeleted: skippedDeleted, skippedExisting: skippedExisting, historyMerged: historyMerged)
+        guard !staged.isEmpty else {
+            if historyMerged && merged != ledger {
+                try runMutation(op: "history", tokenID: authorization.id, ids: [], params: []) { _, l, step in l = merged; try step("merge", 0); return true }
+            }
+            return report
+        }
+        let ids = staged.map { $0.0.header.recordID }
+        let params = staged.map { Int64(RestoreRisk.mask($0.1)) } + [historyMerged ? 1 : 0]   // trailing flag: a merge is part of this batch
+        try runMutation(op: "admit", tokenID: authorization.id, ids: ids, params: params) { m, l, step in
+            if historyMerged { l = merged }
+            for (i, (env, risks)) in staged.enumerated() {
                 let id = env.header.recordID
                 try AtomicWriter.replace(self.fs, bytes: FileFraming.frame(EnvelopeCodec.encode(env)), at: self.recordPath(id), tempName: self.tempName())
-                m.records[id.hex] = ManifestEntry(header: env.header, keyVersion: env.wrappedDEK.keyVersion, state: q ? .quarantined : .active, provenance: .restoredFromBackup)
-                if q { self.composition.quarantine.quarantine(id, reason: reason ?? .consentRequired); quarantined.append(id) } else { active.append(id) }
+                m.records[id.hex] = ManifestEntry(header: env.header, keyVersion: env.wrappedDEK.keyVersion, state: .quarantined, provenance: .restoredFromBackup, restoreRisks: RestoreRisk.mask(risks))
+                self.composition.quarantine.quarantine(id, reason: .pendingUserConfirmation)
                 try step("file", UInt32(i))
             }
             return true
         }
-        return AdmissionReport(admittedActive: active, quarantined: quarantined, skippedDeleted: skippedDeleted, skippedExisting: skippedExisting)
+        return report
+    }
+
+    /// Phase 2 — activate staged records after the user acknowledged EXACTLY their recorded risks.
+    /// Re-checks at the trusted time: still staged, not deleted meanwhile, sources active (or in the
+    /// same batch), consent active now, file present and parsable. Scope narrows to the listed ids.
+    public func activateRestored(_ ids: Set<RecordID>, acknowledging risks: Set<RestoreRisk>, authorization: OperationAuthorization) throws {
+        try requireWritable()
+        let now = try vault.consumeAuthorization(authorization, for: .activateRestored(recordIDs: ids))
+        let list = ids.sorted { $0.hex < $1.hex }
+        for id in list {
+            guard let e = manifest.records[id.hex] else { throw VaultError.recordMissing }
+            guard e.state == .quarantined, e.provenance == .restoredFromBackup else { throw VaultError.recordNotActive(state: e.state.name) }
+            let need = RestoreRisk.set(e.restoreRisks)
+            guard need.isSubset(of: risks) else {
+                throw VaultError.notEligible(reason: "unacknowledged restore risks: " + need.subtracting(risks).map { String($0.rawValue) }.sorted().joined(separator: ","))
+            }
+            guard ledger.lookup(id) != .deleted else { throw VaultError.notEligible(reason: "known deleted") }
+            for src in e.derivedFrom {
+                guard let sEntry = manifest.records[src.hex], sEntry.state == .active || ids.contains(src) else { throw VaultError.recordNotActive(state: "sourceInactive") }
+            }
+            if case .denied(let reason) = VaultPolicy.mayRead(e.dataClass, consentPurpose: e.consentPurpose, authority: composition.consentAuthority, atUnixSeconds: now) {
+                throw VaultError.notAuthorized(reason)
+            }
+            guard !missingFiles.contains(id.hex), !corruptFiles.contains(id.hex) else { throw VaultError.recordMissing }
+            _ = try readRecordFile(id)
+        }
+        try runMutation(op: "activate", tokenID: authorization.id, ids: list, params: []) { m, _, step in
+            for id in list { if var e = m.records[id.hex] { e.state = .active; e.restoreRisks = 0; m.records[id.hex] = e } }
+            try step("activate", 0)
+            return true
+        }
+        for id in list { composition.quarantine.release(id) }
     }
 
     /// Releases ONE quarantined record: `.releaseQuarantine` token + active consent now (checked by
@@ -428,6 +697,8 @@ public actor FileVaultStore {
         try requireWritable()
         guard let e = manifest.records[id.hex] else { throw VaultError.recordMissing }
         guard e.state == .quarantined else { throw VaultError.recordNotActive(state: e.state.name) }
+        // P03-04b: restored records carry risks and go through `activateRestored` only.
+        guard e.provenance != .restoredFromBackup else { throw VaultError.notEligible(reason: "restored records activate through activateRestored") }
         let env = try readRecordFile(id)
         _ = try vault.releaseQuarantine(QuarantinedRecord(envelope: env, reason: .consentRequired), authorization: authorization)
         try runMutation(op: "release", tokenID: authorization.id, ids: [id], params: []) { m, _, step in
@@ -451,12 +722,16 @@ public actor FileVaultStore {
         let current = vault.currentKeyIdentity.version
         let stale = manifest.records.filter { $0.value.keyVersion < current && $0.value.state != .pendingDelete }.keys.sorted().compactMap { try? RecordID(hex: $0) }
         var envs: [RecordEnvelope] = []
-        for id in stale { envs.append(try readRecordFile(id)) }
+        for id in stale { envs.append(manifest.records[id.hex]?.kind == .attachment ? try readAttachmentHeader(id) : try readRecordFile(id)) }
         let rewrapped = try vault.rewrapBatch(envs, maintenance: maintenance)   // consumes the token even when the list is empty
         try runMutation(op: op, tokenID: maintenance.id, ids: stale, params: [Int64(current)] + (retiring.map { [Int64($0)] } ?? [])) { m, l, step in
             for (i, env) in rewrapped.enumerated() {
                 let id = env.header.recordID
-                try AtomicWriter.replace(self.fs, bytes: FileFraming.frame(EnvelopeCodec.encode(env)), at: self.recordPath(id), tempName: self.tempName())
+                if m.records[id.hex]?.kind == .attachment {
+                    try self.rewriteAttachmentHeader(id, header: env)
+                } else {
+                    try AtomicWriter.replace(self.fs, bytes: FileFraming.frame(EnvelopeCodec.encode(env)), at: self.recordPath(id), tempName: self.tempName())
+                }
                 if var e = m.records[id.hex] { e.keyVersion = env.wrappedDEK.keyVersion; m.records[id.hex] = e }
                 try step("rewrap", UInt32(i))
             }
@@ -543,7 +818,8 @@ public actor FileVaultStore {
 
     private func runMutation(op: String, tokenID: String, ids: [RecordID], params: [Int64], body: (inout Manifest, inout DeletionLedger, (String, UInt32) throws -> Void) throws -> Bool) throws {
         let target = manifest.generation + 1
-        var entries: [JournalEntry] = [.begin(op: op, tokenID: tokenID, ids: ids, targetGeneration: target, epoch: epoch, params: params)]
+        // GATE 1: the begin entry binds the op to the ledger state the manifest proves (pre-state).
+        var entries: [JournalEntry] = [.begin(op: op, tokenID: tokenID, ids: ids, targetGeneration: target, epoch: epoch, params: params, ledgerHash: manifest.ledgerHash)]
         do {
             try writeJournal(target, entries)
             var m = manifest
@@ -571,9 +847,17 @@ public actor FileVaultStore {
         // version (so key retirement never finds a stale system envelope — H2 R2 covers system files).
         let ledgerStale = (systemFileKeyVersion(StoreLayout.ledgerFile) ?? 0) < vault.currentKeyIdentity.version
         if ledgerChanged || ledgerStale {
-            try writeSystem(StoreLayout.ledgerFile, newLedger.encode())
-            m.ledgerHash = newLedger.hash
+            // GATE 1: announce the exact post-state in the journal BEFORE replacing the file, so recovery
+            // can accept the disk ledger only as the proven pre-state or this announced post-state.
+            let encoded = newLedger.encode()
+            let postHash = VaultDigest.sha256(encoded)
+            entries.append(.ledgerWritten(hash: postHash))
+            try writeJournal(target, entries)
+            try writeSystem(StoreLayout.ledgerFile, encoded)
+            m.ledgerHash = postHash
         }
+        // Sticky distrust: a history found corrupt or unverifiable never becomes trusted by rewriting.
+        if !ledgerTrusted { m.ledgerHistoryTrusted = false }
         m.prevHash = manifest.hash
         m.generation = target
         try writeSystem(StoreLayout.manifestFile, m.encode())
@@ -636,23 +920,27 @@ public actor FileVaultStore {
         }
         pendingJournals = []
         // 2. Quarantine registry mirrors the manifest.
-        for (key, e) in manifest.records where e.state == .quarantined { if let id = try? RecordID(hex: key) { composition.quarantine.quarantine(id, reason: .consentRequired) } }
-        // 3. Files ↔ manifest.
-        let rdir = path(StoreLayout.recordsDir)
+        for (key, e) in manifest.records where e.state == .quarantined { if let id = try? RecordID(hex: key) { composition.quarantine.quarantine(id, reason: e.provenance == .restoredFromBackup ? .pendingUserConfirmation : .consentRequired) } }
+        // 3. Files ↔ manifest (records/ and attachments/). Bounded: a directory above the entry limit
+        //    is not scanned at all — the vault opens read-only (GATE 5 resource limit, fail closed).
         var seen = Set<String>()
-        for name in try fs.listNames(rdir) {
-            if name.hasPrefix(StoreLayout.tempPrefix) { continue }
-            let p = (rdir as NSString).appendingPathComponent(name)
-            guard try fs.kind(of: p) == .regular else { throw VaultError.storeIntegrityFailed(reason: "non-regular entry in records/") }
-            let base = name.hasSuffix(StoreLayout.recordSuffix) ? String(name.dropLast(StoreLayout.recordSuffix.count)) : ""
-            if let id = try? RecordID(hex: base), manifest.records[id.hex] != nil { seen.insert(id.hex); continue }
-            // Orphan: never adopted, moved aside for the user to review/delete.
-            if case .readWrite = modeValue {
-                try fs.rename(p, path(StoreLayout.orphansDir, name.hasPrefix(".") ? "x" + name : name))
-                orphansMoved += 1
+        for (sub, suffix, kind) in [(StoreLayout.recordsDir, StoreLayout.recordSuffix, EntryKind.record), (StoreLayout.attachmentsDir, StoreLayout.attachmentSuffix, EntryKind.attachment)] {
+            let dir = path(sub)
+            guard try fs.entryCount(dir) <= limits.maxDirectoryEntries else { modeValue = .readOnly(reason: "file count exceeds limit"); break }
+            for name in try fs.listNames(dir) {
+                if name.hasPrefix(StoreLayout.tempPrefix) { continue }
+                let p = (dir as NSString).appendingPathComponent(name)
+                guard try fs.kind(of: p) == .regular else { throw VaultError.storeIntegrityFailed(reason: "non-regular entry in " + sub + "/") }
+                let base = name.hasSuffix(suffix) ? String(name.dropLast(suffix.count)) : ""
+                if let id = try? RecordID(hex: base), let e = manifest.records[id.hex], e.kind == kind { seen.insert(id.hex); continue }
+                // Orphan: never adopted, moved aside for the user to review/delete.
+                if case .readWrite = modeValue {
+                    try fs.rename(p, path(StoreLayout.orphansDir, name.hasPrefix(".") ? "x" + name : name))
+                    orphansMoved += 1
+                }
             }
         }
-        for key in manifest.records.keys where !seen.contains(key) { missingFiles.insert(key) }
+        if case .readWrite = modeValue { for key in manifest.records.keys where !seen.contains(key) { missingFiles.insert(key) } }
         // 4. Grace expiry at the trusted time. A clock regressed beyond tolerance skips expiry (nothing
         //    is deleted or revived on untrusted time); reads and tokens fail closed until time is sane.
         if case .readWrite = modeValue {
@@ -668,7 +956,7 @@ public actor FileVaultStore {
     }
 
     private func resolveJournal(_ j: (name: String, entries: [JournalEntry], truncated: Bool, bytes: [UInt8])) throws {
-        guard case .begin(let op, _, let ids, let target, _, let params) = j.entries.first ?? .commit else {
+        guard case .begin(let op, _, let ids, let target, _, let params, _) = j.entries.first ?? .commit else {
             try fs.remove(path(StoreLayout.journalDir, j.name)); return
         }
         if j.entries.contains(.commit) {
@@ -685,20 +973,59 @@ public actor FileVaultStore {
             return
         }
         guard manifest.generation + 1 == target else { throw VaultError.storeIntegrityFailed(reason: "stale journal generation") }
+        // GATE 1: whether the ledger on disk is already the post-state the journal announced (the loader
+        // proved it is either that or the pre-state).
+        var preHash = Manifest.zeroHash
+        if case .begin(_, _, _, _, _, _, let lh) = j.entries[0] { preHash = lh }
+        var announced: [UInt8]? = nil
+        for e in j.entries { if case .ledgerWritten(let h) = e { announced = h } }
+        let diskIsPost = announced.map { !ConstantTime.equal($0, preHash) && ConstantTime.equal(ledger.hash, $0) } ?? false
         switch op {
         case "put", "admit":
-            // Files that exist are adopted from their authenticated headers; missing ones never happened.
+            // put: a file that exists is adopted from its authenticated header; a missing one never happened.
+            // admit (P03-04b): ALL-OR-NOTHING — the batch is adopted only when every file is present and,
+            // if a history merge was part of it, the merged ledger is the one on disk (announced post-state).
+            // Otherwise the batch is aborted (files removed, journal dropped) and the user re-runs the restore:
+            // the merge cannot be rebuilt from the journal, and a half batch would hide that.
+            if op == "admit" {
+                let mergeIntended = params.count > ids.count && params[ids.count] == 1
+                var allPresent = true
+                for id in ids where (try? fs.kind(of: recordPath(id))) != .regular || (try? readRecordFile(id)) == nil { allPresent = false; break }
+                if !allPresent || (mergeIntended && !diskIsPost) {
+                    for id in ids { try fs.remove(recordPath(id)); composition.quarantine.release(id); missingFiles.remove(id.hex); corruptFiles.remove(id.hex) }
+                    try fs.remove(path(StoreLayout.journalDir, j.name)); journalsReconciled += 1; return
+                }
+            }
             var m = manifest
             var any = false
+            let putKind: EntryKind = (op == "put" && params.count > 1 && params[1] == Int64(EntryKind.attachment.rawValue)) ? .attachment : .record
             for (i, id) in ids.enumerated() {
-                guard try fs.kind(of: recordPath(id)) == .regular, let env = try? readRecordFile(id) else { continue }
+                let env: RecordEnvelope
+                if putKind == .attachment {
+                    guard try fs.kind(of: attachmentPath(id)) == .regular, let h = try? readAttachmentHeader(id) else { continue }
+                    env = h
+                } else {
+                    guard try fs.kind(of: recordPath(id)) == .regular, let r = try? readRecordFile(id) else { continue }
+                    env = r
+                }
                 let flag = i < params.count ? params[i] : 0
-                let state: RecordState = (op == "admit" && flag == 1) ? .quarantined : .active
+                let state: RecordState = op == "admit" ? .quarantined : .active
                 let prov: RecordProvenance = op == "admit" ? .restoredFromBackup : (RecordProvenance(rawValue: UInt8(clamping: params.first ?? 0)) ?? .created)
-                m.records[id.hex] = ManifestEntry(header: env.header, keyVersion: env.wrappedDEK.keyVersion, state: state, provenance: prov)
+                let total = putKind == .attachment && params.count > 3 ? UInt64(bitPattern: params[2]) : 0
+                let chunks = putKind == .attachment && params.count > 3 ? UInt32(clamping: params[3]) : 0
+                m.records[id.hex] = ManifestEntry(header: env.header, keyVersion: env.wrappedDEK.keyVersion, state: state, provenance: prov, kind: putKind, attachmentBytes: total, chunkCount: chunks, restoreRisks: op == "admit" ? UInt16(clamping: flag) : 0)
+                if op == "admit" { composition.quarantine.quarantine(id, reason: .pendingUserConfirmation) }
                 any = true
             }
-            if any { try commitTail(target: target, newManifest: m, newLedger: ledger, ledgerChanged: false, entries: &entries) } else { try fs.remove(path(StoreLayout.journalDir, j.name)) }
+            if any || diskIsPost { try commitTail(target: target, newManifest: m, newLedger: ledger, ledgerChanged: diskIsPost, entries: &entries) } else { try fs.remove(path(StoreLayout.journalDir, j.name)) }
+            journalsReplayed += 1
+        case "history":
+            if diskIsPost { try commitTail(target: target, newManifest: manifest, newLedger: ledger, ledgerChanged: true, entries: &entries) } else { try fs.remove(path(StoreLayout.journalDir, j.name)) }
+            journalsReplayed += 1
+        case "export":
+            var m = manifest
+            m.lastExportedGeneration = max(m.lastExportedGeneration, UInt64(clamping: params.first ?? 0))
+            try commitTail(target: target, newManifest: m, newLedger: ledger, ledgerChanged: diskIsPost, entries: &entries)
             journalsReplayed += 1
         case "delete":
             var m = manifest, l = ledger
@@ -714,22 +1041,22 @@ public actor FileVaultStore {
             for id in ids.dropFirst(deleteCount) { if var e = m.records[id.hex] { e.state = .suspended; e.suspendedUntilUnixSeconds = until; m.records[id.hex] = e } }
             try commitTail(target: target, newManifest: m, newLedger: l, ledgerChanged: deleteCount > 0, entries: &entries)
             journalsReplayed += 1
-        case "unsuspend", "release":
+        case "unsuspend", "release", "activate":
             var m = manifest
-            for id in ids { if var e = m.records[id.hex] { e.state = .active; e.suspendedUntilUnixSeconds = 0; m.records[id.hex] = e } }
-            try commitTail(target: target, newManifest: m, newLedger: ledger, ledgerChanged: false, entries: &entries)
+            for id in ids { if var e = m.records[id.hex] { e.state = .active; e.suspendedUntilUnixSeconds = 0; if op == "activate" { e.restoreRisks = 0; composition.quarantine.release(id) }; m.records[id.hex] = e } }
+            try commitTail(target: target, newManifest: m, newLedger: ledger, ledgerChanged: diskIsPost, entries: &entries)
             journalsReplayed += 1
         case "freeze":
             var m = manifest
             if let v = params.first { m.minimumWrapVersion = max(m.minimumWrapVersion, UInt32(clamping: v)) }
-            try commitTail(target: target, newManifest: m, newLedger: ledger, ledgerChanged: false, entries: &entries)
+            try commitTail(target: target, newManifest: m, newLedger: ledger, ledgerChanged: diskIsPost, entries: &entries)
             journalsReplayed += 1
         case "rewrap", "prepare":
             // Resumable, not replayable (needs a fresh maintenance token): sync key versions from the
             // authenticated file headers, drop the journal; the caller re-runs rewrap/retirement.
             var m = manifest
-            for id in ids { if let env = try? readRecordFile(id), var e = m.records[id.hex] { e.keyVersion = env.wrappedDEK.keyVersion; m.records[id.hex] = e } }
-            try commitTail(target: target, newManifest: m, newLedger: ledger, ledgerChanged: false, entries: &entries)
+            for id in ids { if var e = m.records[id.hex], let env = try? (e.kind == .attachment ? readAttachmentHeader(id) : readRecordFile(id)) { e.keyVersion = env.wrappedDEK.keyVersion; m.records[id.hex] = e } }
+            try commitTail(target: target, newManifest: m, newLedger: ledger, ledgerChanged: diskIsPost, entries: &entries)
             if op == "prepare" { pendingRetirement = params.count > 1 ? UInt32(clamping: params[1]) : UInt32(clamping: m.minimumWrapVersion > 0 ? Int64(m.minimumWrapVersion) - 1 : 0) }
             journalsReconciled += 1
         case "forget":
@@ -737,7 +1064,7 @@ public actor FileVaultStore {
             let v = UInt32(clamping: params.first ?? 0)
             if j.entries.contains(.step(name: "forget", index: 0)) { if !m.retiredVersions.contains(v) { m.retiredVersions.append(v) } }
             else { pendingRetirement = v }   // retire may have happened; forget did not: nothing lost, re-run the protocol
-            try commitTail(target: target, newManifest: m, newLedger: ledger, ledgerChanged: false, entries: &entries)
+            try commitTail(target: target, newManifest: m, newLedger: ledger, ledgerChanged: diskIsPost, entries: &entries)
             journalsReconciled += 1
         default:
             needsRecoveryIDs.formUnion(ids.map { $0.hex })
@@ -767,7 +1094,7 @@ public actor FileVaultStore {
             case .directory: break
             default: throw VaultError.storeIntegrityFailed(reason: "vault root is not a directory")
             }
-            for sub in [StoreLayout.recordsDir, StoreLayout.systemDir, StoreLayout.journalDir, StoreLayout.orphansDir] {
+            for sub in [StoreLayout.recordsDir, StoreLayout.systemDir, StoreLayout.journalDir, StoreLayout.orphansDir, StoreLayout.attachmentsDir] {
                 let d = p(sub)
                 switch try fs.kind(of: d) {
                 case .missing: try fs.createDirectory(d)
@@ -779,7 +1106,7 @@ public actor FileVaultStore {
             // Temp files from interrupted writes are garbage by construction — but only once THIS process
             // holds the writer lock (P03-04H: a locked-out opener must not touch a live writer's files).
             func removeTempFiles() throws {
-                for sub in [StoreLayout.recordsDir, StoreLayout.systemDir, StoreLayout.journalDir, StoreLayout.orphansDir, ""] {
+                for sub in [StoreLayout.recordsDir, StoreLayout.systemDir, StoreLayout.journalDir, StoreLayout.orphansDir, StoreLayout.attachmentsDir, ""] {
                     let d = sub.isEmpty ? root : p(sub)
                     for name in try fs.listNames(d) where name.hasPrefix(StoreLayout.tempPrefix) { try fs.remove((d as NSString).appendingPathComponent(name)) }
                 }
@@ -807,6 +1134,7 @@ public actor FileVaultStore {
                 if anchorValue != nil { try anchor.clearAnchor() }
                 try removeTempFiles()
                 for name in try fs.listNames(p(StoreLayout.recordsDir)) { try fs.remove(p(StoreLayout.recordsDir, name)) }   // nothing can be adopted without a manifest
+                for name in try fs.listNames(p(StoreLayout.attachmentsDir)) { try fs.remove(p(StoreLayout.attachmentsDir, name)) }
                 for name in try fs.listNames(p(StoreLayout.systemDir)) { try fs.remove(p(StoreLayout.systemDir, name)) }
                 for name in try fs.listNames(p(StoreLayout.journalDir)) { try fs.remove(p(StoreLayout.journalDir, name)) }
                 let epoch: UInt64 = 1
@@ -852,14 +1180,17 @@ public actor FileVaultStore {
                 let (raw, truncated) = FileFraming.unframeJournal(bytes)
                 var entries: [JournalEntry] = []
                 var failedAt: Int? = nil
+                var legacy = false
                 for (i, r) in raw.enumerated() {
                     do { entries.append(try JournalEntry.decode(try bootstrap.openSystem(try EnvelopeCodec.decode(r)))) }
+                    catch VaultError.unsupportedFormat { legacy = true; break }
                     catch { failedAt = i; break }
                 }
+                if legacy { mode = .readOnly(reason: "journal format unsupported"); continue }
                 if let f = failedAt {
                     if f == raw.count - 1 && !truncated { /* a damaged LAST entry behaves like a truncated tail */ }
                     else if f < raw.count - 1 {
-                        if case .begin(_, _, let ids, _, _, _) = entries.first ?? .commit { untrustedIDs.append(contentsOf: ids) }
+                        if case .begin(_, _, let ids, _, _, _, _) = entries.first ?? .commit { untrustedIDs.append(contentsOf: ids) }
                         mode = .readOnly(reason: "journal failed authentication mid-file")
                         continue
                     }
@@ -867,10 +1198,12 @@ public actor FileVaultStore {
                 journals.append((name, entries, truncated || failedAt != nil, bytes))
             }
             if journals.count > 1 { mode = .readOnly(reason: "multiple pending journals") }
-            let pendingTarget: UInt64? = journals.first.flatMap { j in if case .begin(_, _, _, let t, _, _) = j.entries.first ?? .commit { return t } else { return nil } }
+            let pendingTarget: UInt64? = journals.first.flatMap { j in if case .begin(_, _, _, let t, _, _, _) = j.entries.first ?? .commit { return t } else { return nil } }
 
-            // Ledger: present + authenticated + bound (or bound by the pending journal's target).
+            // Ledger (GATE 1, P03-04b): present + authenticated + PROVEN by the manifest and the pending
+            // journal (`LedgerBinding.verify`). Sticky distrust from the manifest is honoured first.
             var ledger = DeletionLedger()
+            if !manifest.ledgerHistoryTrusted { ledgerTrusted = false }
             if try fs.kind(of: p(StoreLayout.systemDir, StoreLayout.ledgerFile)) == .missing {
                 // NT-H1-03: a manifest that references a ledger which is gone → no deletion history can be
                 // proven at all: read-only, restore refused.
@@ -878,16 +1211,20 @@ public actor FileVaultStore {
                 mode = .readOnly(reason: "deletion ledger missing")
             } else if let lb = try? readSystem(StoreLayout.ledgerFile), let l = try? DeletionLedger.decode(lb) {
                 ledger = l
-                if !ConstantTime.equal(l.hash, manifest.ledgerHash) && pendingTarget != manifest.generation + 1 {
-                    // P03-04H: an authentic ledger the manifest does not bind to, with no journal that
-                    // could explain it, is a ledger-only rollback/substitution (the manifest analogue of
-                    // NT-H5-04): read-only, no restore, never "healed" by the next mutation.
+                if let reason = LedgerBinding.verify(manifest: manifest, diskLedgerHash: VaultDigest.sha256(lb), journal: journals.count == 1 ? journals[0].entries : nil, persistedEpoch: persistedEpoch) {
+                    // Older-but-authentic ledger (with or without a pending journal), foreign journal, epoch
+                    // mismatch: read-only, no restore, never "healed" by replay or by the next mutation.
                     ledgerTrusted = false
-                    if case .readWrite = mode { mode = .readOnly(reason: "deletion ledger does not bind to the manifest") }
+                    if case .readWrite = mode { mode = .readOnly(reason: reason) }
                 }
             } else {
-                // NT-H1-02: present but unauthenticated/undecodable → never "empty": every admission quarantines.
+                // NT-H1-02: present but unauthenticated/undecodable → never "empty": every admission
+                // quarantines, and the manifest records the distrust permanently at the next commit.
                 ledgerTrusted = false
+                if pendingTarget != nil, case .readWrite = mode {
+                    // A replay would rebuild the history from an empty ledger: refuse instead.
+                    mode = .readOnly(reason: "deletion ledger unreadable with a pending operation")
+                }
             }
 
             func finish() -> Loaded {

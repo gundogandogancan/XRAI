@@ -43,3 +43,14 @@ Status after Amendment H: still PROPOSED; D1 (record-per-file) and D7 (in-proces
 
 Explicitly NOT claimed: survival of every power loss (no power-cut rig; APFS directory-fsync semantics undocumented); Data Protection semantics on the Simulator; the class-number mapping beyond its empirical device verification.
 
+## Amendment H.2 (2026-10-20, P03-04b) — ledger binding, backup body v3, two-phase restore, attachments
+
+| original | amended | where |
+|---|---|---|
+| journal v1 (begin without ledger binding); a pending journal explained any ledger hash | **journal v2**: begin carries the manifest-bound ledger hash; `ledgerWritten(hash)` announces the post-state before the file is replaced; `LedgerBinding.verify` proves the disk ledger; `Manifest.ledgerHistoryTrusted` is sticky; legacy journal/manifest formats are refused, never converted | `StoreModel.swift`, `FileVaultStore.swift`, NT-LR-01…08 |
+| sealed backup v2 (createdAt + entries) | **body v3** (schema 1): instance id, backup generation (durable counter `lastExportedGeneration`), source manifest generation + hash, deletion history + digest + trust flag; HKDF contexts per format; v2 = legacy import only | `Backup.swift`, `BackupCodec.swift`, NT-BK-01…08 |
+| `admitRestored(result, sourceVaultInstanceID:)` activating clean records directly | **two phases**: stage (all quarantined, `RestoreRisk` persisted in the manifest) → `activateRestored(ids, acknowledging:)` with scope `.activateRestored`; history merge rules; all-or-nothing replay | NT-RR-01…14 |
+| attachments "same envelope format, streamed in 1 MiB chunks, chained by chunk index in AAD" (§2, design) | **implemented**: header = record envelope (own DEK), chunk key = HKDF(DEK, record id), nonce = prefix ‖ index, AAD = id + index + count + sizes + last flag, verify-then-deliver, bounded memory, cascade via `derivedFrom`, retirement rewraps the header only; **not yet in backups** | `KeyRetirement.swift` (`AttachmentFile`), `SecureVault.createAttachment/openAttachment`, `AttachmentCipher`, NT-AT-01…11 |
+
+Still PROPOSED; app wiring, consent UI and InteractionGate remain P03-05.
+

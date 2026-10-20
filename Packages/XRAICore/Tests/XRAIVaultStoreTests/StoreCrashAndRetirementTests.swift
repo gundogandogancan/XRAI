@@ -63,6 +63,7 @@ struct StoreCrashTests {
         }, invariant: { r, step in
             let present = await [src, d1, d2].asyncMap { r.state(of: $0) != nil }
             #expect(present.allSatisfy { $0 } || present.allSatisfy { !$0 }, Comment(rawValue: "step \(step): partial cascade \(present)"))
+            #expect(r.deletionHistoryTrusted, Comment(rawValue: "step \(step): a crash must never make the ledger untrusted (GATE 1)"))
             if !present[0] {
                 for id in [src, d1, d2] { #expect(r.deletionLookup(id) == .deleted && !f.fileExists(id)) }
             }
@@ -109,7 +110,7 @@ struct StoreCrashTests {
         let s2 = try await f.open()
         #expect(s2.mode == .readOnly(reason: "manifest rollback detected"))
         await expectVaultError(.storeReadOnly(reason: "manifest rollback detected")) { try await f.put(s2, "c") }
-        await expectVaultError(.storeReadOnly(reason: "manifest rollback detected")) { try await s2.admitRestored(RestoreResult(active: [], quarantined: []), sourceVaultInstanceID: nil, authorization: try s2.issuer.issue(scope: .admitRestored)) }
+        await expectVaultError(.storeReadOnly(reason: "manifest rollback detected")) { try await s2.admitRestored(RestoreResult(active: [], quarantined: []), authorization: try s2.issuer.issue(scope: .admitRestored)) }
         try await s2.close()
         // consistent older snapshot of all three files → only the anchor can tell
         try snap.ledger.write(to: f.systemPath("ledger.v1")); try snap.authz.write(to: f.systemPath("authz.v1"))

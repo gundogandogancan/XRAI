@@ -100,10 +100,7 @@ public struct SecureVault: Sendable {
 
     // MARK: User rights: export, restore, delete
 
-    /// Data portability. Requires an `.exportBackup` token. Every envelope must verify under the
-    /// device key; duplicates, session-only records and foreign/tampered envelopes are refused.
-    public func exportBackup(_ envelopes: [RecordEnvelope], recoveryKey: RecoveryKey, authorization: OperationAuthorization) throws -> [UInt8] {
-        let (_, now) = try authorize(authorization, for: .exportBackup, recordID: nil, purpose: nil)
+    private func verifyForExport(_ envelopes: [RecordEnvelope]) throws {
         guard envelopes.count <= BackupLimits.maxEntries else { throw VaultError.limitExceeded("entry count") }
         var seen = Set<String>()
         for env in envelopes {
@@ -115,7 +112,24 @@ public struct SecureVault: Sendable {
             try BackupBody.validateLimits(env)
             do { _ = try sealer.open(env) } catch { throw VaultError.envelopeIntegrityFailed }
         }
+    }
+
+    /// LEGACY v2 export (store-less, no provenance). Kept only so v2 compatibility stays testable;
+    /// the store exports v3 through `exportBackup(_:facts:recoveryKey:authorization:)`.
+    /// Requires an `.exportBackup` token. Every envelope must verify under the device key;
+    /// duplicates, session-only records and foreign/tampered envelopes are refused.
+    public func exportBackup(_ envelopes: [RecordEnvelope], recoveryKey: RecoveryKey, authorization: OperationAuthorization) throws -> [UInt8] {
+        let (_, now) = try authorize(authorization, for: .exportBackup, recordID: nil, purpose: nil)
+        try verifyForExport(envelopes)
         return try BackupCodec.export(verified: envelopes, from: keyProvider, recoveryKey: recoveryKey, nowUnixSeconds: now)
+    }
+
+    /// P03-04b: v3 export with the store's facts (instance id, backup generation, manifest binding,
+    /// deletion history). Same token, same verification as the legacy path.
+    public func exportBackup(_ envelopes: [RecordEnvelope], facts: BackupExportFacts, recoveryKey: RecoveryKey, authorization: OperationAuthorization) throws -> [UInt8] {
+        let (_, now) = try authorize(authorization, for: .exportBackup, recordID: nil, purpose: nil)
+        try verifyForExport(envelopes)
+        return try BackupCodec.exportV3(verified: envelopes, from: keyProvider, recoveryKey: recoveryKey, nowUnixSeconds: now, facts: facts)
     }
 
     /// Restores onto THIS device's keys. Requires a `.restoreBackup` token. Every envelope is
@@ -123,7 +137,7 @@ public struct SecureVault: Sendable {
     /// quarantined, never silently re-enabled (G4).
     public func restoreBackup(bytes: [UInt8], recoveryKey: RecoveryKey, authorization: OperationAuthorization) throws -> RestoreResult {
         let (_, now) = try authorize(authorization, for: .restoreBackup, recordID: nil, purpose: nil)
-        let (_, envelopes) = try BackupCodec.restore(bytes: bytes, recoveryKey: recoveryKey, into: keyProvider)
+        let (provenance, envelopes) = try BackupCodec.restore(bytes: bytes, recoveryKey: recoveryKey, into: keyProvider)
         var active: [RecordEnvelope] = []
         var quarantined: [QuarantinedRecord] = []
         for env in envelopes {
@@ -139,7 +153,7 @@ public struct SecureVault: Sendable {
                 active.append(env)
             }
         }
-        return RestoreResult(active: active, quarantined: quarantined)
+        return RestoreResult(active: active, quarantined: quarantined, provenance: provenance)
     }
 
     /// Releases a quarantined record after the user granted consent again. Requires BOTH a
@@ -206,6 +220,24 @@ public struct SecureVault: Sendable {
         return out
     }
 
+    // MARK: P03-04b GATE 4 — chunked attachments (one DEK per attachment, chunk key derived from it)
+
+    /// Creates an attachment: the layout becomes the plaintext of a header record sealed exactly like
+    /// `seal` (`.write(class)` token, consent, tier floor); the returned cipher seals the chunks.
+    public func createAttachment(descriptor: RecordDescriptor, layout: AttachmentLayout, authorization: OperationAuthorization) throws -> (header: RecordEnvelope, cipher: AttachmentCipher) {
+        let header = try seal(plaintext: layout.encode(), descriptor: descriptor, authorization: authorization)
+        let dek = try keyProvider.unwrapDataKey(header.wrappedDEK)
+        return (header, try AttachmentCipher(dek: dek, recordID: descriptor.recordID, layout: layout))
+    }
+
+    /// Opens an attachment header exactly like `open` (`.read` token, quarantine, consent) and returns
+    /// the layout plus the chunk cipher. No chunk is decrypted here.
+    public func openAttachment(_ header: RecordEnvelope, authorization: OperationAuthorization) throws -> (layout: AttachmentLayout, cipher: AttachmentCipher) {
+        let layout = try AttachmentLayout.decode(try open(header, authorization: authorization))
+        let dek = try keyProvider.unwrapDataKey(header.wrappedDEK)
+        return (layout, try AttachmentCipher(dek: dek, recordID: header.header.recordID, layout: layout))
+    }
+
     /// Re-wraps a system record (no token; same class restriction as `openSystem`).
     public func rewrapSystem(_ envelope: RecordEnvelope) throws -> RecordEnvelope {
         try envelope.header.validate()
@@ -219,3 +251,35 @@ public struct SecureVault: Sendable {
 public enum VaultDigest {
     public static func sha256(_ bytes: [UInt8]) -> [UInt8] { Array(SHA256.hash(data: bytes)) }
 }
+
+/// AES-256-GCM over attachment chunks with a key derived (HKDF-SHA256, context-separated, record-bound)
+/// from the attachment's DEK. Only `SecureVault` can construct it; it never exposes key material.
+/// Each chunk: nonce = prefix ‖ index, AAD = layout facts + index + last flag, output = ciphertext ‖ tag.
+public struct AttachmentCipher: Sendable {
+    private let keyBytes: [UInt8]
+    public let recordID: RecordID
+    public let layout: AttachmentLayout
+
+    init(dek: [UInt8], recordID: RecordID, layout: AttachmentLayout) throws {
+        guard dek.count == CryptoConstants.keyBytes else { throw VaultError.invalidLength(field: "dek", expected: CryptoConstants.keyBytes, actual: dek.count) }
+        let derived = HKDF<SHA256>.deriveKey(inputKeyMaterial: SymmetricKey(data: dek), salt: Array(recordID.hex.utf8), info: Array("xrai.attachment.chunk.v1".utf8), outputByteCount: 32)
+        keyBytes = derived.withUnsafeBytes { Array($0) }
+        self.recordID = recordID; self.layout = layout
+    }
+
+    public func seal(chunk plaintext: [UInt8], index: UInt32) throws -> [UInt8] {
+        guard index < layout.chunkCount, plaintext.count == layout.length(ofChunk: index) else { throw VaultError.limitExceeded("attachment chunk") }
+        let nonce = try AES.GCM.Nonce(data: layout.nonce(forChunk: index))
+        let box = try AES.GCM.seal(plaintext, using: SymmetricKey(data: keyBytes), nonce: nonce, authenticating: layout.associatedData(recordID: recordID, chunkIndex: index))
+        return Array(box.ciphertext) + Array(box.tag)
+    }
+
+    public func open(chunk sealed: [UInt8], index: UInt32) throws -> [UInt8] {
+        guard index < layout.chunkCount, sealed.count == layout.length(ofChunk: index) + CryptoConstants.gcmTagBytes else { throw VaultError.authenticationFailed }
+        do {
+            let box = try AES.GCM.SealedBox(nonce: AES.GCM.Nonce(data: layout.nonce(forChunk: index)), ciphertext: sealed.dropLast(CryptoConstants.gcmTagBytes), tag: sealed.suffix(CryptoConstants.gcmTagBytes))
+            return Array(try AES.GCM.open(box, using: SymmetricKey(data: keyBytes), authenticating: layout.associatedData(recordID: recordID, chunkIndex: index)))
+        } catch { throw VaultError.authenticationFailed }
+    }
+}
+

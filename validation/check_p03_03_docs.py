@@ -93,6 +93,27 @@ else:
     if "createFile(atPath" in vfs or "O_TRUNC" in vfs: problems.append("VaultFileSystem still uses createFile/O_TRUNC (F-P04-01)")
     if "_ = fsync(" in vfs: problems.append("VaultFileSystem ignores an fsync result (F-P04-02)")
 
+# P03-04b: the backup/restore review exists, cites its baseline, names only matrix rows, the matrix carries the new families, threat rows T49/T50 exist
+rev_b = root / "docs/status/P03_04B_BACKUP_RESTORE_REVIEW_REPORT.md"
+if not rev_b.exists(): problems.append("missing P03_04B_BACKUP_RESTORE_REVIEW_REPORT.md")
+else:
+    rt = rev_b.read_text()
+    if "42c3f4e" not in rt: problems.append("P03-04b review does not cite the baseline 42c3f4e")
+    for nid in set(re.findall(r"NT-[A-Z0-9]+-\d+", rt)):
+        if nid not in matrix_ids: problems.append(f"P03-04b review references {nid} which is not a matrix row")
+    for fam, n in (("LR", 8), ("BK", 8), ("RR", 14), ("AT", 11), ("SC", 1)):
+        for i in range(1, n + 1):
+            if f"NT-{fam}-{i:02d}" not in matrix_ids: problems.append(f"matrix lacks NT-{fam}-{i:02d}")
+    for word in ("Requirement", "Remaining Limit", "GO / NO-GO", "Final SHA"):
+        if word not in rt: problems.append(f"P03-04b review lacks '{word}'")
+    for t in ("T49", "T50"):
+        if f"| {t} |" not in tm: problems.append(f"threat model lacks row {t}")
+    for bid in ("LEDGER_CORRUPT_LAUNDERING", "RESTORE_TWO_PHASE", "ATTACHMENTS_NOT_IN_BACKUP", "RESTORE_WHOLE_BACKUP_IN_MEMORY"):
+        if bid not in blockers: problems.append(f"OPEN_BLOCKERS lacks {bid}")
+    if "<!-- HOSTS -->" in matrix_h: problems.append("matrix P03-04b rows still carry the HOSTS placeholder")
+    store_src = (root / "Packages/XRAICore/Sources/XRAIVaultStore/FileVaultStore.swift").read_text()
+    if "sourceVaultInstanceID:" in store_src: problems.append("admission still takes the instance id from the caller (P03-04b requires provenance from the backup)")
+
 if problems:
     print("FAIL"); [print(" -", p) for p in problems]; sys.exit(1)
-print(f"PASS P03-03/P03-03H/P03-04/P03-04H docs: {len(cases)} data classes cross-checked, blockers resolved, ADRs present, no app groups, {len(matrix_ids)} NT rows, T44–T48 present, filesystem review consistent")
+print(f"PASS P03-03/P03-03H/P03-04/P03-04H/P03-04b docs: {len(cases)} data classes cross-checked, blockers resolved, ADRs present, no app groups, {len(matrix_ids)} NT rows, T44–T48 present, filesystem review consistent")

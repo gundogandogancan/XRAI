@@ -27,6 +27,12 @@ public protocol VaultFileSystem: Sendable {
     func listNames(_ dir: String) throws -> [String]
     /// Reads a REGULAR file without following symlinks. Fails closed on anything else.
     func readRegular(_ path: String, maxBytes: Int) throws -> [UInt8]
+    /// P03-04b: opens a REGULAR file for streamed reading (`O_RDONLY|O_NOFOLLOW`, verified with `fstat`); returns the descriptor and the size.
+    func openRegularForRead(_ path: String) throws -> (fd: Int32, size: Int64)
+    /// One read of up to `maxBytes` (EINTR retried); fewer bytes only at end of file.
+    func read(_ fd: Int32, maxBytes: Int) throws -> [UInt8]
+    /// Number of directory entries (bounded listing for recovery limits).
+    func entryCount(_ dir: String) throws -> Int
     /// Creates a new file exclusively and atomically (`O_CREAT|O_EXCL|O_NOFOLLOW`, mode 0600). A
     /// pre-existing path (file, symlink, anything) is refused untouched. On iOS the descriptor carries
     /// Data Protection "complete" before the first byte is written, verified on the descriptor.
@@ -122,6 +128,31 @@ public struct RealFileSystem: VaultFileSystem {
     /// Protection class is set and read back on the descriptor while the file is still empty, so no
     /// content ever exists under a weaker class. Any failure after creation removes ONLY the inode this
     /// call created (`removeIfOwned`).
+    public func openRegularForRead(_ path: String) throws -> (fd: Int32, size: Int64) {
+        let fd = Self.retryingEINTR { open(path, O_RDONLY | O_NOFOLLOW | O_CLOEXEC) }
+        guard fd >= 0 else { throw VaultError.storeIntegrityFailed(reason: "open for read failed (\(errno))") }
+        var st = stat()
+        guard fstat(fd, &st) == 0, (st.st_mode & S_IFMT) == S_IFREG else { _ = Darwin.close(fd); throw VaultError.storeIntegrityFailed(reason: "not a regular file") }
+        return (fd, st.st_size)
+    }
+
+    public func read(_ fd: Int32, maxBytes: Int) throws -> [UInt8] {
+        guard maxBytes > 0 else { return [] }
+        var out = [UInt8](repeating: 0, count: maxBytes)
+        var done = 0
+        while done < maxBytes {
+            let offset = done
+            let n = out.withUnsafeMutableBytes { Darwin.read(fd, $0.baseAddress! + offset, maxBytes - offset) }
+            if n < 0 { if errno == EINTR { continue }; throw VaultError.storeIntegrityFailed(reason: "read failed (\(errno))") }
+            if n == 0 { break }
+            done += n
+        }
+        if done < maxBytes { out.removeLast(maxBytes - done) }
+        return out
+    }
+
+    public func entryCount(_ dir: String) throws -> Int { try FileManager.default.contentsOfDirectory(atPath: dir).count }
+
     public func openExclusive(_ path: String) throws -> Int32 {
         let fd = Self.retryingEINTR { open(path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600) }
         guard fd >= 0 else {
@@ -230,6 +261,30 @@ public struct RealFileSystem: VaultFileSystem {
 
     public func processExists(_ pid: Int32) -> Bool { kill(pid, 0) == 0 || errno == EPERM }
     public var currentPID: Int32 { getpid() }
+}
+
+/// P03-04b: streamed atomic replace — `body` writes pieces through the port to the open descriptor;
+/// the same durability tail and cleanup ownership as `replace`. Memory is bounded by what `body` buffers.
+extension AtomicWriter {
+    static func replaceStreaming(_ fs: any VaultFileSystem, at path: String, tempName: String, body: (Int32) throws -> Void) throws {
+        let dir = (path as NSString).deletingLastPathComponent
+        let temp = (dir as NSString).appendingPathComponent(tempName)
+        let fd = try fs.openExclusive(temp)
+        var fdOpen = true
+        var renamed = false
+        defer {
+            if !renamed {
+                if fdOpen { _ = try? fs.removeIfOwned(temp, by: fd); try? fs.close(fd) } else { try? fs.remove(temp) }
+            }
+        }
+        try body(fd)
+        try fs.sync(fd)
+        fdOpen = false
+        try fs.close(fd)
+        try fs.rename(temp, path)
+        renamed = true
+        try fs.syncDirectory(dir)
+    }
 }
 
 /// Atomic replace built from the port's steps: temp (exclusive, same directory) → write → fsync →

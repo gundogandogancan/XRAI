@@ -1,0 +1,61 @@
+Building for debugging...
+[0/4] Write sources
+[1/4] Write swift-version--58304C5D6DBC2206.txt
+[3/6] Emitting module XRAIVaultStoreTests
+[4/6] Compiling XRAIVaultStoreTests StoreLedgerBindingTests.swift
+[4/6] Write Objects.LinkFileList
+[5/6] Linking XRAICorePackageTests
+Build complete! (1.32s)
+Test Suite 'Selected tests' started at 2026-10-20 13:30:43.645.
+Test Suite 'XRAICorePackageTests.xctest' started at 2026-10-20 13:30:43.645.
+Test Suite 'XRAICorePackageTests.xctest' passed at 2026-10-20 13:30:43.645.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-20 13:30:43.645.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite "GATE 1 — ledger binding through pending journals (no rollback is ever re-trusted)" started.
+◇ Suite "H1 — permanent deletion ledger and fail-closed restore admission" started.
+◇ Suite "H5 — crash consistency by fault injection" started.
+◇ Test "NT-H1-01/04: a deleted id in a backup is skipped, never reactivated — not even through release; reimport creates a NEW id with provenance" started.
+◇ Test "NT-H5-01/02: a crash at any syscall of put leaves the record either absent or fully readable; the manifest, authz and anchor always agree" started.
+◇ Test "NT-LR-01: an older authentic ledger put back under a PENDING delete journal is refused (read-only, never re-trusted); the genuine pre- and post-states still recover" started.
+✔ Test "NT-H1-01/04: a deleted id in a backup is skipped, never reactivated — not even through release; reimport creates a NEW id with provenance" passed after 0.646 seconds.
+◇ Test "NT-H1-02/03: a corrupted ledger quarantines every restored record; a missing ledger makes the vault read-only with restore refused" started.
+✘ Test "NT-LR-01: an older authentic ledger put back under a PENDING delete journal is refused (read-only, never re-trusted); the genuine pre- and post-states still recover" recorded an issue at StoreLedgerBindingTests.swift:49:9: Expectation failed: try Data(contentsOf: f.systemPath("ledger.v1")) == l2
+↳ the replay reproduces exactly the announced post-state
+✔ Test "NT-H1-02/03: a corrupted ledger quarantines every restored record; a missing ledger makes the vault read-only with restore refused" passed after 0.618 seconds.
+◇ Test "NT-H1-05: a backup from another (or unknown) vault instance is quarantined whole while this vault holds data; released per record with consent" started.
+✔ Test "NT-H1-05: a backup from another (or unknown) vault instance is quarantined whole while this vault holds data; released per record with consent" passed after 0.774 seconds.
+◇ Test "NT-H1-07: digest compaction keeps deletions fail-closed (possiblyDeleted → quarantine) and the Bloom false-positive rate stays ≤ 1e-6 at 250 000 entries" started.
+✘ Test "NT-LR-01: an older authentic ledger put back under a PENDING delete journal is refused (read-only, never re-trusted); the genuine pre- and post-states still recover" failed after 2.157 seconds with 1 issue.
+◇ Test "NT-LR-02: a pending journal from another history (same keys, same generation, different pre-state) does not bind to the manifest → read-only" started.
+✔ Test "NT-LR-02: a pending journal from another history (same keys, same generation, different pre-state) does not bind to the manifest → read-only" passed after 0.662 seconds.
+◇ Test "NT-LR-03: a written post-state whose announcement is missing from the journal is not proven → read-only" started.
+✔ Test "NT-LR-03: a written post-state whose announcement is missing from the journal is not proven → read-only" passed after 0.392 seconds.
+◇ Test "NT-LR-04: an older journal format or an older manifest format is never converted — journal → read-only, manifest → open refused" started.
+✔ Test "NT-LR-04: an older journal format or an older manifest format is never converted — journal → read-only, manifest → open refused" passed after 0.181 seconds.
+◇ Test "NT-LR-05: LedgerBinding rules — epoch mismatch, stale generation, manifest-durable post/pre binding; manifest v2 round-trips kinds and risks" started.
+✔ Test "NT-LR-05: LedgerBinding rules — epoch mismatch, stale generation, manifest-durable post/pre binding; manifest v2 round-trips kinds and risks" passed after 0.001 seconds.
+◇ Test "NT-LR-06: a corrupt ledger makes distrust STICKY — a later delete rewrites the ledger but the manifest keeps the history untrusted across relaunch; restores keep quarantining" started.
+✔ Test "NT-LR-06: a corrupt ledger makes distrust STICKY — a later delete rewrites the ledger but the manifest keeps the history untrusted across relaunch; restores keep quarantining" passed after 0.552 seconds.
+◇ Test "NT-LR-07: a corrupt ledger together with a pending operation is never replayed from an empty history → read-only" started.
+✔ Test "NT-LR-07: a corrupt ledger together with a pending operation is never replayed from an empty history → read-only" passed after 0.392 seconds.
+◇ Test "NT-LR-08: the journal begin entry of every op carries the manifest's ledger hash; a put that re-seals a stale ledger announces an identical post-state (no content change)" started.
+✔ Test "NT-LR-08: the journal begin entry of every op carries the manifest's ledger hash; a put that re-seals a stale ledger announces an identical post-state (no content change)" passed after 0.272 seconds.
+✘ Suite "GATE 1 — ledger binding through pending journals (no rollback is ever re-trusted)" failed after 4.611 seconds with 1 issue.
+✔ Test "NT-H5-01/02: a crash at any syscall of put leaves the record either absent or fully readable; the manifest, authz and anchor always agree" passed after 4.691 seconds.
+◇ Test "NT-H5-03: a crash after each journal step of a cascade delete is recovered to all-or-nothing with the ledger complete" started.
+✔ Test "NT-H5-03: a crash after each journal step of a cascade delete is recovered to all-or-nothing with the ledger complete" passed after 0.332 seconds.
+◇ Test "NT-H3-03: a crash after the token was consumed and the journal begun completes the operation from the journal; the token stays dead" started.
+✔ Test "NT-H3-03: a crash after the token was consumed and the journal begun completes the operation from the journal; the token stays dead" passed after 0.151 seconds.
+◇ Test "NT-H5-04/05: an older manifest (rollback) or a whole older snapshot of system/ is detected via the chain and the anchor → read-only, no writes, no restore" started.
+✔ Test "NT-H5-04/05: an older manifest (rollback) or a whole older snapshot of system/ is detected via the chain and the anchor → read-only, no writes, no restore" passed after 0.131 seconds.
+◇ Test "NT-H5-06/07: a truncated journal tail is discarded and the operation replays; a byte flip in a MIDDLE entry makes the vault read-only and quarantines the op's ids" started.
+✔ Test "NT-H5-06/07: a truncated journal tail is discarded and the operation replays; a byte flip in a MIDDLE entry makes the vault read-only and quarantines the op's ids" passed after 0.353 seconds.
+✔ Suite "H5 — crash consistency by fault injection" passed after 5.661 seconds.
+NT-H1-07 bloom false positives: 0 of 2000000 probes against 150000 digested ids (bits/entry ≈ 28.8, k = 20)
+✔ Test "NT-H1-07: digest compaction keeps deletions fail-closed (possiblyDeleted → quarantine) and the Bloom false-positive rate stays ≤ 1e-6 at 250 000 entries" passed after 14.968 seconds.
+✔ Suite "H1 — permanent deletion ledger and fail-closed restore admission" passed after 17.008 seconds.
+✘ Test run with 17 tests in 3 suites failed after 17.008 seconds with 1 issue.

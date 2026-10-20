@@ -236,4 +236,6 @@ public enum DenialReason: String, Hashable, Sendable {
     case foreignBackupPendingReview = "FOREIGN_BACKUP_PENDING_REVIEW"
     /// P03-04 H1: the id may have been deleted (compacted ledger digest); never reactivated without review.
     case possiblyDeleted = "POSSIBLY_DELETED"
+    /// P03-04b: a restored record is staged and waits for the user's explicit activation.
+    case pendingUserConfirmation = "RESTORE_PENDING_USER_CONFIRMATION"
 }

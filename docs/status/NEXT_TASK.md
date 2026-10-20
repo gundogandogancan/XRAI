@@ -219,6 +219,25 @@ Response to the first independent code review of P03-04 (baseline `f888040`). F-
 Proposed next: unchanged — **P03-04b** (backup body v3 with embedded ledger digest and instance id; journal begin entry carrying the pre-op ledger hash to close `LEDGER_ONLY_ROLLBACK`; attachments) then **P03-05**. Waits for the second review round.
 
 ```
+APPROVED_BY: Founder-directed ChatGPT second independent code review (F-P04-01 and F-P04-02 fixes accepted)
+DATE: 2026-10-20
+SCOPE_APPROVED: P03-04b library only — GATE 1 LEDGER_ONLY_ROLLBACK [P0] first; then backup body v3, two-phase restore reconciliation, chunked attachments; evidence on macOS, Simulator and iPhone 14 Pro Max (non-destructive)
+APPROVAL_TYPE: CONDITIONAL GO
+BASELINE: 42c3f4ea8d9ff68b24df17b3a3606e2a1709fe32
+SECURITY_REVIEWED: NO
+APP_PERSISTENCE: NOT AUTHORIZED (no app wiring, no consent UI/InteractionGate, no cloud, no destructive device tests, no force push)
+CHANGES_REQUESTED: none for P03-04H; P03-04b must close LEDGER_ONLY_ROLLBACK before the other two features
+```
+
+---
+
+## P03-04b RESULT (2026-10-20) — BACKUP INTEGRITY, RESTORE RECONCILIATION & ATTACHMENT ARCHITECTURE (LIBRARY), STOP
+
+GATE 1 closed LEDGER_ONLY_ROLLBACK (journal v2 binds every op to the manifest's ledger hash and announces the post-state before the write; `LedgerBinding.verify`; sticky `ledgerHistoryTrusted`; legacy formats refused). GATE 2: sealed backup v3 (instance id, durable backup generation, manifest binding, embedded deletion history + digest + trust flag; v2 legacy-only; v1/unknown refused). GATE 3: two-phase restore (`admitRestored` stages everything quarantined with persisted risks → `activateRestored` with exact acknowledgment + consent + scope; all-or-nothing replay). GATE 4: chunked attachments (one DEK, derived chunk key, prefix‖index nonce, layout-bound AAD, verify-then-deliver, bounded memory, cascade, retirement, limits). Results: macOS 191/191, Simulator 117/117, iPhone 14 Pro Max 117/117 (non-destructive). DEVICE_VERIFIED: PARTIAL. SECURITY_REVIEWED: NO. App NOT wired. Report: `docs/status/P03_04B_BACKUP_RESTORE_REVIEW_REPORT.md`.
+
+Proposed next: **P03-05** (consent UI, InteractionGate, persisted consent receipts, restore risk screen, wiring behind the gate) — only after the next independent review and the founder's approval. Library follow-up candidates (not started): attachments in a streamed backup container; persisted corrupt-state; user-confirmed reset of sticky ledger distrust.
+
+```
 APPROVED_BY:
 DATE:
 SCOPE_APPROVED:

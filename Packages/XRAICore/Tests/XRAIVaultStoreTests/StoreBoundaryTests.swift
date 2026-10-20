@@ -41,7 +41,7 @@ struct StoreAuthorizationBoundaryTests {
         f.base.advance(61)
         await expectVaultError(.authorizationInvalid(.expired)) { try await s.put(plaintext: [1], descriptor: try f.descriptor(), authorization: t) }
         await expectVaultError(.authorizationInvalid(.scopeMismatch)) { try await s.revoke(purpose: "p", mode: .deleteNow, authorization: try s.issuer.issue(scope: .revokeConsent(purpose: "other"))) }
-        await expectVaultError(.authorizationInvalid(.scopeMismatch)) { try await s.admitRestored(RestoreResult(active: [], quarantined: []), sourceVaultInstanceID: nil, authorization: try s.issuer.issue(scope: .restoreBackup)) }
+        await expectVaultError(.authorizationInvalid(.scopeMismatch)) { try await s.admitRestored(RestoreResult(active: [], quarantined: []), authorization: try s.issuer.issue(scope: .restoreBackup)) }
         await expectVaultError(.authorizationInvalid(.scopeMismatch)) { try await s.prepareRetirement(of: 1, authorization: try s.issuer.issue(scope: .maintenance(.rewrap)), maintenance: try s.issuer.issue(scope: .maintenance(.rewrap))) }
         // consent-gated class without a grant is refused by the vault policy inside put
         await expectVaultError(.notAuthorized(.consentRequired)) { try await f.put(s, "x", .journal, purpose: "nogrant") }

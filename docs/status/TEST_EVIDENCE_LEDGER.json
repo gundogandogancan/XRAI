@@ -626,6 +626,70 @@
    "result": "PASS: 60 NT rows, T44–T48, P03-04H review consistent, no createFile/O_TRUNC/ignored fsync in VaultFileSystem.swift",
    "log": "docs/status/evidence/p03_04h_check_docs.log",
    "log_sha256": "96bd69bfe114b6fcde42aca7624942fbd94f6ea52915f0b4d69d2ce4a99c6e99"
+  },
+  {
+   "run_id": "P03-04B-GATE1-RUN2",
+   "command": "swift test --filter StoreLedgerBindingTests|StoreCrashTests|StoreLedgerTests",
+   "exit_code": 1,
+   "result": "FAILED: 1 test-expectation error (NT-LR-01 compared envelope bytes instead of plaintext state); product unchanged by the correction",
+   "log": "docs/status/evidence/p03_04b_gate1_run2_FAIL_1_test_expectation.log",
+   "log_sha256": "7ca3e0a2980273b0e89d0b2870a165b34287bbedb804ac734738e582b930e8a9"
+  },
+  {
+   "run_id": "P03-04B-GATE23-RUN1",
+   "command": "swift test --filter XRAIVaultStoreTests|BackupTests",
+   "exit_code": 1,
+   "result": "FAILED: legacy v2 forging test resealed with the new default format version 3; test pinned to v2",
+   "log": "docs/status/evidence/p03_04b_gate23_run1_FAIL_legacy_forge_version.log",
+   "log_sha256": "edc78027c0cf7b184a2705cb62f1a750c59eb096add052a7955c68206ea04454"
+  },
+  {
+   "run_id": "P03-04B-GATE23-RUN3",
+   "command": "swift test --filter XRAIVaultStoreTests|BackupTests|BackupV3Tests",
+   "exit_code": 1,
+   "result": "FAILED: NT-BK-05/NT-RR-04 probes hit length fields (structural errors) instead of the AEAD tag; NT-RR-12 exposed PARTIAL admission replay after a crash → replay made all-or-nothing (product fix)",
+   "log": "docs/status/evidence/p03_04b_gate23_run3_FAIL_admission_partial_replay.log",
+   "log_sha256": "e968f73dc1510358c968e49a7299aae1e65e2a1b57030cb23be4ce3ede6413f5"
+  },
+  {
+   "run_id": "P03-04B-SWIFT-MACOS",
+   "command": "swift test (Packages/XRAICore)",
+   "exit_code": 0,
+   "result": "191 tests in 44 suites passed (158 before + 33 new); NT-AT-10 64 MiB: write 0.59 s, read(2 passes) 0.59 s, RSS delta ≤ 1 MiB; NT-SC-01 n=2000: put 168.55 s, reopen 0.06 s, export 0.54 s, restore+admit 57.27 s, activate 0.54 s",
+   "log": "docs/status/evidence/p03_04b_swift_test_macos.log",
+   "log_sha256": "ae605d5158edc8ba799067e5030ade8c8b42a3a7dd3be7064e6dfd5726dd606b"
+  },
+  {
+   "run_id": "P03-04B-SIM-HOSTED",
+   "command": "xcodebuild test -project XRAI.xcodeproj -scheme XRAI -destination 'platform=iOS Simulator,name=iPhone 17' -only-testing:XRAIHostedTests",
+   "exit_code": 0,
+   "result": "117 tests in 28 suites passed; NT-AT-10: write 0.70 s, read 0.64 s, RSS delta 0 MiB; NT-SC-01 n=500: put 65.18 s, restore+admit 9.02 s",
+   "log": "docs/status/evidence/p03_04b_xcodebuild_sim_hosted.log",
+   "log_sha256": "10990f3c46cb55b45084e125e94fa46eedd70838f4f2412cfded300eb64aac8c"
+  },
+  {
+   "run_id": "P03-04B-DEVICE-HOSTED",
+   "command": "xcodebuild test -project XRAI.xcodeproj -scheme XRAI -destination 'platform=iOS,id=C7C6CE6E-B577-558A-8992-DC6C1F492B39' -only-testing:XRAIHostedTests -allowProvisioningUpdates",
+   "exit_code": 0,
+   "result": "117 tests in 28 suites passed on iPhone 14 Pro Max (iOS 26.6), non-destructive; NT-AT-10: write 0.88 s, read 0.95 s, RSS delta 0 MiB; NT-SC-01 n=500: put 66.17 s, restore+admit 10.38 s; DEVICE_VERIFIED: PARTIAL",
+   "log": "docs/status/evidence/p03_04b_xcodebuild_device_hosted.log",
+   "log_sha256": "2e52128a158f004a5d99bb898a7d315b539f652d52e64d6cfea2737d867ea488"
+  },
+  {
+   "run_id": "P03-04B-STATIC-VALIDATE",
+   "command": "python3 -I validation/validate_package.py",
+   "exit_code": 0,
+   "result": "PASS",
+   "log": "docs/status/evidence/p03_04b_validate_package.log",
+   "log_sha256": "4ddfa438aec948ff177ef9b19fe0a3895debfd68dce60b010727ef9b9bc9b668"
+  },
+  {
+   "run_id": "P03-04B-STATIC-DOCS",
+   "command": "python3 -I validation/check_p03_03_docs.py",
+   "exit_code": 0,
+   "result": "PASS: 102 NT rows, T44–T50, P03-04b review consistent",
+   "log": "docs/status/evidence/p03_04b_check_docs.log",
+   "log_sha256": "6049b63469c9ad3433b0d9f1e9b708bbf083fef08697d5fe61b3ddb86212f2dc"
   }
  ],
  "acceptance_test_mapping": [
@@ -718,6 +782,15 @@
     "P03-04H-SIM-HOSTED",
     "P03-04H-DEVICE-HOSTED"
    ]
+  },
+  {
+   "rows": "NT-LR-01…08, NT-BK-01…08, NT-RR-01…14, NT-AT-01…11, NT-SC-01",
+   "tests": "StoreLedgerBindingTests, StoreBackupV3Tests, StoreRestoreReconciliationTests, BackupV3Tests, StoreAttachmentTests, StoreScaleTests",
+   "runs": [
+    "P03-04B-SWIFT-MACOS",
+    "P03-04B-SIM-HOSTED",
+    "P03-04B-DEVICE-HOSTED"
+   ]
   }
  ],
  "statuses": {
@@ -759,7 +832,10 @@
   "P03-03": "SPECIFIED (design only); no code change; static checks exit 0; DEVICE_VERIFIED: n/a; SECURITY_REVIEWED: NO",
   "P03-03H": "SPECIFIED (design hardening only); no code change; static checks exit 0; device tests NOT_RUN (nothing executable changed); SECURITY_REVIEWED: NO",
   "P03-04": "CODED + TESTED (library): macOS 145/145, Simulator hosted 73/73, iPhone 14 Pro Max hosted 73/73 (DEVICE_VERIFIED: PARTIAL, non-destructive); app not wired; no personal persistence; SECURITY_REVIEWED: NO",
-  "vault.store.filesystem_durability": "CODED + TESTED (P03-04H: NT-FS-01…12 on macOS, Simulator and iPhone 14 Pro Max; F-P04-01/02 fixed); power-loss NOT_RUN (no rig); SECURITY_REVIEWED: NO"
+  "vault.store.filesystem_durability": "CODED + TESTED (P03-04H: NT-FS-01…12 on macOS, Simulator and iPhone 14 Pro Max; F-P04-01/02 fixed); power-loss NOT_RUN (no rig); SECURITY_REVIEWED: NO",
+  "vault.backup.sealed.v3": "CODED + TESTED (P03-04b: NT-BK-01…08, NT-RR-01…14 on macOS, Simulator, iPhone 14 Pro Max); attachments not included; SECURITY_REVIEWED: NO",
+  "vault.store.ledger_binding": "CODED + TESTED (P03-04b GATE 1: NT-LR-01…08; LEDGER_ONLY_ROLLBACK closed)",
+  "vault.store.attachments": "CODED + TESTED (P03-04b GATE 4: NT-AT-01…11 incl. 64 MiB on device); not in backups; SECURITY_REVIEWED: NO"
  },
  "not_evidence": [
   "docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"

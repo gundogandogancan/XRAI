@@ -48,6 +48,9 @@ public enum OperationScope: Hashable, Sendable {
     case retireKey(version: UInt32)
     /// P03-04 H1: admit records returned by a backup restore into the store (reconciled, fail-closed).
     case admitRestored
+    /// P03-04b GATE 3 (phase 2): activate staged restored records after the user acknowledged their
+    /// restore risks; narrowed to the listed ids.
+    case activateRestored(recordIDs: Set<RecordID>)
 
     /// Whether this scope covers `op` for `recordID` (nil when the operation is not record-bound).
     public func covers(_ op: OperationScope, recordID: RecordID?) -> Bool {
@@ -64,6 +67,7 @@ public enum OperationScope: Hashable, Sendable {
         case (.restoreSuspended(let a), .restoreSuspended(let b)): return b.isSubset(of: a)
         case (.retireKey(let a), .retireKey(let b)): return a == b
         case (.admitRestored, .admitRestored): return true
+        case (.activateRestored(let a), .activateRestored(let b)): return b.isSubset(of: a)
         default: return false
         }
     }
@@ -116,11 +120,14 @@ public struct QuarantinedRecord: Hashable, Sendable {
     public init(envelope: RecordEnvelope, reason: DenialReason) { self.envelope = envelope; self.reason = reason }
 }
 
-/// Result of a restore: active records and quarantined ones, never silently re-enabled.
+/// Result of a restore: active records and quarantined ones, never silently re-enabled. P03-04b: the
+/// facade also reports the backup's provenance (instance id, generation, embedded history) so the
+/// store can reconcile; a caller-built result has `.unknown` provenance and is treated as legacy.
 public struct RestoreResult: Hashable, Sendable {
     public let active: [RecordEnvelope]
     public let quarantined: [QuarantinedRecord]
-    public init(active: [RecordEnvelope], quarantined: [QuarantinedRecord]) { self.active = active; self.quarantined = quarantined }
+    public let provenance: BackupProvenance
+    public init(active: [RecordEnvelope], quarantined: [QuarantinedRecord], provenance: BackupProvenance = .unknown) { self.active = active; self.quarantined = quarantined; self.provenance = provenance }
 }
 
 /// Authorization for the store layer to delete records. The vault issues it only through the

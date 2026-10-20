@@ -44,6 +44,9 @@ final class FaultingFileSystem: VaultFileSystem, @unchecked Sendable {
     func createDirectory(_ path: String) throws { try real.createDirectory(path) }
     func listNames(_ dir: String) throws -> [String] { try real.listNames(dir) }
     func readRegular(_ path: String, maxBytes: Int) throws -> [UInt8] { try real.readRegular(path, maxBytes: maxBytes) }
+    func openRegularForRead(_ path: String) throws -> (fd: Int32, size: Int64) { try real.openRegularForRead(path) }
+    func read(_ fd: Int32, maxBytes: Int) throws -> [UInt8] { try real.read(fd, maxBytes: maxBytes) }
+    func entryCount(_ dir: String) throws -> Int { try real.entryCount(dir) }
     func openExclusive(_ path: String) throws -> Int32 { try tick("open"); return try real.openExclusive(path) }
     func write(_ fd: Int32, _ bytes: [UInt8]) throws { try tick("write"); try real.write(fd, bytes) }
     func sync(_ fd: Int32) throws { try tick("fsync"); try real.sync(fd) }
@@ -69,9 +72,9 @@ final class StoreFixture: @unchecked Sendable {
     let fs: FaultingFileSystem
     var limits: StoreLimits
 
-    init(limits: StoreLimits = StoreLimits()) {
+    init(limits: StoreLimits = StoreLimits(), keys: InMemoryKeyProvider? = nil) {
         rootURL = FileManager.default.temporaryDirectory.appendingPathComponent("xrai-store-" + RecordID().hex, isDirectory: true)
-        keys = InMemoryKeyProvider(keyID: "device")
+        self.keys = keys ?? InMemoryKeyProvider(keyID: "device")
         authority = InMemoryConsentAuthority()
         quarantine = InMemoryQuarantineRegistry()
         anchor = InMemoryAnchorStore()

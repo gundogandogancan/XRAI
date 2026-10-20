@@ -228,7 +228,7 @@ struct BackupTests {
         func reseal(_ padded: [UInt8]) throws -> [UInt8] {
             let nonce = AES.GCM.Nonce(); let nb = nonce.withUnsafeBytes { Array($0) }
             let b = try AES.GCM.seal(padded, using: keys.outer, nonce: nonce, authenticating: SealedBackup.associatedData(formatVersion: 2, salt: sealed.salt, nonce: nb))
-            return SealedBackup(salt: sealed.salt, nonce: nb, ciphertext: Array(b.ciphertext), tag: Array(b.tag)).encode()
+            return SealedBackup(formatVersion: 2, salt: sealed.salt, nonce: nb, ciphertext: Array(b.ciphertext), tag: Array(b.tag)).encode()   // forging a LEGACY v2 body (P03-04b: export is v3)
         }
         let new = Harness(keyID: "dst")
         let e0 = body.entries[0]

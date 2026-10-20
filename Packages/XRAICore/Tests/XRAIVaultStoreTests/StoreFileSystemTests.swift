@@ -256,7 +256,7 @@ struct StoreDurabilityFailureTests {
         #expect(s3.mode == .readOnly(reason: "deletion ledger does not bind to the manifest") && s3.deletionHistoryTrusted == false)
         await expectVaultError(.storeReadOnly(reason: "deletion ledger does not bind to the manifest")) { try await f.put(s3, "x") }
         await expectVaultError(.storeReadOnly(reason: "deletion ledger does not bind to the manifest")) {
-            try await s3.admitRestored(RestoreResult(active: [], quarantined: []), sourceVaultInstanceID: s3.vaultInstanceID, authorization: try s3.issuer.issue(scope: .admitRestored))
+            try await s3.admitRestored(RestoreResult(active: [], quarantined: []), authorization: try s3.issuer.issue(scope: .admitRestored))
         }
         try await s3.close()
         // the manifest still names the file as gone; nothing was resurrected on disk
@@ -274,7 +274,7 @@ struct StoreDurabilityFailureTests {
         let fresh = try s.vault.seal(plaintext: [2], descriptor: try f.descriptor(), authorization: try s.issuer.issue(scope: .write(.birthDate)))
         let gen = s.manifestGeneration
         await expectVaultError(.staleKeyVersion(minimum: 2)) {
-            try await s.admitRestored(RestoreResult(active: [fresh, old], quarantined: []), sourceVaultInstanceID: s.vaultInstanceID, authorization: try s.issuer.issue(scope: .admitRestored))
+            try await s.admitRestored(RestoreResult(active: [fresh, old], quarantined: []), authorization: try s.issuer.issue(scope: .admitRestored))
         }
         for env in [fresh, old] { #expect(s.state(of: env.header.recordID) == nil && !f.fileExists(env.header.recordID)) }
         #expect(s.mode == .readWrite && s.manifestGeneration == gen && f.names("journal").isEmpty && f.names("records").isEmpty)

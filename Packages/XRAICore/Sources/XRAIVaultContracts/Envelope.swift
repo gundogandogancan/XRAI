@@ -475,3 +475,61 @@ public protocol EnvelopeSealer: Sendable {
     /// Re-wraps the DEK under the provider's current key without touching the payload.
     func rewrap(_ envelope: RecordEnvelope) throws -> RecordEnvelope
 }
+
+// MARK: - P03-04b GATE 4: chunked attachments
+
+/// Plaintext payload of an attachment's HEADER record (a normal `RecordEnvelope` with its own DEK).
+/// Chunks are sealed with a key derived from that DEK; nonce = `noncePrefix` ‖ chunk index.
+public struct AttachmentLayout: Hashable, Sendable {
+    public static let magic = "XRAI-ATT-1"
+    public static let noncePrefixBytes = 8
+    public let chunkBytes: UInt32
+    public let chunkCount: UInt32
+    public let totalBytes: UInt64
+    public let noncePrefix: [UInt8]
+
+    public init(chunkBytes: UInt32, chunkCount: UInt32, totalBytes: UInt64, noncePrefix: [UInt8]) throws {
+        guard noncePrefix.count == AttachmentLayout.noncePrefixBytes else { throw VaultError.invalidLength(field: "noncePrefix", expected: AttachmentLayout.noncePrefixBytes, actual: noncePrefix.count) }
+        guard chunkBytes > 0, chunkCount > 0 else { throw VaultError.limitExceeded("attachment layout") }
+        let expected = totalBytes == 0 ? 1 : (totalBytes + UInt64(chunkBytes) - 1) / UInt64(chunkBytes)
+        guard UInt64(chunkCount) == expected else { throw VaultError.limitExceeded("attachment chunk count") }
+        self.chunkBytes = chunkBytes; self.chunkCount = chunkCount; self.totalBytes = totalBytes; self.noncePrefix = noncePrefix
+    }
+
+    /// Plaintext length of chunk `index` (the last one may be shorter; a 0-byte attachment has one empty chunk).
+    public func length(ofChunk index: UInt32) -> Int {
+        guard index < chunkCount else { return 0 }
+        if index + 1 < chunkCount { return Int(chunkBytes) }
+        let rem = totalBytes - UInt64(index) * UInt64(chunkBytes)
+        return Int(rem)
+    }
+
+    public func encode() -> [UInt8] {
+        var e = CanonicalEncoder()
+        e.appendString(AttachmentLayout.magic); e.appendU32(chunkBytes); e.appendU32(chunkCount); e.appendU64(totalBytes); e.appendBytes(noncePrefix)
+        return e.bytes
+    }
+
+    public static func decode(_ bytes: [UInt8]) throws -> AttachmentLayout {
+        var d = CanonicalDecoder(bytes)
+        guard try d.readString() == magic else { throw VaultError.storeIntegrityFailed(reason: "attachment layout magic") }
+        let cb = try d.readU32(); let cc = try d.readU32(); let tb = try d.readU64(); let np = try d.readBytes()
+        guard d.isAtEnd else { throw VaultError.storeIntegrityFailed(reason: "attachment layout trailing bytes") }
+        return try AttachmentLayout(chunkBytes: cb, chunkCount: cc, totalBytes: tb, noncePrefix: np)
+    }
+
+    /// Associated data of chunk `index`: binds record id, index, count, sizes and the last-chunk flag,
+    /// so chunks cannot be reordered, duplicated, dropped or moved between attachments.
+    public func associatedData(recordID: RecordID, chunkIndex: UInt32) -> [UInt8] {
+        var e = CanonicalEncoder()
+        e.appendString("xrai.attachment.chunk.v1"); e.appendBytes(Array(recordID.hex.utf8)); e.appendU32(chunkIndex); e.appendU32(chunkCount)
+        e.appendU64(totalBytes); e.appendU32(chunkBytes); e.appendU8(chunkIndex + 1 == chunkCount ? 1 : 0)
+        return e.bytes
+    }
+
+    /// 96-bit nonce of chunk `index`: random per-attachment prefix ‖ big-endian index (unique per chunk).
+    public func nonce(forChunk index: UInt32) -> [UInt8] {
+        noncePrefix + [UInt8(index >> 24), UInt8((index >> 16) & 0xFF), UInt8((index >> 8) & 0xFF), UInt8(index & 0xFF)]
+    }
+}
+

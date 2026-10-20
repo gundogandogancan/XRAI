@@ -1,0 +1,481 @@
+Test Suite 'All tests' started at 2026-10-20 13:59:11.978.
+Test Suite 'All tests' passed at 2026-10-20 13:59:11.979.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite "CivilDate validity — hand-derived fixtures" started.
+◇ Suite "P03-04H — exclusive creation, durable commit, cleanup ownership (real file system)" started.
+◇ Suite "CivilDate digits, ordering and redaction" started.
+◇ Suite "GATE 5 — scale: 2 000 records through open, export v3, restore, admission, activation" started.
+◇ Suite "Key cache (P03-00 §3)" started.
+◇ Suite "Keychain anchor store (real keychain)" started.
+◇ Suite "Isolation of test doubles and debug surface from production" started.
+◇ Suite "Store core: round trip, states, derived graph, directory hygiene" started.
+◇ Suite "Life Path — arithmetic properties over the whole supported domain sample" started.
+◇ Suite "P03-00F F4 — in-process rotation serialization; cross-process is BLOCKED" started.
+◇ Suite "H2 — key retirement protocol v2" started.
+◇ Suite "Keychain key lifecycle" started.
+◇ Suite "Life Path — typed errors and registry" started.
+◇ Suite "H5 — crash consistency by fault injection" started.
+◇ Suite "Life Path — num.life_path.digits.v1 golden fixtures" started.
+◇ Suite "GATE C — authorization cannot be bypassed through the store" started.
+◇ Suite "P03-00F F3 — cache fails closed when the time source fails; TTL is monotonic" started.
+◇ Suite "Life Path — num.life_path.components.v1 golden fixtures" started.
+◇ Suite "Keychain mode selection and fail-closed behaviour" started.
+◇ Suite "NT-B-01 / GATE A — module boundary and actor isolation (source + manifest + compile-negative)" started.
+◇ Suite "P03-04H — failed durability steps inside the store (fsync, dirsync, rename, unlink, journal commit)" started.
+◇ Suite "G3 — trusted clock and operation tokens" started.
+◇ Suite "Privacy negative tests — XRAICore production sources" started.
+◇ Suite "H4 — revoke vs delete, suspension, grace" started.
+◇ Suite "Recovery key, operation scopes and error hygiene" started.
+◇ Suite "H1 — permanent deletion ledger and fail-closed restore admission" started.
+◇ Suite "H3 — epoch tokens, persisted clock mark" started.
+◇ Suite "GATE 2 — backup body v3 through the store" started.
+◇ Suite "Backup v3: forged bodies, schema policy, context separation, no secrets in the body" started.
+◇ Suite "GATE 4 — chunked attachments: layout, integrity, cascade, recovery, limits" started.
+◇ Suite "GATE 3 — restore reconciliation (verify & stage, then activate)" started.
+◇ Suite "AES-256-GCM envelope: adversarial" started.
+◇ Suite "GATE 0B — quarantine is enforced by the trusted registry" started.
+◇ Suite "G1 — unauthorized decryption is impossible through the facade" started.
+◇ Suite "GATE 1 — ledger binding through pending journals (no rollback is ever re-trusted)" started.
+◇ Suite "Deny-by-default flow policy against a consent authority" started.
+◇ Suite "Key lifecycle" started.
+◇ Suite "GATE 0A — effective time never goes backwards" started.
+◇ Suite "Privacy tiers, floors and data classes" started.
+◇ Suite "G4 — integrity before rewrap; quarantine on restore" started.
+◇ Suite "Sealed backup: confidentiality, authorization and robustness" started.
+◇ Suite "Record ids, canonical encoding and headers" started.
+◇ Suite "AES-256-GCM envelope: round trip and structure" started.
+◇ Suite "G2 — composition root and module boundary" started.
+◇ Test "supported year window is 1583...9999 inclusive" started.
+◇ Test "1900-02-29 is invalid (century, not divisible by 400)" started.
+◇ Test "day 0 and day 32 are invalid" started.
+◇ Test "month 13 and month 0 are invalid" started.
+◇ Test "a cached KEK survives deletion of its item only until TTL or purge; purge on lock makes the loss immediate" started.
+◇ Test "April 31 is invalid" started.
+◇ Test "CivilDate is not Codable in this module (persistence belongs to the vault layer)" started.
+◇ Test "2000-02-29 is valid (divisible by 400)" started.
+◇ Test "NT-FS-01: a pre-existing regular file is refused untouched — no truncation, no replacement, same inode" started.
+◇ Test "preserve policy roots are in 1...9 or {11,22,33} and master is set iff root is master" started.
+◇ Test "write → read → update → clear round-trips; a second instance sees the same anchor; decoding rejects a foreign blob" started.
+◇ Test "Comparable orders by year, month, day" started.
+◇ Test "XRAIVaultKeychain imports no testing module, is the only Security importer, has no debug hooks or forbidden IO; in-memory provider is test-only" started.
+◇ Test "valid date but unregistered method → methodUnavailable" started.
+◇ Test "date-only type has exactly three stored properties and no time or zone" started.
+◇ Test "literal YYYYMMDD digits preserve order and zero padding" started.
+◇ Test "leap-year table" started.
+◇ Test "two instances rotating concurrently in one process: versions strictly monotonic, no conflicts, pointer consistent" started.
+◇ Test "every reduction step strictly decreases and ends at the root" started.
+◇ Test "2024-02-29 valid, 2023-02-29 invalid" started.
+◇ Test "create, reuse across provider instances (app relaunch), and isolation between key ids and services" started.
+◇ Test "reduce_all root equals the digital root of the compound, and both methods agree" started.
+◇ Test "an empty registry makes every method unavailable" started.
+◇ Test "reads go through SecureVault.open: a revoked grant, a quarantined id or a purpose mismatch deny even with a valid read token" started.
+◇ Test "determinism: same inputs give identical trace and hash" started.
+◇ Test "happy path: rotate → retireKey → version forgotten, records readable under the new key, proof independently verifiable (NT-H2-07)" started.
+◇ Test "put/get round-trips; a fresh vault has generation 1, epoch 1, anchor bound; relaunch keeps data and bumps the epoch" started.
+◇ Test "F1 1998-06-30 → compound 36 → root 9" started.
+◇ Test "F2 2000-02-29 (valid leap day) → compound 15 → root 6" started.
+◇ Test "F10 permutation: 1998-03-06 shares compound 36 with F1 but trace and hash differ" started.
+◇ Test "F5 1955-01-01 → compound 22: preserved as master 22 / reduced to 4" started.
+◇ Test "description never contains the birth date (privacy negative test)" started.
+◇ Test "F6 1969-05-21 → compound 33: preserved as master 33 / reduced to 6" started.
+◇ Test "F4 2000-01-08 → compound 11: preserved as master 11 / reduced to 2" started.
+◇ Test "time source failure purges the cache and refuses the operation; a stale KEK is never served; recovery after the source returns" started.
+◇ Test "F9 2000-02-29 → 2 + 2 + 11(preserved) = 15 → 6; reduce_all: 2 + 2 + 2 = 6" started.
+◇ Test "F8 1955-01-01 → year 20→2, month 1, day 1 → compound 4 → root 4 (differs from digits method 22)" started.
+◇ Test "XRAIVaultStore imports only Foundation, the contracts and the CryptoKit adapter; contains no fault seams, no logging, no CryptoKit/Security" started.
+◇ Test "registry v1 exposes exactly the two BOOT-01 methods" started.
+◇ Test "F11 1984-11-22 → 22 + 11 + 22 = 55 → 10 → 1; reduce_all: 4 + 2 + 4 = 10 → 1" started.
+◇ Test "NT-SC-01: 2 000 records (macOS) / 500 (iOS hosts) — reopen (recovery scan), export v3, restore + admit + activate on a fresh vault; wall time and resident memory recorded; everything readable afterwards" started.
+◇ Test "F7 1999-07-03 → compound 38 → 11 reached at a reduction step (preserved) / → 2" started.
+◇ Test "the system seal/open path accepts ONLY storeMetadata; personal classes fail closed in both directions" started.
+◇ Test "GATE A: no `await` inside FileVaultStore's isolated methods — every mutation is one synchronous critical section; the only await is in the static open" started.
+◇ Test "NT-H5-01/02: a crash at any syscall of put leaves the record either absent or fully readable; the manifest, authz and anchor always agree" started.
+◇ Test "every store mutation needs the right scope: wrong scope, foreign token, replay and expired tokens are refused and leave no trace" started.
+◇ Test "compile-negative: external code cannot construct the store directly, reach its loader, the journal writer or the system descriptor path" started.
+◇ Test "trace hash is an integrity fingerprint: stable, and distinct for distinct inputs/methods" started.
+◇ Test "types are not Codable here: no serialization path for a DOB in the pure module" started.
+◇ Test "a fake user action: calling export/restore with any non-export token is refused; the flag no longer exists" started.
+◇ Test "NT-H4-01: 'Kalıcı sil' deletes now with a ledger entry and never produces a suspended state" started.
+◇ Test "forged tokens (unknown id), replayed tokens, expired tokens, not-yet-valid tokens and over-long TTLs are rejected" started.
+◇ Test "production sources exist for both modules" started.
+◇ Test "trace description and debug description never contain the birth digits" started.
+◇ Test "a clock set backwards cannot be used to gain authority: the monotonic guard refuses, and an expired token stays expired" started.
+◇ Test "rejects wrong length and all-zero keys; description is redacted; display round-trips" started.
+◇ Test "NT-FS-08a: put — a failed fsync/dirsync/rename/unlink at any step is reported, never masked; after reopen the record is absent or fully readable and the anchor agrees" started.
+◇ Test "NT-BK-08: the v3 body has no field for authorization state, consumed tokens or device key material (source scan), and the HKDF contexts of v2 and v3 differ" started.
+◇ Test "no production file imports Foundation/Network/OSLog or references IO, logging or networking APIs" started.
+◇ Test "error values and descriptions carry no record id, key id, name or date" started.
+◇ Test "production configuration never falls back: without a keychain entitlement it fails closed; inside a signed host it uses the data-protection keychain" started.
+◇ Test "NT-H3-01/02: a token from the previous epoch is rejected after relaunch; 20 000 consumed tokens never evict (replay is still alreadyConsumed)" started.
+◇ Test "NT-AT-01: a 3.5 MiB attachment round-trips in four chunks; the manifest carries kind/bytes/chunks; the file is a padded <id>.att with header + 4 chunk frames; a 0-byte attachment is one empty chunk" started.
+◇ Test "a DEK wrapped for one record cannot be swapped into another record" started.
+◇ Test "NT-H1-01/04: a deleted id in a backup is skipped, never reactivated — not even through release; reimport creates a NEW id with provenance" started.
+◇ Test "unsupported format version (incl. retired v1) and malformed lengths are rejected with typed errors" started.
+◇ Test "NT-BK-01: v3 round trip — provenance carries instance id, backup generation, manifest binding and the deletion history; a fresh vault adopts the history, stages everything, activates with sources first" started.
+◇ Test "NT-BK-07: ledger digest mismatch, unknown schema, trailing bytes, bad instance id length, duplicate ids → refused; a v3 ciphertext relabelled v2 (and vice versa) fails authentication" started.
+◇ Test "tampered authenticated metadata fails; tier downgrade fails closed before any crypto; purpose is authenticated" started.
+◇ Test "operation scope coverage is exact and record-narrowed" started.
+◇ Test "direct open() of a quarantined envelope is refused even after consent is re-granted; release needs token AND grant" started.
+◇ Test "NT-RR-07/13: consent inactive at restore → staged with the risk and activation refused until a grant exists; a token narrowed to one id cannot activate another" started.
+◇ Test "tampered ciphertext, tag, nonce or wrapped key fails authentication" started.
+◇ Test "wrong key provider cannot open" started.
+◇ Test "release with a valid token but WITHOUT an active grant is refused and the record stays quarantined" started.
+◇ Test "a read token narrowed to other records, a maintenance token, or a write token cannot read" started.
+◇ Test "the same envelope value restored into a vault whose registry is pre-marked stays quarantined; the registry, not the value, is the source of truth" started.
+◇ Test "user rights: export and deletion work without active consent; deletion grant is scoped to the ids" started.
+◇ Test "an expired token cannot be revived by moving the clock back within tolerance" started.
+◇ Test "rotation re-wraps the DEK (maintenance token), payload bytes unchanged; forgotten old version makes un-rewrapped envelopes unreadable" started.
+◇ Test "a caller-held receipt that the authority does not know grants nothing (forged receipt)" started.
+◇ Test "a revoked consent does not re-activate when the base clock is set back 1…300 s; beyond tolerance the clock refuses" started.
+◇ Test "NT-LR-01: an older authentic ledger put back under a PENDING delete journal is refused (read-only, never re-trusted); the genuine pre- and post-states still recover" started.
+◇ Test "open with an EXPIRED consent is denied at the trusted time" started.
+◇ Test "a record is bound to its purpose: a grant or token for another purpose cannot read it" started.
+◇ Test "provider egress needs an active grant held by the AUTHORITY with matching class, purpose and destination" started.
+◇ Test "raw personal data never reaches analytics, model training, cloud sync, advertising or crash logs — even with blanket consent" started.
+◇ Test "revocation and expiry close the scope from that instant, for store and for read" started.
+◇ Test "export → bytes → restore on a NEW device; plaintext recovered; old keys useless; payload ciphertext unchanged" started.
+◇ Test "descriptor construction fails closed below the floor; consent-gated classes need a non-empty purpose" started.
+◇ Test "tier order is PUBLIC < PRIVATE < SENSITIVE < HIGH" started.
+◇ Test "backup inclusion requires user initiation and excludes session-only records" started.
+◇ Test "forged body inside a correctly-encrypted backup: tier downgrade, duplicate ids, oversize count, session-only, tampered inner payload, bad padding → rejected" started.
+◇ Test "device vault and user-encrypted backup are the only consent-free destinations" started.
+◇ Test "envelope description is redacted and the type stores no plaintext field" started.
+◇ Test "wrong recovery key, corrupted bytes, truncation, trailing bytes, old format version, oversize → rejected; restore needs its own scope" started.
+◇ Test "two exports differ in salt, nonce and ciphertext; recovery keys are high entropy; HKDF contexts are separated; export size limit is enforced before sealing" started.
+◇ Test "family data is third-party information and needs purpose consent" started.
+◇ Test "nonce strategy: fresh random nonce per seal; same plaintext never repeats nonce or ciphertext" started.
+◇ Test "unauthorized export: wrong-scope token, session-only record, duplicate id, tampered envelope, foreign envelope, mixed DEK" started.
+◇ Test "metadata leak: backup bytes expose only magic, version, salt, nonce — no record ids, classes, tiers, purposes, timestamps, counts, plaintext or recovery key" started.
+◇ Test "open with a REVOKED consent is denied; it was readable before revocation" started.
+◇ Test "a corrupted envelope cannot be re-wrapped as if valid" started.
+◇ Test "floors follow SECURITY_DATA_EGRESS_MATRIX_v3.2 and decision 6; no personal class may be public" started.
+◇ Test "seal/open round-trips for every class (consent granted where required) and ciphertext hides the plaintext" started.
+◇ Test "record ids are random 128-bit hex, strictly validated, redacted in descriptions" started.
+◇ Test "constant-time equality" started.
+◇ Test "restoring an old backup does not silently re-enable revoked sensitive records: they are quarantined, unreadable, and released only with a fresh grant" started.
+◇ Test "integers round-trip big-endian, strings length-prefixed; truncation throws" started.
+◇ Test "maintenance verify/rewrap never return plaintext and do not need consent; a read token cannot be used for maintenance" started.
+◇ Test "header v2 canonical bytes are deterministic, change with every field incl. purpose; validate() enforces floor and purpose" started.
+◇ Test "Package.swift: no non-test target depends on XRAIVaultTesting; only the adapter and the testing target may import CryptoKit" started.
+◇ Test "compile-negative: external code cannot reach AESGCMEnvelopeSealer, BackupCodec, GCMKeyWrapper, SecureVault.keyProvider, or InMemoryKeyProvider via the adapter" started.
+◇ Test "public surface of SecureVault exposes no key provider, sealer or codec (reflection + source)" started.
+✔ Test "CivilDate is not Codable in this module (persistence belongs to the vault layer)" passed after 3.242 seconds.
+✔ Test "2000-02-29 is valid (divisible by 400)" passed after 3.243 seconds.
+✔ Test "Comparable orders by year, month, day" passed after 3.243 seconds.
+✔ Test "1900-02-29 is invalid (century, not divisible by 400)" passed after 3.243 seconds.
+✔ Test "April 31 is invalid" passed after 3.243 seconds.
+✔ Test "date-only type has exactly three stored properties and no time or zone" passed after 3.243 seconds.
+✔ Test "month 13 and month 0 are invalid" passed after 3.243 seconds.
+✔ Test "valid date but unregistered method → methodUnavailable" passed after 3.243 seconds.
+✔ Test "literal YYYYMMDD digits preserve order and zero padding" passed after 3.243 seconds.
+✔ Test "day 0 and day 32 are invalid" passed after 3.243 seconds.
+✔ Test "leap-year table" passed after 3.243 seconds.
+✔ Test "supported year window is 1583...9999 inclusive" passed after 3.243 seconds.
+✔ Test "every reduction step strictly decreases and ends at the root" passed after 3.243 seconds.
+✔ Test "2024-02-29 valid, 2023-02-29 invalid" passed after 3.243 seconds.
+✔ Test "an empty registry makes every method unavailable" passed after 3.243 seconds.
+✔ Test "determinism: same inputs give identical trace and hash" passed after 3.243 seconds.
+✔ Test "NT-FS-01: a pre-existing regular file is refused untouched — no truncation, no replacement, same inode" passed after 3.243 seconds.
+✔ Test "XRAIVaultKeychain imports no testing module, is the only Security importer, has no debug hooks or forbidden IO; in-memory provider is test-only" passed after 3.243 seconds.
+✔ Test "F1 1998-06-30 → compound 36 → root 9" passed after 3.243 seconds.
+✔ Test "F2 2000-02-29 (valid leap day) → compound 15 → root 6" passed after 3.243 seconds.
+✔ Test "F10 permutation: 1998-03-06 shares compound 36 with F1 but trace and hash differ" passed after 3.243 seconds.
+✔ Test "F5 1955-01-01 → compound 22: preserved as master 22 / reduced to 4" passed after 3.243 seconds.
+✔ Test "description never contains the birth date (privacy negative test)" passed after 3.243 seconds.
+✔ Test "F4 2000-01-08 → compound 11: preserved as master 11 / reduced to 2" passed after 3.243 seconds.
+✔ Test "F6 1969-05-21 → compound 33: preserved as master 33 / reduced to 6" passed after 3.243 seconds.
+✔ Test "preserve policy roots are in 1...9 or {11,22,33} and master is set iff root is master" passed after 3.244 seconds.
+✔ Test "F9 2000-02-29 → 2 + 2 + 11(preserved) = 15 → 6; reduce_all: 2 + 2 + 2 = 6" passed after 3.243 seconds.
+✔ Test "XRAIVaultStore imports only Foundation, the contracts and the CryptoKit adapter; contains no fault seams, no logging, no CryptoKit/Security" passed after 3.243 seconds.
+✔ Test "F8 1955-01-01 → year 20→2, month 1, day 1 → compound 4 → root 4 (differs from digits method 22)" passed after 3.243 seconds.
+✔ Test "registry v1 exposes exactly the two BOOT-01 methods" passed after 3.243 seconds.
+✔ Test "F11 1984-11-22 → 22 + 11 + 22 = 55 → 10 → 1; reduce_all: 4 + 2 + 4 = 10 → 1" passed after 3.243 seconds.
+✔ Test "reduce_all root equals the digital root of the compound, and both methods agree" passed after 3.244 seconds.
+✔ Test "reads go through SecureVault.open: a revoked grant, a quarantined id or a purpose mismatch deny even with a valid read token" passed after 3.244 seconds.
+✔ Test "put/get round-trips; a fresh vault has generation 1, epoch 1, anchor bound; relaunch keeps data and bumps the epoch" passed after 3.244 seconds.
+✔ Test "GATE A: no `await` inside FileVaultStore's isolated methods — every mutation is one synchronous critical section; the only await is in the static open" passed after 3.243 seconds.
+✔ Test "F7 1999-07-03 → compound 38 → 11 reached at a reduction step (preserved) / → 2" passed after 3.243 seconds.
+✔ Test "the system seal/open path accepts ONLY storeMetadata; personal classes fail closed in both directions" passed after 3.243 seconds.
+✔ Test "every store mutation needs the right scope: wrong scope, foreign token, replay and expired tokens are refused and leave no trace" passed after 3.243 seconds.
+✔ Test "trace hash is an integrity fingerprint: stable, and distinct for distinct inputs/methods" passed after 3.243 seconds.
+✔ Test "types are not Codable here: no serialization path for a DOB in the pure module" passed after 3.244 seconds.
+✔ Test "a fake user action: calling export/restore with any non-export token is refused; the flag no longer exists" passed after 3.243 seconds.
+✔ Test "forged tokens (unknown id), replayed tokens, expired tokens, not-yet-valid tokens and over-long TTLs are rejected" passed after 3.243 seconds.
+✔ Test "NT-H4-01: 'Kalıcı sil' deletes now with a ledger entry and never produces a suspended state" passed after 3.243 seconds.
+✔ Test "production sources exist for both modules" passed after 3.243 seconds.
+✔ Test "trace description and debug description never contain the birth digits" passed after 3.243 seconds.
+✔ Test "a clock set backwards cannot be used to gain authority: the monotonic guard refuses, and an expired token stays expired" passed after 3.244 seconds.
+✔ Test "rejects wrong length and all-zero keys; description is redacted; display round-trips" passed after 3.244 seconds.
+✔ Test "NT-BK-08: the v3 body has no field for authorization state, consumed tokens or device key material (source scan), and the HKDF contexts of v2 and v3 differ" passed after 3.244 seconds.
+✔ Test "write → read → update → clear round-trips; a second instance sees the same anchor; decoding rejects a foreign blob" passed after 3.244 seconds.
+✔ Test "error values and descriptions carry no record id, key id, name or date" passed after 3.244 seconds.
+✔ Test "no production file imports Foundation/Network/OSLog or references IO, logging or networking APIs" passed after 3.244 seconds.
+✔ Test "production configuration never falls back: without a keychain entitlement it fails closed; inside a signed host it uses the data-protection keychain" passed after 3.244 seconds.
+✔ Test "compile-negative: external code cannot construct the store directly, reach its loader, the journal writer or the system descriptor path" passed after 3.244 seconds.
+✔ Test "happy path: rotate → retireKey → version forgotten, records readable under the new key, proof independently verifiable (NT-H2-07)" passed after 3.244 seconds.
+✔ Test "time source failure purges the cache and refuses the operation; a stale KEK is never served; recovery after the source returns" passed after 3.244 seconds.
+✔ Test "a DEK wrapped for one record cannot be swapped into another record" passed after 3.244 seconds.
+✔ Test "unsupported format version (incl. retired v1) and malformed lengths are rejected with typed errors" passed after 3.244 seconds.
+✔ Test "NT-H3-01/02: a token from the previous epoch is rejected after relaunch; 20 000 consumed tokens never evict (replay is still alreadyConsumed)" passed after 3.244 seconds.
+✔ Test "tampered authenticated metadata fails; tier downgrade fails closed before any crypto; purpose is authenticated" passed after 3.244 seconds.
+✔ Test "NT-BK-07: ledger digest mismatch, unknown schema, trailing bytes, bad instance id length, duplicate ids → refused; a v3 ciphertext relabelled v2 (and vice versa) fails authentication" passed after 3.244 seconds.
+✔ Test "direct open() of a quarantined envelope is refused even after consent is re-granted; release needs token AND grant" passed after 3.244 seconds.
+✔ Test "operation scope coverage is exact and record-narrowed" passed after 3.244 seconds.
+✔ Test "NT-AT-01: a 3.5 MiB attachment round-trips in four chunks; the manifest carries kind/bytes/chunks; the file is a padded <id>.att with header + 4 chunk frames; a 0-byte attachment is one empty chunk" passed after 3.244 seconds.
+✔ Test "tampered ciphertext, tag, nonce or wrapped key fails authentication" passed after 3.244 seconds.
+✔ Test "release with a valid token but WITHOUT an active grant is refused and the record stays quarantined" passed after 3.244 seconds.
+✔ Test "wrong key provider cannot open" passed after 3.244 seconds.
+✔ Test "user rights: export and deletion work without active consent; deletion grant is scoped to the ids" passed after 3.244 seconds.
+✔ Test "an expired token cannot be revived by moving the clock back within tolerance" passed after 3.244 seconds.
+✔ Test "rotation re-wraps the DEK (maintenance token), payload bytes unchanged; forgotten old version makes un-rewrapped envelopes unreadable" passed after 3.244 seconds.
+✔ Test "a caller-held receipt that the authority does not know grants nothing (forged receipt)" passed after 3.244 seconds.
+✔ Test "the same envelope value restored into a vault whose registry is pre-marked stays quarantined; the registry, not the value, is the source of truth" passed after 3.244 seconds.
+✔ Test "a read token narrowed to other records, a maintenance token, or a write token cannot read" passed after 3.244 seconds.
+✔ Test "NT-H1-01/04: a deleted id in a backup is skipped, never reactivated — not even through release; reimport creates a NEW id with provenance" passed after 3.244 seconds.
+✔ Test "a revoked consent does not re-activate when the base clock is set back 1…300 s; beyond tolerance the clock refuses" passed after 3.244 seconds.
+✔ Test "open with an EXPIRED consent is denied at the trusted time" passed after 3.244 seconds.
+✔ Test "provider egress needs an active grant held by the AUTHORITY with matching class, purpose and destination" passed after 3.244 seconds.
+✔ Test "raw personal data never reaches analytics, model training, cloud sync, advertising or crash logs — even with blanket consent" passed after 3.244 seconds.
+✔ Test "a record is bound to its purpose: a grant or token for another purpose cannot read it" passed after 3.244 seconds.
+✔ Test "revocation and expiry close the scope from that instant, for store and for read" passed after 3.629 seconds.
+✔ Test "export → bytes → restore on a NEW device; plaintext recovered; old keys useless; payload ciphertext unchanged" passed after 3.630 seconds.
+✔ Test "descriptor construction fails closed below the floor; consent-gated classes need a non-empty purpose" passed after 3.630 seconds.
+✔ Test "tier order is PUBLIC < PRIVATE < SENSITIVE < HIGH" passed after 3.630 seconds.
+✔ Test "forged body inside a correctly-encrypted backup: tier downgrade, duplicate ids, oversize count, session-only, tampered inner payload, bad padding → rejected" passed after 3.630 seconds.
+✔ Test "backup inclusion requires user initiation and excludes session-only records" passed after 3.630 seconds.
+✔ Test "device vault and user-encrypted backup are the only consent-free destinations" passed after 3.630 seconds.
+✔ Test "envelope description is redacted and the type stores no plaintext field" passed after 3.630 seconds.
+✔ Test "wrong recovery key, corrupted bytes, truncation, trailing bytes, old format version, oversize → rejected; restore needs its own scope" passed after 3.630 seconds.
+✔ Test "two exports differ in salt, nonce and ciphertext; recovery keys are high entropy; HKDF contexts are separated; export size limit is enforced before sealing" passed after 3.630 seconds.
+✔ Test "family data is third-party information and needs purpose consent" passed after 3.630 seconds.
+✔ Test "nonce strategy: fresh random nonce per seal; same plaintext never repeats nonce or ciphertext" passed after 3.630 seconds.
+✔ Test "unauthorized export: wrong-scope token, session-only record, duplicate id, tampered envelope, foreign envelope, mixed DEK" passed after 3.630 seconds.
+✔ Test "metadata leak: backup bytes expose only magic, version, salt, nonce — no record ids, classes, tiers, purposes, timestamps, counts, plaintext or recovery key" passed after 3.630 seconds.
+✔ Test "open with a REVOKED consent is denied; it was readable before revocation" passed after 3.630 seconds.
+✔ Test "a corrupted envelope cannot be re-wrapped as if valid" passed after 3.630 seconds.
+✔ Test "floors follow SECURITY_DATA_EGRESS_MATRIX_v3.2 and decision 6; no personal class may be public" passed after 3.630 seconds.
+✔ Test "seal/open round-trips for every class (consent granted where required) and ciphertext hides the plaintext" passed after 3.630 seconds.
+✔ Test "record ids are random 128-bit hex, strictly validated, redacted in descriptions" passed after 3.630 seconds.
+✔ Test "constant-time equality" passed after 3.630 seconds.
+✔ Test "restoring an old backup does not silently re-enable revoked sensitive records: they are quarantined, unreadable, and released only with a fresh grant" passed after 3.630 seconds.
+✔ Test "integers round-trip big-endian, strings length-prefixed; truncation throws" passed after 3.630 seconds.
+✔ Test "maintenance verify/rewrap never return plaintext and do not need consent; a read token cannot be used for maintenance" passed after 3.630 seconds.
+✔ Test "header v2 canonical bytes are deterministic, change with every field incl. purpose; validate() enforces floor and purpose" passed after 3.630 seconds.
+✔ Test "Package.swift: no non-test target depends on XRAIVaultTesting; only the adapter and the testing target may import CryptoKit" passed after 0.700 seconds.
+✔ Test "a cached KEK survives deletion of its item only until TTL or purge; purge on lock makes the loss immediate" passed after 3.631 seconds.
+✔ Test "public surface of SecureVault exposes no key provider, sealer or codec (reflection + source)" passed after 0.700 seconds.
+✔ Suite "CivilDate digits, ordering and redaction" passed after 3.632 seconds.
+✔ Suite "CivilDate validity — hand-derived fixtures" passed after 3.632 seconds.
+✔ Suite "Life Path — typed errors and registry" passed after 3.632 seconds.
+✔ Suite "Life Path — arithmetic properties over the whole supported domain sample" passed after 3.632 seconds.
+✔ Suite "Life Path — num.life_path.digits.v1 golden fixtures" passed after 3.632 seconds.
+✔ Suite "Isolation of test doubles and debug surface from production" passed after 3.632 seconds.
+✔ Suite "Life Path — num.life_path.components.v1 golden fixtures" passed after 3.632 seconds.
+✔ Suite "NT-B-01 / GATE A — module boundary and actor isolation (source + manifest + compile-negative)" passed after 3.632 seconds.
+✔ Suite "GATE C — authorization cannot be bypassed through the store" passed after 3.632 seconds.
+✔ Suite "Privacy negative tests — XRAICore production sources" passed after 3.632 seconds.
+✔ Suite "G3 — trusted clock and operation tokens" passed after 3.632 seconds.
+✔ Suite "Recovery key, operation scopes and error hygiene" passed after 3.632 seconds.
+✔ Suite "Backup v3: forged bodies, schema policy, context separation, no secrets in the body" passed after 3.632 seconds.
+✔ Suite "Keychain anchor store (real keychain)" passed after 3.632 seconds.
+✔ Suite "AES-256-GCM envelope: adversarial" passed after 3.632 seconds.
+✔ Suite "GATE 0B — quarantine is enforced by the trusted registry" passed after 3.632 seconds.
+✔ Suite "G1 — unauthorized decryption is impossible through the facade" passed after 3.632 seconds.
+✔ Suite "GATE 0A — effective time never goes backwards" passed after 3.632 seconds.
+✔ Suite "Key lifecycle" passed after 3.632 seconds.
+✔ Suite "Deny-by-default flow policy against a consent authority" passed after 3.632 seconds.
+✔ Suite "Sealed backup: confidentiality, authorization and robustness" passed after 3.632 seconds.
+✔ Suite "Privacy tiers, floors and data classes" passed after 3.632 seconds.
+✔ Suite "AES-256-GCM envelope: round trip and structure" passed after 3.632 seconds.
+✔ Suite "G4 — integrity before rewrap; quarantine on restore" passed after 3.632 seconds.
+✔ Suite "Record ids, canonical encoding and headers" passed after 3.632 seconds.
+◇ Test "NT-FS-02: a symlink at the path (dangling or pointing at a real file) is refused; neither the link nor its target changes" started.
+◇ Test "NT-H5-15: directory listing shows only hex names, system/*.v1, journal/*.j; every file is a 4 KiB multiple" started.
+◇ Test "NT-H4-02/03: suspension blocks reads, deletes derived data now, excludes from export, and re-granting does not reactivate; restoreSuspended needs a token + active grant" started.
+◇ Test "test configuration reports its true protection level; the provider never claims hardware it does not have" started.
+◇ Test "NT-H2-01/03: forget is refused while any record (manifest or disk) still references the version" started.
+◇ Test "a time source that goes backwards (impossible for monotonic, simulated) does not extend the TTL" started.
+◇ Test "NT-H3-07: the clock mark survives relaunch — a wall clock set back within tolerance yields the mark; beyond tolerance fails closed; nothing expires or activates" started.
+◇ Test "NT-AT-02: a flipped chunk byte, swapped chunks, a dropped middle chunk, a truncated last chunk, a duplicated chunk, non-zero padding or a damaged header → corrupt, and the sink never receives a byte" started.
+◇ Test "NT-H1-02/03: a corrupted ledger quarantines every restored record; a missing ledger makes the vault read-only with restore refused" started.
+◇ Test "cache disabled: every operation hits the keychain, so deletion is visible immediately" started.
+✔ Test "NT-FS-02: a symlink at the path (dangling or pointing at a real file) is refused; neither the link nor its target changes" passed after 2.610 seconds.
+✔ Test "NT-RR-07/13: consent inactive at restore → staged with the risk and activation refused until a grant exists; a token narrowed to one id cannot activate another" passed after 6.242 seconds.
+✔ Test "create, reuse across provider instances (app relaunch), and isolation between key ids and services" passed after 6.242 seconds.
+✔ Test "NT-BK-01: v3 round trip — provenance carries instance id, backup generation, manifest binding and the deletion history; a fresh vault adopts the history, stages everything, activates with sources first" passed after 6.242 seconds.
+✔ Test "compile-negative: external code cannot reach AESGCMEnvelopeSealer, BackupCodec, GCMKeyWrapper, SecureVault.keyProvider, or InMemoryKeyProvider via the adapter" passed after 3.311 seconds.
+✔ Test "NT-H5-15: directory listing shows only hex names, system/*.v1, journal/*.j; every file is a 4 KiB multiple" passed after 2.610 seconds.
+✔ Test "NT-H4-02/03: suspension blocks reads, deletes derived data now, excludes from export, and re-granting does not reactivate; restoreSuspended needs a token + active grant" passed after 2.610 seconds.
+✔ Test "test configuration reports its true protection level; the provider never claims hardware it does not have" passed after 2.610 seconds.
+✔ Test "NT-H3-07: the clock mark survives relaunch — a wall clock set back within tolerance yields the mark; beyond tolerance fails closed; nothing expires or activates" passed after 2.610 seconds.
+✔ Test "a time source that goes backwards (impossible for monotonic, simulated) does not extend the TTL" passed after 2.807 seconds.
+✔ Suite "G2 — composition root and module boundary" passed after 6.440 seconds.
+◇ Test "NT-FS-03: 16 concurrent writers on one path — exactly one creation succeeds, every other sees 'path exists'" started.
+◇ Test "NT-RR-10/14: re-importing the same backup skips existing ids (staged or active); a staged record deleted meanwhile can never be activated and is skipped as deleted on the next import" started.
+◇ Test "rotation: new item before pointer move; old records open; rewrap moves them; forget needs retire (two-phase); relaunch sees the new version" started.
+◇ Test "NT-BK-02: v3 bytes expose only magic, version, salt and nonce — no instance id, manifest hash, ledger magic, record ids, authz magic or epoch" started.
+◇ Test "NT-H5-14: stale / suspended / quarantined / missing / corrupt / orphan are each a distinct typed denial, never plaintext" started.
+◇ Test "NT-H4-04: third-party classes cannot be suspended — revoke must delete immediately" started.
+◇ Test "Secure Enclave REQUIRED fails closed where the enclave is absent and works where present (no silent downgrade)" started.
+◇ Test "NT-H3-04/05: an older authz.v1 snapshot fails the manifest binding (read-only); store metadata can never be exported in a backup" started.
+◇ Test "the production uptime source is monotonic and positive" started.
+✔ Test "NT-FS-03: 16 concurrent writers on one path — exactly one creation succeeds, every other sees 'path exists'" passed after 2.023 seconds.
+✔ Test "NT-LR-01: an older authentic ledger put back under a PENDING delete journal is refused (read-only, never re-trusted); the genuine pre- and post-states still recover" passed after 8.462 seconds.
+✔ Test "NT-AT-02: a flipped chunk byte, swapped chunks, a dropped middle chunk, a truncated last chunk, a duplicated chunk, non-zero padding or a damaged header → corrupt, and the sink never receives a byte" passed after 4.830 seconds.
+✔ Test "NT-H2-01/03: forget is refused while any record (manifest or disk) still references the version" passed after 4.830 seconds.
+✔ Test "NT-H1-02/03: a corrupted ledger quarantines every restored record; a missing ledger makes the vault read-only with restore refused" passed after 4.830 seconds.
+✔ Test "cache disabled: every operation hits the keychain, so deletion is visible immediately" passed after 2.220 seconds.
+✔ Test "NT-H4-04: third-party classes cannot be suspended — revoke must delete immediately" passed after 2.023 seconds.
+✔ Test "NT-RR-10/14: re-importing the same backup skips existing ids (staged or active); a staged record deleted meanwhile can never be activated and is skipped as deleted on the next import" passed after 2.023 seconds.
+✔ Test "the production uptime source is monotonic and positive" passed after 0.001 seconds.
+✔ Suite "H4 — revoke vs delete, suspension, grace" passed after 8.463 seconds.
+✔ Suite "P03-00F F3 — cache fails closed when the time source fails; TTL is monotonic" passed after 8.464 seconds.
+◇ Test "NT-FS-04: the created descriptor is a fresh regular file, one link, 0600, close-on-exec, empty; on a physical iPhone it carries NSFileProtectionComplete both inside a vault directory and in a plain directory" started.
+◇ Test "NT-LR-02: a pending journal from another history (same keys, same generation, different pre-state) does not bind to the manifest → read-only" started.
+◇ Test "NT-AT-03: chunk nonces are unique (random prefix per attachment ‖ index); the AAD binds index, count, sizes and the last flag, so a chunk cannot be opened at another index or under another layout" started.
+◇ Test "NT-H2-02: a proof is stale after any later mutation (generation changed)" started.
+◇ Test "NT-H1-05: a backup from another (or unknown) vault instance is staged whole with a foreign/legacy risk while this vault holds data; activated per record only with acknowledgment + consent, never through releaseQuarantined" started.
+◇ Test "another instance's stale cache after retire+forget: access persists only until its TTL/purge (documented), then fails closed" started.
+◇ Test "NT-RR-11 (NT-H1-06): the embedded history of a newer backup makes a fresh device skip ids an older backup still contains" started.
+✔ Test "NT-BK-02: v3 bytes expose only magic, version, salt and nonce — no instance id, manifest hash, ledger magic, record ids, authz magic or epoch" passed after 4.320 seconds.
+✔ Test "NT-FS-04: the created descriptor is a fresh regular file, one link, 0600, close-on-exec, empty; on a physical iPhone it carries NSFileProtectionComplete both inside a vault directory and in a plain directory" passed after 2.297 seconds.
+✔ Test "NT-H5-14: stale / suspended / quarantined / missing / corrupt / orphan are each a distinct typed denial, never plaintext" passed after 4.320 seconds.
+✔ Test "NT-H3-04/05: an older authz.v1 snapshot fails the manifest binding (read-only); store metadata can never be exported in a backup" passed after 4.320 seconds.
+✔ Test "Secure Enclave REQUIRED fails closed where the enclave is absent and works where present (no silent downgrade)" passed after 4.320 seconds.
+✔ Test "NT-H2-02: a proof is stale after any later mutation (generation changed)" passed after 2.297 seconds.
+✔ Test "NT-LR-02: a pending journal from another history (same keys, same generation, different pre-state) does not bind to the manifest → read-only" passed after 2.297 seconds.
+◇ Test "NT-BK-03: wrong recovery key, flipped bytes across the file, truncation, trailing bytes, version 1/4 → typed refusal; nothing is staged" started.
+◇ Test "NT-FS-05: cleanup removes only the inode this writer created — a file another writer put at the same name survives" started.
+◇ Test "NT-H5-08/09: an extra file is moved to orphans/ and never opened; a manifest entry without a file reports missing" started.
+◇ Test "NT-H3-06: revoke is linearizable with reads — no read that starts after the revoke returns succeeds" started.
+◇ Test "OSStatus mapping is typed and identifier-free" started.
+◇ Test "NT-H2-04: after the freeze, an envelope wrapped under the old version is refused with staleKeyVersion (before, during and after the proof)" started.
+◇ Test "NT-LR-03: a written post-state whose announcement is missing from the journal is not proven → read-only" started.
+✔ Test "NT-H5-01/02: a crash at any syscall of put leaves the record either absent or fully readable; the manifest, authz and anchor always agree" passed after 11.749 seconds.
+✔ Test "NT-H1-05: a backup from another (or unknown) vault instance is staged whole with a foreign/legacy risk while this vault holds data; activated per record only with acknowledgment + consent, never through releaseQuarantined" passed after 3.286 seconds.
+✔ Test "NT-FS-05: cleanup removes only the inode this writer created — a file another writer put at the same name survives" passed after 0.989 seconds.
+✔ Test "rotation: new item before pointer move; old records open; rewrap moves them; forget needs retire (two-phase); relaunch sees the new version" passed after 5.310 seconds.
+✔ Test "OSStatus mapping is typed and identifier-free" passed after 0.989 seconds.
+✔ Test "NT-H5-08/09: an extra file is moved to orphans/ and never opened; a manifest entry without a file reports missing" passed after 0.989 seconds.
+✔ Suite "Keychain mode selection and fail-closed behaviour" passed after 11.751 seconds.
+✔ Test "NT-BK-03: wrong recovery key, flipped bytes across the file, truncation, trailing bytes, version 1/4 → typed refusal; nothing is staged" passed after 0.989 seconds.
+◇ Test "NT-H5-03: a crash after each journal step of a cascade delete is recovered to all-or-nothing with the ledger complete" started.
+◇ Test "NT-H1-07: digest compaction keeps deletions fail-closed (possiblyDeleted → quarantine) and the Bloom false-positive rate stays ≤ 1e-6 at 250 000 entries" started.
+◇ Test "NT-FS-06: every durability syscall failure surfaces as a typed ioFailed with the step and errno (no result is ignored)" started.
+◇ Test "two instances on one service: a stale instance refreshes the pointer, never wraps under a stale version, and rotates to the next version instead of conflicting" started.
+◇ Test "NT-H5-11/12: symlinks and malformed ids are refused before any file is touched" started.
+✔ Test "NT-H3-06: revoke is linearizable with reads — no read that starts after the revoke returns succeeds" passed after 1.855 seconds.
+✔ Test "NT-FS-08a: put — a failed fsync/dirsync/rename/unlink at any step is reported, never masked; after reopen the record is absent or fully readable and the anchor agrees" passed after 12.615 seconds.
+✔ Test "NT-FS-06: every durability syscall failure surfaces as a typed ioFailed with the step and errno (no result is ignored)" passed after 0.865 seconds.
+✔ Test "NT-H2-04: after the freeze, an envelope wrapped under the old version is refused with staleKeyVersion (before, during and after the proof)" passed after 1.855 seconds.
+◇ Test "NT-BK-04: a legacy v2 backup restores with legacy provenance and is staged with the legacyFormat risk (empty or non-empty vault); it never counts as our own instance" started.
+✔ Test "NT-RR-11 (NT-H1-06): the embedded history of a newer backup makes a fresh device skip ids an older backup still contains" passed after 4.152 seconds.
+✔ Suite "H3 — epoch tokens, persisted clock mark" passed after 12.619 seconds.
+✔ Test "NT-LR-03: a written post-state whose announcement is missing from the journal is not proven → read-only" passed after 1.858 seconds.
+◇ Test "NT-FS-08b: cascade delete — every failed step keeps all-or-nothing; once the begin entry is durable the delete completes at reopen; the ledger is complete whenever the source is gone" started.
+◇ Test "NT-FS-07: platform fact — F_FULLFSYNC is accepted on file AND directory descriptors here (the fallback path is not what this host runs)" started.
+◇ Test "NT-H2-05/08: a crash during rewrap or between retire and forget loses nothing: records stay readable, no proof survives, the protocol re-runs" started.
+◇ Test "NT-RR-04/06: a corrupted local manifest refuses to open at all; a rolled-back local ledger opens read-only and refuses admission" started.
+✔ Test "NT-H5-11/12: symlinks and malformed ids are refused before any file is touched" passed after 1.645 seconds.
+✔ Test "NT-FS-07: platform fact — F_FULLFSYNC is accepted on file AND directory descriptors here (the fallback path is not what this host runs)" passed after 0.777 seconds.
+✔ Test "another instance's stale cache after retire+forget: access persists only until its TTL/purge (documented), then fails closed" passed after 4.933 seconds.
+◇ Test "NT-LR-04: an older journal format or an older manifest format is never converted — journal → read-only, manifest → open refused" started.
+✔ Test "NT-H5-03: a crash after each journal step of a cascade delete is recovered to all-or-nothing with the ledger complete" passed after 1.646 seconds.
+✔ Suite "P03-04H — exclusive creation, durable commit, cleanup ownership (real file system)" passed after 13.423 seconds.
+✔ Suite "Key cache (P03-00 §3)" passed after 13.423 seconds.
+✔ Test "NT-BK-04: a legacy v2 backup restores with legacy provenance and is staged with the legacyFormat risk (empty or non-empty vault); it never counts as our own instance" passed after 0.806 seconds.
+◇ Test "NT-H5-13: a second instance on the same root is refused while the first holds the lock; a dead-pid lock is reclaimed" started.
+◇ Test "NT-H3-03: a crash after the token was consumed and the journal begun completes the operation from the journal; the token stays dead" started.
+✔ Test "NT-AT-03: chunk nonces are unique (random prefix per attachment ‖ index); the AAD binds index, count, sizes and the last flag, so a chunk cannot be opened at another index or under another layout" passed after 5.210 seconds.
+◇ Test "NT-BK-05: the backup generation is durable and monotonic across relaunch; an older generation of our own instance is staged with olderBackupGeneration; export refuses a corrupt record but still burns its generation" started.
+✔ Test "NT-H5-13: a second instance on the same root is refused while the first holds the lock; a dead-pid lock is reclaimed" passed after 0.251 seconds.
+✔ Test "NT-LR-04: an older journal format or an older manifest format is never converted — journal → read-only, manifest → open refused" passed after 0.562 seconds.
+◇ Test "NT-AT-04: cascade — deleting the parent deletes its attachment (file gone, ledger entry); deleting the attachment alone keeps the parent; revoking the parent's purpose blocks the attachment" started.
+◇ Test "NT-DG-01/02/03: cascade deletes dependents first; back-edges and unknown sources are rejected; revoking a source blocks the derived record" started.
+✔ Test "NT-RR-04/06: a corrupted local manifest refuses to open at all; a rolled-back local ledger opens read-only and refuses admission" passed after 1.721 seconds.
+◇ Test "NT-LR-05: LedgerBinding rules — epoch mismatch, stale generation, manifest-durable post/pre binding; manifest v2 round-trips kinds and risks" started.
+✔ Test "NT-H3-03: a crash after the token was consumed and the journal begun completes the operation from the journal; the token stays dead" passed after 0.917 seconds.
+✔ Test "NT-LR-05: LedgerBinding rules — epoch mismatch, stale generation, manifest-durable post/pre binding; manifest v2 round-trips kinds and risks" passed after 0.001 seconds.
+◇ Test "NT-RR-12: a crash at every syscall of an admission (3 records + history merge) is all-or-nothing after reopen; an announced-but-unwritten merge aborts the admission" started.
+◇ Test "NT-H5-04/05: an older manifest (rollback) or a whole older snapshot of system/ is detected via the chain and the anchor → read-only, no writes, no restore" started.
+✔ Test "two instances on one service: a stale instance refreshes the pointer, never wraps under a stale version, and rotates to the next version instead of conflicting" passed after 3.277 seconds.
+◇ Test "NT-LR-06: a corrupt ledger makes distrust STICKY — a later delete rewrites the ledger but the manifest keeps the history untrusted across relaunch; restores keep quarantining" started.
+✔ Test "NT-BK-05: the backup generation is durable and monotonic across relaunch; an older generation of our own instance is staged with olderBackupGeneration; export refuses a corrupt record but still burns its generation" passed after 1.353 seconds.
+✔ Test "NT-H2-05/08: a crash during rewrap or between retire and forget loses nothing: records stay readable, no proof survives, the protocol re-runs" passed after 2.853 seconds.
+◇ Test "interrupted rotation: a READABLE orphan is adopted by the next rotation; an UNREADABLE orphan blocks rotation until repaired; orphans never unwrap" started.
+◇ Test "NT-BK-06: a v3 export never includes attachments, store metadata, suspended or quarantined records; an untrusted local history is exported with deletionHistoryTrusted = false and is never merged by the importer" started.
+✔ Test "NT-DG-01/02/03: cascade deletes dependents first; back-edges and unknown sources are rejected; revoking a source blocks the derived record" passed after 1.749 seconds.
+◇ Test "NT-H2-06: concurrent puts during retirement are serialized by the actor — the proof generation matches and no record is lost" started.
+✔ Test "NT-H5-04/05: an older manifest (rollback) or a whole older snapshot of system/ is detected via the chain and the anchor → read-only, no writes, no restore" passed after 1.368 seconds.
+✔ Suite "Store core: round trip, states, derived graph, directory hygiene" passed after 16.299 seconds.
+✔ Test "NT-AT-04: cascade — deleting the parent deletes its attachment (file gone, ledger entry); deleting the attachment alone keeps the parent; revoking the parent's purpose blocks the attachment" passed after 2.339 seconds.
+◇ Test "NT-H5-06/07: a truncated journal tail is discarded and the operation replays; a byte flip in a MIDDLE entry makes the vault read-only and quarantines the op's ids" started.
+◇ Test "NT-AT-05: a crash at every syscall of putAttachment (3 chunks) leaves the attachment absent or fully readable; no temp files survive; the manifest and anchor agree" started.
+✔ Test "NT-LR-06: a corrupt ledger makes distrust STICKY — a later delete rewrites the ledger but the manifest keeps the history untrusted across relaunch; restores keep quarantining" passed after 1.504 seconds.
+◇ Test "NT-LR-07: a corrupt ledger together with a pending operation is never replayed from an empty history → read-only" started.
+✔ Test "NT-BK-06: a v3 export never includes attachments, store metadata, suspended or quarantined records; an untrusted local history is exported with deletionHistoryTrusted = false and is never merged by the importer" passed after 1.847 seconds.
+✔ Suite "GATE 2 — backup body v3 through the store" passed after 17.671 seconds.
+✔ Test "NT-H5-06/07: a truncated journal tail is discarded and the operation replays; a byte flip in a MIDDLE entry makes the vault read-only and quarantines the op's ids" passed after 1.825 seconds.
+✔ Suite "H5 — crash consistency by fault injection" passed after 18.124 seconds.
+✔ Test "NT-LR-07: a corrupt ledger together with a pending operation is never replayed from an empty history → read-only" passed after 1.051 seconds.
+◇ Test "NT-LR-08: the journal begin entry of every op carries the manifest's ledger hash; a put that re-seals a stale ledger announces an identical post-state (no content change)" started.
+✔ Test "NT-AT-05: a crash at every syscall of putAttachment (3 chunks) leaves the attachment absent or fully readable; no temp files survive; the manifest and anchor agree" passed after 2.370 seconds.
+◇ Test "NT-AT-06: key retirement with attachments — only the header frame is rewrapped (chunks byte-identical), the inventory counts attachment headers, the proof verifies, the attachment stays readable" started.
+✔ Test "NT-LR-08: the journal begin entry of every op carries the manifest's ledger hash; a put that re-seals a stale ledger announces an identical post-state (no content change)" passed after 0.722 seconds.
+✔ Suite "GATE 1 — ledger binding through pending journals (no rollback is ever re-trusted)" passed after 19.096 seconds.
+✔ Test "two instances rotating concurrently in one process: versions strictly monotonic, no conflicts, pointer consistent" passed after 19.751 seconds.
+✔ Suite "P03-00F F4 — in-process rotation serialization; cross-process is BLOCKED" passed after 19.751 seconds.
+✔ Test "NT-AT-06: key retirement with attachments — only the header frame is rewrapped (chunks byte-identical), the inventory counts attachment headers, the proof verifies, the attachment stays readable" passed after 1.369 seconds.
+◇ Test "NT-AT-07: size and source limits — an oversize attachment is refused before any file exists; a source that lies about its size aborts the mutation (fail closed, reopen adopts nothing)" started.
+✔ Test "interrupted rotation: a READABLE orphan is adopted by the next rotation; an UNREADABLE orphan blocks rotation until repaired; orphans never unwrap" passed after 4.984 seconds.
+◇ Test "same key id with different material (conflict) is never overwritten" started.
+✔ Test "NT-AT-07: size and source limits — an oversize attachment is refused before any file exists; a source that lies about its size aborts the mutation (fail closed, reopen adopts nothing)" passed after 0.525 seconds.
+◇ Test "NT-AT-08: recovery — an orphan .att is moved to orphans/, a missing attachment file is flagged and read refuses; a directory over the entry limit opens read-only" started.
+✔ Test "NT-H2-06: concurrent puts during retirement are serialized by the actor — the proof generation matches and no record is lost" passed after 5.257 seconds.
+◇ Test "NT-H2-09: a key version that vanished without retirement makes its records unreadable with a typed error; nothing crashes or is dropped" started.
+✔ Test "same key id with different material (conflict) is never overwritten" passed after 0.557 seconds.
+◇ Test "corrupted keychain entry fails closed on relaunch and on unwrap; a missing item (passcode removed → OS deleted it) fails closed" started.
+✔ Test "NT-H2-09: a key version that vanished without retirement makes its records unreadable with a typed error; nothing crashes or is dropped" passed after 0.863 seconds.
+✔ Suite "H2 — key retirement protocol v2" passed after 21.831 seconds.
+✔ Test "corrupted keychain entry fails closed on relaunch and on unwrap; a missing item (passcode removed → OS deleted it) fails closed" passed after 1.121 seconds.
+◇ Test "mode mismatch between stored meta and configuration fails closed (no silent downgrade of protection)" started.
+✔ Test "NT-AT-08: recovery — an orphan .att is moved to orphans/, a missing attachment file is flagged and read refuses; a directory over the entry limit opens read-only" passed after 1.749 seconds.
+◇ Test "NT-AT-09: authorization — a read token for another id, a suspended source, quarantine, or a purpose mismatch refuse before any chunk is read" started.
+✔ Test "mode mismatch between stored meta and configuration fails closed (no silent downgrade of protection)" passed after 0.531 seconds.
+◇ Test "wipe requires an explicit confirmation naming the key id; afterwards a new provider starts a fresh key set" started.
+✔ Test "NT-AT-09: authorization — a read token for another id, a suspended source, quarantine, or a purpose mismatch refuse before any chunk is read" passed after 0.900 seconds.
+◇ Test "NT-AT-10: 64 MiB attachment streamed from a file — write and read (two passes) with bounded resident memory; numbers are recorded, not promised" started.
+✔ Test "wipe requires an explicit confirmation naming the key id; afterwards a new provider starts a fresh key set" passed after 0.996 seconds.
+◇ Test "concurrent wrap/unwrap/rotate on one provider: no crash, every unwrap succeeds or fails typed, versions stay monotonic" started.
+✔ Test "concurrent wrap/unwrap/rotate on one provider: no crash, every unwrap succeeds or fails typed, versions stay monotonic" passed after 1.013 seconds.
+◇ Test "end-to-end: SecureVault over the Keychain provider — seal, backup, restore on a second key set" started.
+NT-AT-10 64 MiB attachment: write 0.59 s, read(2 passes) 0.59 s, RSS delta write 1 MiB, read 0 MiB
+✔ Test "NT-AT-10: 64 MiB attachment streamed from a file — write and read (two passes) with bounded resident memory; numbers are recorded, not promised" passed after 1.734 seconds.
+◇ Test "NT-AT-11: attachments are not exported in a v3 backup and a restored parent re-admits without them (documented limit); the attachment header record never appears in the backup" started.
+✔ Test "end-to-end: SecureVault over the Keychain provider — seal, backup, restore on a second key set" passed after 0.576 seconds.
+✔ Suite "Keychain key lifecycle" passed after 25.255 seconds.
+✔ Test "NT-AT-11: attachments are not exported in a v3 backup and a restored parent re-admits without them (documented limit); the attachment header record never appears in the backup" passed after 0.525 seconds.
+✔ Suite "GATE 4 — chunked attachments: layout, integrity, cascade, recovery, limits" passed after 25.709 seconds.
+NT-H1-07 bloom false positives: 0 of 2000000 probes against 150000 digested ids (bits/entry ≈ 28.8, k = 20)
+✔ Test "NT-H1-07: digest compaction keeps deletions fail-closed (possiblyDeleted → quarantine) and the Bloom false-positive rate stays ≤ 1e-6 at 250 000 entries" passed after 17.239 seconds.
+✔ Suite "H1 — permanent deletion ledger and fail-closed restore admission" passed after 28.990 seconds.
+✔ Test "NT-RR-12: a crash at every syscall of an admission (3 records + history merge) is all-or-nothing after reopen; an announced-but-unwritten merge aborts the admission" passed after 25.681 seconds.
+✔ Suite "GATE 3 — restore reconciliation (verify & stage, then activate)" passed after 40.023 seconds.
+✔ Test "NT-FS-08b: cascade delete — every failed step keeps all-or-nothing; once the begin entry is durable the delete completes at reopen; the ledger is complete whenever the source is gone" passed after 28.271 seconds.
+◇ Test "NT-FS-09: an authentic older ledger put back under a newer manifest (ledger-only rollback) opens read-only with restore and writes refused — never healed by the next mutation" started.
+✔ Test "NT-FS-09: an authentic older ledger put back under a newer manifest (ledger-only rollback) opens read-only with restore and writes refused — never healed by the next mutation" passed after 0.334 seconds.
+◇ Test "NT-FS-10: admission refuses a batch with an envelope below the frozen key version BEFORE any file is written (all-or-nothing)" started.
+✔ Test "NT-FS-10: admission refuses a batch with an envelope below the frozen key version BEFORE any file is written (all-or-nothing)" passed after 0.272 seconds.
+◇ Test "NT-FS-11: an opener that cannot take the writer lock touches nothing — a live writer's temp file survives; after the lock is released it is cleaned" started.
+✔ Test "NT-FS-11: an opener that cannot take the writer lock touches nothing — a live writer's temp file survives; after the lock is released it is cleaned" passed after 0.105 seconds.
+◇ Test "NT-FS-12: reads fail closed after close and after an interrupted mutation; a fresh open serves them again" started.
+✔ Test "NT-FS-12: reads fail closed after close and after an interrupted mutation; a fresh open serves them again" passed after 0.211 seconds.
+✔ Suite "P03-04H — failed durability steps inside the store (fsync, dirsync, rename, unlink, journal commit)" passed after 41.815 seconds.
+NT-SC-01 n=2000: put 168.55 s, reopen 0.06 s, export v3 0.54 s (0.5 MiB), restore+admit 57.27 s, activate 0.54 s, RSS delta 0 MiB
+✔ Test "NT-SC-01: 2 000 records (macOS) / 500 (iOS hosts) — reopen (recovery scan), export v3, restore + admit + activate on a fresh vault; wall time and resident memory recorded; everything readable afterwards" passed after 228.438 seconds.
+✔ Suite "GATE 5 — scale: 2 000 records through open, export v3, restore, admission, activation" passed after 228.438 seconds.
+✔ Test run with 191 tests in 44 suites passed after 228.439 seconds.
+EXIT=0
