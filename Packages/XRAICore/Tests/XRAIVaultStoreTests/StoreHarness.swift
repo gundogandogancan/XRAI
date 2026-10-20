@@ -10,16 +10,21 @@ let storeT0: Int64 = 1_760_000_000
 /// Thrown by the fault-injecting file system to simulate a crash at an exact syscall.
 struct SimulatedCrash: Error, Equatable { let step: Int; let op: String }
 
-/// TEST ONLY: wraps the real file system and crashes at the k-th mutating syscall after arming.
+/// What the armed syscall does: `.crash` throws `SimulatedCrash` (process death model); `.fail` makes the
+/// syscall return an error (`VaultError.ioFailed`) WITHOUT performing it — the process goes on (P03-04H).
+enum Injection: Equatable { case crash, fail(errno: Int32) }
+
+/// TEST ONLY: wraps the real file system and crashes/fails the k-th mutating syscall after arming.
 /// Lives in the test target; the production module has no fault seams (checked by a source scan).
 final class FaultingFileSystem: VaultFileSystem, @unchecked Sendable {
     private let real = RealFileSystem()
     private let lock = NSLock()
     private var armedAt: Int? = nil
+    private var injection: Injection = .crash
     private var count = 0
     private(set) var log: [String] = []
 
-    func arm(at step: Int) { lock.lock(); armedAt = step; count = 0; log = []; lock.unlock() }
+    func arm(at step: Int, _ injection: Injection = .crash) { lock.lock(); armedAt = step; self.injection = injection; count = 0; log = []; lock.unlock() }
     func disarm() { lock.lock(); armedAt = nil; lock.unlock() }
     var mutatingCalls: Int { lock.lock(); defer { lock.unlock() }; return count }
 
@@ -27,7 +32,12 @@ final class FaultingFileSystem: VaultFileSystem, @unchecked Sendable {
         lock.lock(); defer { lock.unlock() }
         count += 1
         log.append(op)
-        if let a = armedAt, count == a { throw SimulatedCrash(step: a, op: op) }
+        if let a = armedAt, count == a {
+            switch injection {
+            case .crash: throw SimulatedCrash(step: a, op: op)
+            case .fail(let e): throw VaultError.ioFailed(operation: op, errno: e)
+            }
+        }
     }
 
     func kind(of path: String) throws -> FileKind { try real.kind(of: path) }
@@ -41,6 +51,7 @@ final class FaultingFileSystem: VaultFileSystem, @unchecked Sendable {
     func rename(_ from: String, _ to: String) throws { try tick("rename"); try real.rename(from, to) }
     func syncDirectory(_ path: String) throws { try tick("dirsync"); try real.syncDirectory(path) }
     func remove(_ path: String) throws { try tick("unlink"); try real.remove(path) }
+    func removeIfOwned(_ path: String, by fd: Int32) throws -> Bool { try real.removeIfOwned(path, by: fd) }   // cleanup only; not counted
     func excludeFromBackup(_ path: String) throws { try real.excludeFromBackup(path) }
     func protectionClass(_ path: String) throws -> String? { try real.protectionClass(path) }
     func processExists(_ pid: Int32) -> Bool { real.processExists(pid) }

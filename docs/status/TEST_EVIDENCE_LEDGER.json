@@ -1,709 +1,767 @@
 {
-  "generated_utc": "2026-10-19T18:45:00Z",
-  "rule": "Only real runner output counts. A spec validator PASS is not app evidence. Status promotion needs a log in docs/status/evidence/ with its sha256.",
-  "runs": [
-    {
-      "run_id": "BOOT01-BUILD-FINAL",
-      "command": "swift build",
-      "cwd": "Packages/XRAICore",
-      "toolchain": "Swift 6.3.3 / Xcode 26.6",
-      "exit_code": 0,
-      "log": "docs/status/evidence/swift_build_final.log",
-      "log_sha256": "e32a63f36a52f9984805ee07dff2d0f13b4ebf540e561dafbe5b8bbeee5e67e8"
-    },
-    {
-      "run_id": "BOOT01-TEST-RUN1",
-      "command": "swift test",
-      "cwd": "Packages/XRAICore",
-      "exit_code": "non-zero (failed)",
-      "result": "35 tests in 7 suites, 33 passed, 2 failed (F11 components fixture, LifePathGoldenTests.swift:123-124)",
-      "cause": "components method started from digit sums (month 11 → 2) instead of numeric values; hand-derived fixture was authoritative; fixed per ADR-BOOT-004 / Amendment A1",
-      "log": "docs/status/evidence/swift_test_run1_FAILED_2_of_35.log",
-      "log_sha256": "1563d03855428a44b9c20d26d7677e789c8baa390b345827ca29b121f94386cf"
-    },
-    {
-      "run_id": "BOOT01-TEST-RUN3",
-      "command": "swift test",
-      "cwd": "Packages/XRAICore",
-      "exit_code": 0,
-      "result": "35 tests in 7 suites passed",
-      "log": "docs/status/evidence/swift_test_run3_PASS_35_of_35.log",
-      "log_sha256": "d2aabfdbf28d634195cb2ae18eb0cbd1f8a6554aecca9b3f03e9be8c7425d585",
-      "suites": {
-        "CivilDate validity — hand-derived fixtures": 8,
-        "CivilDate digits, ordering and redaction": 5,
-        "Life Path — num.life_path.digits.v1 golden fixtures": 8,
-        "Life Path — num.life_path.components.v1 golden fixtures": 3,
-        "Life Path — typed errors and registry": 3,
-        "Life Path — arithmetic properties over the whole supported domain sample": 3,
-        "Privacy negative tests — XRAICore production sources": 5
-      }
-    },
-    {
-      "run_id": "SPEC-VALIDATOR",
-      "command": "python3 -I validation/validate_package.py",
-      "exit_code": 0,
-      "result": "PASS spec structure; does NOT verify an iOS build",
-      "evidence_class": "SPEC_STRUCTURE_ONLY"
-    },
-    {
-      "run_id": "P02-01-BUILD",
-      "command": "swift build",
-      "cwd": "Packages/XRAICore",
-      "exit_code": 0,
-      "log": "docs/status/evidence/p02_01_swift_build.log",
-      "log_sha256": "61cf76d355f484b96a53608dccd22c9fce2251a49557080fe588cc42143dad9b"
-    },
-    {
-      "run_id": "P02-01-TEST-RUN2",
-      "command": "swift test",
-      "cwd": "Packages/XRAICore",
-      "exit_code": 1,
-      "result": "64 tests, 63 passed, 1 failed (ImportBoundaryTests: static-scan token 'contentsOf:' false positive on Array.append(contentsOf:))",
-      "log": "docs/status/evidence/p02_01_swift_test_run2_FAILED_1_of_64.log",
-      "log_sha256": "2062be90ecf367b465686c3816743536563338385dac64cd664b17c16cf17ccd"
-    },
-    {
-      "run_id": "P02-01-TEST-RUN3",
-      "command": "swift test",
-      "cwd": "Packages/XRAICore",
-      "exit_code": 0,
-      "result": "64 tests in 16 suites passed (35 BOOT-01 + 29 P02-01)",
-      "log": "docs/status/evidence/p02_01_swift_test_run3.log",
-      "log_sha256": "ca22c2b2ba238759223ad7d2851ce9e83ce4ede8484d984d57a7ace50310850b",
-      "new_suites": {
-        "Privacy tiers and data classes": 3,
-        "Deny-by-default flow policy": 5,
-        "Canonical encoding and headers": 4,
-        "Recovery key contract": 1,
-        "AES-256-GCM envelope: round trip and structure": 4,
-        "AES-256-GCM envelope: adversarial": 5,
-        "Key lifecycle": 1,
-        "Portable encrypted backup and device migration": 5,
-        "Module boundary: CryptoKit only in the adapter": 1
-      }
-    },
-    {
-      "run_id": "P02-01H-BUILD",
-      "command": "swift build",
-      "cwd": "Packages/XRAICore",
-      "exit_code": 0,
-      "log": "docs/status/evidence/p02_01h_swift_build.log",
-      "log_sha256": "61cf76d355f484b96a53608dccd22c9fce2251a49557080fe588cc42143dad9b"
-    },
-    {
-      "run_id": "P02-01H-TEST-RUN1",
-      "command": "swift test",
-      "cwd": "Packages/XRAICore",
-      "exit_code": 1,
-      "result": "71 tests, 70 passed, 1 failed (errorHygiene: substring 'device' matched tier names; test narrowed to key id 'device-main')",
-      "log": "docs/status/evidence/p02_01h_swift_test_run1_FAILED_1_of_71.log",
-      "log_sha256": "1a9d832d4070f4a85e9ad832a97ece7f7aec9108031043622a412dfaedfcec15"
-    },
-    {
-      "run_id": "P02-01H-TEST-RUN2",
-      "command": "swift test",
-      "cwd": "Packages/XRAICore",
-      "exit_code": 0,
-      "result": "71 tests in 17 suites passed (35 BOOT-01 + 36 vault)",
-      "log": "docs/status/evidence/p02_01h_swift_test_run2.log",
-      "log_sha256": "76fc6b76ba56abb45f3bdc2db59c4658d1528e18a2fd427c6f5e861cbc51f4b3"
-    },
-    {
-      "run_id": "P02-01H-NUMEROLOGY-REGRESSION",
-      "command": "git diff --stat Packages/XRAICore/Sources/XRAIIdentityTime Sources/XRAINumerology Tests/XRAIIdentityTimeTests Tests/XRAINumerologyTests",
-      "exit_code": 0,
-      "result": "empty diff: pure core untouched"
-    },
-    {
-      "run_id": "P02-01H2-BUILD",
-      "command": "swift build",
-      "cwd": "Packages/XRAICore",
-      "exit_code": 0,
-      "log": "docs/status/evidence/p02_01h2_swift_build.log",
-      "log_sha256": "8bcfbe88bbc631d98d29e7bf42026deb2b2846e4ca090a58c36a01c9b4229f3a"
-    },
-    {
-      "run_id": "P02-01H2-TEST-RUN1",
-      "command": "swift test",
-      "cwd": "Packages/XRAICore",
-      "exit_code": 1,
-      "result": "81 tests, 79 passed, 3 issues (replay error kind; source-scan comment false positive); compile-negative passed",
-      "log": "docs/status/evidence/p02_01h2_swift_test_run1_FAILED_3_issues.log",
-      "log_sha256": "f39d64788bb40b63686c61c618bfbe7f9419628086d8830d9288a1b5093874df"
-    },
-    {
-      "run_id": "P02-01H2-TEST-RUN2",
-      "command": "swift test",
-      "cwd": "Packages/XRAICore",
-      "exit_code": 0,
-      "result": "81 tests in 19 suites passed (35 BOOT-01 + 46 vault incl. compile-negative)",
-      "log": "docs/status/evidence/p02_01h2_swift_test_run2.log",
-      "log_sha256": "cd2feec0fa576f15fcef7975cf321cb472905d50a280b10e6af932c009b3652d"
-    },
-    {
-      "run_id": "P02-01H2-NUMEROLOGY-REGRESSION",
-      "command": "git diff --stat on XRAIIdentityTime/XRAINumerology sources and tests",
-      "exit_code": 0,
-      "result": "empty diff"
-    },
-    {
-      "run_id": "P02-02-BUILD",
-      "command": "swift build",
-      "cwd": "Packages/XRAICore",
-      "exit_code": 0,
-      "log": "docs/status/evidence/p02_02_swift_build.log",
-      "log_sha256": "dd5decb9c4fc4baf7b70fed66dd807293e3c9ae42f8672454aaa8a46a14d29e1"
-    },
-    {
-      "run_id": "P02-02-TEST-RUN1",
-      "command": "swift test",
-      "cwd": "Packages/XRAICore",
-      "exit_code": 1,
-      "result": "100 tests, 98 passed, 2 issues (comment false positive; quarantined-open error kind changed by design)",
-      "log": "docs/status/evidence/p02_02_swift_test_run1_FAILED_2_of_100.log",
-      "log_sha256": "4d0ab634462e8642ac42de8423929cd9161ae860115667c1addead830120afad"
-    },
-    {
-      "run_id": "P02-02-TEST-RUN5-MACOS",
-      "command": "swift test",
-      "cwd": "Packages/XRAICore",
-      "host": "macOS 26.4 Apple silicon, unsigned CLI; real login Keychain (test flag) + real Secure Enclave",
-      "exit_code": 0,
-      "result": "100 tests in 24 suites passed; 0 test keychain items left",
-      "log": "docs/status/evidence/p02_02_swift_test_run5_macos.log",
-      "log_sha256": "1ababf13190a21a59cd662a5ff57d1c56301f59df8f3db2ff763e389c7c27175"
-    },
-    {
-      "run_id": "P02-02-SIM-RUN1",
-      "command": "xcodebuild test -scheme XRAICore-Package -destination 'platform=iOS Simulator,name=iPhone 17' -only-testing:XRAIVaultKeychainTests",
-      "exit_code": 65,
-      "result": "14 tests: 2 passed, 12 failed with keychainUnavailable(-34018) = fail closed (host-less logic bundle has no keychain entitlement)",
-      "log": "docs/status/evidence/p02_02_xcodebuild_sim_keychain_run1_FAIL_CLOSED.log",
-      "log_sha256": "b7bea6cec508f3129f06b9ff81a68a910e9a65151282762fd826b9043e515b14"
-    },
-    {
-      "run_id": "P02-02-SIM-RUN2",
-      "command": "same, after accepting fail-closed in the production-config test",
-      "exit_code": 65,
-      "result": "3 passed, 11 keychain-functional tests blocked (SIM_HOST_APP)",
-      "log": "docs/status/evidence/p02_02_xcodebuild_sim_keychain_run2.log",
-      "log_sha256": "c8d0e5b0ffb3ad7658b24d4fed15102ebfedeabd78d1ffbee6155c17852f7626"
-    },
-    {
-      "run_id": "P02-02-DEVICE",
-      "command": "physical iPhone",
-      "exit_code": null,
-      "result": "NOT_RUN — DEVICE_VERIFIED: NO"
-    },
-    {
-      "run_id": "P02-02-NUMEROLOGY-REGRESSION",
-      "command": "git diff --stat on pure core dirs",
-      "exit_code": 0,
-      "result": "empty diff"
-    },
-    {
-      "run_id": "P03-00-MAC-RUN1",
-      "command": "swift test (macOS host, real login keychain + real SE)",
-      "exit_code": 1,
-      "result": "104 tests, 103 passed, 1 issue (compile-negative test did not accept 'has no member' diagnostics; test widened)",
-      "log": "docs/status/evidence/p03_00_swift_test_macos_run1_FAILED_1_of_104.log",
-      "log_sha256": "0b391aa162a73ea9da0396125e47cd0c150056ec16596b7d583dd8f124edf9bb"
-    },
-    {
-      "run_id": "P03-00-MAC-RUN3",
-      "command": "swift test --package-path Packages/XRAICore",
-      "exit_code": 0,
-      "result": "104 tests in 25 suites passed; 0 test keychain items left",
-      "log": "docs/status/evidence/p03_00_swift_test_macos_run3.log",
-      "log_sha256": "c80f3a1eb2fdb68c98c0022f4f6254143b4d96a6b85f1a59a0b48ffe6514c799"
-    },
-    {
-      "run_id": "P03-00-SIM-APP-BUILD",
-      "command": "xcodebuild build -project XRAI.xcodeproj -scheme XRAI -destination 'platform=iOS Simulator,name=iPhone 17'",
-      "exit_code": 0,
-      "result": "BUILD SUCCEEDED (after fixing simulator arch to arm64)",
-      "log": "docs/status/evidence/p03_00_xcodebuild_sim_app_build.log",
-      "log_sha256": "1840bba0acc7d718d6797b676288489710cb8486644925426459ae5b93c78bb0"
-    },
-    {
-      "run_id": "P03-00-SIM-HOSTED-TESTS",
-      "command": "xcodebuild test -project XRAI.xcodeproj -scheme XRAI -destination 'platform=iOS Simulator,name=iPhone 17' (signed app host, data-protection keychain)",
-      "exit_code": 0,
-      "result": "20 tests in 5 suites passed (18 keychain provider tests + 2 hosted smoke); Secure Enclave reported available because the Apple-silicon Simulator proxies the HOST MAC enclave — not iPhone hardware evidence",
-      "log": "docs/status/evidence/p03_00_xcodebuild_sim_hosted_tests.log",
-      "log_sha256": "904b1b90c8b8f58c63dd25df9a299e4089b125c11ba6aa03e239b8e8cb99cab1"
-    },
-    {
-      "run_id": "P03-00-DEVICE-IPHONE14PROMAX",
-      "command": "xcodebuild test … -destination 'platform=iOS,id=C7C6CE6E-…' -allowProvisioningUpdates",
-      "exit_code": 65,
-      "result": "automatic signing + provisioning profile succeeded, app installed and launched, test runner 'terminated at launch' before bootstrapping (device-side trust/unlock needed). NO test executed on device. DEVICE_VERIFIED: NO",
-      "log": "docs/status/evidence/p03_00_xcodebuild_device_iphone14promax_FAILED_launch.log",
-      "log_sha256": "5c7268928cf91d4dec71b7838f247b848189a581a4a124eb00573278b088eec2"
-    },
-    {
-      "run_id": "P03-00-NUMEROLOGY-REGRESSION",
-      "command": "git diff --stat on pure core dirs",
-      "exit_code": 0,
-      "result": "empty diff"
-    },
-    {
-      "run_id": "P03-00F-MAC",
-      "command": "swift test --package-path Packages/XRAICore",
-      "exit_code": 0,
-      "result": "108 tests in 27 suites passed (4 new: clock-failure cache ×3, rotation serialization); 0 keychain items left",
-      "log": "docs/status/evidence/p03_00f_swift_test_macos.log",
-      "log_sha256": "45b87098b75727963927fd441e45e1a490c08f4a75697528ab4b4963b1a55cdd"
-    },
-    {
-      "run_id": "P03-00F-SIM-BUILD",
-      "command": "xcodebuild build … iPhone 17 Simulator",
-      "exit_code": 0,
-      "result": "BUILD SUCCEEDED; AppIcon compiled; rpath includes @executable_path/Frameworks",
-      "log": "docs/status/evidence/p03_00f_xcodebuild_sim_app_build.log",
-      "log_sha256": "757f9dd3b3ec4341163e85d3f3ab04a2010e43be95c341865f66826676305b45"
-    },
-    {
-      "run_id": "P03-00F-SIM-HOSTED",
-      "command": "xcodebuild test … iPhone 17 Simulator",
-      "exit_code": 0,
-      "result": "24 tests in 7 suites passed",
-      "log": "docs/status/evidence/p03_00f_xcodebuild_sim_hosted_tests.log",
-      "log_sha256": "4eb0c2fee97ae55d94f663863e35e3769624ada8eddacb00cfa816192a75be69"
-    },
-    {
-      "run_id": "P03-00F-DEVICE-BUILD",
-      "command": "xcodebuild build … platform=iOS,id=C7C6CE6E… -allowProvisioningUpdates",
-      "exit_code": 0,
-      "result": "BUILD SUCCEEDED; static linkage; codesign deep/strict valid",
-      "log": "docs/status/evidence/p03_00f_xcodebuild_device_app_build.log",
-      "log_sha256": "9d41bd42de6786f3df355651dc5ab4042342642b28cc6d7767b4ed94892594ee"
-    },
-    {
-      "run_id": "P03-00F-DEVICE-BUNDLE-VERIFY",
-      "command": "otool -L / otool -l LC_RPATH / ls Frameworks / codesign --verify --deep --strict / entitlements",
-      "exit_code": 0,
-      "result": "@executable_path/Frameworks present; frameworks embedded+signed in test build; entitlements application-identifier + keychain-access-groups",
-      "log": "docs/status/evidence/p03_00f_device_bundle_verification.txt",
-      "log_sha256": "db0c36a9d481232d30b5aa2fb62babf47854219ebc1381f09f96d07b3997baed"
-    },
-    {
-      "run_id": "P03-00F-DEVICE-LAUNCH",
-      "command": "devicectl device install app; devicectl device process launch com.xrai.app; devicectl device info processes",
-      "exit_code": 0,
-      "result": "installed; launched; XRAI.app/XRAI process running after 5 s (normal launch on iPhone 14 Pro Max)",
-      "log": "docs/status/evidence/p03_00f_device_install_launch_process.log",
-      "log_sha256": "12d15acb0bef7d9c9e167575a8ec9e3176f4a04db6b4f7cc201b09fb51958f2a"
-    },
-    {
-      "run_id": "P03-00F-DEVICE-HOSTED",
-      "command": "xcodebuild test … platform=iOS,id=C7C6CE6E… -resultBundlePath",
-      "exit_code": 0,
-      "result": "24 tests in 7 suites passed on the physical iPhone 14 Pro Max inside the signed app (incl. real Secure Enclave wrapping); non-destructive only",
-      "log": "docs/status/evidence/p03_00f_xcodebuild_device_hosted_tests.log",
-      "log_sha256": "5145ffdc6f9d8939fbefd76d83663d49b52ffc608a4bfc5eba8fb119c8b93e09",
-      "xcresult_summary": "docs/status/evidence/p03_00f_device_xcresult_summary.json",
-      "device_info": "docs/status/evidence/p03_00f_device_info.txt",
-      "xcresult_summary_sha256": "028265ef6131ce6c21a046ccd9221c65b6ad9867f637668a764e04e1a0d648f0"
-    },
-    {
-      "run_id": "P03-00F-NUMEROLOGY-REGRESSION",
-      "command": "git diff --stat on pure core dirs",
-      "exit_code": 0,
-      "result": "empty diff"
-    },
-    {
-      "run_id": "P03-01-MAC",
-      "command": "swift test --package-path Packages/XRAICore",
-      "exit_code": 0,
-      "result": "108 tests in 27 suites passed (package unchanged in this phase)",
-      "log": "docs/status/evidence/p03_01_swift_test_macos.log",
-      "log_sha256": "daf1b13a0c3a31c7c9bdcad8943847eb4333d8f2aa6003e7b97619ce102c46cd"
-    },
-    {
-      "run_id": "P03-01-SIM-BUILD",
-      "command": "xcodebuild build-for-testing … iPhone 17 Simulator",
-      "exit_code": 0,
-      "result": "app + hosted + UI test bundles built",
-      "log": "docs/status/evidence/p03_01_xcodebuild_sim_build_for_testing.log",
-      "log_sha256": "76a495ce907d43c1edadf3a7789738c20d61b93d826cbcd4b349698eef0e0cb0"
-    },
-    {
-      "run_id": "P03-01-SIM-RUN1",
-      "command": "xcodebuild test-without-building … iPhone 17 Simulator (light)",
-      "exit_code": 0,
-      "result": "38/38 (33 hosted incl. 9 new onboarding/session + 5 UI)",
-      "log": "docs/status/evidence/p03_01_xcodebuild_sim_tests_run1.log",
-      "log_sha256": "97cac2892a8fa91267983c011ddd463c1f9bb82a1aaaff3a1cfd4980b18d133c"
-    },
-    {
-      "run_id": "P03-01-SIM-DARK-UI",
-      "command": "simctl ui appearance dark; xcodebuild test-without-building -only-testing:XRAIUITests",
-      "exit_code": 0,
-      "result": "5/5 UI; 18 dark-mode screenshots (captured with the pre-identifier-fix UI test build)",
-      "log": "docs/status/evidence/p03_01_xcodebuild_sim_dark_ui_tests.log",
-      "log_sha256": "f3be564247776c3ff617eba3f92050a661f3d7107c92da12ca0d8054c802a093"
-    },
-    {
-      "run_id": "P03-01-DEVICE-RUN1",
-      "command": "xcodebuild test … iPhone 14 Pro Max",
-      "exit_code": 65,
-      "result": "37/38: UI testBackgroundAndForegroundKeepsSession missed 'onboarding.next' (tap swallowed during transition)",
-      "log": "docs/status/evidence/p03_01_xcodebuild_device_tests_run1_1_UI_FAIL.log",
-      "log_sha256": "d4a3830ec1ba2c001bf17f50df424b3e5b6c5538295f745c05aa436d14ea2e28"
-    },
-    {
-      "run_id": "P03-01-DEVICE-UI-RUN2",
-      "command": "xcodebuild test -only-testing:XRAIUITests … device (re-tap helper)",
-      "exit_code": 65,
-      "result": "2/5: the re-tap heuristic combined with a duplicated identifier ('onboarding.next' on two steps) advanced two steps; UI hierarchy dump proved the app was on the birth-date step",
-      "log": "docs/status/evidence/p03_01_xcodebuild_device_ui_run2_3_FAIL_double_tap.log",
-      "log_sha256": "783407bddb457707f1928dc12c2f93fbb9e0c87b5a8f89e3587c3499ee7afa29"
-    },
-    {
-      "run_id": "P03-01-DEVICE-RUN3",
-      "command": "xcodebuild test … iPhone 14 Pro Max (unique step identifiers, wait-for-hittable, single tap)",
-      "exit_code": 0,
-      "result": "38/38 on the physical iPhone (33 hosted + 5 UI); 18 device screenshots",
-      "log": "docs/status/evidence/p03_01_xcodebuild_device_tests_run3.log",
-      "log_sha256": "9f09e057157679a33e91cac536097ca94923d6fd0adce84871e8dc4dcaaf254f",
-      "xcresult_summary": "docs/status/evidence/p03_01_device_xcresult_summary.json"
-    },
-    {
-      "run_id": "P03-01-SIM-RUN2",
-      "command": "xcodebuild test … iPhone 17 Simulator (final code)",
-      "exit_code": 0,
-      "result": "38/38; 18 light screenshots refreshed",
-      "log": "docs/status/evidence/p03_01_xcodebuild_sim_tests_run2.log",
-      "log_sha256": "7f3b0c89ce8d32b81f4933ca8bbf721a9a87c1f753db88b9639e19cc07cc246a",
-      "xcresult_summary": "docs/status/evidence/p03_01_sim_xcresult_summary.json"
-    },
-    {
-      "run_id": "P03-01-SCREENSHOTS",
-      "command": "xcresulttool export attachments",
-      "exit_code": 0,
-      "result": "docs/status/evidence/screenshots/{simulator-light,simulator-dark,device}: 18 PNG each"
-    },
-    {
-      "run_id": "P03-02-MAC",
-      "command": "swift test --package-path Packages/XRAICore",
-      "exit_code": 0,
-      "result": "108/108; package unchanged",
-      "log": "docs/status/evidence/p03_02_swift_test_macos.log",
-      "log_sha256": "83fcf5c48c0a0367996fae76ba7808761301ac03bba1a9853b5dd771a617bdb5"
-    },
-    {
-      "run_id": "P03-02-SIM-BUILD",
-      "command": "xcodebuild build-for-testing … iPhone 17 Simulator (final code)",
-      "exit_code": 0,
-      "result": "TEST BUILD SUCCEEDED",
-      "log": "docs/status/evidence/p03_02_xcodebuild_sim_build_for_testing.log",
-      "log_sha256": "1b75eb370c0921f8ac6bcec596faaf0f85d0067070858ef15378c06b560e878a"
-    },
-    {
-      "run_id": "P03-02-SIM-FINAL",
-      "command": "xcodebuild test-without-building … iPhone 17 Simulator (light)",
-      "exit_code": 0,
-      "result": "45/45: 38 hosted (12 new: lifecycle, privacy semantics, epistemic, contrast, motion) + 7 UI (incl. accessibility audit, forget flow)",
-      "log": "docs/status/evidence/p03_02_xcodebuild_sim_tests_final.log",
-      "log_sha256": "f4b433c2ce2727c5b9794a5709f46eb2d2c7a3c5a75d718790a771feb7a533cf"
-    },
-    {
-      "run_id": "P03-02-SIM-DARK",
-      "command": "simctl appearance dark; -only-testing:XRAIUITests",
-      "exit_code": 0,
-      "result": "7/7; 19 dark screenshots",
-      "log": "docs/status/evidence/p03_02_xcodebuild_sim_dark_ui.log",
-      "log_sha256": "f9c277e18a6205135e6e9826fb217fc6f8627c5d4f5559d4824c9050dbba1f1b"
-    },
-    {
-      "run_id": "P03-02-SIM-REDUCE-MOTION",
-      "command": "ReduceMotionEnabled=true; two UI flows",
-      "exit_code": 0,
-      "result": "2/2",
-      "log": "docs/status/evidence/p03_02_xcodebuild_sim_reduce_motion_ui.log",
-      "log_sha256": "6c026bdfbc16088908ac0d591682644937ff4da12fa6bc545aa3af30b9514dec"
-    },
-    {
-      "run_id": "P03-02-DEVICE-RUN1",
-      "command": "xcodebuild test … iPhone 14 Pro Max (pre-audit-fix build)",
-      "exit_code": 65,
-      "result": "42/45 (audit findings later fixed)",
-      "log": "docs/status/evidence/p03_02_xcodebuild_device_run1_pre_audit_fix_3_FAIL.log",
-      "log_sha256": "8048811ad73957ee7222f52a95d17ff07783c330762b83d8642d288fb3581d58"
-    },
-    {
-      "run_id": "P03-02-DEVICE-RUN2",
-      "command": "xcodebuild test … iPhone 14 Pro Max (final app code)",
-      "exit_code": 65,
-      "result": "43/45; two failures = fragile assertion (empty field value '' on device vs placeholder on Simulator)",
-      "log": "docs/status/evidence/p03_02_xcodebuild_device_run2_2_FAIL_placeholder_assert.log",
-      "log_sha256": "5eeba1a85cced3d913316dbbabf8f3f2d6883f0c09f80aa1533d11abc99a0950"
-    },
-    {
-      "run_id": "P03-02-DEVICE-RUN3",
-      "command": "same, the two tests with the device-robust assertion",
-      "exit_code": 0,
-      "result": "2/2",
-      "log": "docs/status/evidence/p03_02_xcodebuild_device_run3_two_tests.log",
-      "log_sha256": "d62cbd9421ffad9dc10bf2772c23ae3a6b6c6feaa394d2bca438e40fd3c55e15"
-    },
-    {
-      "run_id": "P03-02-SIM-TWO-TESTS",
-      "command": "Simulator, the two tests with the final assertion",
-      "exit_code": 0,
-      "result": "2/2",
-      "log": "docs/status/evidence/p03_02_xcodebuild_sim_two_tests_final_assertion.log",
-      "log_sha256": "d7787c17442a8b794096669ca94af894f28c439c722992fa1197ba26ca24d2c2"
-    },
-    {
-      "run_id": "P03-02-GATES",
-      "command": "ContrastTests + performAccessibilityAudit",
-      "exit_code": 0,
-      "result": "contrast: 22 pairs measured, 2 real defects fixed; audit: no issues on 5 screens (Simulator + device) with .contrast excluded on tab screens (documented limitation)",
-      "log": "docs/status/evidence/p03_02_contrast_ratios_measured.txt",
-      "log_sha256": "9ae197ed54d25301b48313dee7a00d16267a93d4b64cb9feb0652ed34e18462b",
-      "audit_simulator": "docs/status/evidence/p03_02_a11y_audit_simulator.txt",
-      "audit_device": "docs/status/evidence/p03_02_a11y_audit_device.txt"
-    },
-    {
-      "run_id": "P03-03-STATIC-SWIFT",
-      "command": "swift test --package-path Packages/XRAICore (macOS host, static regression; no code changed in this phase)",
-      "exit_code": 0,
-      "result": "108 tests in 27 suites passed",
-      "log": "docs/status/evidence/p03_03_swift_test_macos.log",
-      "log_sha256": "85679d8bce1e4500feef95aaeec084e3ef384c160c6b271adc412ecb84de01f8"
-    },
-    {
-      "run_id": "P03-03-STATIC-VALIDATE",
-      "command": "python3 -I validation/validate_package.py",
-      "exit_code": 0,
-      "result": "PASS spec structure; files=4380; methods=19; tests=98; tasks=18; v3.1 original preserved",
-      "log": "docs/status/evidence/p03_03_validate_package.log",
-      "log_sha256": "b639af718c42b0627e64fdf117456298cbe91bcba3d8f271499958916e70cd29"
-    },
-    {
-      "run_id": "P03-03-STATIC-DOCS",
-      "command": "python3 -I validation/check_p03_03_docs.py",
-      "exit_code": 0,
-      "result": "PASS: 12 DataClass cases present in inventory + matrix; every blocker id in the gate report exists in OPEN_BLOCKERS.md; ADR-005..008 present; entitlements carry no application-groups; 8 P03-03 docs cite baseline 713468e",
-      "log": "docs/status/evidence/p03_03_check_docs.log",
-      "log_sha256": "c51bb110aae2b6bc0738ab275e0d74d8e1f817d5cfd9480b1019fe46a2583191"
-    },
-    {
-      "run_id": "P03-03H-STATIC-SWIFT",
-      "command": "swift test --package-path Packages/XRAICore (macOS host regression; no code changed)",
-      "exit_code": 0,
-      "result": "108 tests in 27 suites passed",
-      "log": "docs/status/evidence/p03_03h_swift_test_macos.log",
-      "log_sha256": "4534269ec1aba8f45080bc761e38cc93414bde7ad1d23cccb65308ee8929ed44"
-    },
-    {
-      "run_id": "P03-03H-STATIC-VALIDATE",
-      "command": "python3 -I validation/validate_package.py",
-      "exit_code": 0,
-      "result": "PASS spec structure; files=4414; methods=19; tests=98; tasks=18",
-      "log": "docs/status/evidence/p03_03h_validate_package.log",
-      "log_sha256": "13a695318cec4f54592e8f899b3cc451a7032ef37fe814272b20f606b630413c"
-    },
-    {
-      "run_id": "P03-03H-STATIC-DOCS",
-      "command": "python3 -I validation/check_p03_03_docs.py (extended for P03-03H)",
-      "exit_code": 0,
-      "result": "PASS: P03-03 checks + H docs cite baseline 7fc3091; every NT-* id referenced resolves to a matrix row (48 rows); threat model T44–T46 present",
-      "log": "docs/status/evidence/p03_03h_check_docs.log",
-      "log_sha256": "a810b673923e4b2f521a8847e3f3cdb901dd6dd282433740b8f0769cbb723bcf"
-    },
-    {
-      "run_id": "P03-04-SWIFT-MACOS",
-      "command": "swift test (Packages/XRAICore)",
-      "exit_code": 0,
-      "result": "145 tests in 36 suites passed (108 existing + 36 XRAIVaultStoreTests + 1 KeychainAnchorStoreTests); Bloom false positives 0/2000000",
-      "log": "docs/status/evidence/p03_04_swift_test_macos.log",
-      "log_sha256": "13071e626ec1faa431d7549cfcebc89f8b386358d08a4f399e24633ad972054d"
-    },
-    {
-      "run_id": "P03-04-SIM-HOSTED",
-      "command": "xcodebuild test -project XRAI.xcodeproj -scheme XRAI -destination 'platform=iOS Simulator,name=iPhone 17' -only-testing:XRAIHostedTests",
-      "exit_code": 0,
-      "result": "73 tests in 21 suites passed (NT-H5-16 protection class not reported on Simulator: KNOWN_LIMITATION)",
-      "log": "docs/status/evidence/p03_04_xcodebuild_sim_hosted.log",
-      "log_sha256": "a9bececd67e29d8d30a95b16435bd8917e2725ffdec2bb167d1a24450597af48"
-    },
-    {
-      "run_id": "P03-04-SIM-HOSTED-RUN1",
-      "command": "same, before NT-H5-16 adjustment",
-      "exit_code": 65,
-      "result": "72/73 — NT-H5-16 failed: Simulator reports nil protection class",
-      "log": "docs/status/evidence/p03_04_xcodebuild_sim_hosted_run1_NT-H5-16_sim_limitation.log",
-      "log_sha256": "9ea8b17ea391a5e8d455d2ba62ac1cf32a14099636ff5443888f3ba1c652ba2d"
-    },
-    {
-      "run_id": "P03-04-DEVICE-HOSTED",
-      "command": "xcodebuild test -project XRAI.xcodeproj -scheme XRAI -destination 'platform=iOS,id=C7C6CE6E-B577-558A-8992-DC6C1F492B39' -only-testing:XRAIHostedTests -allowProvisioningUpdates",
-      "exit_code": 0,
-      "result": "73 tests in 21 suites passed on iPhone 14 Pro Max (iOS 26.6): store suite incl. fault injection, NSFileProtectionComplete on every vault file, real keychain anchor; non-destructive",
-      "log": "docs/status/evidence/p03_04_xcodebuild_device_hosted.log",
-      "log_sha256": "0b30a37b600443d4bb78032e36f435e5d217e92916c542baa87aca7e67291b7a"
-    },
-    {
-      "run_id": "P03-04-STORE-DEV-RUN1",
-      "command": "swift test --filter XRAIVaultStoreTests",
-      "exit_code": 1,
-      "result": "FAIL: keyVersionInUse (ledger.v1 not re-sealed before scan) + O(n) ledger lookup made NT-H1-07 hang; both fixed",
-      "log": "docs/status/evidence/p03_04_store_tests_run1_FAIL_ledger_rewrap_and_slow_lookup.log",
-      "log_sha256": "bc1353e7956fca90fe2f8fbd5d49aec015f0db19dfddef4e6eceb87e40fed360"
-    },
-    {
-      "run_id": "P03-04-STORE-DEV-RUN2",
-      "command": "swift test --filter XRAIVaultStoreTests",
-      "exit_code": 1,
-      "result": "36 tests, 3 issues (test manifest-block parsing; verifier after forget; open with regressed clock); fixed",
-      "log": "docs/status/evidence/p03_04_store_tests_run2_FAIL_3_issues.log",
-      "log_sha256": "57dd5b65ea02eb3c74937986e6d8825b91534de21f8e8409e1ebed50ed9feff1"
-    },
-    {
-      "run_id": "P03-04-STATIC-VALIDATE",
-      "command": "python3 -I validation/validate_package.py",
-      "exit_code": 0,
-      "result": "PASS",
-      "log": "docs/status/evidence/p03_04_validate_package.log",
-      "log_sha256": "3a94d86ea4544e9bd0293f6f7b644f54811fbf41a12424b0e00efd2a38cf11e6"
-    },
-    {
-      "run_id": "P03-04-STATIC-DOCS",
-      "command": "python3 -I validation/check_p03_03_docs.py",
-      "exit_code": 0,
-      "result": "first run at commit b6283d6 FAILED (store_metadata missing from the P03-03 inventory/lifecycle docs); docs patched in the follow-up commit; rerun PASS",
-      "log": "docs/status/evidence/p03_04_check_docs.log",
-      "log_sha256": "b04831a7b6a0941071b89783bae47afe17aa3a8b79508fc827149b87b0ce3639"
-    }
-  ],
-  "acceptance_test_mapping": [
-    {
-      "spec_test": "T-V31-NUMEROLOGY-01 valid_2000_02_29",
-      "status": "TESTED",
-      "by": "CivilDateValidityTests.leap2000, LifePathDigitsGoldenTests.f2, LifePathComponentsGoldenTests.f9"
-    },
-    {
-      "spec_test": "T-V31-NUMEROLOGY-02 reject_1900_02_29",
-      "status": "TESTED",
-      "by": "CivilDateValidityTests.notLeap1900"
-    },
-    {
-      "spec_test": "T-V31-NUMEROLOGY-03 master_11_22_33_variant",
-      "status": "TESTED",
-      "by": "f4, f5, f6, f7, f11, preservePolicyDomain"
-    },
-    {
-      "spec_test": "T-V31-NUMEROLOGY-04 Turkish_diacritics_unicode",
-      "status": "NOT_RUN",
-      "reason": "name numerology not in BOOT-01 scope"
-    },
-    {
-      "spec_test": "T-V31-NUMEROLOGY-05 soul_plus_personality_consistency",
-      "status": "NOT_RUN",
-      "reason": "name numerology not in BOOT-01 scope"
-    },
-    {
-      "spec_test": "T-V31-NUMEROLOGY-06 Pythagorean_vs_Kabala_nonmerged",
-      "status": "NOT_RUN"
-    },
-    {
-      "spec_test": "T-V31-NUMEROLOGY-07 optional_parent_name_no_inference",
-      "status": "NOT_RUN"
-    },
-    {
-      "spec_test": "T-V32-PURE_MATH-001 date_leap_2000",
-      "status": "TESTED",
-      "by": "CivilDateValidityTests.leap2000"
-    },
-    {
-      "spec_test": "T-V32-PURE_MATH-002 date_century_1900",
-      "status": "TESTED",
-      "by": "CivilDateValidityTests.notLeap1900"
-    },
-    {
-      "spec_test": "§92 negative probe: raw sensitive data in logs absent",
-      "status": "TESTED (library level only)",
-      "by": "PrivacyNegativeTests.traceRedaction, CivilDateRepresentationTests.redactedDescription"
-    },
-    {
-      "spec_test": "§92 negative probe: private data network egress 0",
-      "status": "TESTED (static, library level)",
-      "by": "PrivacyNegativeTests.noIOSurface; no app/device trace yet"
-    },
-    {
-      "spec_test": "all other 86 + 98 spec tests",
-      "status": "NOT_RUN"
-    },
-    {
-      "spec_test": "§92 negative probe: consent revoke recompute/deny",
-      "status": "TESTED (policy level)",
-      "by": "PolicyTests.revocation"
-    },
-    {
-      "spec_test": "§67 Privacy: consent OFF blocks all remote model calls",
-      "status": "TESTED (policy level only; runtime broker NOT_STARTED)",
-      "by": "PolicyTests.defaults/providerConsent"
-    },
-    {
-      "spec_test": "§83 authenticated encryption, tamper, wrong key, key rotation",
-      "status": "TESTED (library, in-memory KEK)",
-      "by": "SealAdversarialTests, KeyRotationTests"
-    },
-    {
-      "spec_test": "§84 export/backup with E2EE and honest loss tradeoff",
-      "status": "TESTED (library)",
-      "by": "BackupTests"
-    },
-    {
-      "spec_test": "P02 exit evidence: corruption/restore/kill tests on iPhone",
-      "status": "NOT_RUN (no device)"
-    }
-  ],
-  "statuses": {
-    "time.civil_date.gregorian.v1": "TESTED",
-    "num.life_path.digits.v1": "TESTED",
-    "num.life_path.components.v1": "TESTED",
-    "everything_else": "SPECIFIED / NOT_STARTED",
-    "vault.contracts.v1": "TESTED (hardened H1)",
-    "vault.aes256gcm.envelope.v1": "TESTED (library; SECURITY_REVIEWED: NO; DEVICE_VERIFIED: NO)",
-    "vault.backup.recoverykey.v1": "TESTED (library)",
-    "vault.keychain_provider": "CODED + TESTED on macOS host, Simulator host and physical iPhone 14 Pro Max (non-destructive suite); DEVICE_VERIFIED: PARTIAL (lock/passcode/reinstall NOT_RUN)",
-    "vault.backup.sealed.v2": "TESTED (library; v1 format retired)",
-    "vault.secure_vault.facade": "TESTED",
-    "vault.consent_authority": "PORT_ONLY (production registry NOT_STARTED)",
-    "vault.access_contract.h2": "TESTED (library)",
-    "vault.authorization_issuer": "TESTED (not an OS boundary)",
-    "vault.clock_guard": "TESTED (effective time never below mark; per-process)",
-    "vault.quarantine": "TESTED (trusted registry enforced on open)",
-    "vault.compile_negative_boundary": "TESTED with swiftc",
-    "vault.envelope.header": "v2 (consentPurpose authenticated)",
-    "vault.secure_enclave_wrapper": "TESTED on Apple-silicon Mac enclave; iPhone NOT_RUN",
-    "app.ios_host_skeleton": "CODED + BUILT (simulator + device) + normal launch on iPhone 14 Pro Max; app icon = founder logo",
-    "vault.key_cache_policy": "TESTED (monotonic uptime TTL, fail-closed on clock failure, purge on lock/background)",
-    "vault.rotation_recovery": "TESTED (pointer refresh, orphan adopt/repair, two-phase retire→forget, confirmed wipe)",
-    "vault.debug_surface": "REMOVED from production (compile-negative + source scan)",
-    "vault.rotation_serialization": "TESTED in-process; cross-process BLOCKED (ownership rule)",
-    "app.packaging_rpath": "FIXED in project.yml; verified with otool/codesign on device",
-    "app.design_system": "CODED (tokens, components, dark/light, Dynamic Type, Reduce Motion) — visual QA by screenshots, no automated contrast gate yet",
-    "app.onboarding": "CODED + TESTED (models + UI, simulator + device)",
-    "app.lifepath_feature": "CODED + TESTED (uses NumerologyLifePath; nothing stored)",
-    "app.localization": "tr source + 69 en strings, agent-proofread only",
-    "app.launch_screen": "CODED (LaunchLogo + LaunchBackground)",
-    "app.data_lifecycle": "TESTED (forgetAll, draft never outlives onboarding)",
-    "app.privacy_shield": "CODED + policy TESTED; snapshot visual MANUAL_PENDING",
-    "app.epistemic_classes": "5 classes TESTED",
-    "app.contrast_gate": "TESTED (measured, both appearances)",
-    "app.a11y_audit": "TESTED on 5 screens; contrast type excluded on tab screens (KNOWN_LIMITATION)",
-    "app.voiceover_human": "MANUAL_PENDING",
-    "P03-03": "SPECIFIED (design only); no code change; static checks exit 0; DEVICE_VERIFIED: n/a; SECURITY_REVIEWED: NO",
-    "P03-03H": "SPECIFIED (design hardening only); no code change; static checks exit 0; device tests NOT_RUN (nothing executable changed); SECURITY_REVIEWED: NO",
-    "P03-04": "CODED + TESTED (library): macOS 145/145, Simulator hosted 73/73, iPhone 14 Pro Max hosted 73/73 (DEVICE_VERIFIED: PARTIAL, non-destructive); app not wired; no personal persistence; SECURITY_REVIEWED: NO"
+ "generated_utc": "2026-10-19T18:45:00Z",
+ "rule": "Only real runner output counts. A spec validator PASS is not app evidence. Status promotion needs a log in docs/status/evidence/ with its sha256.",
+ "runs": [
+  {
+   "run_id": "BOOT01-BUILD-FINAL",
+   "command": "swift build",
+   "cwd": "Packages/XRAICore",
+   "toolchain": "Swift 6.3.3 / Xcode 26.6",
+   "exit_code": 0,
+   "log": "docs/status/evidence/swift_build_final.log",
+   "log_sha256": "e32a63f36a52f9984805ee07dff2d0f13b4ebf540e561dafbe5b8bbeee5e67e8"
   },
-  "not_evidence": [
-    "docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"
-  ]
+  {
+   "run_id": "BOOT01-TEST-RUN1",
+   "command": "swift test",
+   "cwd": "Packages/XRAICore",
+   "exit_code": "non-zero (failed)",
+   "result": "35 tests in 7 suites, 33 passed, 2 failed (F11 components fixture, LifePathGoldenTests.swift:123-124)",
+   "cause": "components method started from digit sums (month 11 → 2) instead of numeric values; hand-derived fixture was authoritative; fixed per ADR-BOOT-004 / Amendment A1",
+   "log": "docs/status/evidence/swift_test_run1_FAILED_2_of_35.log",
+   "log_sha256": "1563d03855428a44b9c20d26d7677e789c8baa390b345827ca29b121f94386cf"
+  },
+  {
+   "run_id": "BOOT01-TEST-RUN3",
+   "command": "swift test",
+   "cwd": "Packages/XRAICore",
+   "exit_code": 0,
+   "result": "35 tests in 7 suites passed",
+   "log": "docs/status/evidence/swift_test_run3_PASS_35_of_35.log",
+   "log_sha256": "d2aabfdbf28d634195cb2ae18eb0cbd1f8a6554aecca9b3f03e9be8c7425d585",
+   "suites": {
+    "CivilDate validity — hand-derived fixtures": 8,
+    "CivilDate digits, ordering and redaction": 5,
+    "Life Path — num.life_path.digits.v1 golden fixtures": 8,
+    "Life Path — num.life_path.components.v1 golden fixtures": 3,
+    "Life Path — typed errors and registry": 3,
+    "Life Path — arithmetic properties over the whole supported domain sample": 3,
+    "Privacy negative tests — XRAICore production sources": 5
+   }
+  },
+  {
+   "run_id": "SPEC-VALIDATOR",
+   "command": "python3 -I validation/validate_package.py",
+   "exit_code": 0,
+   "result": "PASS spec structure; does NOT verify an iOS build",
+   "evidence_class": "SPEC_STRUCTURE_ONLY"
+  },
+  {
+   "run_id": "P02-01-BUILD",
+   "command": "swift build",
+   "cwd": "Packages/XRAICore",
+   "exit_code": 0,
+   "log": "docs/status/evidence/p02_01_swift_build.log",
+   "log_sha256": "61cf76d355f484b96a53608dccd22c9fce2251a49557080fe588cc42143dad9b"
+  },
+  {
+   "run_id": "P02-01-TEST-RUN2",
+   "command": "swift test",
+   "cwd": "Packages/XRAICore",
+   "exit_code": 1,
+   "result": "64 tests, 63 passed, 1 failed (ImportBoundaryTests: static-scan token 'contentsOf:' false positive on Array.append(contentsOf:))",
+   "log": "docs/status/evidence/p02_01_swift_test_run2_FAILED_1_of_64.log",
+   "log_sha256": "2062be90ecf367b465686c3816743536563338385dac64cd664b17c16cf17ccd"
+  },
+  {
+   "run_id": "P02-01-TEST-RUN3",
+   "command": "swift test",
+   "cwd": "Packages/XRAICore",
+   "exit_code": 0,
+   "result": "64 tests in 16 suites passed (35 BOOT-01 + 29 P02-01)",
+   "log": "docs/status/evidence/p02_01_swift_test_run3.log",
+   "log_sha256": "ca22c2b2ba238759223ad7d2851ce9e83ce4ede8484d984d57a7ace50310850b",
+   "new_suites": {
+    "Privacy tiers and data classes": 3,
+    "Deny-by-default flow policy": 5,
+    "Canonical encoding and headers": 4,
+    "Recovery key contract": 1,
+    "AES-256-GCM envelope: round trip and structure": 4,
+    "AES-256-GCM envelope: adversarial": 5,
+    "Key lifecycle": 1,
+    "Portable encrypted backup and device migration": 5,
+    "Module boundary: CryptoKit only in the adapter": 1
+   }
+  },
+  {
+   "run_id": "P02-01H-BUILD",
+   "command": "swift build",
+   "cwd": "Packages/XRAICore",
+   "exit_code": 0,
+   "log": "docs/status/evidence/p02_01h_swift_build.log",
+   "log_sha256": "61cf76d355f484b96a53608dccd22c9fce2251a49557080fe588cc42143dad9b"
+  },
+  {
+   "run_id": "P02-01H-TEST-RUN1",
+   "command": "swift test",
+   "cwd": "Packages/XRAICore",
+   "exit_code": 1,
+   "result": "71 tests, 70 passed, 1 failed (errorHygiene: substring 'device' matched tier names; test narrowed to key id 'device-main')",
+   "log": "docs/status/evidence/p02_01h_swift_test_run1_FAILED_1_of_71.log",
+   "log_sha256": "1a9d832d4070f4a85e9ad832a97ece7f7aec9108031043622a412dfaedfcec15"
+  },
+  {
+   "run_id": "P02-01H-TEST-RUN2",
+   "command": "swift test",
+   "cwd": "Packages/XRAICore",
+   "exit_code": 0,
+   "result": "71 tests in 17 suites passed (35 BOOT-01 + 36 vault)",
+   "log": "docs/status/evidence/p02_01h_swift_test_run2.log",
+   "log_sha256": "76fc6b76ba56abb45f3bdc2db59c4658d1528e18a2fd427c6f5e861cbc51f4b3"
+  },
+  {
+   "run_id": "P02-01H-NUMEROLOGY-REGRESSION",
+   "command": "git diff --stat Packages/XRAICore/Sources/XRAIIdentityTime Sources/XRAINumerology Tests/XRAIIdentityTimeTests Tests/XRAINumerologyTests",
+   "exit_code": 0,
+   "result": "empty diff: pure core untouched"
+  },
+  {
+   "run_id": "P02-01H2-BUILD",
+   "command": "swift build",
+   "cwd": "Packages/XRAICore",
+   "exit_code": 0,
+   "log": "docs/status/evidence/p02_01h2_swift_build.log",
+   "log_sha256": "8bcfbe88bbc631d98d29e7bf42026deb2b2846e4ca090a58c36a01c9b4229f3a"
+  },
+  {
+   "run_id": "P02-01H2-TEST-RUN1",
+   "command": "swift test",
+   "cwd": "Packages/XRAICore",
+   "exit_code": 1,
+   "result": "81 tests, 79 passed, 3 issues (replay error kind; source-scan comment false positive); compile-negative passed",
+   "log": "docs/status/evidence/p02_01h2_swift_test_run1_FAILED_3_issues.log",
+   "log_sha256": "f39d64788bb40b63686c61c618bfbe7f9419628086d8830d9288a1b5093874df"
+  },
+  {
+   "run_id": "P02-01H2-TEST-RUN2",
+   "command": "swift test",
+   "cwd": "Packages/XRAICore",
+   "exit_code": 0,
+   "result": "81 tests in 19 suites passed (35 BOOT-01 + 46 vault incl. compile-negative)",
+   "log": "docs/status/evidence/p02_01h2_swift_test_run2.log",
+   "log_sha256": "cd2feec0fa576f15fcef7975cf321cb472905d50a280b10e6af932c009b3652d"
+  },
+  {
+   "run_id": "P02-01H2-NUMEROLOGY-REGRESSION",
+   "command": "git diff --stat on XRAIIdentityTime/XRAINumerology sources and tests",
+   "exit_code": 0,
+   "result": "empty diff"
+  },
+  {
+   "run_id": "P02-02-BUILD",
+   "command": "swift build",
+   "cwd": "Packages/XRAICore",
+   "exit_code": 0,
+   "log": "docs/status/evidence/p02_02_swift_build.log",
+   "log_sha256": "dd5decb9c4fc4baf7b70fed66dd807293e3c9ae42f8672454aaa8a46a14d29e1"
+  },
+  {
+   "run_id": "P02-02-TEST-RUN1",
+   "command": "swift test",
+   "cwd": "Packages/XRAICore",
+   "exit_code": 1,
+   "result": "100 tests, 98 passed, 2 issues (comment false positive; quarantined-open error kind changed by design)",
+   "log": "docs/status/evidence/p02_02_swift_test_run1_FAILED_2_of_100.log",
+   "log_sha256": "4d0ab634462e8642ac42de8423929cd9161ae860115667c1addead830120afad"
+  },
+  {
+   "run_id": "P02-02-TEST-RUN5-MACOS",
+   "command": "swift test",
+   "cwd": "Packages/XRAICore",
+   "host": "macOS 26.4 Apple silicon, unsigned CLI; real login Keychain (test flag) + real Secure Enclave",
+   "exit_code": 0,
+   "result": "100 tests in 24 suites passed; 0 test keychain items left",
+   "log": "docs/status/evidence/p02_02_swift_test_run5_macos.log",
+   "log_sha256": "1ababf13190a21a59cd662a5ff57d1c56301f59df8f3db2ff763e389c7c27175"
+  },
+  {
+   "run_id": "P02-02-SIM-RUN1",
+   "command": "xcodebuild test -scheme XRAICore-Package -destination 'platform=iOS Simulator,name=iPhone 17' -only-testing:XRAIVaultKeychainTests",
+   "exit_code": 65,
+   "result": "14 tests: 2 passed, 12 failed with keychainUnavailable(-34018) = fail closed (host-less logic bundle has no keychain entitlement)",
+   "log": "docs/status/evidence/p02_02_xcodebuild_sim_keychain_run1_FAIL_CLOSED.log",
+   "log_sha256": "b7bea6cec508f3129f06b9ff81a68a910e9a65151282762fd826b9043e515b14"
+  },
+  {
+   "run_id": "P02-02-SIM-RUN2",
+   "command": "same, after accepting fail-closed in the production-config test",
+   "exit_code": 65,
+   "result": "3 passed, 11 keychain-functional tests blocked (SIM_HOST_APP)",
+   "log": "docs/status/evidence/p02_02_xcodebuild_sim_keychain_run2.log",
+   "log_sha256": "c8d0e5b0ffb3ad7658b24d4fed15102ebfedeabd78d1ffbee6155c17852f7626"
+  },
+  {
+   "run_id": "P02-02-DEVICE",
+   "command": "physical iPhone",
+   "exit_code": null,
+   "result": "NOT_RUN — DEVICE_VERIFIED: NO"
+  },
+  {
+   "run_id": "P02-02-NUMEROLOGY-REGRESSION",
+   "command": "git diff --stat on pure core dirs",
+   "exit_code": 0,
+   "result": "empty diff"
+  },
+  {
+   "run_id": "P03-00-MAC-RUN1",
+   "command": "swift test (macOS host, real login keychain + real SE)",
+   "exit_code": 1,
+   "result": "104 tests, 103 passed, 1 issue (compile-negative test did not accept 'has no member' diagnostics; test widened)",
+   "log": "docs/status/evidence/p03_00_swift_test_macos_run1_FAILED_1_of_104.log",
+   "log_sha256": "0b391aa162a73ea9da0396125e47cd0c150056ec16596b7d583dd8f124edf9bb"
+  },
+  {
+   "run_id": "P03-00-MAC-RUN3",
+   "command": "swift test --package-path Packages/XRAICore",
+   "exit_code": 0,
+   "result": "104 tests in 25 suites passed; 0 test keychain items left",
+   "log": "docs/status/evidence/p03_00_swift_test_macos_run3.log",
+   "log_sha256": "c80f3a1eb2fdb68c98c0022f4f6254143b4d96a6b85f1a59a0b48ffe6514c799"
+  },
+  {
+   "run_id": "P03-00-SIM-APP-BUILD",
+   "command": "xcodebuild build -project XRAI.xcodeproj -scheme XRAI -destination 'platform=iOS Simulator,name=iPhone 17'",
+   "exit_code": 0,
+   "result": "BUILD SUCCEEDED (after fixing simulator arch to arm64)",
+   "log": "docs/status/evidence/p03_00_xcodebuild_sim_app_build.log",
+   "log_sha256": "1840bba0acc7d718d6797b676288489710cb8486644925426459ae5b93c78bb0"
+  },
+  {
+   "run_id": "P03-00-SIM-HOSTED-TESTS",
+   "command": "xcodebuild test -project XRAI.xcodeproj -scheme XRAI -destination 'platform=iOS Simulator,name=iPhone 17' (signed app host, data-protection keychain)",
+   "exit_code": 0,
+   "result": "20 tests in 5 suites passed (18 keychain provider tests + 2 hosted smoke); Secure Enclave reported available because the Apple-silicon Simulator proxies the HOST MAC enclave — not iPhone hardware evidence",
+   "log": "docs/status/evidence/p03_00_xcodebuild_sim_hosted_tests.log",
+   "log_sha256": "904b1b90c8b8f58c63dd25df9a299e4089b125c11ba6aa03e239b8e8cb99cab1"
+  },
+  {
+   "run_id": "P03-00-DEVICE-IPHONE14PROMAX",
+   "command": "xcodebuild test … -destination 'platform=iOS,id=C7C6CE6E-…' -allowProvisioningUpdates",
+   "exit_code": 65,
+   "result": "automatic signing + provisioning profile succeeded, app installed and launched, test runner 'terminated at launch' before bootstrapping (device-side trust/unlock needed). NO test executed on device. DEVICE_VERIFIED: NO",
+   "log": "docs/status/evidence/p03_00_xcodebuild_device_iphone14promax_FAILED_launch.log",
+   "log_sha256": "5c7268928cf91d4dec71b7838f247b848189a581a4a124eb00573278b088eec2"
+  },
+  {
+   "run_id": "P03-00-NUMEROLOGY-REGRESSION",
+   "command": "git diff --stat on pure core dirs",
+   "exit_code": 0,
+   "result": "empty diff"
+  },
+  {
+   "run_id": "P03-00F-MAC",
+   "command": "swift test --package-path Packages/XRAICore",
+   "exit_code": 0,
+   "result": "108 tests in 27 suites passed (4 new: clock-failure cache ×3, rotation serialization); 0 keychain items left",
+   "log": "docs/status/evidence/p03_00f_swift_test_macos.log",
+   "log_sha256": "45b87098b75727963927fd441e45e1a490c08f4a75697528ab4b4963b1a55cdd"
+  },
+  {
+   "run_id": "P03-00F-SIM-BUILD",
+   "command": "xcodebuild build … iPhone 17 Simulator",
+   "exit_code": 0,
+   "result": "BUILD SUCCEEDED; AppIcon compiled; rpath includes @executable_path/Frameworks",
+   "log": "docs/status/evidence/p03_00f_xcodebuild_sim_app_build.log",
+   "log_sha256": "757f9dd3b3ec4341163e85d3f3ab04a2010e43be95c341865f66826676305b45"
+  },
+  {
+   "run_id": "P03-00F-SIM-HOSTED",
+   "command": "xcodebuild test … iPhone 17 Simulator",
+   "exit_code": 0,
+   "result": "24 tests in 7 suites passed",
+   "log": "docs/status/evidence/p03_00f_xcodebuild_sim_hosted_tests.log",
+   "log_sha256": "4eb0c2fee97ae55d94f663863e35e3769624ada8eddacb00cfa816192a75be69"
+  },
+  {
+   "run_id": "P03-00F-DEVICE-BUILD",
+   "command": "xcodebuild build … platform=iOS,id=C7C6CE6E… -allowProvisioningUpdates",
+   "exit_code": 0,
+   "result": "BUILD SUCCEEDED; static linkage; codesign deep/strict valid",
+   "log": "docs/status/evidence/p03_00f_xcodebuild_device_app_build.log",
+   "log_sha256": "9d41bd42de6786f3df355651dc5ab4042342642b28cc6d7767b4ed94892594ee"
+  },
+  {
+   "run_id": "P03-00F-DEVICE-BUNDLE-VERIFY",
+   "command": "otool -L / otool -l LC_RPATH / ls Frameworks / codesign --verify --deep --strict / entitlements",
+   "exit_code": 0,
+   "result": "@executable_path/Frameworks present; frameworks embedded+signed in test build; entitlements application-identifier + keychain-access-groups",
+   "log": "docs/status/evidence/p03_00f_device_bundle_verification.txt",
+   "log_sha256": "db0c36a9d481232d30b5aa2fb62babf47854219ebc1381f09f96d07b3997baed"
+  },
+  {
+   "run_id": "P03-00F-DEVICE-LAUNCH",
+   "command": "devicectl device install app; devicectl device process launch com.xrai.app; devicectl device info processes",
+   "exit_code": 0,
+   "result": "installed; launched; XRAI.app/XRAI process running after 5 s (normal launch on iPhone 14 Pro Max)",
+   "log": "docs/status/evidence/p03_00f_device_install_launch_process.log",
+   "log_sha256": "12d15acb0bef7d9c9e167575a8ec9e3176f4a04db6b4f7cc201b09fb51958f2a"
+  },
+  {
+   "run_id": "P03-00F-DEVICE-HOSTED",
+   "command": "xcodebuild test … platform=iOS,id=C7C6CE6E… -resultBundlePath",
+   "exit_code": 0,
+   "result": "24 tests in 7 suites passed on the physical iPhone 14 Pro Max inside the signed app (incl. real Secure Enclave wrapping); non-destructive only",
+   "log": "docs/status/evidence/p03_00f_xcodebuild_device_hosted_tests.log",
+   "log_sha256": "5145ffdc6f9d8939fbefd76d83663d49b52ffc608a4bfc5eba8fb119c8b93e09",
+   "xcresult_summary": "docs/status/evidence/p03_00f_device_xcresult_summary.json",
+   "device_info": "docs/status/evidence/p03_00f_device_info.txt",
+   "xcresult_summary_sha256": "028265ef6131ce6c21a046ccd9221c65b6ad9867f637668a764e04e1a0d648f0"
+  },
+  {
+   "run_id": "P03-00F-NUMEROLOGY-REGRESSION",
+   "command": "git diff --stat on pure core dirs",
+   "exit_code": 0,
+   "result": "empty diff"
+  },
+  {
+   "run_id": "P03-01-MAC",
+   "command": "swift test --package-path Packages/XRAICore",
+   "exit_code": 0,
+   "result": "108 tests in 27 suites passed (package unchanged in this phase)",
+   "log": "docs/status/evidence/p03_01_swift_test_macos.log",
+   "log_sha256": "daf1b13a0c3a31c7c9bdcad8943847eb4333d8f2aa6003e7b97619ce102c46cd"
+  },
+  {
+   "run_id": "P03-01-SIM-BUILD",
+   "command": "xcodebuild build-for-testing … iPhone 17 Simulator",
+   "exit_code": 0,
+   "result": "app + hosted + UI test bundles built",
+   "log": "docs/status/evidence/p03_01_xcodebuild_sim_build_for_testing.log",
+   "log_sha256": "76a495ce907d43c1edadf3a7789738c20d61b93d826cbcd4b349698eef0e0cb0"
+  },
+  {
+   "run_id": "P03-01-SIM-RUN1",
+   "command": "xcodebuild test-without-building … iPhone 17 Simulator (light)",
+   "exit_code": 0,
+   "result": "38/38 (33 hosted incl. 9 new onboarding/session + 5 UI)",
+   "log": "docs/status/evidence/p03_01_xcodebuild_sim_tests_run1.log",
+   "log_sha256": "97cac2892a8fa91267983c011ddd463c1f9bb82a1aaaff3a1cfd4980b18d133c"
+  },
+  {
+   "run_id": "P03-01-SIM-DARK-UI",
+   "command": "simctl ui appearance dark; xcodebuild test-without-building -only-testing:XRAIUITests",
+   "exit_code": 0,
+   "result": "5/5 UI; 18 dark-mode screenshots (captured with the pre-identifier-fix UI test build)",
+   "log": "docs/status/evidence/p03_01_xcodebuild_sim_dark_ui_tests.log",
+   "log_sha256": "f3be564247776c3ff617eba3f92050a661f3d7107c92da12ca0d8054c802a093"
+  },
+  {
+   "run_id": "P03-01-DEVICE-RUN1",
+   "command": "xcodebuild test … iPhone 14 Pro Max",
+   "exit_code": 65,
+   "result": "37/38: UI testBackgroundAndForegroundKeepsSession missed 'onboarding.next' (tap swallowed during transition)",
+   "log": "docs/status/evidence/p03_01_xcodebuild_device_tests_run1_1_UI_FAIL.log",
+   "log_sha256": "d4a3830ec1ba2c001bf17f50df424b3e5b6c5538295f745c05aa436d14ea2e28"
+  },
+  {
+   "run_id": "P03-01-DEVICE-UI-RUN2",
+   "command": "xcodebuild test -only-testing:XRAIUITests … device (re-tap helper)",
+   "exit_code": 65,
+   "result": "2/5: the re-tap heuristic combined with a duplicated identifier ('onboarding.next' on two steps) advanced two steps; UI hierarchy dump proved the app was on the birth-date step",
+   "log": "docs/status/evidence/p03_01_xcodebuild_device_ui_run2_3_FAIL_double_tap.log",
+   "log_sha256": "783407bddb457707f1928dc12c2f93fbb9e0c87b5a8f89e3587c3499ee7afa29"
+  },
+  {
+   "run_id": "P03-01-DEVICE-RUN3",
+   "command": "xcodebuild test … iPhone 14 Pro Max (unique step identifiers, wait-for-hittable, single tap)",
+   "exit_code": 0,
+   "result": "38/38 on the physical iPhone (33 hosted + 5 UI); 18 device screenshots",
+   "log": "docs/status/evidence/p03_01_xcodebuild_device_tests_run3.log",
+   "log_sha256": "9f09e057157679a33e91cac536097ca94923d6fd0adce84871e8dc4dcaaf254f",
+   "xcresult_summary": "docs/status/evidence/p03_01_device_xcresult_summary.json"
+  },
+  {
+   "run_id": "P03-01-SIM-RUN2",
+   "command": "xcodebuild test … iPhone 17 Simulator (final code)",
+   "exit_code": 0,
+   "result": "38/38; 18 light screenshots refreshed",
+   "log": "docs/status/evidence/p03_01_xcodebuild_sim_tests_run2.log",
+   "log_sha256": "7f3b0c89ce8d32b81f4933ca8bbf721a9a87c1f753db88b9639e19cc07cc246a",
+   "xcresult_summary": "docs/status/evidence/p03_01_sim_xcresult_summary.json"
+  },
+  {
+   "run_id": "P03-01-SCREENSHOTS",
+   "command": "xcresulttool export attachments",
+   "exit_code": 0,
+   "result": "docs/status/evidence/screenshots/{simulator-light,simulator-dark,device}: 18 PNG each"
+  },
+  {
+   "run_id": "P03-02-MAC",
+   "command": "swift test --package-path Packages/XRAICore",
+   "exit_code": 0,
+   "result": "108/108; package unchanged",
+   "log": "docs/status/evidence/p03_02_swift_test_macos.log",
+   "log_sha256": "83fcf5c48c0a0367996fae76ba7808761301ac03bba1a9853b5dd771a617bdb5"
+  },
+  {
+   "run_id": "P03-02-SIM-BUILD",
+   "command": "xcodebuild build-for-testing … iPhone 17 Simulator (final code)",
+   "exit_code": 0,
+   "result": "TEST BUILD SUCCEEDED",
+   "log": "docs/status/evidence/p03_02_xcodebuild_sim_build_for_testing.log",
+   "log_sha256": "1b75eb370c0921f8ac6bcec596faaf0f85d0067070858ef15378c06b560e878a"
+  },
+  {
+   "run_id": "P03-02-SIM-FINAL",
+   "command": "xcodebuild test-without-building … iPhone 17 Simulator (light)",
+   "exit_code": 0,
+   "result": "45/45: 38 hosted (12 new: lifecycle, privacy semantics, epistemic, contrast, motion) + 7 UI (incl. accessibility audit, forget flow)",
+   "log": "docs/status/evidence/p03_02_xcodebuild_sim_tests_final.log",
+   "log_sha256": "f4b433c2ce2727c5b9794a5709f46eb2d2c7a3c5a75d718790a771feb7a533cf"
+  },
+  {
+   "run_id": "P03-02-SIM-DARK",
+   "command": "simctl appearance dark; -only-testing:XRAIUITests",
+   "exit_code": 0,
+   "result": "7/7; 19 dark screenshots",
+   "log": "docs/status/evidence/p03_02_xcodebuild_sim_dark_ui.log",
+   "log_sha256": "f9c277e18a6205135e6e9826fb217fc6f8627c5d4f5559d4824c9050dbba1f1b"
+  },
+  {
+   "run_id": "P03-02-SIM-REDUCE-MOTION",
+   "command": "ReduceMotionEnabled=true; two UI flows",
+   "exit_code": 0,
+   "result": "2/2",
+   "log": "docs/status/evidence/p03_02_xcodebuild_sim_reduce_motion_ui.log",
+   "log_sha256": "6c026bdfbc16088908ac0d591682644937ff4da12fa6bc545aa3af30b9514dec"
+  },
+  {
+   "run_id": "P03-02-DEVICE-RUN1",
+   "command": "xcodebuild test … iPhone 14 Pro Max (pre-audit-fix build)",
+   "exit_code": 65,
+   "result": "42/45 (audit findings later fixed)",
+   "log": "docs/status/evidence/p03_02_xcodebuild_device_run1_pre_audit_fix_3_FAIL.log",
+   "log_sha256": "8048811ad73957ee7222f52a95d17ff07783c330762b83d8642d288fb3581d58"
+  },
+  {
+   "run_id": "P03-02-DEVICE-RUN2",
+   "command": "xcodebuild test … iPhone 14 Pro Max (final app code)",
+   "exit_code": 65,
+   "result": "43/45; two failures = fragile assertion (empty field value '' on device vs placeholder on Simulator)",
+   "log": "docs/status/evidence/p03_02_xcodebuild_device_run2_2_FAIL_placeholder_assert.log",
+   "log_sha256": "5eeba1a85cced3d913316dbbabf8f3f2d6883f0c09f80aa1533d11abc99a0950"
+  },
+  {
+   "run_id": "P03-02-DEVICE-RUN3",
+   "command": "same, the two tests with the device-robust assertion",
+   "exit_code": 0,
+   "result": "2/2",
+   "log": "docs/status/evidence/p03_02_xcodebuild_device_run3_two_tests.log",
+   "log_sha256": "d62cbd9421ffad9dc10bf2772c23ae3a6b6c6feaa394d2bca438e40fd3c55e15"
+  },
+  {
+   "run_id": "P03-02-SIM-TWO-TESTS",
+   "command": "Simulator, the two tests with the final assertion",
+   "exit_code": 0,
+   "result": "2/2",
+   "log": "docs/status/evidence/p03_02_xcodebuild_sim_two_tests_final_assertion.log",
+   "log_sha256": "d7787c17442a8b794096669ca94af894f28c439c722992fa1197ba26ca24d2c2"
+  },
+  {
+   "run_id": "P03-02-GATES",
+   "command": "ContrastTests + performAccessibilityAudit",
+   "exit_code": 0,
+   "result": "contrast: 22 pairs measured, 2 real defects fixed; audit: no issues on 5 screens (Simulator + device) with .contrast excluded on tab screens (documented limitation)",
+   "log": "docs/status/evidence/p03_02_contrast_ratios_measured.txt",
+   "log_sha256": "9ae197ed54d25301b48313dee7a00d16267a93d4b64cb9feb0652ed34e18462b",
+   "audit_simulator": "docs/status/evidence/p03_02_a11y_audit_simulator.txt",
+   "audit_device": "docs/status/evidence/p03_02_a11y_audit_device.txt"
+  },
+  {
+   "run_id": "P03-03-STATIC-SWIFT",
+   "command": "swift test --package-path Packages/XRAICore (macOS host, static regression; no code changed in this phase)",
+   "exit_code": 0,
+   "result": "108 tests in 27 suites passed",
+   "log": "docs/status/evidence/p03_03_swift_test_macos.log",
+   "log_sha256": "85679d8bce1e4500feef95aaeec084e3ef384c160c6b271adc412ecb84de01f8"
+  },
+  {
+   "run_id": "P03-03-STATIC-VALIDATE",
+   "command": "python3 -I validation/validate_package.py",
+   "exit_code": 0,
+   "result": "PASS spec structure; files=4380; methods=19; tests=98; tasks=18; v3.1 original preserved",
+   "log": "docs/status/evidence/p03_03_validate_package.log",
+   "log_sha256": "b639af718c42b0627e64fdf117456298cbe91bcba3d8f271499958916e70cd29"
+  },
+  {
+   "run_id": "P03-03-STATIC-DOCS",
+   "command": "python3 -I validation/check_p03_03_docs.py",
+   "exit_code": 0,
+   "result": "PASS: 12 DataClass cases present in inventory + matrix; every blocker id in the gate report exists in OPEN_BLOCKERS.md; ADR-005..008 present; entitlements carry no application-groups; 8 P03-03 docs cite baseline 713468e",
+   "log": "docs/status/evidence/p03_03_check_docs.log",
+   "log_sha256": "c51bb110aae2b6bc0738ab275e0d74d8e1f817d5cfd9480b1019fe46a2583191"
+  },
+  {
+   "run_id": "P03-03H-STATIC-SWIFT",
+   "command": "swift test --package-path Packages/XRAICore (macOS host regression; no code changed)",
+   "exit_code": 0,
+   "result": "108 tests in 27 suites passed",
+   "log": "docs/status/evidence/p03_03h_swift_test_macos.log",
+   "log_sha256": "4534269ec1aba8f45080bc761e38cc93414bde7ad1d23cccb65308ee8929ed44"
+  },
+  {
+   "run_id": "P03-03H-STATIC-VALIDATE",
+   "command": "python3 -I validation/validate_package.py",
+   "exit_code": 0,
+   "result": "PASS spec structure; files=4414; methods=19; tests=98; tasks=18",
+   "log": "docs/status/evidence/p03_03h_validate_package.log",
+   "log_sha256": "13a695318cec4f54592e8f899b3cc451a7032ef37fe814272b20f606b630413c"
+  },
+  {
+   "run_id": "P03-03H-STATIC-DOCS",
+   "command": "python3 -I validation/check_p03_03_docs.py (extended for P03-03H)",
+   "exit_code": 0,
+   "result": "PASS: P03-03 checks + H docs cite baseline 7fc3091; every NT-* id referenced resolves to a matrix row (48 rows); threat model T44–T46 present",
+   "log": "docs/status/evidence/p03_03h_check_docs.log",
+   "log_sha256": "a810b673923e4b2f521a8847e3f3cdb901dd6dd282433740b8f0769cbb723bcf"
+  },
+  {
+   "run_id": "P03-04-SWIFT-MACOS",
+   "command": "swift test (Packages/XRAICore)",
+   "exit_code": 0,
+   "result": "145 tests in 36 suites passed (108 existing + 36 XRAIVaultStoreTests + 1 KeychainAnchorStoreTests); Bloom false positives 0/2000000",
+   "log": "docs/status/evidence/p03_04_swift_test_macos.log",
+   "log_sha256": "13071e626ec1faa431d7549cfcebc89f8b386358d08a4f399e24633ad972054d"
+  },
+  {
+   "run_id": "P03-04-SIM-HOSTED",
+   "command": "xcodebuild test -project XRAI.xcodeproj -scheme XRAI -destination 'platform=iOS Simulator,name=iPhone 17' -only-testing:XRAIHostedTests",
+   "exit_code": 0,
+   "result": "73 tests in 21 suites passed (NT-H5-16 protection class not reported on Simulator: KNOWN_LIMITATION)",
+   "log": "docs/status/evidence/p03_04_xcodebuild_sim_hosted.log",
+   "log_sha256": "a9bececd67e29d8d30a95b16435bd8917e2725ffdec2bb167d1a24450597af48"
+  },
+  {
+   "run_id": "P03-04-SIM-HOSTED-RUN1",
+   "command": "same, before NT-H5-16 adjustment",
+   "exit_code": 65,
+   "result": "72/73 — NT-H5-16 failed: Simulator reports nil protection class",
+   "log": "docs/status/evidence/p03_04_xcodebuild_sim_hosted_run1_NT-H5-16_sim_limitation.log",
+   "log_sha256": "9ea8b17ea391a5e8d455d2ba62ac1cf32a14099636ff5443888f3ba1c652ba2d"
+  },
+  {
+   "run_id": "P03-04-DEVICE-HOSTED",
+   "command": "xcodebuild test -project XRAI.xcodeproj -scheme XRAI -destination 'platform=iOS,id=C7C6CE6E-B577-558A-8992-DC6C1F492B39' -only-testing:XRAIHostedTests -allowProvisioningUpdates",
+   "exit_code": 0,
+   "result": "73 tests in 21 suites passed on iPhone 14 Pro Max (iOS 26.6): store suite incl. fault injection, NSFileProtectionComplete on every vault file, real keychain anchor; non-destructive",
+   "log": "docs/status/evidence/p03_04_xcodebuild_device_hosted.log",
+   "log_sha256": "0b30a37b600443d4bb78032e36f435e5d217e92916c542baa87aca7e67291b7a"
+  },
+  {
+   "run_id": "P03-04-STORE-DEV-RUN1",
+   "command": "swift test --filter XRAIVaultStoreTests",
+   "exit_code": 1,
+   "result": "FAIL: keyVersionInUse (ledger.v1 not re-sealed before scan) + O(n) ledger lookup made NT-H1-07 hang; both fixed",
+   "log": "docs/status/evidence/p03_04_store_tests_run1_FAIL_ledger_rewrap_and_slow_lookup.log",
+   "log_sha256": "bc1353e7956fca90fe2f8fbd5d49aec015f0db19dfddef4e6eceb87e40fed360"
+  },
+  {
+   "run_id": "P03-04-STORE-DEV-RUN2",
+   "command": "swift test --filter XRAIVaultStoreTests",
+   "exit_code": 1,
+   "result": "36 tests, 3 issues (test manifest-block parsing; verifier after forget; open with regressed clock); fixed",
+   "log": "docs/status/evidence/p03_04_store_tests_run2_FAIL_3_issues.log",
+   "log_sha256": "57dd5b65ea02eb3c74937986e6d8825b91534de21f8e8409e1ebed50ed9feff1"
+  },
+  {
+   "run_id": "P03-04-STATIC-VALIDATE",
+   "command": "python3 -I validation/validate_package.py",
+   "exit_code": 0,
+   "result": "PASS",
+   "log": "docs/status/evidence/p03_04_validate_package.log",
+   "log_sha256": "3a94d86ea4544e9bd0293f6f7b644f54811fbf41a12424b0e00efd2a38cf11e6"
+  },
+  {
+   "run_id": "P03-04-STATIC-DOCS",
+   "command": "python3 -I validation/check_p03_03_docs.py",
+   "exit_code": 0,
+   "result": "first run at commit b6283d6 FAILED (store_metadata missing from the P03-03 inventory/lifecycle docs); docs patched in the follow-up commit; rerun PASS",
+   "log": "docs/status/evidence/p03_04_check_docs.log",
+   "log_sha256": "b04831a7b6a0941071b89783bae47afe17aa3a8b79508fc827149b87b0ce3639"
+  },
+  {
+   "run_id": "P03-04H-STORE-RUN1",
+   "command": "swift test --filter XRAIVaultStoreTests (Packages/XRAICore)",
+   "exit_code": 1,
+   "result": "FAILED: 49 tests, 2 issues — NT-FS-02 expected ELOOP for O_DIRECTORY|O_NOFOLLOW on a symlink (XNU returns ENOTDIR), NT-FS-08b did not account for the begin-durable journal replay; test expectations corrected, product code unchanged by the correction",
+   "log": "docs/status/evidence/p03_04h_store_tests_run1_FAIL_2_test_expectations.log",
+   "log_sha256": "db2a93894cbeeae19dd81275c577e765d081f377cfd811d05e39032eddc69691"
+  },
+  {
+   "run_id": "P03-04H-SWIFT-MACOS",
+   "command": "swift test (Packages/XRAICore)",
+   "exit_code": 0,
+   "result": "158 tests in 38 suites passed (145 before + 13 new: StoreFileSystemTests NT-FS-01…07, StoreDurabilityFailureTests NT-FS-08…12); compile-negative, import-boundary and GATE A scans included",
+   "log": "docs/status/evidence/p03_04h_swift_test_macos.log",
+   "log_sha256": "3f54a9399306ccc416a9976cca255b235841007767dd9b5f72f9ba9d5e531018"
+  },
+  {
+   "run_id": "P03-04H-SIM-HOSTED",
+   "command": "xcodebuild test -project XRAI.xcodeproj -scheme XRAI -destination 'platform=iOS Simulator,name=iPhone 17' -only-testing:XRAIHostedTests",
+   "exit_code": 0,
+   "result": "86 tests in 23 suites passed (NT-FS-04 Data Protection assertions compiled out on the Simulator: KNOWN_LIMITATION; POSIX semantics asserted)",
+   "log": "docs/status/evidence/p03_04h_xcodebuild_sim_hosted.log",
+   "log_sha256": "7819645857bf32140baca44ab21f3a4d5c0c4e55fddb43117010519641fdda49"
+  },
+  {
+   "run_id": "P03-04H-DEVICE-HOSTED",
+   "command": "xcodebuild test -project XRAI.xcodeproj -scheme XRAI -destination 'platform=iOS,id=C7C6CE6E-B577-558A-8992-DC6C1F492B39' -only-testing:XRAIHostedTests -allowProvisioningUpdates",
+   "exit_code": 0,
+   "result": "86 tests in 23 suites passed on iPhone 14 Pro Max (iOS 26.6): NT-FS-04 NSFileProtectionComplete read back on files created through the exclusive path (vault dir + plain dir), NT-H5-16 green, failed-syscall injection green, real keychain anchor; non-destructive; DEVICE_VERIFIED: PARTIAL",
+   "log": "docs/status/evidence/p03_04h_xcodebuild_device_hosted.log",
+   "log_sha256": "809f0c2c9a80f2bc69102431e072977e646ef7a7dd136f5e095b26b4d863fb65"
+  },
+  {
+   "run_id": "P03-04H-STATIC-VALIDATE",
+   "command": "python3 -I validation/validate_package.py",
+   "exit_code": 0,
+   "result": "PASS",
+   "log": "docs/status/evidence/p03_04h_validate_package.log",
+   "log_sha256": "1bfc62255c0fc03e062e0ad8f3fabe9cd760c054277889a9d8641a00718306a3"
+  },
+  {
+   "run_id": "P03-04H-STATIC-DOCS",
+   "command": "python3 -I validation/check_p03_03_docs.py",
+   "exit_code": 0,
+   "result": "PASS: 60 NT rows, T44–T48, P03-04H review consistent, no createFile/O_TRUNC/ignored fsync in VaultFileSystem.swift",
+   "log": "docs/status/evidence/p03_04h_check_docs.log",
+   "log_sha256": "96bd69bfe114b6fcde42aca7624942fbd94f6ea52915f0b4d69d2ce4a99c6e99"
+  }
+ ],
+ "acceptance_test_mapping": [
+  {
+   "spec_test": "T-V31-NUMEROLOGY-01 valid_2000_02_29",
+   "status": "TESTED",
+   "by": "CivilDateValidityTests.leap2000, LifePathDigitsGoldenTests.f2, LifePathComponentsGoldenTests.f9"
+  },
+  {
+   "spec_test": "T-V31-NUMEROLOGY-02 reject_1900_02_29",
+   "status": "TESTED",
+   "by": "CivilDateValidityTests.notLeap1900"
+  },
+  {
+   "spec_test": "T-V31-NUMEROLOGY-03 master_11_22_33_variant",
+   "status": "TESTED",
+   "by": "f4, f5, f6, f7, f11, preservePolicyDomain"
+  },
+  {
+   "spec_test": "T-V31-NUMEROLOGY-04 Turkish_diacritics_unicode",
+   "status": "NOT_RUN",
+   "reason": "name numerology not in BOOT-01 scope"
+  },
+  {
+   "spec_test": "T-V31-NUMEROLOGY-05 soul_plus_personality_consistency",
+   "status": "NOT_RUN",
+   "reason": "name numerology not in BOOT-01 scope"
+  },
+  {
+   "spec_test": "T-V31-NUMEROLOGY-06 Pythagorean_vs_Kabala_nonmerged",
+   "status": "NOT_RUN"
+  },
+  {
+   "spec_test": "T-V31-NUMEROLOGY-07 optional_parent_name_no_inference",
+   "status": "NOT_RUN"
+  },
+  {
+   "spec_test": "T-V32-PURE_MATH-001 date_leap_2000",
+   "status": "TESTED",
+   "by": "CivilDateValidityTests.leap2000"
+  },
+  {
+   "spec_test": "T-V32-PURE_MATH-002 date_century_1900",
+   "status": "TESTED",
+   "by": "CivilDateValidityTests.notLeap1900"
+  },
+  {
+   "spec_test": "§92 negative probe: raw sensitive data in logs absent",
+   "status": "TESTED (library level only)",
+   "by": "PrivacyNegativeTests.traceRedaction, CivilDateRepresentationTests.redactedDescription"
+  },
+  {
+   "spec_test": "§92 negative probe: private data network egress 0",
+   "status": "TESTED (static, library level)",
+   "by": "PrivacyNegativeTests.noIOSurface; no app/device trace yet"
+  },
+  {
+   "spec_test": "all other 86 + 98 spec tests",
+   "status": "NOT_RUN"
+  },
+  {
+   "spec_test": "§92 negative probe: consent revoke recompute/deny",
+   "status": "TESTED (policy level)",
+   "by": "PolicyTests.revocation"
+  },
+  {
+   "spec_test": "§67 Privacy: consent OFF blocks all remote model calls",
+   "status": "TESTED (policy level only; runtime broker NOT_STARTED)",
+   "by": "PolicyTests.defaults/providerConsent"
+  },
+  {
+   "spec_test": "§83 authenticated encryption, tamper, wrong key, key rotation",
+   "status": "TESTED (library, in-memory KEK)",
+   "by": "SealAdversarialTests, KeyRotationTests"
+  },
+  {
+   "spec_test": "§84 export/backup with E2EE and honest loss tradeoff",
+   "status": "TESTED (library)",
+   "by": "BackupTests"
+  },
+  {
+   "spec_test": "P02 exit evidence: corruption/restore/kill tests on iPhone",
+   "status": "NOT_RUN (no device)"
+  },
+  {
+   "rows": "NT-FS-01…12",
+   "tests": "StoreFileSystemTests, StoreDurabilityFailureTests",
+   "runs": [
+    "P03-04H-SWIFT-MACOS",
+    "P03-04H-SIM-HOSTED",
+    "P03-04H-DEVICE-HOSTED"
+   ]
+  }
+ ],
+ "statuses": {
+  "time.civil_date.gregorian.v1": "TESTED",
+  "num.life_path.digits.v1": "TESTED",
+  "num.life_path.components.v1": "TESTED",
+  "everything_else": "SPECIFIED / NOT_STARTED",
+  "vault.contracts.v1": "TESTED (hardened H1)",
+  "vault.aes256gcm.envelope.v1": "TESTED (library; SECURITY_REVIEWED: NO; DEVICE_VERIFIED: NO)",
+  "vault.backup.recoverykey.v1": "TESTED (library)",
+  "vault.keychain_provider": "CODED + TESTED on macOS host, Simulator host and physical iPhone 14 Pro Max (non-destructive suite); DEVICE_VERIFIED: PARTIAL (lock/passcode/reinstall NOT_RUN)",
+  "vault.backup.sealed.v2": "TESTED (library; v1 format retired)",
+  "vault.secure_vault.facade": "TESTED",
+  "vault.consent_authority": "PORT_ONLY (production registry NOT_STARTED)",
+  "vault.access_contract.h2": "TESTED (library)",
+  "vault.authorization_issuer": "TESTED (not an OS boundary)",
+  "vault.clock_guard": "TESTED (effective time never below mark; per-process)",
+  "vault.quarantine": "TESTED (trusted registry enforced on open)",
+  "vault.compile_negative_boundary": "TESTED with swiftc",
+  "vault.envelope.header": "v2 (consentPurpose authenticated)",
+  "vault.secure_enclave_wrapper": "TESTED on Apple-silicon Mac enclave; iPhone NOT_RUN",
+  "app.ios_host_skeleton": "CODED + BUILT (simulator + device) + normal launch on iPhone 14 Pro Max; app icon = founder logo",
+  "vault.key_cache_policy": "TESTED (monotonic uptime TTL, fail-closed on clock failure, purge on lock/background)",
+  "vault.rotation_recovery": "TESTED (pointer refresh, orphan adopt/repair, two-phase retire→forget, confirmed wipe)",
+  "vault.debug_surface": "REMOVED from production (compile-negative + source scan)",
+  "vault.rotation_serialization": "TESTED in-process; cross-process BLOCKED (ownership rule)",
+  "app.packaging_rpath": "FIXED in project.yml; verified with otool/codesign on device",
+  "app.design_system": "CODED (tokens, components, dark/light, Dynamic Type, Reduce Motion) — visual QA by screenshots, no automated contrast gate yet",
+  "app.onboarding": "CODED + TESTED (models + UI, simulator + device)",
+  "app.lifepath_feature": "CODED + TESTED (uses NumerologyLifePath; nothing stored)",
+  "app.localization": "tr source + 69 en strings, agent-proofread only",
+  "app.launch_screen": "CODED (LaunchLogo + LaunchBackground)",
+  "app.data_lifecycle": "TESTED (forgetAll, draft never outlives onboarding)",
+  "app.privacy_shield": "CODED + policy TESTED; snapshot visual MANUAL_PENDING",
+  "app.epistemic_classes": "5 classes TESTED",
+  "app.contrast_gate": "TESTED (measured, both appearances)",
+  "app.a11y_audit": "TESTED on 5 screens; contrast type excluded on tab screens (KNOWN_LIMITATION)",
+  "app.voiceover_human": "MANUAL_PENDING",
+  "P03-03": "SPECIFIED (design only); no code change; static checks exit 0; DEVICE_VERIFIED: n/a; SECURITY_REVIEWED: NO",
+  "P03-03H": "SPECIFIED (design hardening only); no code change; static checks exit 0; device tests NOT_RUN (nothing executable changed); SECURITY_REVIEWED: NO",
+  "P03-04": "CODED + TESTED (library): macOS 145/145, Simulator hosted 73/73, iPhone 14 Pro Max hosted 73/73 (DEVICE_VERIFIED: PARTIAL, non-destructive); app not wired; no personal persistence; SECURITY_REVIEWED: NO",
+  "vault.store.filesystem_durability": "CODED + TESTED (P03-04H: NT-FS-01…12 on macOS, Simulator and iPhone 14 Pro Max; F-P04-01/02 fixed); power-loss NOT_RUN (no rig); SECURITY_REVIEWED: NO"
+ },
+ "not_evidence": [
+  "docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"
+ ]
 }

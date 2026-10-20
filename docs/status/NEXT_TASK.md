@@ -209,3 +209,19 @@ DATE:
 SCOPE_APPROVED:
 CHANGES_REQUESTED:
 ```
+
+---
+
+## P03-04H RESULT (2026-10-20) — FILESYSTEM ATOMICITY & DURABILITY SECURITY GATE, STOP
+
+Response to the first independent code review of P03-04 (baseline `f888040`). F-P04-01 (iOS exclusive creation was `createFile` + `O_TRUNC`) and F-P04-02 (directory fsync result ignored; `F_FULLFSYNC` fallback masked every error) fixed in `VaultFileSystem.swift`; GATE 3 audit fixed four neighbouring defects (ledger-only rollback accepted, admission partial on stale key version, temp cleanup before the writer lock, reads after close) and made every failed mutation fail closed ("mutation interrupted: reopen required"). 12 new negative rows NT-FS-01…12 (real syscalls + failed-syscall injection at every step of put/delete). Results: macOS 158/158; Simulator 86/86; iPhone 14 Pro Max 86/86; static checks in the ledger. DEVICE_VERIFIED: PARTIAL. SECURITY_REVIEWED: NO. Report: `docs/status/P03_04H_FILESYSTEM_SECURITY_REVIEW.md`.
+
+Proposed next: unchanged — **P03-04b** (backup body v3 with embedded ledger digest and instance id; journal begin entry carrying the pre-op ledger hash to close `LEDGER_ONLY_ROLLBACK`; attachments) then **P03-05**. Waits for the second review round.
+
+```
+APPROVED_BY:
+DATE:
+SCOPE_APPROVED:
+CHANGES_REQUESTED:
+```
+

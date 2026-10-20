@@ -64,6 +64,10 @@ public enum VaultError: Error, Equatable, Sendable {
     case proofStale
     /// The system seal/open path accepts only the `storeMetadata` class.
     case unsupportedSystemClass
+    /// P03-04H (F-P04-02): a POSIX file operation the durability contract depends on failed. `operation`
+    /// names the syscall step (open, write, fullfsync, fsync, dirsync, rename, unlink, close, …) and
+    /// `errno` is the raw value. Never carries a path or record id.
+    case ioFailed(operation: String, errno: Int32)
     /// `derivedFrom` names an unknown, non-active or later record (back-edge), or itself.
     case unknownDependency
     /// A deletion grant was already consumed or does not cover the ids.

@@ -83,11 +83,17 @@ struct StoreCrashTests {
         f.fs.arm(at: 12)
         do { try await s.delete([id], grant: grant) } catch is SimulatedCrash {}
         f.fs.disarm()
-        await expectVaultError(.deletionGrantInvalid) { try await s.delete([id], grant: grant) }
+        // P03-04H: the interrupted instance fails closed (reopen required); the grant was consumed before the crash.
+        #expect(s.mode == .readOnly(reason: FileVaultStore.reopenRequiredReason))
+        await expectVaultError(.storeReadOnly(reason: FileVaultStore.reopenRequiredReason)) { try await s.delete([id], grant: grant) }
+        await expectVaultError(.storeReadOnly(reason: FileVaultStore.reopenRequiredReason)) { try await f.get(s, id) }
         try await s.close()
         let r = try await f.open()
-        #expect(r.integrityReport().journalsReplayed >= 0)
+        #expect(r.mode == .readWrite && r.integrityReport().journalsReplayed == 1)
         #expect(r.state(of: id) == nil && (r.deletionLookup(id)) == .deleted && !f.fileExists(id))
+        // the old grant resurrects nothing after reopen (the id is gone; the ledger keeps it deleted)
+        try await r.delete([id], grant: grant)
+        #expect(r.deletionLookup(id) == .deleted && r.state(of: id) == nil)
         try await r.close()
     }
 

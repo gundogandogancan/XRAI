@@ -72,9 +72,27 @@ else:
     app_block = yml.split("\n  XRAI:\n")[1].split("\n  XRAIHostedTests:")[0]
     if "XRAIVaultStore" in app_block: problems.append("XRAI app target links XRAIVaultStore before P03-05")
 tm = (root / "docs/security/VAULT_THREAT_MODEL_P02.md").read_text()
-for t in ("T44", "T45", "T46"):
+for t in ("T44", "T45", "T46", "T47", "T48"):
     if f"| {t} |" not in tm: problems.append(f"threat model lacks row {t}")
+# P03-04H: the filesystem review exists, cites its baseline, names only matrix rows, and the matrix carries NT-FS-01…12
+rev = root / "docs/status/P03_04H_FILESYSTEM_SECURITY_REVIEW.md"
+if not rev.exists(): problems.append("missing P03_04H_FILESYSTEM_SECURITY_REVIEW.md")
+else:
+    rt = rev.read_text()
+    if "f888040" not in rt: problems.append("P03_04H review does not cite the baseline f888040")
+    for nid in set(re.findall(r"NT-[A-Z0-9]+-\d+", rt)):
+        if nid not in matrix_ids: problems.append(f"P03-04H review references {nid} which is not a matrix row")
+    for n in range(1, 13):
+        if f"NT-FS-{n:02d}" not in matrix_ids: problems.append(f"matrix lacks NT-FS-{n:02d}")
+    for word in ("GO / NO-GO", "Final SHA", "Device verification"):
+        if word not in rt: problems.append(f"P03-04H review lacks the section '{word}'")
+    for bid in ("F_P04_01_EXCLUSIVE_CREATE", "F_P04_02_DIRSYNC_RESULT", "DIRECTORY_FSYNC_SEMANTICS", "PROTECTION_CLASS_NUMERIC"):
+        if bid not in blockers: problems.append(f"OPEN_BLOCKERS lacks {bid}")
+    # the iOS exclusive-create pair must be gone from the production file system
+    vfs = (root / "Packages/XRAICore/Sources/XRAIVaultStore/VaultFileSystem.swift").read_text()
+    if "createFile(atPath" in vfs or "O_TRUNC" in vfs: problems.append("VaultFileSystem still uses createFile/O_TRUNC (F-P04-01)")
+    if "_ = fsync(" in vfs: problems.append("VaultFileSystem ignores an fsync result (F-P04-02)")
 
 if problems:
     print("FAIL"); [print(" -", p) for p in problems]; sys.exit(1)
-print(f"PASS P03-03/P03-03H docs: {len(cases)} data classes cross-checked, blockers resolved, ADRs present, no app groups, {len(matrix_ids)} NT rows, T44–T46 present")
+print(f"PASS P03-03/P03-03H/P03-04/P03-04H docs: {len(cases)} data classes cross-checked, blockers resolved, ADRs present, no app groups, {len(matrix_ids)} NT rows, T44–T48 present, filesystem review consistent")

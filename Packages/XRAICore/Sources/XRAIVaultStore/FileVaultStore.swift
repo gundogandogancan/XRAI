@@ -184,6 +184,8 @@ public actor FileVaultStore {
     /// Plaintext of an ACTIVE record. Every denial is typed; nothing but an active, source-consistent,
     /// consent-covered record is ever decrypted. Uses `SecureVault.open` (token, consent, quarantine).
     public func get(_ id: RecordID, authorization: OperationAuthorization) throws -> [UInt8] {
+        guard !closed else { throw VaultError.storeReadOnly(reason: "closed") }
+        if case .readOnly(let r) = modeValue, r == Self.reopenRequiredReason { throw VaultError.storeReadOnly(reason: r) }
         guard let e = manifest.records[id.hex] else { throw VaultError.recordMissing }
         guard !needsRecoveryIDs.contains(id.hex) else { throw VaultError.needsRecovery }
         guard e.state == .active else { throw VaultError.recordNotActive(state: e.state.name) }
@@ -399,13 +401,17 @@ public actor FileVaultStore {
             if foreign { toWrite.append((env, true, .foreignBackupPendingReview)); continue }
             toWrite.append((env, preQuarantined, preQuarantined ? .consentRequired : nil))
         }
+        // P03-04H: every check that can refuse the admission runs BEFORE the journal begins, so a refusal
+        // never leaves part of the batch written (all-or-nothing).
+        for (env, _, _) in toWrite {
+            guard env.wrappedDEK.keyVersion >= manifest.minimumWrapVersion else { throw VaultError.staleKeyVersion(minimum: manifest.minimumWrapVersion) }
+        }
         guard !toWrite.isEmpty else { return AdmissionReport(admittedActive: [], quarantined: [], skippedDeleted: skippedDeleted, skippedExisting: skippedExisting) }
         let ids = toWrite.map { $0.0.header.recordID }
         let flags = toWrite.map { Int64($0.1 ? 1 : 0) }
         try runMutation(op: "admit", tokenID: authorization.id, ids: ids, params: flags) { m, _, step in
             for (i, (env, q, reason)) in toWrite.enumerated() {
                 let id = env.header.recordID
-                guard env.wrappedDEK.keyVersion >= m.minimumWrapVersion else { throw VaultError.staleKeyVersion(minimum: m.minimumWrapVersion) }
                 try AtomicWriter.replace(self.fs, bytes: FileFraming.frame(EnvelopeCodec.encode(env)), at: self.recordPath(id), tempName: self.tempName())
                 m.records[id.hex] = ManifestEntry(header: env.header, keyVersion: env.wrappedDEK.keyVersion, state: q ? .quarantined : .active, provenance: .restoredFromBackup)
                 if q { self.composition.quarantine.quarantine(id, reason: reason ?? .consentRequired); quarantined.append(id) } else { active.append(id) }
@@ -441,13 +447,13 @@ public actor FileVaultStore {
         return try rewrapBelowCurrent(maintenance: maintenance, op: "rewrap")
     }
 
-    private func rewrapBelowCurrent(maintenance: OperationAuthorization, op: String) throws -> Int {
+    private func rewrapBelowCurrent(maintenance: OperationAuthorization, op: String, retiring: UInt32? = nil) throws -> Int {
         let current = vault.currentKeyIdentity.version
         let stale = manifest.records.filter { $0.value.keyVersion < current && $0.value.state != .pendingDelete }.keys.sorted().compactMap { try? RecordID(hex: $0) }
         var envs: [RecordEnvelope] = []
         for id in stale { envs.append(try readRecordFile(id)) }
         let rewrapped = try vault.rewrapBatch(envs, maintenance: maintenance)   // consumes the token even when the list is empty
-        try runMutation(op: op, tokenID: maintenance.id, ids: stale, params: [Int64(current)]) { m, l, step in
+        try runMutation(op: op, tokenID: maintenance.id, ids: stale, params: [Int64(current)] + (retiring.map { [Int64($0)] } ?? [])) { m, l, step in
             for (i, env) in rewrapped.enumerated() {
                 let id = env.header.recordID
                 try AtomicWriter.replace(self.fs, bytes: FileFraming.frame(EnvelopeCodec.encode(env)), at: self.recordPath(id), tempName: self.tempName())
@@ -477,7 +483,7 @@ public actor FileVaultStore {
             }
         }
         // R2 rewrap (journaled; records then system files via the tail).
-        let count = try rewrapBelowCurrent(maintenance: maintenance, op: "prepare")
+        let count = try rewrapBelowCurrent(maintenance: maintenance, op: "prepare", retiring: version)
         // R3 full inventory from file headers; R4 three-way cross-check.
         let inv = try KeyRetirementVerifier.inventory(root: root, fileSystem: fs)
         guard inv.unparsablePaths.isEmpty else { throw VaultError.storeIntegrityFailed(reason: "unparsable files during retirement scan") }
@@ -530,19 +536,33 @@ public actor FileVaultStore {
 
     /// Runs one journaled mutation. `body` applies effects to files and to the in-memory copies of
     /// the manifest/ledger; it must be idempotent (recovery may re-run it). Returns false to abort.
+    /// Read-only reason after a mutation failed part-way (P03-04H, F-P04-02): the on-disk journal is
+    /// the only truth, in-memory state may no longer match the files, so this instance refuses reads
+    /// and writes until a reopen replays or reconciles the journal (GATE B).
+    public static let reopenRequiredReason = "mutation interrupted: reopen required"
+
     private func runMutation(op: String, tokenID: String, ids: [RecordID], params: [Int64], body: (inout Manifest, inout DeletionLedger, (String, UInt32) throws -> Void) throws -> Bool) throws {
         let target = manifest.generation + 1
         var entries: [JournalEntry] = [.begin(op: op, tokenID: tokenID, ids: ids, targetGeneration: target, epoch: epoch, params: params)]
-        try writeJournal(target, entries)
-        var m = manifest
-        var l = ledger
-        let ledgerBefore = ledger
-        let proceed = try body(&m, &l) { name, index in
-            entries.append(.step(name: name, index: index))
-            try self.writeJournal(target, entries)
+        do {
+            try writeJournal(target, entries)
+            var m = manifest
+            var l = ledger
+            let ledgerBefore = ledger
+            let proceed = try body(&m, &l) { name, index in
+                entries.append(.step(name: name, index: index))
+                try self.writeJournal(target, entries)
+            }
+            guard proceed else { try fs.remove(journalPath(target)); return }
+            try commitTail(target: target, newManifest: m, newLedger: l, ledgerChanged: l != ledgerBefore, entries: &entries)
+        } catch {
+            // Any failed syscall or crash inside the critical section (journal, effects, ledger, manifest,
+            // authz, anchor, commit) leaves the operation to recovery. Success was never reported; the
+            // store fails closed instead of continuing on state it cannot prove.
+            modeValue = .readOnly(reason: Self.reopenRequiredReason)
+            publish()
+            throw error
         }
-        guard proceed else { try fs.remove(journalPath(target)); return }
-        try commitTail(target: target, newManifest: m, newLedger: l, ledgerChanged: l != ledgerBefore, entries: &entries)
     }
 
     private func commitTail(target: UInt64, newManifest: Manifest, newLedger: DeletionLedger, ledgerChanged: Bool, entries: inout [JournalEntry]) throws {
@@ -710,7 +730,7 @@ public actor FileVaultStore {
             var m = manifest
             for id in ids { if let env = try? readRecordFile(id), var e = m.records[id.hex] { e.keyVersion = env.wrappedDEK.keyVersion; m.records[id.hex] = e } }
             try commitTail(target: target, newManifest: m, newLedger: ledger, ledgerChanged: false, entries: &entries)
-            if op == "prepare" { pendingRetirement = UInt32(clamping: m.minimumWrapVersion > 0 ? Int64(m.minimumWrapVersion) - 1 : 0) }
+            if op == "prepare" { pendingRetirement = params.count > 1 ? UInt32(clamping: params[1]) : UInt32(clamping: m.minimumWrapVersion > 0 ? Int64(m.minimumWrapVersion) - 1 : 0) }
             journalsReconciled += 1
         case "forget":
             var m = manifest
@@ -756,10 +776,13 @@ public actor FileVaultStore {
                 }
             }
             try fs.excludeFromBackup(root)
-            // Temp files from interrupted writes are garbage by construction.
-            for sub in [StoreLayout.recordsDir, StoreLayout.systemDir, StoreLayout.journalDir, StoreLayout.orphansDir, ""] {
-                let d = sub.isEmpty ? root : p(sub)
-                for name in try fs.listNames(d) where name.hasPrefix(StoreLayout.tempPrefix) { try fs.remove((d as NSString).appendingPathComponent(name)) }
+            // Temp files from interrupted writes are garbage by construction — but only once THIS process
+            // holds the writer lock (P03-04H: a locked-out opener must not touch a live writer's files).
+            func removeTempFiles() throws {
+                for sub in [StoreLayout.recordsDir, StoreLayout.systemDir, StoreLayout.journalDir, StoreLayout.orphansDir, ""] {
+                    let d = sub.isEmpty ? root : p(sub)
+                    for name in try fs.listNames(d) where name.hasPrefix(StoreLayout.tempPrefix) { try fs.remove((d as NSString).appendingPathComponent(name)) }
+                }
             }
             // Bootstrap vault: system records only (no tokens can be consumed through it).
             let bootstrapClock = MonotonicGuardClock(wrapping: composition.baseClock, toleranceSeconds: composition.toleranceSeconds)
@@ -779,12 +802,13 @@ public actor FileVaultStore {
             if manifestBytes == nil {
                 if anchorValue != nil {
                     guard case .recreateAfterConfirmation(let ack) = reinstall, ack else { throw VaultError.storeIntegrityFailed(reason: "anchor present but manifest missing (reinstall): explicit confirmation required") }
-                    try anchor.clearAnchor()
                 }
+                try takeLock(root: root, fs: fs, persistedEpoch: 0)   // before anything is removed
+                if anchorValue != nil { try anchor.clearAnchor() }
+                try removeTempFiles()
                 for name in try fs.listNames(p(StoreLayout.recordsDir)) { try fs.remove(p(StoreLayout.recordsDir, name)) }   // nothing can be adopted without a manifest
                 for name in try fs.listNames(p(StoreLayout.systemDir)) { try fs.remove(p(StoreLayout.systemDir, name)) }
                 for name in try fs.listNames(p(StoreLayout.journalDir)) { try fs.remove(p(StoreLayout.journalDir, name)) }
-                try takeLock(root: root, fs: fs, persistedEpoch: 0)
                 let epoch: UInt64 = 1
                 let clock = MonotonicGuardClock(wrapping: composition.baseClock, toleranceSeconds: composition.toleranceSeconds)
                 let issuer = AuthorizationIssuer(clock: clock, epoch: epoch)
@@ -816,6 +840,7 @@ public actor FileVaultStore {
             else { authz = AuthzState(epoch: 0, clockHighWaterMark: nil, lastManifestGeneration: 0, lastManifestHash: Manifest.zeroHash); mode = .readOnly(reason: "authz state missing") }
             let persistedEpoch = authz.epoch
             try takeLock(root: root, fs: fs, persistedEpoch: persistedEpoch)
+            try removeTempFiles()
 
             // Journals: parse; truncated tails are discarded; a failure before the tail = untrusted.
             var journals: [(name: String, entries: [JournalEntry], truncated: Bool, bytes: [UInt8])] = []
@@ -853,7 +878,13 @@ public actor FileVaultStore {
                 mode = .readOnly(reason: "deletion ledger missing")
             } else if let lb = try? readSystem(StoreLayout.ledgerFile), let l = try? DeletionLedger.decode(lb) {
                 ledger = l
-                if !ConstantTime.equal(l.hash, manifest.ledgerHash) && pendingTarget != manifest.generation + 1 { ledgerTrusted = false }
+                if !ConstantTime.equal(l.hash, manifest.ledgerHash) && pendingTarget != manifest.generation + 1 {
+                    // P03-04H: an authentic ledger the manifest does not bind to, with no journal that
+                    // could explain it, is a ledger-only rollback/substitution (the manifest analogue of
+                    // NT-H5-04): read-only, no restore, never "healed" by the next mutation.
+                    ledgerTrusted = false
+                    if case .readWrite = mode { mode = .readOnly(reason: "deletion ledger does not bind to the manifest") }
+                }
             } else {
                 // NT-H1-02: present but unauthenticated/undecodable → never "empty": every admission quarantines.
                 ledgerTrusted = false

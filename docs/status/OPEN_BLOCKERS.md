@@ -56,6 +56,21 @@ Vocabulary: `BLOCKED` (cannot proceed without an external fact/right/decision), 
 | SOURCE_COVERAGE_GAPS | see `SOURCE_COVERAGE_AND_TRACEABILITY_AUDIT.md` and `MISSING_REQUIREMENTS_REGISTER.json` | requirements found in older material without a v3.1 id. |
 | SWIFTLINT_FORMAT | low | not installed; optional for P03. |
 
+## New in P03-04H (2026-10-20, filesystem atomicity & durability gate after independent review)
+| id | status | detail |
+|---|---|---|
+| F_P04_01_EXCLUSIVE_CREATE | RESOLVED (CODED + TESTED, P03-04H) | iOS `openExclusive` used `FileManager.createFile` + `open(O_TRUNC)` (non-exclusive, truncating, symlink-substitutable). Now one `O_CREAT\|O_EXCL\|O_NOFOLLOW` open on every platform with descriptor verification and class A applied/verified on the empty descriptor (NT-FS-01…05). |
+| F_P04_02_DIRSYNC_RESULT | RESOLVED (CODED + TESTED, P03-04H) | `syncDirectory` ignored the fallback `fsync` result and `sync` fell back on ANY `F_FULLFSYNC` error. Now typed `ioFailed`, fallback only for ENOTSUP/ENOTTY/EINVAL, EINTR handled, every mutating result checked (NT-FS-06…08). |
+| MUTATION_FAILS_CLOSED | RESOLVED (CODED + TESTED, P03-04H) | an error inside a journaled mutation left the instance writable on in-memory state that could diverge from disk (a committed op dropped by the next manifest write; a half-delete whose journal the next mutation overwrote → records neither in manifest-consistent state nor in the ledger). Now `.readOnly("mutation interrupted: reopen required")`, reads/writes refused, reopen replays (NT-FS-08, NT-FS-12). |
+| LEDGER_ONLY_ROLLBACK | RESOLVED for the no-journal case (NT-FS-09); RESIDUAL with a pending journal | an authentic older ledger under a newer manifest is now read-only. If a ledger rollback coincides with a pending delete journal, replay re-adds the op's ids to the rolled-back ledger and the manifest rebinds to it. Closing it needs the journal begin entry to carry the pre-op ledger hash (format change → P03-04b candidate). |
+| LOCK_BEFORE_CLEANUP | RESOLVED (NT-FS-11) | the loader removed `.tmp-*` files (and, with no manifest, every record/system/journal file) before taking the writer lock; a locked-out opener could delete a live writer's in-flight temp. Lock first now. |
+| ADMISSION_ALL_OR_NOTHING | RESOLVED (NT-FS-10) | the frozen-version check ran per envelope inside the journaled body; a refusal mid-batch left earlier files on disk and the journal replayed them. Checks now run before the journal begins. |
+| PID_REUSE_LOCK | PLAUSIBLE RISK (availability) | `vault.lock` staleness = pid dead or epoch behind; a reused pid of an unrelated live process keeps the lock "live" → `storeLocked` until that process exits. Not an integrity risk; iOS runs one app process. |
+| DIRECTORY_FSYNC_SEMANTICS | LIMIT (unsupported guarantee) | `F_FULLFSYNC` on directory descriptors returns 0 on macOS, Simulator and iPhone (NT-FS-07) but Apple documents neither directory-fsync semantics on APFS nor that every storage honours the flush. No power-cut rig exists; nothing here claims power-loss survival beyond "every documented step taken and verified". |
+| PROTECTION_CLASS_NUMERIC | LIMIT (verified empirically) | the value 1 for NSFileProtectionComplete is from XNU's `sys/fcntl.h` private section (the fcntl commands are public). Verified on the physical iPhone through `FileManager` (NT-FS-04); the Simulator stores the attribute but reports no class (KNOWN_LIMITATION). |
+| SAME_UID_TOCTOU | OUT OF MODEL (documented) | `removeIfOwned` (lstat→unlink) and `excludeFromBackup` (lstat root → URL resource) have path-based windows; an attacker able to write inside the app container already holds the data. Reads/creates themselves are descriptor-based (`O_NOFOLLOW`, `fstat`). |
+| CORRUPT_STATE_IN_MEMORY | OPEN (unchanged) | see P03-04 section. |
+
 ## New in P03-04 (2026-10-20, library implementation)
 | id | status | detail |
 |---|---|---|

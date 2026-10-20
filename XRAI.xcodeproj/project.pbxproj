@@ -11,6 +11,7 @@
 		2002CAF1043D3F1E670A5ACC /* OnboardingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E483975BB21B5C8CB970BAF /* OnboardingUITests.swift */; };
 		2113D8AB4C160C2F144B2AB9 /* XRAIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8172814642083526C4E6EF /* XRAIApp.swift */; };
 		21C14039038DD3D1122FA3DE /* HostedKeychainSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9F0227DFDECC29D12FE6E4 /* HostedKeychainSmokeTests.swift */; };
+		2A9EA1BD06D78D38F38844BF /* StoreFileSystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4785D9218BB6F1C88F02C4D9 /* StoreFileSystemTests.swift */; };
 		2DC9821BF7A3829CBBB75553 /* XRAIVaultStore in Frameworks */ = {isa = PBXBuildFile; productRef = 7FDB1EDE71AA4DE04D29B62E /* XRAIVaultStore */; };
 		32CC8B75D5446FD1F9BE0719 /* XRAIVaultContracts in Frameworks */ = {isa = PBXBuildFile; productRef = 3D1A5BE64A21A28AFE64108C /* XRAIVaultContracts */; };
 		369A24F1BBE76695375D95C8 /* KeychainKeyProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922D9A8B5469E016CBD0E74 /* KeychainKeyProviderTests.swift */; };
@@ -63,6 +64,7 @@
 		1E483975BB21B5C8CB970BAF /* OnboardingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingUITests.swift; sourceTree = "<group>"; };
 		1F014E98379834652AC3671E /* XRAIUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = XRAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D9F0227DFDECC29D12FE6E4 /* HostedKeychainSmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostedKeychainSmokeTests.swift; sourceTree = "<group>"; };
+		4785D9218BB6F1C88F02C4D9 /* StoreFileSystemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreFileSystemTests.swift; sourceTree = "<group>"; };
 		4922D9A8B5469E016CBD0E74 /* KeychainKeyProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainKeyProviderTests.swift; sourceTree = "<group>"; };
 		542FC2401ACFB40C35F7F27E /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		61FF336B937C4237E3B2760A /* XRAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XRAI.entitlements; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				10115E893ADFB4B0FC88A51A /* StoreBoundaryTests.swift */,
 				AF833484BA2085E72393E78C /* StoreCoreTests.swift */,
 				87C8A07A6D5AEA2DE136311E /* StoreCrashAndRetirementTests.swift */,
+				4785D9218BB6F1C88F02C4D9 /* StoreFileSystemTests.swift */,
 				CF953509178A5547B39EFE27 /* StoreHarness.swift */,
 			);
 			path = XRAIVaultStoreTests;
@@ -395,6 +398,7 @@
 				8420BF3DA25D0558D7239377 /* StoreBoundaryTests.swift in Sources */,
 				97889E097D7748E2143ADAB9 /* StoreCoreTests.swift in Sources */,
 				764DF4E2A316C4E609396DD0 /* StoreCrashAndRetirementTests.swift in Sources */,
+				2A9EA1BD06D78D38F38844BF /* StoreFileSystemTests.swift in Sources */,
 				AEA2E6FFC75BD0D646873392 /* StoreHarness.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
