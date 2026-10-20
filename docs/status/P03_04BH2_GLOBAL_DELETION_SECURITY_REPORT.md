@@ -72,7 +72,7 @@ Not run: UI/XCUI, destructive device scenarios, power loss.
 
 ## 11. Final SHA
 
-<!-- FINAL-SHA -->
+Implementation + evidence commit: `b6d87f1924ff6c953f6896b8d350c72e0974a1ba` (on top of baseline `bff2bd3`). This stamp is added in the small follow-up commit that is HEAD; no history was rewritten.
 
 ## 12. GO / NO-GO for P03-05
 
