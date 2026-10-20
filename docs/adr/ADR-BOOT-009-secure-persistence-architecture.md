@@ -65,3 +65,13 @@ Still PROPOSED; app wiring, consent UI and InteractionGate remain P03-05.
 
 Still PROPOSED; P03-05 remains NO-GO for app persistence until the next review.
 
+## Amendment H.4 (2026-10-20, P03-04bH2) — global deletion invariant
+
+| original | amended | where |
+|---|---|---|
+| deletion = cascade + ledger entry; new writes checked only against the manifest | **invariant:** a deleted or possibly-deleted identity can never become active under the same id at ANY entry point; `IdentityPolicy` is the single source consulted by put, putAttachment, admission, activation, re-import, journal replay, recovery reconciliation and reads; unprovable history fails closed for creation/activation | NT-GD-01…07 |
+| `releaseQuarantined` as a second activation door | removed (compile-negative) | GATE 4 |
+| — | performance & recovery debt register (fsync cost, grouped commit feasibility, sticky-distrust reset, persisted corrupt state, attachments in backup, next negative-test suite) | `OPEN_BLOCKERS.md` |
+
+Still PROPOSED; P03-05 remains NO-GO for app persistence until the next review.
+

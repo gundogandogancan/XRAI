@@ -206,6 +206,8 @@ public actor FileVaultStore {
     public nonisolated var mode: StoreMode { mirror.read { _, _, r in r.mode } }
     public nonisolated var manifestGeneration: UInt64 { mirror.read { m, _, _ in m.generation } }
     public nonisolated var manifestHash: [UInt8] { mirror.read { m, _, _ in m.hash } }
+    /// The deletion-ledger hash the committed manifest binds (P03-04bH2: lets tests forge journals honestly).
+    public nonisolated var boundLedgerHash: [UInt8] { mirror.read { m, _, _ in m.ledgerHash } }
     public nonisolated var vaultInstanceID: [UInt8] { mirror.read { m, _, _ in m.vaultInstanceID } }
     public nonisolated var minimumWrapVersion: UInt32 { mirror.read { m, _, _ in m.minimumWrapVersion } }
     /// P03-04b: the newest backup generation this vault exported (durable, monotonic).
@@ -237,6 +239,7 @@ public actor FileVaultStore {
         if case .readOnly(let r) = modeValue, r == Self.reopenRequiredReason { throw VaultError.storeReadOnly(reason: r) }
         guard let e = manifest.records[id.hex] else { throw VaultError.recordMissing }
         guard e.kind == .record else { throw VaultError.notEligible(reason: "attachment: use readAttachment") }
+        try IdentityPolicy.requireClear(id, ledger: ledger, historyTrusted: true)   // a manifest/ledger contradiction is never read through
         guard !needsRecoveryIDs.contains(id.hex) else { throw VaultError.needsRecovery }
         guard e.state == .active else { throw VaultError.recordNotActive(state: e.state.name) }
         guard !missingFiles.contains(id.hex) else { throw VaultError.recordMissing }
@@ -302,6 +305,7 @@ public actor FileVaultStore {
         let layout = try AttachmentLayout(chunkBytes: chunk, chunkCount: count, totalBytes: total, noncePrefix: prefix)
         let (header, cipher) = try vault.createAttachment(descriptor: descriptor, layout: layout, authorization: authorization)
         let id = header.header.recordID
+        try IdentityPolicy.requireClear(id, ledger: ledger, historyTrusted: ledgerTrusted)   // F-P04BH-01: after authorization, same actor section as the journal begin
         let headerFrame = AttachmentFile.frameBytes(EnvelopeCodec.encode(header))
         try runMutation(op: "put", tokenID: authorization.id, ids: [id], params: [Int64(provenance.rawValue), Int64(EntryKind.attachment.rawValue), Int64(bitPattern: total), Int64(count)]) { m, _, step in
             try AtomicWriter.replaceStreaming(self.fs, at: self.attachmentPath(id), tempName: self.tempName()) { fd in
@@ -339,6 +343,7 @@ public actor FileVaultStore {
         if case .readOnly(let r) = modeValue, r == Self.reopenRequiredReason { throw VaultError.storeReadOnly(reason: r) }
         guard let e = manifest.records[id.hex] else { throw VaultError.recordMissing }
         guard e.kind == .attachment else { throw VaultError.notEligible(reason: "record: use get") }
+        try IdentityPolicy.requireClear(id, ledger: ledger, historyTrusted: true)
         guard !needsRecoveryIDs.contains(id.hex) else { throw VaultError.needsRecovery }
         guard e.state == .active else { throw VaultError.recordNotActive(state: e.state.name) }
         guard !missingFiles.contains(id.hex) else { throw VaultError.recordMissing }
@@ -420,6 +425,8 @@ public actor FileVaultStore {
         guard manifest.records[descriptor.recordID.hex] == nil else { throw VaultError.duplicateRecordID }
         guard vault.currentKeyIdentity.version >= manifest.minimumWrapVersion else { throw VaultError.staleKeyVersion(minimum: manifest.minimumWrapVersion) }
         guard plaintext.count <= limits.maxRecordBytes else { throw VaultError.limitExceeded("record size") }
+        // F-P04BH-01: the identity policy runs inside `storeEnvelope`, AFTER `seal` authorized the caller — an
+        // unauthorized caller must not learn deletion status (no oracle).
         let env = try vault.seal(plaintext: plaintext, descriptor: descriptor, authorization: authorization)
         try storeEnvelope(env, tokenID: authorization.id, provenance: provenance)
         return env.header.recordID
@@ -434,6 +441,7 @@ public actor FileVaultStore {
         guard env.wrappedDEK.keyVersion >= manifest.minimumWrapVersion else { throw VaultError.staleKeyVersion(minimum: manifest.minimumWrapVersion) }
         guard env.wrappedDEK.keyID == vault.currentKeyIdentity.keyID else { throw VaultError.keyUnavailable(version: env.wrappedDEK.keyVersion) }
         let id = env.header.recordID
+        try IdentityPolicy.requireClear(id, ledger: ledger, historyTrusted: ledgerTrusted)   // same actor section as the journal begin
         let bytes = FileFraming.frame(EnvelopeCodec.encode(env))
         try runMutation(op: "put", tokenID: tokenID, ids: [id], params: [Int64(provenance.rawValue)]) { m, _, step in
             try AtomicWriter.replace(self.fs, bytes: bytes, at: self.recordPath(id), tempName: self.tempName())
@@ -628,10 +636,11 @@ public actor FileVaultStore {
             guard !env.header.derivedFrom.contains(id) else { throw VaultError.unknownDependency }
             if manifest.records[id.hex] != nil { skippedExisting.append(id); continue }
             var risks = base
-            switch merged.lookup(id) {
+            switch IdentityPolicy.classify(id, ledger: merged, historyTrusted: ledgerTrusted) {
             case .deleted: skippedDeleted.append(id); continue
             case .possiblyDeleted: risks.insert(.possiblyDeleted)
-            case .notDeleted: break
+            case .historyUntrusted: risks.insert(.untrustedLocalHistory)   // staged only; never activatable under this id
+            case .clear: break
             }
             if let e = embedded, !historyMerged, e.lookup(id) != .notDeleted { skippedDeleted.append(id); continue }
             if pre { risks.insert(.consentInactiveAtRestore) }
@@ -673,17 +682,14 @@ public actor FileVaultStore {
             guard let e = manifest.records[id.hex] else { throw VaultError.recordMissing }
             guard e.state == .quarantined, e.provenance == .restoredFromBackup else { throw VaultError.recordNotActive(state: e.state.name) }
             let need = RestoreRisk.set(e.restoreRisks)
-            // F-P04B-01: compacted deletion evidence is permanent — never activatable under this id.
+            // F-P04B-01 / F-P04BH-01: compacted or unprovable deletion evidence is permanent — never activatable under this id.
             guard !need.contains(.possiblyDeleted) else { throw VaultError.possiblyDeletedForever }
+            guard !need.contains(.untrustedLocalHistory) else { throw VaultError.deletionHistoryUntrusted }
             // Exact acknowledgment (documented UX contract): the UI must show precisely these risks.
             guard need == risks else {
                 throw VaultError.notEligible(reason: "restore risks must be acknowledged exactly: need " + need.map { String($0.rawValue) }.sorted().joined(separator: ",") + " got " + risks.map { String($0.rawValue) }.sorted().joined(separator: ","))
             }
-            switch ledger.lookup(id) {
-            case .deleted: throw VaultError.notEligible(reason: "known deleted")
-            case .possiblyDeleted: throw VaultError.possiblyDeletedForever
-            case .notDeleted: break
-            }
+            try IdentityPolicy.requireClear(id, ledger: ledger, historyTrusted: ledgerTrusted)   // live check at activation time
             for src in e.derivedFrom {
                 guard let sEntry = manifest.records[src.hex], sEntry.state == .active || ids.contains(src) else { throw VaultError.recordNotActive(state: "sourceInactive") }
                 guard sEntry.createdAtUnixSeconds <= e.createdAtUnixSeconds else { throw VaultError.unknownDependency }
@@ -723,11 +729,12 @@ public actor FileVaultStore {
     /// id is deleted (file removed, ledger entry) in the same journaled mutation. Refused while any
     /// record derives from the old id (dependency migration is not implemented: fail closed).
     @discardableResult
-    public func reimportPossiblyDeleted(_ id: RecordID, authorization: OperationAuthorization) throws -> RecordID {
+    public func reimportUnderNewID(_ id: RecordID, authorization: OperationAuthorization) throws -> RecordID {
         try requireWritable()
         guard let e = manifest.records[id.hex] else { throw VaultError.recordMissing }
         guard e.state == .quarantined, e.provenance == .restoredFromBackup, e.kind == .record else { throw VaultError.recordNotActive(state: e.state.name) }
-        guard RestoreRisk.set(e.restoreRisks).contains(.possiblyDeleted) else { throw VaultError.notEligible(reason: "reimport is only for compacted-deletion quarantine") }
+        let risks = RestoreRisk.set(e.restoreRisks)
+        guard risks.contains(.possiblyDeleted) || risks.contains(.untrustedLocalHistory) else { throw VaultError.notEligible(reason: "reimport is only for ids whose deletion evidence is compacted or unprovable") }
         guard manifest.dependents(of: id).isEmpty else { throw VaultError.notEligible(reason: "records derive from this id") }
         for src in e.derivedFrom {
             guard let sEntry = manifest.records[src.hex], sEntry.state == .active else { throw VaultError.recordNotActive(state: "sourceInactive") }
@@ -737,6 +744,9 @@ public actor FileVaultStore {
         let d = try RecordDescriptor(dataClass: e.dataClass, privacyTier: e.privacyTier, retention: e.retention, consentPurpose: e.consentPurpose, createdAtUnixSeconds: now, derivedFrom: e.derivedFrom)
         let fresh = try vault.reimport(env, newDescriptor: d, authorization: authorization)
         let newID = fresh.header.recordID
+        // the NEW id passes the same policy as any creation (and must not collide with a manifest entry)
+        guard manifest.records[newID.hex] == nil else { throw VaultError.duplicateRecordID }
+        try IdentityPolicy.requireClear(newID, ledger: ledger, historyTrusted: true)
         let bytes = FileFraming.frame(EnvelopeCodec.encode(fresh))
         try runMutation(op: "reimport", tokenID: authorization.id, ids: [newID, id], params: [now]) { m, l, step in
             try AtomicWriter.replace(self.fs, bytes: bytes, at: self.recordPath(newID), tempName: self.tempName())
@@ -752,22 +762,9 @@ public actor FileVaultStore {
         return newID
     }
 
-    /// Releases ONE quarantined record: `.releaseQuarantine` token + active consent now (checked by
-    /// `SecureVault.releaseQuarantine`), then the manifest state becomes active.
-    public func releaseQuarantined(_ id: RecordID, authorization: OperationAuthorization) throws {
-        try requireWritable()
-        guard let e = manifest.records[id.hex] else { throw VaultError.recordMissing }
-        guard e.state == .quarantined else { throw VaultError.recordNotActive(state: e.state.name) }
-        // P03-04b: restored records carry risks and go through `activateRestored` only.
-        guard e.provenance != .restoredFromBackup else { throw VaultError.notEligible(reason: "restored records activate through activateRestored") }
-        let env = try readRecordFile(id)
-        _ = try vault.releaseQuarantine(QuarantinedRecord(envelope: env, reason: .consentRequired), authorization: authorization)
-        try runMutation(op: "release", tokenID: authorization.id, ids: [id], params: []) { m, _, step in
-            if var r = m.records[id.hex] { r.state = .active; m.records[id.hex] = r }
-            try step("activate", 0)
-            return true
-        }
-    }
+    // P03-04bH2 (GATE 4): `releaseQuarantined` was REMOVED. Every quarantined manifest entry is a restored
+    // record and activates only through `activateRestored` / `reimportUnderNewID`; no production flow
+    // could use a second activation door.
 
     // MARK: Key maintenance (H2)
 
@@ -980,6 +977,17 @@ public actor FileVaultStore {
             try resolveJournal(j)
         }
         pendingJournals = []
+        // 1b. P03-04bH2 (criterion 10): after the journal is settled, any manifest entry the ledger says is
+        //     (possibly) deleted — other than a restored entry staged with that very risk — is a contradiction
+        //     the vault must not run on: read-only, and the entry is never readable.
+        if case .readWrite = modeValue {
+            for (key, e) in manifest.records {
+                guard let id = try? RecordID(hex: key) else { continue }
+                if IdentityPolicy.contradicts(e, verdict: IdentityPolicy.classify(id, ledger: ledger, historyTrusted: ledgerTrusted)) {
+                    modeValue = .readOnly(reason: "manifest contradicts the deletion ledger"); break
+                }
+            }
+        }
         // 2. Quarantine registry mirrors the manifest (P03-04bH: an id activated by a replayed journal is
         //    released here too, so a crash between the commit and the in-memory release cannot leave a
         //    stale registry entry behind).
@@ -1054,6 +1062,17 @@ public actor FileVaultStore {
             // if a history merge was part of it, the merged ledger is the one on disk (announced post-state).
             // Otherwise the batch is aborted (files removed, journal dropped) and the user re-runs the restore:
             // the merge cannot be rebuilt from the journal, and a half batch would hide that.
+            // F-P04BH-01: replay can never adopt or stage what the live API refuses.
+            for id in ids {
+                let v = IdentityPolicy.classify(id, ledger: ledger, historyTrusted: ledgerTrusted)
+                let acceptable = op == "put" ? (v == .clear) : (v != .deleted)
+                if !acceptable {
+                    for x in ids { try fs.remove(putKindPath(op: op, params: params, id: x)); composition.quarantine.release(x) }
+                    try fs.remove(path(StoreLayout.journalDir, j.name)); journalsReconciled += 1
+                    if op == "put" { needsRecoveryIDs.insert(id.hex) }
+                    return
+                }
+            }
             if op == "admit" {
                 let mergeIntended = params.count > ids.count && params[ids.count] == 1
                 var allPresent = true
@@ -1092,6 +1111,9 @@ public actor FileVaultStore {
                 if ids.count == 2 { try fs.remove(recordPath(ids[0])) }
                 try fs.remove(path(StoreLayout.journalDir, j.name)); journalsReconciled += 1; return
             }
+            guard IdentityPolicy.classify(ids[0], ledger: ledger, historyTrusted: true) == .clear, manifest.records[ids[0].hex] == nil else {
+                try fs.remove(recordPath(ids[0])); try fs.remove(path(StoreLayout.journalDir, j.name)); journalsReconciled += 1; return
+            }
             var m = manifest, l = ledger
             try fs.remove(recordPath(ids[1]))
             l.append(DeletionLedger.Entry(recordID: ids[1], deletedAtUnixSeconds: params.first ?? 0, manifestGeneration: target))
@@ -1123,6 +1145,11 @@ public actor FileVaultStore {
             try commitTail(target: target, newManifest: m, newLedger: l, ledgerChanged: deleteCount > 0, entries: &entries)
             journalsReplayed += 1
         case "unsuspend", "release", "activate":
+            if op == "activate" {
+                for id in ids where IdentityPolicy.classify(id, ledger: ledger, historyTrusted: ledgerTrusted) != .clear {
+                    needsRecoveryIDs.insert(id.hex); modeValue = .readOnly(reason: "journal activates a deleted identity"); return
+                }
+            }
             var m = manifest
             for id in ids { if var e = m.records[id.hex] { e.state = .active; e.suspendedUntilUnixSeconds = 0; if op == "activate" { e.restoreRisks = 0; composition.quarantine.release(id) }; m.records[id.hex] = e } }
             try commitTail(target: target, newManifest: m, newLedger: ledger, ledgerChanged: diskIsPost, entries: &entries)
@@ -1151,6 +1178,10 @@ public actor FileVaultStore {
             needsRecoveryIDs.formUnion(ids.map { $0.hex })
             modeValue = .readOnly(reason: "unknown journal operation")
         }
+    }
+
+    private nonisolated func putKindPath(op: String, params: [Int64], id: RecordID) -> String {
+        (op == "put" && params.count > 1 && params[1] == Int64(EntryKind.attachment.rawValue)) ? attachmentPath(id) : recordPath(id)
     }
 
     // MARK: Loader (nonisolated, runs before the actor exists)

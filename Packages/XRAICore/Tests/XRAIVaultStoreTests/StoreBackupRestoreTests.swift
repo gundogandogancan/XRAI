@@ -135,7 +135,8 @@ struct StoreBackupV3Tests {
         let f = StoreFixture(); defer { f.cleanup() }
         let s = try await f.open()
         let x0 = try await f.put(s, "x0")
-        let (older, rkOlder) = try await f.exportV3(s)            // generation 1 contains x0
+        let x = try await f.put(s, "x")
+        let (older, rkOlder) = try await f.exportV3(s)            // generation 1 contains x0 and x
         _ = try await f.exportV3(s)
         #expect(s.lastExportedGeneration == 2)
         try await f.delete(s, [x0])
@@ -144,10 +145,13 @@ struct StoreBackupV3Tests {
         let lp = f.systemPath("ledger.v1"); var badL = Array(try Data(contentsOf: lp)); badL[100] ^= 0x01; try Data(badL).write(to: lp)
         let s2 = try await f.open()
         #expect(s2.lastExportedGeneration == 2 && s2.deletionHistoryTrusted == false)
-        let x = try await f.put(s2, "x")
+        // P03-04bH2: with unprovable history, creating records is refused (fail closed); x was created before
+        await expectVaultError(.deletionHistoryUntrusted) { try await f.put(s2, "no new ids while history is unprovable") }
         _ = try await f.exportV3(s2)                               // generation 3
         let rep = try await s2.admitRestored(try f.restore(s2, older, rkOlder), authorization: try s2.issuer.issue(scope: .admitRestored))
-        #expect(rep.staged == [x0] && rep.risks[x0] == [.untrustedLocalHistory, .olderBackupGeneration], Comment(rawValue: "\(rep.risks)"))
+        #expect(rep.staged == [x0] && rep.skippedExisting == [x] && rep.risks[x0] == [.untrustedLocalHistory, .olderBackupGeneration], Comment(rawValue: "\(rep.risks)"))
+        // and such a staged id can never be activated under its id — only re-imported under a new one
+        await expectVaultError(.deletionHistoryUntrusted) { try await f.activate(s2, [x0], [.untrustedLocalHistory, .olderBackupGeneration]) }
         #expect(s2.lastExportedGeneration == 3)
         // corrupt record → export fails closed; the generation was still consumed
         let path = f.rootURL.appendingPathComponent("records/\(x.hex).env")

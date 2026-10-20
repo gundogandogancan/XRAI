@@ -1,0 +1,118 @@
+Building for debugging...
+[0/4] Write sources
+[1/4] Write swift-version--58304C5D6DBC2206.txt
+[3/6] Compiling XRAIVaultContracts Envelope.swift
+[4/6] Emitting module XRAIVaultContracts
+[5/9] Compiling XRAIVaultContracts PrivacyModel.swift
+[6/9] Compiling XRAIVaultContracts Backup.swift
+[7/9] Compiling XRAIVaultContracts CanonicalCoding.swift
+[8/16] Emitting module XRAIVaultTesting
+[9/16] Compiling XRAIVaultTesting TestingDoubles.swift
+[10/16] Compiling XRAIVaultCryptoKit Authorization.swift
+[11/16] Compiling XRAIVaultCryptoKit AESGCMEnvelopeSealer.swift
+[12/16] Compiling XRAIVaultCryptoKit BackupCodec.swift
+[13/16] Emitting module XRAIVaultCryptoKit
+[14/16] Compiling XRAIVaultCryptoKit SecureVault.swift
+[15/33] Emitting module XRAIVaultKeychain
+[16/33] Compiling XRAIVaultKeychain SecureEnclaveWrapper.swift
+[17/33] Compiling XRAIVaultKeychain KeychainAnchorStore.swift
+[18/33] Compiling XRAIVaultKeychain UptimeSource.swift
+[19/33] Compiling XRAIVaultKeychain KeychainKeyProvider.swift
+[20/33] Compiling XRAIVaultKeychain KeychainStore.swift
+[21/33] Compiling XRAIVaultStore VaultFileSystem.swift
+[22/36] Emitting module XRAIVaultTests
+[23/36] Compiling XRAIVaultTests AuthorizationGateTests.swift
+[24/36] Compiling XRAIVaultStore StoreModel.swift
+[25/36] Compiling XRAIVaultTests BackupV3Tests.swift
+[26/36] Compiling XRAIVaultTests Gate0Tests.swift
+[27/36] Compiling XRAIVaultTests VaultContractsTests.swift
+[28/36] Compiling XRAIVaultTests VaultCryptoTests.swift
+[29/36] Emitting module XRAIVaultStore
+[30/36] Compiling XRAIVaultStore KeyRetirement.swift
+[31/36] Compiling XRAIVaultStore FileVaultStore.swift
+[32/36] Emitting module XRAIVaultKeychainTests
+[33/36] Compiling XRAIVaultKeychainTests KeychainAnchorStoreTests.swift
+[34/36] Compiling XRAIVaultKeychainTests KeychainKeyProviderTests.swift
+/Users/dogancangundogan/ProjectXrai/Packages/XRAICore/Tests/XRAIVaultKeychainTests/KeychainKeyProviderTests.swift:271:34: warning: mutation of captured var 'versions' in concurrently-executing code [#SendableClosureCaptures]
+269 |                 if n % 16 == 0 {
+270 |                     let id = try p.rotate()
+271 |                     lock.lock(); versions.append(id.version); lock.unlock()
+    |                                  `- warning: mutation of captured var 'versions' in concurrently-executing code [#SendableClosureCaptures]
+272 |                 } else {
+273 |                     let d = dek()
+
+/Users/dogancangundogan/ProjectXrai/Packages/XRAICore/Tests/XRAIVaultKeychainTests/KeychainKeyProviderTests.swift:275:67: warning: mutation of captured var 'failures' in concurrently-executing code [#SendableClosureCaptures]
+273 |                     let d = dek()
+274 |                     let w = try p.wrapDataKey(d, boundTo: RecordID())
+275 |                     if try p.unwrapDataKey(w) != d { lock.lock(); failures.append("mismatch"); lock.unlock() }
+    |                                                                   `- warning: mutation of captured var 'failures' in concurrently-executing code [#SendableClosureCaptures]
+276 |                 }
+277 |             } catch let e as VaultError { lock.lock(); failures.append(String(reflecting: e)); lock.unlock() }
+
+/Users/dogancangundogan/ProjectXrai/Packages/XRAICore/Tests/XRAIVaultKeychainTests/KeychainKeyProviderTests.swift:277:56: warning: mutation of captured var 'failures' in concurrently-executing code [#SendableClosureCaptures]
+275 |                     if try p.unwrapDataKey(w) != d { lock.lock(); failures.append("mismatch"); lock.unlock() }
+276 |                 }
+277 |             } catch let e as VaultError { lock.lock(); failures.append(String(reflecting: e)); lock.unlock() }
+    |                                                        `- warning: mutation of captured var 'failures' in concurrently-executing code [#SendableClosureCaptures]
+278 |             catch { lock.lock(); failures.append("untyped \(error)"); lock.unlock() }
+279 |         }
+
+/Users/dogancangundogan/ProjectXrai/Packages/XRAICore/Tests/XRAIVaultKeychainTests/KeychainKeyProviderTests.swift:278:34: warning: mutation of captured var 'failures' in concurrently-executing code [#SendableClosureCaptures]
+276 |                 }
+277 |             } catch let e as VaultError { lock.lock(); failures.append(String(reflecting: e)); lock.unlock() }
+278 |             catch { lock.lock(); failures.append("untyped \(error)"); lock.unlock() }
+    |                                  `- warning: mutation of captured var 'failures' in concurrently-executing code [#SendableClosureCaptures]
+279 |         }
+280 |         #expect(failures.isEmpty, Comment(rawValue: failures.joined(separator: "; ")))
+
+/Users/dogancangundogan/ProjectXrai/Packages/XRAICore/Tests/XRAIVaultKeychainTests/KeychainKeyProviderTests.swift:406:30: warning: mutation of captured var 'versions' in concurrently-executing code [#SendableClosureCaptures]
+404 |             do {
+405 |                 let id = try (n % 2 == 0 ? a : b).rotate()
+406 |                 lock.lock(); versions.append(id.version); lock.unlock()
+    |                              `- warning: mutation of captured var 'versions' in concurrently-executing code [#SendableClosureCaptures]
+407 |             } catch { lock.lock(); errors.append("\(error)"); lock.unlock() }
+408 |         }
+
+/Users/dogancangundogan/ProjectXrai/Packages/XRAICore/Tests/XRAIVaultKeychainTests/KeychainKeyProviderTests.swift:407:36: warning: mutation of captured var 'errors' in concurrently-executing code [#SendableClosureCaptures]
+405 |                 let id = try (n % 2 == 0 ? a : b).rotate()
+406 |                 lock.lock(); versions.append(id.version); lock.unlock()
+407 |             } catch { lock.lock(); errors.append("\(error)"); lock.unlock() }
+    |                                    `- warning: mutation of captured var 'errors' in concurrently-executing code [#SendableClosureCaptures]
+408 |         }
+409 |         #expect(errors.isEmpty, Comment(rawValue: errors.joined(separator: "; ")))
+
+[#SendableClosureCaptures]: <https://docs.swift.org/compiler/documentation/diagnostics/sendable-closure-captures>
+[35/46] Compiling XRAIVaultStoreTests StoreFileSystemTests.swift
+[36/46] Compiling XRAIVaultStoreTests StoreDeletionInvariantTests.swift
+[37/46] Compiling XRAIVaultStoreTests StoreLedgerBindingTests.swift
+[38/47] Compiling XRAIVaultStoreTests StoreHarness.swift
+[39/47] Compiling XRAIVaultStoreTests StoreBoundaryTests.swift
+[40/47] Compiling XRAIVaultStoreTests StoreCrashAndRetirementTests.swift
+[41/47] Compiling XRAIVaultStoreTests StoreCoreTests.swift
+[42/47] Compiling XRAIVaultStoreTests StoreRestoreHardeningTests.swift
+[43/47] Emitting module XRAIVaultStoreTests
+[44/47] Compiling XRAIVaultStoreTests StoreAttachmentTests.swift
+[45/47] Compiling XRAIVaultStoreTests StoreBackupRestoreTests.swift
+[45/47] Write Objects.LinkFileList
+[46/47] Linking XRAICorePackageTests
+Build complete! (5.76s)
+Test Suite 'Selected tests' started at 2026-10-20 14:51:50.416.
+Test Suite 'XRAICorePackageTests.xctest' started at 2026-10-20 14:51:50.417.
+Test Suite 'XRAICorePackageTests.xctest' passed at 2026-10-20 14:51:50.417.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-20 14:51:50.417.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite "P03-04bH2 — global deletion invariant at every entry point" started.
+◇ Test "NT-GD-01 (attack A): create → delete → put(same id) → get → reopen: the deleted identity never becomes active and the ledger keeps it deleted" started.
+✘ Test "NT-GD-01 (attack A): create → delete → put(same id) → get → reopen: the deleted identity never becomes active and the ledger keeps it deleted" recorded an issue at StoreHarness.swift:128:44: Issue recorded
+↳ expected .recordIDDeleted, no error thrown 
+✘ Test "NT-GD-01 (attack A): create → delete → put(same id) → get → reopen: the deleted identity never becomes active and the ledger keeps it deleted" recorded an issue at StoreDeletionInvariantTests.swift:21:9: Expectation failed: (s.state(of: id) == nil && !f.fileExists(id) && f.names("journal").isEmpty → false) && (s.deletionLookup(id) == .deleted → <not evaluated>)
+✘ Test "NT-GD-01 (attack A): create → delete → put(same id) → get → reopen: the deleted identity never becomes active and the ledger keeps it deleted" recorded an issue at StoreHarness.swift:128:44: Issue recorded
+↳ expected .recordMissing, no error thrown 
+✘ Test "NT-GD-01 (attack A): create → delete → put(same id) → get → reopen: the deleted identity never becomes active and the ledger keeps it deleted" recorded an issue at StoreDeletionInvariantTests.swift:25:9: Expectation failed: (r.mode == .readWrite && r.state(of: id) == nil && !f.fileExists(id) && r.deletionLookup(id) == .deleted → false) && (r.deletionCount == 1 → <not evaluated>)
+✘ Test "NT-GD-01 (attack A): create → delete → put(same id) → get → reopen: the deleted identity never becomes active and the ledger keeps it deleted" failed after 0.216 seconds with 4 issues.
+✘ Suite "P03-04bH2 — global deletion invariant at every entry point" failed after 0.216 seconds with 4 issues.
+✘ Test run with 1 test in 1 suite failed after 0.216 seconds with 4 issues.

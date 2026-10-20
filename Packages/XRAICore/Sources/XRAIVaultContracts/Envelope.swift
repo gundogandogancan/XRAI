@@ -74,6 +74,12 @@ public enum VaultError: Error, Equatable, Sendable {
     /// P03-04bH (F-P04B-01): the id hits the compacted deletion digest; it can never become active
     /// under this id again — only an explicit re-import under a NEW id is possible.
     case possiblyDeletedForever
+    /// P03-04bH2 (F-P04BH-01): the id is EXACTLY recorded as deleted; it can never be created, adopted,
+    /// activated or read again under that id at any entry point.
+    case recordIDDeleted
+    /// P03-04bH2: the deletion history of this vault is not trusted (corrupt / unverifiable); creating
+    /// or activating records under caller-supplied ids is refused until a user-confirmed reset exists.
+    case deletionHistoryUntrusted
     /// `derivedFrom` names an unknown, non-active or later record (back-edge), or itself.
     case unknownDependency
     /// A deletion grant was already consumed or does not cover the ids.

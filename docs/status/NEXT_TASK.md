@@ -259,3 +259,18 @@ SCOPE_APPROVED:
 CHANGES_REQUESTED:
 ```
 
+---
+
+## P03-04bH2 RESULT (2026-10-20) — GLOBAL DELETION INVARIANT & WRITE-PATH SECURITY GATE, STOP
+
+F-P04BH-01 reproduced before the fix (a deleted id re-created through `put`, survived reopen), then closed by the single-source `IdentityPolicy` enforced at every entry point (put, putAttachment, admission, activation, re-import target, journal replay, recovery reconciliation, reads); unprovable history fails closed for creation/activation; `releaseQuarantined` removed; debt register opened (fsync cost, grouped commit feasibility, sticky-distrust reset, persisted corrupt state, attachments in backup, next durability negative suite). Seven end-to-end attack flows with post-reopen state checks. Results: macOS 207/207, Simulator 133/133, iPhone 14 Pro Max 133/133 (non-destructive). SECURITY_REVIEWED: NO. Report: `docs/status/P03_04BH2_GLOBAL_DELETION_SECURITY_REPORT.md`.
+
+Proposed next: P03-05 stays NO-GO for app persistence until the next independent review accepts this gate; the review should start at `IdentityPolicy` and its eleven call sites.
+
+```
+APPROVED_BY:
+DATE:
+SCOPE_APPROVED:
+CHANGES_REQUESTED:
+```
+

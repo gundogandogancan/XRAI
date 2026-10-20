@@ -129,6 +129,7 @@ struct StoreModuleBoundaryTests {
             ("system writer", "import XRAIVaultStore\nfunc f(s: FileVaultStore) async throws { try await s.writeSystem(\"x\", []) }"),
             ("mutation engine", "import XRAIVaultStore\nfunc f(s: FileVaultStore) async throws { try await s.runMutation(op: \"x\", tokenID: \"\", ids: [], params: []) { _, _, _ in true } }"),
             ("atomic writer", "import XRAIVaultStore\nfunc f() { _ = AtomicWriter.self }"),
+            ("releaseQuarantined removed (P03-04bH2 GATE 4)", "import XRAIVaultContracts\nimport XRAIVaultStore\nfunc f(s: FileVaultStore, id: RecordID, t: OperationAuthorization) async throws { try await s.releaseQuarantined(id, authorization: t) }"),
             ("putEnvelope removed (F-P04B-02)", "import XRAIVaultContracts\nimport XRAIVaultStore\nfunc f(s: FileVaultStore, e: RecordEnvelope, t: OperationAuthorization) async throws { try await s.putEnvelope(e, authorization: t) }"),
         ]
         for (name, code) in negatives {

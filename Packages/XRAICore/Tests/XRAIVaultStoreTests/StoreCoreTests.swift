@@ -364,7 +364,8 @@ struct StoreLedgerTests {
         let rep = try await s.admitRestored(result, authorization: try s.issuer.issue(scope: .admitRestored))
         #expect(rep.skippedDeleted == [a] && rep.skippedExisting == [b] && rep.staged.isEmpty)
         #expect(s.state(of: a) == nil && !f.fileExists(a))
-        await expectVaultError(.recordMissing) { try await s.releaseQuarantined(a, authorization: try s.issuer.issue(scope: .releaseQuarantine)) }
+        // P03-04bH2: `releaseQuarantined` no longer exists (compile-negative); activation of a deleted id is refused by `activateRestored`
+        await expectVaultError(.recordMissing) { try await s.activateRestored([a], acknowledging: [], authorization: try s.issuer.issue(scope: .activateRestored(recordIDs: [a]))) }
         // explicit re-import = a new record under a new id
         let env = result.active.first { $0.header.recordID == a }!
         let newID = try await s.put(plaintext: try s.vault.open(env, authorization: try s.issuer.issue(scope: .read(recordIDs: [a]))), descriptor: try f.descriptor(), authorization: try s.issuer.issue(scope: .write(.birthDate)), provenance: .reimportedAfterDeletion)
@@ -422,7 +423,6 @@ struct StoreLedgerTests {
         #expect(rep2.staged == [fid] && rep2.risks[fid] == [.foreignInstance] && s.state(of: fid) == .quarantined)
         #expect(f.quarantine.isQuarantined(fid))
         await expectVaultError(.recordNotActive(state: "quarantined")) { try await f.get(s, fid) }
-        await expectVaultError(.notEligible(reason: "restored records activate through activateRestored")) { try await s.releaseQuarantined(fid, authorization: try s.issuer.issue(scope: .releaseQuarantine)) }
         await expectVaultError(.notEligible(reason: "restore risks must be acknowledged exactly: need 1 got ")) { try await s.activateRestored([fid], acknowledging: [], authorization: try s.issuer.issue(scope: .activateRestored(recordIDs: [fid]))) }
         #expect(s.state(of: fid) == .quarantined)
         try await s.activateRestored([fid], acknowledging: [.foreignInstance], authorization: try s.issuer.issue(scope: .activateRestored(recordIDs: [fid])))

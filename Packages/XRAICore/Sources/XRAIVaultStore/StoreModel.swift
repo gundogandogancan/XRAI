@@ -441,6 +441,52 @@ public enum JournalEntry: Sendable, Hashable {
     }
 }
 
+/// P03-04bH2 — GLOBAL DELETION INVARIANT, single source of truth (F-P04BH-01):
+/// "A record identity that has been deleted or may have been deleted can never become active under
+/// the same RecordID." Every entry point (put, putAttachment, admission, activation, re-import, journal
+/// replay, recovery reconciliation, reads) asks THIS policy; nothing else interprets the ledger.
+public enum IdentityPolicy {
+    public enum Verdict: Sendable, Equatable {
+        /// The id is not in the deletion history and the history is trusted.
+        case clear
+        /// Exact deletion evidence: refuse at every entry point.
+        case deleted
+        /// Compacted evidence: may be STAGED (quarantined) for an explicit re-import only; never active.
+        case possiblyDeleted
+        /// The vault cannot prove its deletion history: fail closed for creation/activation; staging only.
+        case historyUntrusted
+    }
+
+    public static func classify(_ id: RecordID, ledger: DeletionLedger, historyTrusted: Bool) -> Verdict {
+        switch ledger.lookup(id) {
+        case .deleted: return .deleted
+        case .possiblyDeleted: return .possiblyDeleted
+        case .notDeleted: return historyTrusted ? .clear : .historyUntrusted
+        }
+    }
+
+    /// Creation / adoption / activation / re-import target / read: only `.clear` passes.
+    public static func requireClear(_ id: RecordID, ledger: DeletionLedger, historyTrusted: Bool) throws {
+        switch classify(id, ledger: ledger, historyTrusted: historyTrusted) {
+        case .clear: return
+        case .deleted: throw VaultError.recordIDDeleted
+        case .possiblyDeleted: throw VaultError.possiblyDeletedForever
+        case .historyUntrusted: throw VaultError.deletionHistoryUntrusted
+        }
+    }
+
+    /// Whether a manifest entry contradicts the ledger (recovery fails closed on any such entry).
+    /// A quarantined restored entry staged with the matching risk is the one legitimate non-clear state.
+    public static func contradicts(_ entry: ManifestEntry, verdict: Verdict) -> Bool {
+        switch verdict {
+        case .clear: return false
+        case .deleted: return true
+        case .possiblyDeleted: return !(entry.state == .quarantined && entry.provenance == .restoredFromBackup && RestoreRisk.set(entry.restoreRisks).contains(.possiblyDeleted))
+        case .historyUntrusted: return false   // every id is unproven; the sticky flag already restricts the vault
+        }
+    }
+}
+
 /// GATE 1 (P03-04b, closes LEDGER_ONLY_ROLLBACK): decides whether the deletion ledger on disk is a
 /// state the manifest and the pending journal PROVE. Pure function; `nil` = proven, otherwise the
 /// read-only reason. Rules:

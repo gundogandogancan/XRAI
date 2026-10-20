@@ -29,19 +29,18 @@ struct StoreRestoreHardeningTests {
         // the attack: acknowledge the risk and activate → refused with the dedicated error
         await expectVaultError(.possiblyDeletedForever) { try await f.activate(s, [victim], [.possiblyDeleted]) }
         await expectVaultError(.possiblyDeletedForever) { try await f.activate(s, Set(compacted), [.possiblyDeleted]) }
-        await expectVaultError(.notEligible(reason: "restored records activate through activateRestored")) { try await s.releaseQuarantined(victim, authorization: try s.issuer.issue(scope: .releaseQuarantine)) }
-        await expectVaultError(.recordNotActive(state: "quarantined")) { try await f.get(s, victim) }
+        await expectVaultError(.possiblyDeletedForever) { try await f.get(s, victim) }   // reads apply the identity policy too (P03-04bH2)
         #expect(s.state(of: victim) == .quarantined)
         try await s.close()
         let s2 = try await f.open()   // nothing changes across relaunch
         await expectVaultError(.possiblyDeletedForever) { try await f.activate(s2, [victim], [.possiblyDeleted]) }
         // explicit re-import: new id, fresh DEK, old id exactly deleted, plaintext preserved
-        await expectVaultError(.authorizationInvalid(.scopeMismatch)) { try await s2.reimportPossiblyDeleted(victim, authorization: try s2.issuer.issue(scope: .reimport(recordID: compacted[1]))) }
-        let newID = try await s2.reimportPossiblyDeleted(victim, authorization: try s2.issuer.issue(scope: .reimport(recordID: victim)))
+        await expectVaultError(.authorizationInvalid(.scopeMismatch)) { try await s2.reimportUnderNewID(victim, authorization: try s2.issuer.issue(scope: .reimport(recordID: compacted[1]))) }
+        let newID = try await s2.reimportUnderNewID(victim, authorization: try s2.issuer.issue(scope: .reimport(recordID: victim)))
         #expect(newID != victim && s2.state(of: newID) == .active && s2.entry(of: newID)?.provenance == .reimportedAfterDeletion)
         #expect(try await f.get(s2, newID) == text[victim])
         #expect(s2.state(of: victim) == nil && !f.fileExists(victim) && s2.deletionLookup(victim) == .deleted && !f.quarantine.isQuarantined(victim))
-        await expectVaultError(.recordMissing) { try await s2.reimportPossiblyDeleted(victim, authorization: try s2.issuer.issue(scope: .reimport(recordID: victim))) }
+        await expectVaultError(.recordMissing) { try await s2.reimportUnderNewID(victim, authorization: try s2.issuer.issue(scope: .reimport(recordID: victim))) }
         // the same backup again: the old id is now exactly deleted (skipped), the reimported record is unaffected
         let rep2 = try await f.admit(s2, try f.restore(s2, bytes, rk))
         #expect(rep2.skippedDeleted.contains(victim) && !rep2.skippedExisting.contains(victim) && !rep2.staged.contains(victim))
@@ -69,16 +68,16 @@ struct StoreRestoreHardeningTests {
         #expect(rep.staged.contains(j))
         if rep.staged.contains(d) {
             // d derives from j → j cannot be re-imported while d references it (no dependency migration)
-            await expectVaultError(.notEligible(reason: "records derive from this id")) { try await s.reimportPossiblyDeleted(j, authorization: try s.issuer.issue(scope: .reimport(recordID: j), purpose: "j")) }
+            await expectVaultError(.notEligible(reason: "records derive from this id")) { try await s.reimportUnderNewID(j, authorization: try s.issuer.issue(scope: .reimport(recordID: j), purpose: "j")) }
             try await f.delete(s, [d])
         }
         f.authority.revoke(id: "g-j", atUnixSeconds: (try? f.base.now()) ?? storeT0)
         // wrong purpose on the token
-        await expectVaultError(.authorizationInvalid(.purposeMismatch)) { try await s.reimportPossiblyDeleted(j, authorization: try s.issuer.issue(scope: .reimport(recordID: j), purpose: "other")) }
+        await expectVaultError(.authorizationInvalid(.purposeMismatch)) { try await s.reimportUnderNewID(j, authorization: try s.issuer.issue(scope: .reimport(recordID: j), purpose: "other")) }
         // purpose right but consent gone
-        await expectVaultError(.notAuthorized(.consentRequired)) { try await s.reimportPossiblyDeleted(j, authorization: try s.issuer.issue(scope: .reimport(recordID: j), purpose: "j")) }
+        await expectVaultError(.notAuthorized(.consentRequired)) { try await s.reimportUnderNewID(j, authorization: try s.issuer.issue(scope: .reimport(recordID: j), purpose: "j")) }
         f.grant(.journal, purpose: "j")
-        let newID = try await s.reimportPossiblyDeleted(j, authorization: try s.issuer.issue(scope: .reimport(recordID: j), purpose: "j"))
+        let newID = try await s.reimportUnderNewID(j, authorization: try s.issuer.issue(scope: .reimport(recordID: j), purpose: "j"))
         #expect(try await f.get(s, newID, purpose: "j") == "entry" && s.deletionLookup(j) == .deleted)
         try await s.close()
     }

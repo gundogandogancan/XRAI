@@ -56,6 +56,23 @@ Vocabulary: `BLOCKED` (cannot proceed without an external fact/right/decision), 
 | SOURCE_COVERAGE_GAPS | see `SOURCE_COVERAGE_AND_TRACEABILITY_AUDIT.md` and `MISSING_REQUIREMENTS_REGISTER.json` | requirements found in older material without a v3.1 id. |
 | SWIFTLINT_FORMAT | low | not installed; optional for P03. |
 
+## New in P03-04bH2 (2026-10-20, global deletion invariant & write-path security gate)
+| id | status | detail |
+|---|---|---|
+| F_P04BH_01_DELETED_ID_RECREATED | RESOLVED (reproduced, then CODED + TESTED) | `put`/`putAttachment` checked only `manifest.records[id] == nil`; a deleted id was re-created and survived reopen (repro log kept). `IdentityPolicy` is now the single source: `.deleted` → `recordIDDeleted`, `.possiblyDeleted` → `possiblyDeletedForever`, unprovable history → `deletionHistoryUntrusted`, at every entry point incl. journal replay, recovery reconciliation and reads (NT-GD-01…07). |
+| RELEASE_QUARANTINED_REMOVED | RESOLVED (GATE 4) | no production flow could use it (every quarantined manifest entry is a restored record; activation goes through `activateRestored` / `reimportUnderNewID`); removed, compile-negative. The facade-level `SecureVault.releaseQuarantine` (registry only, P02) stays for the store-less API and is unchanged. |
+| UNTRUSTED_HISTORY_BLOCKS_CREATION | BY DESIGN (fail closed) | with sticky distrust, `put`/`putAttachment`/activation refuse (`deletionHistoryUntrusted`); reads, deletes, export and re-import under new ids still work. Needs the user-confirmed reset design below. |
+
+### Performance & recovery debt register (GATE 5 — scoped, not started; no durability-reducing optimisation in this phase)
+| item | scope | evidence | proposed next negative tests |
+|---|---|---|---|
+| FSYNC_COST | ≈10 `F_FULLFSYNC` per mutation: ≈84 ms/put macOS, ≈130 ms/put iPhone, ≈20 ms per admitted file on iPhone (NT-SC-01) | `evidence/p03_04b_*` | measure per-step flush counts with the fault injector's op log; assert the count never drops below the contract |
+| BATCH_ADMISSION_GROUPED_COMMIT | feasibility: write N temp files, one `F_FULLFSYNC` per file is required for content durability, but the directory flush and the journal rewrites can be grouped per batch (one journal rewrite per k files, one dirsync per batch); keep all-or-nothing semantics | design only | crash at every syscall of a grouped batch → all-or-nothing; power-loss simulation by dropping un-flushed writes in the test file system |
+| STICKY_DISTRUST_RESET | user-confirmed `resetDeletionHistory(acknowledgement:)`: new `.resetHistory` scope + InteractionProof (P03-05), journaled, writes a new empty ledger bound to the manifest and clears the flag, records an audit event; until then: fail closed | design only | reset without proof refused; reset is journaled and crash-safe; after reset, old backups' ids are `legacyFormat`-style risks, never silently active |
+| PERSISTED_CORRUPT_STATE | manifest entry state `.corrupt` persisted by a journaled mutation when AEAD fails (today in-memory); export refuses corrupt entries with a typed error; the user can delete them | design only | corrupt mark survives reopen; delete of a corrupt record works; export lists them |
+| ATTACHMENTS_IN_BACKUP | streamed backup container (chunked body, bounded memory) so attachments ≤ 64 MiB can travel; `excludedAttachmentCount` keeps the gap visible until then | design only | restore with a truncated container; attachment chunk missing in the container; memory bound during restore |
+| DATA_LOSS_ROLLBACK_DURABILITY_SUITE | next-phase negative-test design: (1) rollback of every system file individually and in pairs, (2) write loss simulation (test FS drops writes after a cut-off, i.e. power-loss model), (3) resource exhaustion (ENOSPC / EMFILE injected at every step), (4) directory-entry and journal-size limits, (5) clock rollback during recovery | design only | each → read-only or clean replay; never partial state; never resurrection |
+
 ## New in P03-04bH (2026-10-20, restore identity, authorization & deletion integrity gate)
 | id | status | detail |
 |---|---|---|
