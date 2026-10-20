@@ -906,6 +906,94 @@
    "result": "PASS: P03-05A deliverables present, 140 NT rows, T44–T53, ADR-010, no .issue( in App/XRAI, app does not link XRAIVaultStore",
    "log": "docs/status/evidence/p03_05a_check_docs.log",
    "log_sha256": "36c1fb8a322302c20c55791e0068cd2d8d453f387496b4b38a1f4372950d5f55"
+  },
+  {
+   "run_id": "P04-00-BEFORE-SIM-UI",
+   "command": "xcodebuild test … Simulator -only-testing:XRAIUITests/OnboardingUITests (baseline 4c5235f)",
+   "exit_code": 0,
+   "result": "PASS: 7 tests; baseline screenshots exported to p04_00_screens/before_sim",
+   "log": "docs/status/evidence/p04_00_before_sim_ui.log",
+   "log_sha256": "24addcc06da41bfa38580144ab04f00df1eb8af3ba86e5c270eec6943a25f926"
+  },
+  {
+   "run_id": "P04-00-SIM-TARGETED-RUN1",
+   "command": "xcodebuild test … Simulator (NT-LX hosted + LivingExperienceUITests)",
+   "exit_code": 65,
+   "result": "FAIL (kept): NT-LX-04 caught \"teşhis\" in stone 7 copy; audits: stone titles clipped, card identifier read as label",
+   "log": "docs/status/evidence/p04_00_sim_targeted_run1.log",
+   "log_sha256": "b08f46dfaad6fa26928add8762098da2bc223c6f63a082252c102506aac2af2f"
+  },
+  {
+   "run_id": "P04-00-SIM-TARGETED-RUN2",
+   "command": "same",
+   "exit_code": 65,
+   "result": "FAIL (kept): hosted 11/11; on-screen version tag flagged; Ben panel below the fold",
+   "log": "docs/status/evidence/p04_00_sim_targeted_run2.log",
+   "log_sha256": "b99158385460c7667c9874bb70c1b3e22e59033a0fe72641d223d2873cb6fe3c"
+  },
+  {
+   "run_id": "P04-00-SIM-TARGETED-RUN3",
+   "command": "UI only",
+   "exit_code": 65,
+   "result": "FAIL (kept): version label still clipped (removed); map container not addressable",
+   "log": "docs/status/evidence/p04_00_sim_targeted_run3.log",
+   "log_sha256": "8872650b89f039e4b90b9f2c8cc2129d3ea17fae04f2a5f657a5be52848f5588"
+  },
+  {
+   "run_id": "P04-00-SIM-TARGETED-RUN4",
+   "command": "UI only",
+   "exit_code": 65,
+   "result": "FAIL (kept): audits clean; identifiers on cards hid children (root cause found in the whole-scheme run)",
+   "log": "docs/status/evidence/p04_00_sim_targeted_run4.log",
+   "log_sha256": "795e457cc57e58db12364a79702411ded8742bc045143d7ec7bb94a0afa9f7a2"
+  },
+  {
+   "run_id": "P04-00-SIM-ALL-RUN1",
+   "command": "xcodebuild test -project XRAI.xcodeproj -scheme XRAI -destination \"platform=iOS Simulator,name=iPhone 17\"",
+   "exit_code": 65,
+   "result": "FAIL (kept): hosted 166/166; XCUI 15 tests with 7 failures (identifier-on-card collapse, root number clipped, preferences moved one level down)",
+   "log": "docs/status/evidence/p04_00_xcodebuild_sim_all_run1_FAIL_7_ui_issues.log",
+   "log_sha256": "66d12b18bb7bb43b9dec1ccbfaa500a3104d3def2744e0fa91b205c912e81dbf"
+  },
+  {
+   "run_id": "P04-00-SIM-UI-RUN5",
+   "command": "xcodebuild test … Simulator -only-testing:XRAIUITests",
+   "exit_code": 65,
+   "result": "FAIL (kept): 15 tests, 2 issues — big root number clipped on Bugün",
+   "log": "docs/status/evidence/p04_00_sim_ui_run5.log",
+   "log_sha256": "9dd58cada75ccb48367dff4597897347683eeb5a388702306a078e166b0bb754"
+  },
+  {
+   "run_id": "P04-00-SIM-ALL",
+   "command": "xcodebuild test … Simulator (whole scheme)",
+   "exit_code": 0,
+   "result": "PASS: hosted 166 tests in 42 suites + XCUI 15/15; after screenshots exported to p04_00_screens/after_sim",
+   "log": "docs/status/evidence/p04_00_xcodebuild_sim_all.log",
+   "log_sha256": "ef6d2e92718a396a79bd8f41e40dbc33998f3c787b03001a859175c9dc5edf74"
+  },
+  {
+   "run_id": "P04-00-DEVICE-ALL",
+   "command": "xcodebuild test … platform=iOS,id=C7C6CE6E-… -allowProvisioningUpdates (whole scheme, non-destructive)",
+   "exit_code": 0,
+   "result": "PASS: iPhone 14 Pro Max hosted 166/166 (2 source scans skipped by design) + XCUI 15/15; screenshots exported to p04_00_screens/after_device; DEVICE_VERIFIED: PARTIAL",
+   "log": "docs/status/evidence/p04_00_xcodebuild_device_all.log",
+   "log_sha256": "07262cb3423cb9f0fdf56471b4365fba4794bd0e038f8d39f206b4dabe201c5c"
+  },
+  {
+   "run_id": "P04-00-STATIC-VALIDATE",
+   "command": "python3 -I validation/validate_package.py",
+   "exit_code": 0,
+   "result": "PASS spec structure (worktree)",
+   "log": "docs/status/evidence/p04_00_validate_package.log",
+   "log_sha256": "cd47ea53e941b48e0a8865d2c210c476737a7fe2819f221bc85605bfd9647553"
+  },
+  {
+   "run_id": "P04-00-STATIC-DOCS",
+   "command": "python3 -I validation/check_p03_03_docs.py",
+   "exit_code": 0,
+   "result": "PASS incl. P04-00 deliverables, NT-LX rows, ADR-011, Experience import boundary and forbidden-copy scan",
+   "log": "docs/status/evidence/p04_00_check_docs.log",
+   "log_sha256": "787f09c1725d53b02cb438d0dbe3d636bf4c054eb0040c4d9f8bca728a404926"
   }
  ],
  "acceptance_test_mapping": [
@@ -1075,7 +1163,9 @@
   "P03-05A": "CODED + TESTED (library + synthetic UI): macOS 223/223, Simulator hosted 155/155 + XCUI 11/11, iPhone 14 Pro Max hosted 155/155 (2 source scans skipped by design) + XCUI 11/11 (DEVICE_VERIFIED: PARTIAL, non-destructive); app NOT wired to the store; no real personal data; SECURITY_REVIEWED: NO",
   "vault.consent.ledger": "CODED + TESTED (P03-05A: NT-CA-01…06, NT-PR-01…03 on macOS, Simulator, iPhone 14 Pro Max); system/consent.v1 bound to manifest v3; never in backups; SECURITY_REVIEWED: NO",
   "app.interaction_gate": "CODED + TESTED (P03-05A: NT-IG-01…06 + 05b scan on macOS/Simulator; NT-UX-05 scan on Simulator; device skips the scans by design); in-process boundary only; SECURITY_REVIEWED: NO",
-  "app.consent_ux": "CODED + TESTED on synthetic state (P03-05A: NT-UX-01…04, 06, 07 on Simulator and iPhone 14 Pro Max); VoiceOver/native-English MANUAL_PENDING; CONSENT_UI_SYNTHETIC"
+  "app.consent_ux": "CODED + TESTED on synthetic state (P03-05A: NT-UX-01…04, 06, 07 on Simulator and iPhone 14 Pro Max); VoiceOver/native-English MANUAL_PENDING; CONSENT_UI_SYNTHETIC",
+  "P04-00": "CODED + TESTED on branch p04-00-living-experience (NOT merged): court.v1 grammar + three living screens on session/synthetic data; Simulator hosted 166/166 + XCUI 15/15; iPhone 14 Pro Max hosted 166/166 + XCUI 15/15 (DEVICE_VERIFIED: PARTIAL); no vault module changed; no personal persistence; Figma not used (ADR-011 PROPOSED)",
+  "app.living_experience.court_v1": "CODED + TESTED (P04-00: NT-LX-01…12 on Simulator and iPhone 14 Pro Max); epistemic review of stone meanings OPEN (COURT_V1_EPISTEMIC_REVIEW); human VoiceOver/native English MANUAL_PENDING"
  },
  "not_evidence": [
   "docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"

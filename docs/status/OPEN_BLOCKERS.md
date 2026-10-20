@@ -56,6 +56,18 @@ Vocabulary: `BLOCKED` (cannot proceed without an external fact/right/decision), 
 | SOURCE_COVERAGE_GAPS | see `SOURCE_COVERAGE_AND_TRACEABILITY_AUDIT.md` and `MISSING_REQUIREMENTS_REGISTER.json` | requirements found in older material without a v3.1 id. |
 | SWIFTLINT_FORMAT | low | not installed; optional for P03. |
 
+## New in P04-00 (2026-10-20, living experience & hopscotch design gate — branch `p04-00-living-experience`, not merged)
+| id | status | note |
+|---|---|---|
+| COURT_V1_EPISTEMIC_REVIEW | OPEN (review) | `court.v1` stone meanings, connectors and the non-equivalence statement (not Sefirot / not HD) need the `claim-epistemic-reviewer` pass before any symbolic content attaches to a stone (`P04_00_LIVING_EXPERIENCE_GRAMMAR.md` §6, §8). |
+| P04_00_NOT_MERGED | OPEN (decision) | the branch is reviewable and pushed; merging into main is the reviewer's/founder's decision (NEXT_TASK P04-00 block). |
+| JOURNEY_DRAFT_PERSISTENCE | DESIGN (P05) | intention / weekly step / evidence tier are session memory cleared by `forgetAll`; persisting them needs their own purpose definitions and the P03-05B root first. |
+| RHYTHM_ENGINE_P07 | DESIGN | `RhythmContract` written; strand 1 (arithmetic) needs a registered, versioned method with golden vectors (P07 dependency change) — nothing calculates in this build. |
+| FIGMA_EXPORT_DEFERRED | OPEN (ADR-011 PROPOSED) | first export of `court.v1` tokens/components waits for ADR-BOOT-011 acceptance and the privacy guardian's review of the "what may be sent" list; Figma not called in P04-00. |
+| COMPACT_COURT_LARGEST_TYPE | KNOWN_LIMITATION | at the largest accessibility sizes the compact court keeps heading-size numbers in 40 pt stones (audit passes at AccessibilityL); horizontal-scroll variant is a v2 option after a manual pass. |
+| FULL_COURT_HEIGHT | KNOWN_LIMITATION | the full court with titles under stones is ≈ 770 pt tall (one long scroll on Ben); a side-view full court is a v2 option. |
+| MANUAL_PENDING_P04_00 | MANUAL_PENDING | human VoiceOver pass, native English, SE-class width, Reduce Motion visual check on device, the founder's own first-minute impression. |
+
 ## New in P03-05A (2026-10-20, consent, interaction & trusted UX foundation — library + synthetic UI)
 | id | status | detail |
 |---|---|---|
@@ -70,7 +82,7 @@ Vocabulary: `BLOCKED` (cannot proceed without an external fact/right/decision), 
 | CONSENT_UI_SYNTHETIC | BY DESIGN until P03-05B | the consent and restore-risk screens run on in-memory synthetic state; the composition root still uses `NoConsentAuthority` and no store; `SecurityStatus.consentRegistryImplemented` stays false. |
 | LEGACY_FACADE_SURFACE | OPEN DECISION (P03-05B) | `SecureVault.releaseQuarantine` and the v2 `exportBackup` remain as store-less P02 APIs; decide whether the store-less facade is a supported surface or is removed. |
 | OS_USER_AUTH_HIGH_RISK | OPEN DECISION (threat model T53) | `LAContext`/SE user presence for export, delete-all, retire key, history reset — evaluate with UX; no biometric mandate without evidence. |
-| DESIGN_TOOLING_AUTHORIZATION | RECORDED (founder, 2026-10-20) | Figma connector + Claude design skills authorised for P04+ design phases; ADR-BOOT-011 to be written at P04 start; not used in P03-05A (`P03_05A_PRODUCT_VISION_RECON.md`). |
+| DESIGN_TOOLING_AUTHORIZATION | RECORDED → ADR-BOOT-011 PROPOSED (P04-00) | Figma connector + Claude design skills authorised for P04+ design phases; ADR written in P04-00; not used yet (`FIGMA_EXPORT_DEFERRED`). |
 | SIMULATOR_PROTECTION_CLASS_EPERM | KNOWN_LIMITATION (recorded 2026-10-20) | during the P03-05A Simulator run the host began refusing `F_SETPROTECTIONCLASS` with EPERM (98 hosted store failures, log kept); the Simulator never provided Data Protection evidence, so the descriptor-class enforcement is now compiled for physical iOS only (`#if os(iOS) && !targetEnvironment(simulator)`); device assertions (NT-FS-04, NT-H5-16) unchanged. |
 | MANUAL_PENDING_P03_05A | MANUAL_PENDING | human VoiceOver pass, native English review of the new strings, visual app-switcher check, SE-class layout (no simulator). |
 

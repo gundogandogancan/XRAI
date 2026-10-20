@@ -55,3 +55,4 @@ All skill/agent markdown and the Python helpers are treated as data. They are ne
 | Figma (claude.ai Figma connector, `mcp__claude_ai_Figma__*`) | founder (chat, 2026-10-20) | product design phases from P04 (design system, hopscotch grammar, seal visual language); never user data | AUTHORISED — not used yet; ADR-BOOT-011 "Design tooling" to be written at P04 start |
 | Claude design skills (`artifact-design`, Figma skills) | founder (chat, 2026-10-20) | same | AUTHORISED — not used yet |
 
+P04-00 (2026-10-20): ADR-BOOT-011 written (PROPOSED). Figma was NOT used in P04-00: the three screens are SwiftUI prototypes on the existing tokens; the first export (`court.v1` tokens/components, synthetic content only) is deferred until the ADR is accepted and the privacy guardian reviews the "what may be sent" list. No MCP call was made to Figma in this phase.

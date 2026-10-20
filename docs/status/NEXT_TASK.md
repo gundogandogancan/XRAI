@@ -289,3 +289,22 @@ SCOPE_APPROVED:
 CHANGES_REQUESTED:
 ```
 
+---
+
+## P04-00 — Living Experience & Hopscotch Design Gate (2026-10-20) — DONE on branch `p04-00-living-experience`, NOT merged
+
+Decision received (reviewer, 2026-10-20): approve P04-00 design and synthetic SwiftUI prototyping only; P03-05B production persistence NOT authorised. Baseline `4c5235f`. Work isolated in a git worktree on branch `p04-00-living-experience`; main untouched; no vault/consent/keychain/authorization module changed.
+
+Delivered: grammar `court.v1` (eleven stones, eleven connectors, states, return rule, explicit non-equivalence with Sefirot/HD) in `App/XRAI/Experience/LivingGrammar.swift` + `P04_00_LIVING_EXPERIENCE_GRAMMAR.md`; visual language and motion spec (`P04_00_VISUAL_LANGUAGE_AND_MOTION.md`); octopus-to-screen contract for every stone and card + the rhythm contract (`RhythmContract.swift`, refuses to calculate); first-minute journey; three functioning SwiftUI screens — Bugün (`TodayLivingView`), Ben (`SelfMapView` + `SecurityPrivacyView`), Yolum (`PathPreviewView`) — on session/synthetic data; hosted tests NT-LX-01…11, XCUI `LivingExperienceUITests` (4) with audits and accessibility size; before/after screenshots; ADR-BOOT-011 (design tooling, PROPOSED, Figma not used); `P04_00_P03_05B_READINESS.md`. Results: Simulator hosted 166/166 + XCUI 15/15 (run 1 failed with 7 UI issues, log kept), iPhone 14 Pro Max hosted 166/166 + XCUI 15/15 (non-destructive), docs check exit 0. Report: `docs/status/P04_00_PROTOTYPE_REVIEW_REPORT.md`. Implementation commit <!-- P4-SHA --> on the branch.
+
+STOP: no merge into main, no P03-05B, no P04-01 until the review below is written.
+
+```
+P04-00 REVIEW
+APPROVED_BY:
+DATE:
+MERGE_TO_MAIN (yes/no):
+GRAMMAR court.v1 ACCEPTED (yes/no/changes):
+NEXT (P03-05B GO / P04-01 design-system export under ADR-011 / other):
+CHANGES_REQUESTED:
+```

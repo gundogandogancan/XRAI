@@ -1001,6 +1001,436 @@
           }
         }
       }
+    },
+    "Yaşam haritan": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your life map"
+          }
+        }
+      }
+    },
+    "Bir niyet seç": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose an intention"
+          }
+        }
+      }
+    },
+    "Değiştir": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change"
+          }
+        }
+      }
+    },
+    "Köken taşını doldur": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fill the origin stone"
+          }
+        }
+      }
+    },
+    "Hesabın izini gör": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "See the calculation trace"
+          }
+        }
+      }
+    },
+    "Ritim": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rhythm"
+          }
+        }
+      }
+    },
+    "Senin haritan. Bir taşa dokun; altında ne olduğunu, nasıl hesaplandığını ve nasıl düzelteceğini gör. Bu sürümde hiçbir şey diske yazılmaz.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your map. Tap a stone to see what is underneath, how it is calculated and how to correct it. Nothing is written to disk in this version."
+          }
+        }
+      }
+    },
+    "Güvenlik ve gizlilik": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Security and privacy"
+          }
+        }
+      }
+    },
+    "Güvenlik durumu": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Security status"
+          }
+        }
+      }
+    },
+    "Güvenlik": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Security"
+          }
+        }
+      }
+    },
+    "Bu derleme": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This build"
+          }
+        }
+      }
+    },
+    "Bu derlemenin gerçek durumu, izinler ve geri yükleme örnekleri.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The truthful state of this build, permissions and restore examples."
+          }
+        }
+      }
+    },
+    "Seçtiğin yön, kendi hızında. Gelecek Benlik bir senaryodur; tahmin değildir.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The direction you chose, at your own pace. Future Self is a scenario, not a prediction."
+          }
+        }
+      }
+    },
+    "Örnek senaryo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Example scenario"
+          }
+        }
+      }
+    },
+    "Gelecek Benlik, 90 gün": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Future Self, 90 days"
+          }
+        }
+      }
+    },
+    "Nasıl ilerler": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How it proceeds"
+          }
+        }
+      }
+    },
+    "Bu hafta bir adım": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One step this week"
+          }
+        }
+      }
+    },
+    "Kanıt basamağı": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Evidence rung"
+          }
+        }
+      }
+    },
+    "Yaptım (öz bildirim)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I did it (self-report)"
+          }
+        }
+      }
+    },
+    "Beyanı geri al": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Withdraw the statement"
+          }
+        }
+      }
+    },
+    "Önce Yön taşında bir adım seç.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First choose a step on the Direction stone."
+          }
+        }
+      }
+    },
+    "Bugün için": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "For today"
+          }
+        }
+      }
+    },
+    "Bugün dinleniyorum": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I am resting today"
+          }
+        }
+      }
+    },
+    "Seçimi sil": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear the choice"
+          }
+        }
+      }
+    },
+    "Nasıl çalışır (girdi, yöntem, kaynak, sınıf, amaç, çıktı, düzeltme, eylem)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How it works (input, method, source, class, purpose, output, correction, action)"
+          }
+        }
+      }
+    },
+    "Bağlantılar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connections"
+          }
+        }
+      }
+    },
+    "Girdi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Input"
+          }
+        }
+      }
+    },
+    "Bilgi kaynağı": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Knowledge source"
+          }
+        }
+      }
+    },
+    "Bilgi sınıfı": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Epistemic class"
+          }
+        }
+      }
+    },
+    "Gizlilik amacı": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy purpose"
+          }
+        }
+      }
+    },
+    "Çıktı": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Output"
+          }
+        }
+      }
+    },
+    "Düzeltme": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Correction"
+          }
+        }
+      }
+    },
+    "İsteğe bağlı eylem": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Optional action"
+          }
+        }
+      }
+    },
+    "Yaşam haritası, on bir taş": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Life map, eleven stones"
+          }
+        }
+      }
+    },
+    "Taşı açar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens the stone"
+          }
+        }
+      }
+    },
+    "etkin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "active"
+          }
+        }
+      }
+    },
+    "hazır": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ready"
+          }
+        }
+      }
+    },
+    "planlı": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "planned"
+          }
+        }
+      }
+    },
+    "Düz çizgi: bu sürümde çalışıyor · kesik çizgi: planlı, seçili taşta görünür": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solid line: runs in this version · dashed: planned, shown for the selected stone"
+          }
+        }
+      }
+    },
+    "On bir taş, her biri bir soru; soldan sağa 0'dan 10'a. Düz çizgiler bu sürümde gerçekten çalışan bağlantılardır. Dokun: taşı aç.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eleven stones, each a question; left to right from 0 to 10. Solid lines are the connections that really run in this version. Tap to open a stone."
+          }
+        }
+      }
+    },
+    "Tek küçük bir şey ya da dinlenme. Seçmek zorunda değilsin; hiçbir şey kaydedilmez.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One small thing, or rest. You do not have to choose; nothing is saved."
+          }
+        }
+      }
+    },
+    "Bugün dinleniyorsun. Bu da bir seçimdir.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You are resting today. That is a choice too."
+          }
+        }
+      }
+    },
+    "Bugünün keşfi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today's discovery"
+          }
+        }
+      }
     }
   }
 }

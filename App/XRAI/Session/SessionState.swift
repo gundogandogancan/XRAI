@@ -30,6 +30,8 @@ final class SessionState {
     private(set) var birthDate: CivilDate?
     /// Unconfirmed form text. Cleared on forgetAll(), on onboarding completion, and on unconfirmed exit.
     var draft = DateDraft.empty
+    /// P04-00: today's intention, this week's step and its evidence tier — session-only, cleared by forgetAll().
+    var journey = JourneyDraft.empty
     var method: NumerologyMethodID = .lifePathDigitsV1
     var masterPolicy: MasterNumberPolicy = .preserve11_22_33
     private(set) var onboardingCompleted: Bool
@@ -48,13 +50,14 @@ final class SessionState {
     func forgetAll() {
         birthDate = nil
         draft = .empty
+        journey = .empty
     }
 
     /// Drops unconfirmed text only (used when a form is abandoned).
     func clearDraft() { draft = .empty }
 
     /// True when any personal value is held in memory.
-    var holdsPersonalData: Bool { birthDate != nil || !draft.isEmpty }
+    var holdsPersonalData: Bool { birthDate != nil || !draft.isEmpty || !journey.isEmpty }
 
     func completeOnboarding() {
         onboardingCompleted = true
