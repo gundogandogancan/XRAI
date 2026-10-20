@@ -53,6 +53,6 @@ Acceptance checklist (directive §7): meaningful first minute — screenshots A1
 Limitations: full court height on Ben (≈ 770 pt), compact court at the largest type sizes, Turkish-only titles on screen, the chosen weekly step is marked by text and VoiceOver value but has no checkmark glyph (the daily intention has one), no haptics, no device Reduce-Motion visual check, no SE-class device. Decisions for the reviewer/founder: merge the branch or not; accept `court.v1` (epistemic reviewer pass on stone meanings); P03-05B GO (readiness register) vs. P04-01 (design-system export under ADR-011); whether stone 6 ("Bağ") stays visible before third-party consent exists.
 
 ## Implementation commit
-<!-- FINAL-SHA --> on branch `p04-00-living-experience` (pushed to origin; main unchanged at `4c5235f`).
+`c2d26a3e2d68e8759cec966dd11e6500bdb31eee` on branch `p04-00-living-experience` (pushed to origin; main unchanged at `4c5235f`).
 
 **STOP.** No merge, no P03-05B, no P04-01 until the review block in `NEXT_TASK.md` is filled.
