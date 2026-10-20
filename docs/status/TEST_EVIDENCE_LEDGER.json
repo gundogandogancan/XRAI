@@ -994,6 +994,46 @@
    "result": "PASS incl. P04-00 deliverables, NT-LX rows, ADR-011, Experience import boundary and forbidden-copy scan",
    "log": "docs/status/evidence/p04_00_check_docs.log",
    "log_sha256": "787f09c1725d53b02cb438d0dbe3d636bf4c054eb0040c4d9f8bca728a404926"
+  },
+  {
+   "run_id": "P04-00-INT-SWIFT-MACOS",
+   "command": "swift test (branch HEAD a418291)",
+   "exit_code": 0,
+   "result": "PASS: 223 tests in 51 suites",
+   "log": "docs/status/evidence/p04_00_int_swift_test_macos.log",
+   "log_sha256": "455ac4f275127ff18e9ec6a6e88cac6daf35c49867c0012c19327e8593fd1c86"
+  },
+  {
+   "run_id": "P04-00-INT-SIM-ALL",
+   "command": "xcodebuild test … Simulator whole scheme (a418291)",
+   "exit_code": 0,
+   "result": "PASS: hosted 166/166 + XCUI 15/15",
+   "log": "docs/status/evidence/p04_00_int_xcodebuild_sim_all.log",
+   "log_sha256": "3ff8b16f44b3118fc3ec229bcdd7415fe647d64700895a25b969c3283170a064"
+  },
+  {
+   "run_id": "P04-00-INT-DEVICE-ALL",
+   "command": "xcodebuild test … iPhone 14 Pro Max whole scheme, non-destructive (a418291)",
+   "exit_code": 0,
+   "result": "PASS: hosted 166/166 (2 source scans skipped by design) + XCUI 15/15",
+   "log": "docs/status/evidence/p04_00_int_xcodebuild_device_all.log",
+   "log_sha256": "2f3a4b2fc86be424e010424c0f51862eb34817e0e7be1885b4907e45532ccf7c"
+  },
+  {
+   "run_id": "P04-00-INT-STATIC-VALIDATE",
+   "command": "python3 -I validation/validate_package.py (merged tree 2657f2c)",
+   "exit_code": 0,
+   "result": "PASS spec structure",
+   "log": "docs/status/evidence/p04_00_int_validate_package.log",
+   "log_sha256": "33fee6791b4697f4a03b5d9a6f52172dbe7cefcabd315459dede1f83be8d9fc3"
+  },
+  {
+   "run_id": "P04-00-INT-STATIC-DOCS",
+   "command": "python3 -I validation/check_p03_03_docs.py (merged tree 2657f2c)",
+   "exit_code": 0,
+   "result": "PASS incl. P04-00, 160 NT rows",
+   "log": "docs/status/evidence/p04_00_int_check_docs.log",
+   "log_sha256": "2b62da8bcf92af01feb3f76f76ab08397a3edefb2152f1cd8287a3912d72669e"
   }
  ],
  "acceptance_test_mapping": [
@@ -1164,7 +1204,7 @@
   "vault.consent.ledger": "CODED + TESTED (P03-05A: NT-CA-01…06, NT-PR-01…03 on macOS, Simulator, iPhone 14 Pro Max); system/consent.v1 bound to manifest v3; never in backups; SECURITY_REVIEWED: NO",
   "app.interaction_gate": "CODED + TESTED (P03-05A: NT-IG-01…06 + 05b scan on macOS/Simulator; NT-UX-05 scan on Simulator; device skips the scans by design); in-process boundary only; SECURITY_REVIEWED: NO",
   "app.consent_ux": "CODED + TESTED on synthetic state (P03-05A: NT-UX-01…04, 06, 07 on Simulator and iPhone 14 Pro Max); VoiceOver/native-English MANUAL_PENDING; CONSENT_UI_SYNTHETIC",
-  "P04-00": "CODED + TESTED on branch p04-00-living-experience (NOT merged): court.v1 grammar + three living screens on session/synthetic data; Simulator hosted 166/166 + XCUI 15/15; iPhone 14 Pro Max hosted 166/166 + XCUI 15/15 (DEVICE_VERIFIED: PARTIAL); no vault module changed; no personal persistence; Figma not used (ADR-011 PROPOSED)",
+  "P04-00": "CODED + TESTED and MERGED into main (merge 2657f2c, 2026-10-20) after integration regression at a418291: macOS 223/223, Simulator 166/166 + XCUI 15/15, iPhone 14 Pro Max 166/166 + XCUI 15/15; UX debt NT-UXD-01…08 open; no personal persistence",
   "app.living_experience.court_v1": "CODED + TESTED (P04-00: NT-LX-01…12 on Simulator and iPhone 14 Pro Max); epistemic review of stone meanings OPEN (COURT_V1_EPISTEMIC_REVIEW); human VoiceOver/native English MANUAL_PENDING"
  },
  "not_evidence": [

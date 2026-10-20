@@ -203,3 +203,16 @@ Türkçe özet: PRE-01/02/03 denetimi, sürümlü amaç kaydı + değişmez izin
 | NT-LX-10 | P04-00 | T40 (false certainty) / GAP-053 | the rhythm contract's only implementation refuses to calculate (P07), every strand nil, deterministic | as specified | TESTED (Simulator + iPhone 14 Pro Max 2026-10-20) · test: `ExperienceDerivationTests.rhythm (hosted)` · real result: as expected |
 | NT-LX-11 | P04-00 | T40 (false certainty) / GAP-053 | court contrast: stone number on fill ≥ 4.5:1, rings and live connector ≥ 3:1 against fill and page, both appearances | as specified | TESTED (Simulator + iPhone 14 Pro Max 2026-10-20) · test: `CourtContrastTests.pairs (hosted, attachment court-contrast.txt)` · real result: as expected |
 | NT-LX-12 | P04-00 | — | XCUI: first minute (Bugün empty → Köken → living), Ben map + panels + security one level down, Yolum scenario + P0→P1, accessibility size; audits on every screen | all pass, screenshots attached | TESTED (Simulator + iPhone 14 Pro Max 2026-10-20) · test: `LivingExperienceUITests` (4 tests) · real result: runs 1–4 on the Simulator found clipped stone titles, an identifier read as a label, a forbidden word and quiet buttons hidden from the accessibility tree (all fixed; logs kept) |
+
+## P04-00 integration addendum — UX quality debt (contracts only, nothing run)
+
+| id | gate | threat | scenario | expected | status |
+|---|---|---|---|---|---|
+| NT-UXD-01 | P04-00 debt | — | idle animation CPU/battery/thermal cost of the court | CPU ≤ 3 % idle on device; nominal thermal; flat memory | NOT_RUN · contract: `P04_00_UX_QUALITY_DEBT.md` |
+| NT-UXD-02 | P04-00 debt | — | Reduce Motion and inactive-scene pausing of court animation | identical frames with Reduce Motion; zero draws while inactive; human visual check | NOT_RUN / MANUAL_PENDING · contract: `P04_00_UX_QUALITY_DEBT.md` |
+| NT-UXD-03 | P04-00 debt | — | compact court at AccessibilityXXXL | audit clean, stones ≥ 44 pt, numbers unclipped | NOT_RUN (AccessibilityL passes) · contract: `P04_00_UX_QUALITY_DEBT.md` |
+| NT-UXD-04 | P04-00 debt | — | SE-class layout of Bugün/Ben/Yolum | audits clean, no clipped titles, no horizontal scroll | NOT_RUN (no SE Simulator installed) · contract: `P04_00_UX_QUALITY_DEBT.md` |
+| NT-UXD-05 | P04-00 debt | — | human VoiceOver pass over the three screens | no unlabeled element, no wrong order, no trap | MANUAL_PENDING · contract: `P04_00_UX_QUALITY_DEBT.md` |
+| NT-UXD-06 | P04-00 debt | — | native English review of titles and copy | reviewer sign-off recorded | MANUAL_PENDING · contract: `P04_00_UX_QUALITY_DEBT.md` |
+| NT-UXD-07 | P04-00 debt | — | selected weekly step has a visual confirmation mark | mark visible for the chosen step only | NOT_RUN (code change pending) · contract: `P04_00_UX_QUALITY_DEBT.md` |
+| NT-UXD-08 | P04-00 debt | — | epistemic review of the eleven stone meanings | all stones accepted or changed with a version bump | MANUAL_PENDING · contract: `P04_00_UX_QUALITY_DEBT.md` |

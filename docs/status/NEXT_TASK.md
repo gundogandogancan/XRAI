@@ -308,3 +308,20 @@ GRAMMAR court.v1 ACCEPTED (yes/no/changes):
 NEXT (P03-05B GO / P04-01 design-system export under ADR-011 / other):
 CHANGES_REQUESTED:
 ```
+
+---
+
+## P04-00 integration (2026-10-20) — MERGED into main as `2657f2c`
+
+Reviewer: CONDITIONAL GO for controlled integration (HEAD `a418291`). Regression before merge all exit 0 (macOS 223/223, Simulator 166/166 + XCUI 15/15, iPhone 14 Pro Max 166/166 + XCUI 15/15). PR could not be opened from this environment (no `gh`, browser connector offline); compare link and merge commit are the review surface. Report: `P04_00_INTEGRATION_REPORT.md`. UX debt contracts: `P04_00_UX_QUALITY_DEBT.md` (NT-UXD-01…08, none run). Proposal: `P04_01A_PROPOSAL_KNOWLEDGE_DNA_MICRO_LESSON.md` (NOT started). P03-05B: `P03_05B_AUDIT_DECISION_RECORD.md` (decisions empty) — NO-GO.
+
+STOP: no P04-01A, no P03-05B until written approval.
+
+```
+P04-01A / P03-05B REVIEW
+APPROVED_BY:
+DATE:
+P04-01A GO (yes/no/changes):
+P03-05B decision rows filled (1–8):
+CHANGES_REQUESTED:
+```
