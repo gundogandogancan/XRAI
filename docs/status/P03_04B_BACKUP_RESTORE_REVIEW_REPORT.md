@@ -120,7 +120,7 @@ DEVICE_VERIFIED: **PARTIAL** — hosted non-destructive suite (117/117) on iPhon
 
 ## 7. Final SHA
 
-<!-- FINAL-SHA -->
+Implementation + evidence commit: `9a55c529e9b27cc19f0fea08c1cb9044be72e876` (on top of baseline `42c3f4e`). This stamp is added in the small follow-up commit that is HEAD; no history was rewritten.
 
 ## 8. GO / NO-GO
 
