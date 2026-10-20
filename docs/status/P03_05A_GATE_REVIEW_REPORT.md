@@ -61,7 +61,7 @@ Not run: destructive device scenarios, power loss, human VoiceOver, native Engli
 `CONSENT_UI_SYNTHETIC`, `LEGACY_FACADE_SURFACE`, `OS_USER_AUTH_HIGH_RISK`, `MANUAL_PENDING_P03_05A`, plus the carried P03-04b/bH2 items (attachments in backup, sticky-distrust reset, persisted corrupt state, grouped commit — all DESIGN).
 
 ## Implementation SHA
-<!-- FINAL-SHA -->
+`c3d3ad9ef58609f0182ad2a8bfb48e0900e2e59a` (implementation commit; this stamp commit follows it)
 
 ## Exact approval required for P03-05B
 1. Independent review accepts ADR-BOOT-010, the PRE-01/PRE-02 fixes and the reconciliation table.
