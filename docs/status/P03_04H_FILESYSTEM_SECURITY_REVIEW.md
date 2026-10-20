@@ -108,7 +108,7 @@ DEVICE_VERIFIED: **PARTIAL** — hosted non-destructive suite only, temp directo
 
 ## 8. Final SHA
 
-<!-- FINAL-SHA -->
+Implementation + evidence commit: `40055203e6091ed94433ec60f170369dbf150d0a` (on top of baseline `f888040`). This stamp is added in the small follow-up commit that is HEAD; no history was rewritten.
 
 ## 9. GO / NO-GO for P03-04b
 
