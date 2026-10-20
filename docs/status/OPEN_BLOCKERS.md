@@ -56,6 +56,24 @@ Vocabulary: `BLOCKED` (cannot proceed without an external fact/right/decision), 
 | SOURCE_COVERAGE_GAPS | see `SOURCE_COVERAGE_AND_TRACEABILITY_AUDIT.md` and `MISSING_REQUIREMENTS_REGISTER.json` | requirements found in older material without a v3.1 id. |
 | SWIFTLINT_FORMAT | low | not installed; optional for P03. |
 
+## New in P03-05A (2026-10-20, consent, interaction & trusted UX foundation — library + synthetic UI)
+| id | status | detail |
+|---|---|---|
+| PRE_01_AUTHORIZATION_ORDERING | RESOLVED (CONFIRMED → CODED + TESTED) | read/write/re-import/export APIs inspected state before validating the token; now `SecureVault.precheckAuthorization` (non-consuming) runs first; `put` seals first (NT-PR-01). |
+| PRE_02_TRANSITIVE_SOURCES | RESOLVED (CONFIRMED → CODED + TESTED) | derived reads now walk `derivedFrom` transitively (active, present, clear, consented) (NT-PR-02). |
+| PRE_03_UNTRUSTED_HISTORY_TABLE | DECIDED + TESTED | decision table in `P03_05A_CANONICAL_RECONCILIATION.md`; asserted by NT-PR-03. |
+| CONSENT_BOOTSTRAP | RESOLVED | consent events are store system state (`system/consent.v1`, manifest v3 `consentHash`, `consentWritten` journal rule); storing a grant never needs a prior consent (NT-CA-03…05). |
+| CONSENT_RECEIPTS_IN_BACKUP | RESOLVED (policy) | `mayBackup(.consentReceipts)` denies; a new device asks again (NT-CA-06). |
+| INTERACTION_GATE | CODED + TESTED (in-process) | `XRAIVaultInteraction`; app code cannot call the issuer (NT-UX-05); limit stated verbatim in T53. |
+| INPUT_FIELD_BOUNDARY_CONTRAST (F-UX-5) | **CLOSED** | `XRColor.inputBorder` ≥ 3:1 vs fill, card and background in both appearances (NT-UX-06, attachment). |
+| F_UX_4_QUIET_BUTTON | RESOLVED (automated) · human judgement MANUAL_PENDING | accent + underline + chevron, 44pt. |
+| CONSENT_UI_SYNTHETIC | BY DESIGN until P03-05B | the consent and restore-risk screens run on in-memory synthetic state; the composition root still uses `NoConsentAuthority` and no store; `SecurityStatus.consentRegistryImplemented` stays false. |
+| LEGACY_FACADE_SURFACE | OPEN DECISION (P03-05B) | `SecureVault.releaseQuarantine` and the v2 `exportBackup` remain as store-less P02 APIs; decide whether the store-less facade is a supported surface or is removed. |
+| OS_USER_AUTH_HIGH_RISK | OPEN DECISION (threat model T53) | `LAContext`/SE user presence for export, delete-all, retire key, history reset — evaluate with UX; no biometric mandate without evidence. |
+| DESIGN_TOOLING_AUTHORIZATION | RECORDED (founder, 2026-10-20) | Figma connector + Claude design skills authorised for P04+ design phases; ADR-BOOT-011 to be written at P04 start; not used in P03-05A (`P03_05A_PRODUCT_VISION_RECON.md`). |
+| SIMULATOR_PROTECTION_CLASS_EPERM | KNOWN_LIMITATION (recorded 2026-10-20) | during the P03-05A Simulator run the host began refusing `F_SETPROTECTIONCLASS` with EPERM (98 hosted store failures, log kept); the Simulator never provided Data Protection evidence, so the descriptor-class enforcement is now compiled for physical iOS only (`#if os(iOS) && !targetEnvironment(simulator)`); device assertions (NT-FS-04, NT-H5-16) unchanged. |
+| MANUAL_PENDING_P03_05A | MANUAL_PENDING | human VoiceOver pass, native English review of the new strings, visual app-switcher check, SE-class layout (no simulator). |
+
 ## New in P03-04bH2 (2026-10-20, global deletion invariant & write-path security gate)
 | id | status | detail |
 |---|---|---|
@@ -135,7 +153,7 @@ Vocabulary: `BLOCKED` (cannot proceed without an external fact/right/decision), 
 | DERIVED_DATA_GRAPH | SPECIFIED, NOT_STARTED | `derivedFrom[]` in authenticated header v3 + manifest reverse index; cascade/invalidation rules in P03_03_DATA_LIFECYCLE_MATRIX §2; tests N13 PLANNED. |
 | TOMBSTONE_RESURRECTION_WINDOW | SUPERSEDED 2026-10-20 (P03-03H H1) | the 90-day window is withdrawn; replaced by DELETION_LEDGER_PERMANENT and DELETION_HISTORY_AFTER_DEVICE_LOSS. |
 | INTERACTION_PROOF_LIMIT | LIMIT | the interaction proof is in-process, not an OS boundary; malicious in-process code can forge it. Mitigations: code signing, sandbox, SE keys, optional biometrics (deferred, UX decision). |
-| INPUT_FIELD_BOUNDARY_CONTRAST | OPEN (F-UX-5) | WCAG 2.2 SC 1.4.11: text-input boundary measures 1.17:1 light / 1.11:1 dark against the surface, below the 3:1 non-text requirement; needs an `inputBorder` token ≥ 3:1 asserted by `ContrastTests`. The 1.3:1 border threshold is an internal decorative minimum, not an SC claim (P03_03_ARCHITECTURE_GATE_REPORT §4). |
+| INPUT_FIELD_BOUNDARY_CONTRAST (P03-03 entry) | CLOSED in P03-05A (see above); was: OPEN (F-UX-5) | WCAG 2.2 SC 1.4.11: text-input boundary measures 1.17:1 light / 1.11:1 dark against the surface, below the 3:1 non-text requirement; needs an `inputBorder` token ≥ 3:1 asserted by `ContrastTests`. The 1.3:1 border threshold is an internal decorative minimum, not an SC claim (P03_03_ARCHITECTURE_GATE_REPORT §4). |
 | DELETION_LEDGER_PERMANENT | CODED + TESTED (P03-04) | `DeletionLedger` + `BloomFilter` (p ≤ 1e-6 measured at 250 000 entries), cross-bound to the manifest; corrupt → every admission quarantined; missing → read-only; known-deleted ids skipped on admission; reimport = new id with provenance (NT-H1-01…05, 07). NT-H1-06 (embedded ledger in backup body v3) DEFERRED to P03-04b. |
 | DELETION_HISTORY_AFTER_DEVICE_LOSS | LIMIT | with only an old portable backup, deletions made after its export are unknowable; restored records are quarantined and reviewed per class; no absolute-forgetting claim. |
 | MANIFEST_ROLLBACK_ANCHOR | CODED + TESTED (P03-04) | `KeychainAnchorStore` (real keychain test on every host) + `InMemoryAnchorStore`; rollback of manifest alone or of the whole system/ snapshot → read-only (NT-H5-04/05); crash between manifest and anchor recovered via chain + open journal (GATE B). LIMIT: compromised OS. |

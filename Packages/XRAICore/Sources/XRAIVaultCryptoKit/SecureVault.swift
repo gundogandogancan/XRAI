@@ -216,6 +216,15 @@ public struct SecureVault: Sendable {
 
     public static func generateRecoveryKey() throws -> RecoveryKey { try BackupCodec.generateRecoveryKey() }
 
+    /// P03-05A PRE-01: non-consuming pre-check that the token exists, is in window, has the right epoch
+    /// and covers `op` for `recordID`. The store calls it BEFORE touching any state so an unauthorized
+    /// caller only ever sees `authorizationInvalid`. The token is consumed later by the real operation.
+    public func precheckAuthorization(_ token: OperationAuthorization, for op: OperationScope, recordID: RecordID?) throws {
+        let now = try clock.now()
+        let trusted = try authorizations.validate(tokenID: token.id, atUnixSeconds: now)
+        guard trusted.scope.covers(op, recordID: recordID) else { throw VaultError.authorizationInvalid(.scopeMismatch) }
+    }
+
     // MARK: P03-04 store support (ADR-BOOT-009). Still the only crypto entry point.
 
     /// Consumes a token for an operation the STORE executes (revoke, restore suspended, retire key,

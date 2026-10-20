@@ -691,6 +691,316 @@
           }
         }
       }
+    },
+    "Gizlilik ve izinler": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy and consents"
+          }
+        }
+      }
+    },
+    "İzinler": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Consents"
+          }
+        }
+      }
+    },
+    "İzin geçmişi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Consent history"
+          }
+        }
+      }
+    },
+    "Geçmiş": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "History"
+          }
+        }
+      }
+    },
+    "Durum": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Status"
+          }
+        }
+      }
+    },
+    "İzin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Consent"
+          }
+        }
+      }
+    },
+    "İzin veriyorum": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I give my consent"
+          }
+        }
+      }
+    },
+    "Vazgeç": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        }
+      }
+    },
+    "Örnek kayıt oluştur": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create sample record"
+          }
+        }
+      }
+    },
+    "İzni geri çek ve hemen sil": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revoke and delete now"
+          }
+        }
+      }
+    },
+    "İzni geri çek, askıda tut": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revoke, keep suspended"
+          }
+        }
+      }
+    },
+    "Kayıtları sil (izin kalır)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete records (consent stays)"
+          }
+        }
+      }
+    },
+    "Askıdaki kayıtları geri getir": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bring suspended records back"
+          }
+        }
+      }
+    },
+    "Yazmak izin değildir; yalnız bu düğmeler ve onay penceresi izin verir.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Typing is not consent; only these buttons and the confirmation dialog grant it."
+          }
+        }
+      }
+    },
+    "Her amaç için önce sekiz soruyu görür, sonra karar verirsin. Bu sürümde gerçek kayıt yok: izinler yalnız bu oturumda, bellekte tutulur.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "For every purpose you first see the eight questions, then decide. This build stores nothing: consents live only in memory for this session."
+          }
+        }
+      }
+    },
+    "Yedekten geri yükleme (örnek)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore from backup (sample)"
+          }
+        }
+      }
+    },
+    "Yedekten geri yükleme": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore from backup"
+          }
+        }
+      }
+    },
+    "Geri yükleme": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore"
+          }
+        }
+      }
+    },
+    "Örnek durum: bu sürümde gerçek yedek yok. Her kayıt önce karantinaya alınır; yalnız gösterilen riskleri tam olarak onaylarsan etkinleşir.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sample state: this build has no real backup. Every record is quarantined first; it activates only when you acknowledge exactly the risks shown."
+          }
+        }
+      }
+    },
+    "Etkinleştir": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activate"
+          }
+        }
+      }
+    },
+    "Düğme yalnız tüm riskler işaretliyken etkindir.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The button is enabled only when every risk is checked."
+          }
+        }
+      }
+    },
+    "Bu kayıt aynı kimlikle etkinleşemez.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This record cannot be activated under the same identity."
+          }
+        }
+      }
+    },
+    "Yeni kimlikle yeniden içe aktar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Re-import under a new identity"
+          }
+        }
+      }
+    },
+    "Silme geçmişi sıfırlama": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deletion-history reset"
+          }
+        }
+      }
+    },
+    "Bu işlem henüz yok. Olmayan bir seçenek gösterilmez; doğrulanamayan geçmişle çalışan bir kasa yeni kayıt oluşturmaz.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This operation does not exist yet. A non-existent option is not shown; a vault with unverifiable history creates no new records."
+          }
+        }
+      }
+    },
+    "Henüz olay yok.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No events yet."
+          }
+        }
+      }
+    },
+    "Her satır bir olaydır; içerik yoktur. Geri çekme eski kaydı değiştirmez, yeni bir olay ekler.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Each row is an event; there is no content. Revoking never edits the old record, it adds a new event."
+          }
+        }
+      }
+    },
+    "Amaç": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purpose"
+          }
+        }
+      }
+    },
+    "Veri": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Data"
+          }
+        }
+      }
+    },
+    "Zaman": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time"
+          }
+        }
+      }
+    },
+    "Kayıtlar (örnek)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Records (sample)"
+          }
+        }
+      }
     }
   }
 }

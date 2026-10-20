@@ -274,3 +274,18 @@ SCOPE_APPROVED:
 CHANGES_REQUESTED:
 ```
 
+---
+
+## P03-05A RESULT (2026-10-20) — CONSENT, INTERACTION & TRUSTED USER EXPERIENCE FOUNDATION, STOP
+
+GATE 0 reconciliation (eight conflicts resolved, old consent spec §2/§4/§5/§7 superseded, ADR-BOOT-010 PROPOSED). GATE 1: PRE-01 authorization-ordering oracle CONFIRMED and fixed (non-consuming validation first), PRE-02 transitive source checks CONFIRMED and fixed, PRE-03 decision table decided and asserted. GATE 2: versioned `PurposeRegistry`, immutable payload-free `ConsentEvent` chain persisted as `system/consent.v1` (manifest v3, announce-then-write, read-only on rollback), `StoreConsentAuthority`, consent never in backups. GATE 3: `XRAIVaultInteraction` InteractionGate (active scene, 5 s, single use, exact scope/purpose, private issuer, source-scan). GATE 4/5: SwiftUI consent (eight questions, five distinct actions) and restore-risk screens (8/8 risks, exact acknowledgment, no activation of possibly-deleted/untrusted ids, no reset button) on synthetic state. GATE 6: F-UX-5 closed by measurement, F-UX-4 affordance; VoiceOver/native-English MANUAL_PENDING. GATE 7: decision register (10 items). Results: macOS 223/223 (run 1 failed on an environmental screen lock, run 2 222/222 before the scan split; both logs kept), Simulator hosted 155/155 + XCUI 11/11 (two failed runs kept), iPhone 14 Pro Max hosted 155/155 (two source scans skipped by design on the device) + XCUI 11/11 (run 1 failed on the scans, log kept). App NOT wired to a store; no real personal data. SECURITY_REVIEWED: NO. Report: `docs/status/P03_05A_GATE_REVIEW_REPORT.md`.
+
+Exact approval required for P03-05B: (1) independent review of ADR-BOOT-010 and the PRE-01/02 fixes; (2) founder decisions on `OS_USER_AUTH_HIGH_RISK`, `LEGACY_FACADE_SURFACE` and the provisional performance budgets; (3) written GO for wiring `FileVaultStore` + `StoreConsentAuthority` + `InteractionGate` into the production composition root with the first real personal class (`birthDate`, purpose `life_path_calculation`) — nothing else.
+
+```
+APPROVED_BY:
+DATE:
+SCOPE_APPROVED:
+CHANGES_REQUESTED:
+```
+

@@ -54,6 +54,8 @@ public enum OperationScope: Hashable, Sendable {
     /// P03-04bH: explicit re-import of ONE quarantined restored record under a NEW id (the old id stays
     /// deleted forever). Purpose must match the record's bound purpose.
     case reimport(recordID: RecordID)
+    /// P03-05A: grant consent for a purpose (the purpose id is the token's purpose).
+    case grantConsent(purpose: String)
 
     /// Whether this scope covers `op` for `recordID` (nil when the operation is not record-bound).
     public func covers(_ op: OperationScope, recordID: RecordID?) -> Bool {
@@ -72,6 +74,7 @@ public enum OperationScope: Hashable, Sendable {
         case (.admitRestored, .admitRestored): return true
         case (.activateRestored(let a), .activateRestored(let b)): return b.isSubset(of: a)
         case (.reimport(let a), .reimport(let b)): return a == b
+        case (.grantConsent(let a), .grantConsent(let b)): return a == b
         default: return false
         }
     }
@@ -114,6 +117,10 @@ public enum AuthorizationFailure: String, Hashable, Sendable {
 /// returned at most once, and only if the issuer created it and it is within its validity window.
 public protocol AuthorizationValidator: Sendable {
     func consume(tokenID: String, atUnixSeconds now: Int64) throws -> OperationAuthorization
+    /// P03-05A PRE-01: validates WITHOUT consuming (same checks as `consume`: known, not consumed, in
+    /// window, right epoch). Lets a store refuse unauthorized callers before any state is inspected,
+    /// so that error types never reveal record existence, state or deletion history.
+    func validate(tokenID: String, atUnixSeconds now: Int64) throws -> OperationAuthorization
 }
 
 /// A record restored from backup whose consent is no longer active. Not readable until released

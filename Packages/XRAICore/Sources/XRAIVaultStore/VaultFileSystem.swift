@@ -174,7 +174,10 @@ public struct RealFileSystem: VaultFileSystem {
             if (st.st_mode & 0o777) != 0o600 {
                 guard Self.retryingEINTR({ fchmod(fd, 0o600) }) == 0 else { throw VaultError.ioFailed(operation: "fchmod", errno: errno) }
             }
-            #if os(iOS)
+            // P03-05A: enforced on a PHYSICAL iPhone only. The Simulator never implemented Data Protection
+            // (FileManager reports no class — KNOWN_LIMITATION since P03-04) and on 2026-10-20 its host
+            // started refusing F_SETPROTECTIONCLASS with EPERM; asserting there was never device evidence.
+            #if os(iOS) && !targetEnvironment(simulator)
             try Self.ensureCompleteProtection(fd)
             #endif
         } catch {
@@ -185,7 +188,7 @@ public struct RealFileSystem: VaultFileSystem {
         return fd
     }
 
-    #if os(iOS)
+    #if os(iOS) && !targetEnvironment(simulator)
     /// Applies and verifies Data Protection "complete" on an EMPTY descriptor (inherits from the vault
     /// directory in the normal case; set explicitly otherwise). Verification reads the class back from
     /// the descriptor, never from the path.

@@ -22,8 +22,31 @@ public struct VaultComposition: Sendable {
     public let quarantine: any QuarantineAuthority
     public let baseClock: any VaultClock
     public let toleranceSeconds: Int64
+    /// P03-05A: when a purpose registry is given, the store OWNS consent: events are persisted in
+    /// `system/consent.v1` (bound to the manifest) and the store's own `StoreConsentAuthority` replaces
+    /// `consentAuthority` for every policy decision. Without it (tests, legacy), the injected authority is used.
+    public let purposeRegistry: PurposeRegistry?
     public init(consentAuthority: any ConsentAuthority, quarantine: any QuarantineAuthority, baseClock: any VaultClock, toleranceSeconds: Int64 = 300) {
-        self.consentAuthority = consentAuthority; self.quarantine = quarantine; self.baseClock = baseClock; self.toleranceSeconds = toleranceSeconds
+        self.consentAuthority = consentAuthority; self.quarantine = quarantine; self.baseClock = baseClock; self.toleranceSeconds = toleranceSeconds; purposeRegistry = nil
+    }
+    public init(purposeRegistry: PurposeRegistry, quarantine: any QuarantineAuthority, baseClock: any VaultClock, toleranceSeconds: Int64 = 300) {
+        self.consentAuthority = NoConsentAuthority(); self.quarantine = quarantine; self.baseClock = baseClock; self.toleranceSeconds = toleranceSeconds; self.purposeRegistry = purposeRegistry
+    }
+}
+
+/// P03-05A: the production consent authority. Holds the store's committed consent ledger (published by
+/// the actor after every commit) and answers policy questions through the versioned registry. Only the
+/// store mutates it; a receipt VALUE handed in by a caller still carries no authority.
+public final class StoreConsentAuthority: ConsentAuthority, @unchecked Sendable {
+    private let lock = NSLock()
+    private var ledger = ConsentLedger()
+    public let registry: PurposeRegistry
+    init(registry: PurposeRegistry) { self.registry = registry }
+    func publish(_ l: ConsentLedger) { lock.lock(); ledger = l; lock.unlock() }
+    public var events: [ConsentEvent] { lock.lock(); defer { lock.unlock() }; return ledger.events }
+    public func activeGrant(for dataClass: DataClass, purpose: String, destination: Destination, atUnixSeconds now: Int64) -> ConsentGrant? {
+        lock.lock(); defer { lock.unlock() }
+        return ledger.activeGrant(for: dataClass, purpose: purpose, destination: destination, atUnixSeconds: now, registry: registry)
     }
 }
 
@@ -138,6 +161,9 @@ public actor FileVaultStore {
     // MARK: Isolated state
     private var manifest: Manifest
     private var ledger: DeletionLedger
+    /// P03-05A: committed consent event chain (empty when the composition injects its own authority).
+    private var consent: ConsentLedger
+    private nonisolated let consentAuthority: StoreConsentAuthority?
     private var authz: AuthzState
     private var modeValue: StoreMode
     private var ledgerTrusted: Bool
@@ -167,7 +193,7 @@ public actor FileVaultStore {
     private init(loaded l: Loader.Loaded, keyProvider: any RetirableKeyProvider, anchor: any VaultAnchorStore, composition: VaultComposition, limits: StoreLimits, fs: any VaultFileSystem) {
         root = l.root; vault = l.vault; issuer = l.issuer; clock = l.clock; epoch = l.epoch; self.limits = limits
         self.fs = fs; self.keyProvider = keyProvider; anchorStore = anchor; self.composition = composition
-        manifest = l.manifest; ledger = l.ledger; authz = l.authz; modeValue = l.mode; ledgerTrusted = l.ledgerTrusted
+        manifest = l.manifest; ledger = l.ledger; consent = l.consent; consentAuthority = l.consentAuthority; authz = l.authz; modeValue = l.mode; ledgerTrusted = l.ledgerTrusted
         pendingJournals = l.journals
         needsRecoveryIDs = Set(l.untrustedIDs.map { $0.hex })
     }
@@ -187,7 +213,7 @@ public actor FileVaultStore {
     /// actor. Written only from inside the actor; readers see the last committed snapshot.
     private final class Mirror: @unchecked Sendable {
         private let lock = NSLock()
-        private var manifest = Manifest(generation: 0, prevHash: Manifest.zeroHash, vaultInstanceID: [UInt8](repeating: 0, count: 16), minimumWrapVersion: 0, ledgerHash: Manifest.zeroHash)
+        private var manifest = Manifest(generation: 0, prevHash: Manifest.zeroHash, vaultInstanceID: [UInt8](repeating: 0, count: 16), minimumWrapVersion: 0, ledgerHash: Manifest.zeroHash, consentHash: Manifest.zeroHash)
         private var ledger = DeletionLedger()
         private var report = StoreIntegrityReport(mode: .readOnly(reason: "not open"), epoch: 0, manifestGeneration: 0, deletionHistoryTrusted: false, missingFiles: [], orphansQuarantined: 0, journalsReplayed: 0, journalsReconciled: 0, needsRecovery: [], pendingRetirementVersion: nil)
         func publish(_ m: Manifest, _ l: DeletionLedger, _ r: StoreIntegrityReport) { lock.lock(); manifest = m; ledger = l; report = r; lock.unlock() }
@@ -201,7 +227,13 @@ public actor FileVaultStore {
                                      journalsReplayed: journalsReplayed, journalsReconciled: journalsReconciled,
                                      needsRecovery: needsRecoveryIDs.sorted().compactMap { try? RecordID(hex: $0) }, pendingRetirementVersion: pendingRetirement)
         mirror.publish(manifest, ledger, r)
+        consentAuthority?.publish(consent)
     }
+
+    /// P03-05A: committed consent events (payload-free), for the consent history screen.
+    public nonisolated var consentEvents: [ConsentEvent] { consentAuthority?.events ?? [] }
+    /// The consent authority every policy decision of this store uses (the store's own when it owns consent).
+    public nonisolated var effectiveConsentAuthority: any ConsentAuthority { consentAuthority ?? composition.consentAuthority }
 
     public nonisolated var mode: StoreMode { mirror.read { _, _, r in r.mode } }
     public nonisolated var manifestGeneration: UInt64 { mirror.read { m, _, _ in m.generation } }
@@ -237,6 +269,8 @@ public actor FileVaultStore {
     public func get(_ id: RecordID, authorization: OperationAuthorization) throws -> [UInt8] {
         guard !closed else { throw VaultError.storeReadOnly(reason: "closed") }
         if case .readOnly(let r) = modeValue, r == Self.reopenRequiredReason { throw VaultError.storeReadOnly(reason: r) }
+        // P03-05A PRE-01: an unauthorized caller learns nothing about the id (existence, state, deletion).
+        try vault.precheckAuthorization(authorization, for: .read(recordIDs: nil), recordID: id)
         guard let e = manifest.records[id.hex] else { throw VaultError.recordMissing }
         guard e.kind == .record else { throw VaultError.notEligible(reason: "attachment: use readAttachment") }
         try IdentityPolicy.requireClear(id, ledger: ledger, historyTrusted: true)   // a manifest/ledger contradiction is never read through
@@ -245,12 +279,7 @@ public actor FileVaultStore {
         guard !missingFiles.contains(id.hex) else { throw VaultError.recordMissing }
         guard !corruptFiles.contains(id.hex) else { throw VaultError.recordNotActive(state: "corrupt") }
         let now = try clock.now()
-        for src in e.derivedFrom {
-            guard let s = manifest.records[src.hex], s.state == .active, !missingFiles.contains(src.hex) else { throw VaultError.recordNotActive(state: "sourceInactive") }
-            if case .denied(let reason) = VaultPolicy.mayRead(s.dataClass, consentPurpose: s.consentPurpose, authority: composition.consentAuthority, atUnixSeconds: now) {
-                throw VaultError.notAuthorized(reason)
-            }
-        }
+        try requireSourcesReadable(of: e, now: now)   // PRE-02: transitive
         let env = try readRecordFile(id)
         do { return try vault.open(env, authorization: authorization) } catch VaultError.authenticationFailed {
             corruptFiles.insert(id.hex)
@@ -268,6 +297,22 @@ public actor FileVaultStore {
         catch { corruptFiles.insert(id.hex); throw VaultError.recordNotActive(state: "corrupt") }
         guard env.header.recordID == id else { corruptFiles.insert(id.hex); throw VaultError.storeIntegrityFailed(reason: "record id mismatch") }
         return env
+    }
+
+    /// P03-05A PRE-02: every TRANSITIVE source of a derived record must be active, present, clear in the
+    /// deletion history and consent-covered now; otherwise the derived record is not readable.
+    private func requireSourcesReadable(of e: ManifestEntry, now: Int64) throws {
+        var seen = Set<String>()
+        var stack = e.derivedFrom
+        while let src = stack.popLast() {
+            guard seen.insert(src.hex).inserted else { continue }
+            guard let sEntry = manifest.records[src.hex], sEntry.state == .active, !missingFiles.contains(src.hex), !corruptFiles.contains(src.hex) else { throw VaultError.recordNotActive(state: "sourceInactive") }
+            try IdentityPolicy.requireClear(src, ledger: ledger, historyTrusted: true)
+            if case .denied(let reason) = VaultPolicy.mayRead(sEntry.dataClass, consentPurpose: sEntry.consentPurpose, authority: effectiveConsentAuthority, atUnixSeconds: now) {
+                throw VaultError.notAuthorized(reason)
+            }
+            stack.append(contentsOf: sEntry.derivedFrom)
+        }
     }
 
     private func readAttachmentHeader(_ id: RecordID) throws -> RecordEnvelope {
@@ -291,10 +336,11 @@ public actor FileVaultStore {
     @discardableResult
     public func putAttachment(from source: any AttachmentSource, descriptor: RecordDescriptor, authorization: OperationAuthorization, provenance: RecordProvenance = .created) throws -> RecordID {
         try requireWritable()
+        guard descriptor.dataClass != .storeMetadata else { throw VaultError.unsupportedSystemClass }
+        try vault.precheckAuthorization(authorization, for: .write(descriptor.dataClass), recordID: nil)   // PRE-01: before any state is revealed
         try validateSources(descriptor.derivedFrom, newCreatedAt: descriptor.createdAtUnixSeconds, newID: descriptor.recordID)
         guard manifest.records[descriptor.recordID.hex] == nil else { throw VaultError.duplicateRecordID }
         guard vault.currentKeyIdentity.version >= manifest.minimumWrapVersion else { throw VaultError.staleKeyVersion(minimum: manifest.minimumWrapVersion) }
-        guard descriptor.dataClass != .storeMetadata else { throw VaultError.unsupportedSystemClass }
         let total = source.totalBytes
         guard total <= UInt64(limits.maxAttachmentBytes) else { throw VaultError.limitExceeded("attachment size") }
         let chunk = UInt32(limits.attachmentChunkBytes)
@@ -307,7 +353,7 @@ public actor FileVaultStore {
         let id = header.header.recordID
         try IdentityPolicy.requireClear(id, ledger: ledger, historyTrusted: ledgerTrusted)   // F-P04BH-01: after authorization, same actor section as the journal begin
         let headerFrame = AttachmentFile.frameBytes(EnvelopeCodec.encode(header))
-        try runMutation(op: "put", tokenID: authorization.id, ids: [id], params: [Int64(provenance.rawValue), Int64(EntryKind.attachment.rawValue), Int64(bitPattern: total), Int64(count)]) { m, _, step in
+        try runMutation(op: "put", tokenID: authorization.id, ids: [id], params: [Int64(provenance.rawValue), Int64(EntryKind.attachment.rawValue), Int64(bitPattern: total), Int64(count)]) { m, _, _, step in
             try AtomicWriter.replaceStreaming(self.fs, at: self.attachmentPath(id), tempName: self.tempName()) { fd in
                 try self.fs.write(fd, headerFrame)
                 var written = 0
@@ -341,6 +387,7 @@ public actor FileVaultStore {
     public func readAttachment(_ id: RecordID, authorization: OperationAuthorization, sink: (UInt32, [UInt8]) throws -> Void) throws {
         guard !closed else { throw VaultError.storeReadOnly(reason: "closed") }
         if case .readOnly(let r) = modeValue, r == Self.reopenRequiredReason { throw VaultError.storeReadOnly(reason: r) }
+        try vault.precheckAuthorization(authorization, for: .read(recordIDs: nil), recordID: id)   // PRE-01
         guard let e = manifest.records[id.hex] else { throw VaultError.recordMissing }
         guard e.kind == .attachment else { throw VaultError.notEligible(reason: "record: use get") }
         try IdentityPolicy.requireClear(id, ledger: ledger, historyTrusted: true)
@@ -349,12 +396,7 @@ public actor FileVaultStore {
         guard !missingFiles.contains(id.hex) else { throw VaultError.recordMissing }
         guard !corruptFiles.contains(id.hex) else { throw VaultError.recordNotActive(state: "corrupt") }
         let now = try clock.now()
-        for src in e.derivedFrom {
-            guard let sEntry = manifest.records[src.hex], sEntry.state == .active, !missingFiles.contains(src.hex) else { throw VaultError.recordNotActive(state: "sourceInactive") }
-            if case .denied(let reason) = VaultPolicy.mayRead(sEntry.dataClass, consentPurpose: sEntry.consentPurpose, authority: composition.consentAuthority, atUnixSeconds: now) {
-                throw VaultError.notAuthorized(reason)
-            }
-        }
+        try requireSourcesReadable(of: e, now: now)   // PRE-02: transitive
         let header = try readAttachmentHeader(id)
         let (layout, cipher): (AttachmentLayout, AttachmentCipher)
         do { (layout, cipher) = try vault.openAttachment(header, authorization: authorization) } catch VaultError.authenticationFailed {
@@ -421,13 +463,13 @@ public actor FileVaultStore {
     @discardableResult
     public func put(plaintext: [UInt8], descriptor: RecordDescriptor, authorization: OperationAuthorization, provenance: RecordProvenance = .created) throws -> RecordID {
         try requireWritable()
+        guard plaintext.count <= limits.maxRecordBytes else { throw VaultError.limitExceeded("record size") }
+        // P03-05A PRE-01: `seal` authorizes (token, purpose, consent, tier) BEFORE any check that could
+        // reveal existence (`duplicateRecordID`), sources (`unknownDependency`) or deletion history.
+        let env = try vault.seal(plaintext: plaintext, descriptor: descriptor, authorization: authorization)
         try validateSources(descriptor.derivedFrom, newCreatedAt: descriptor.createdAtUnixSeconds, newID: descriptor.recordID)
         guard manifest.records[descriptor.recordID.hex] == nil else { throw VaultError.duplicateRecordID }
         guard vault.currentKeyIdentity.version >= manifest.minimumWrapVersion else { throw VaultError.staleKeyVersion(minimum: manifest.minimumWrapVersion) }
-        guard plaintext.count <= limits.maxRecordBytes else { throw VaultError.limitExceeded("record size") }
-        // F-P04BH-01: the identity policy runs inside `storeEnvelope`, AFTER `seal` authorized the caller — an
-        // unauthorized caller must not learn deletion status (no oracle).
-        let env = try vault.seal(plaintext: plaintext, descriptor: descriptor, authorization: authorization)
         try storeEnvelope(env, tokenID: authorization.id, provenance: provenance)
         return env.header.recordID
     }
@@ -443,7 +485,7 @@ public actor FileVaultStore {
         let id = env.header.recordID
         try IdentityPolicy.requireClear(id, ledger: ledger, historyTrusted: ledgerTrusted)   // same actor section as the journal begin
         let bytes = FileFraming.frame(EnvelopeCodec.encode(env))
-        try runMutation(op: "put", tokenID: tokenID, ids: [id], params: [Int64(provenance.rawValue)]) { m, _, step in
+        try runMutation(op: "put", tokenID: tokenID, ids: [id], params: [Int64(provenance.rawValue)]) { m, _, _, step in
             try AtomicWriter.replace(self.fs, bytes: bytes, at: self.recordPath(id), tempName: self.tempName())
             try step("file", 0)
             m.records[id.hex] = ManifestEntry(header: env.header, keyVersion: env.wrappedDEK.keyVersion, provenance: provenance)
@@ -469,7 +511,7 @@ public actor FileVaultStore {
         guard !present.isEmpty else { return }
         let order = manifest.cascadeOrder(from: present)
         let now = try clock.now()
-        try runMutation(op: "delete", tokenID: "", ids: order, params: [now]) { m, l, step in
+        try runMutation(op: "delete", tokenID: "", ids: order, params: [now]) { m, l, _, step in
             try self.applyDelete(order, deletedAt: now, m: &m, l: &l, step: step)
             return true
         }
@@ -487,6 +529,28 @@ public actor FileVaultStore {
         l.compactIfNeeded(threshold: limits.ledgerCompactionThreshold, keepRecent: limits.ledgerRecentKept, digestCapacity: limits.ledgerDigestCapacity)
     }
 
+    // MARK: Consent (P03-05A GATE 2): grant events; revocation events are appended by `revoke`
+
+    /// Records a consent GRANT as an immutable, payload-free event bound to the purpose VERSION shown.
+    /// Requires a `.grantConsent(purpose:)` token (issued by the InteractionGate from a real tap) and a
+    /// registry definition that allows every requested class and the destination. Fails closed when the
+    /// store does not own consent.
+    @discardableResult
+    public func grantConsent(purposeID: String, dataClasses: Set<DataClass>, destination: Destination = .deviceVault, authorization: OperationAuthorization) throws -> ConsentEvent {
+        try requireWritable()
+        guard let authority = consentAuthority else { throw VaultError.notEligible(reason: "store does not own consent") }
+        let now = try vault.consumeAuthorization(authorization, for: .grantConsent(purpose: purposeID))
+        guard let def = authority.registry.latest(purposeID) else { throw VaultError.notAuthorized(.notListed) }
+        guard !dataClasses.isEmpty, dataClasses.isSubset(of: def.allowedDataClasses), def.allowedDestinations.contains(destination) else { throw VaultError.notAuthorized(.notListed) }
+        let event = ConsentEvent(id: RecordID().hex, kind: .granted, purposeID: purposeID, purposeVersion: def.version, dataClasses: dataClasses, destination: destination, atUnixSeconds: now, authorizationID: authorization.id, revokesEventID: nil, previousChain: consent.lastChain)
+        try runMutation(op: "consent", tokenID: authorization.id, ids: [], params: [Int64(ConsentEvent.Kind.granted.rawValue)]) { _, _, c, step in
+            try c.append(event)
+            try step("grant", 0)
+            return true
+        }
+        return event
+    }
+
     // MARK: Consent revocation (H4) — distinct from delete
 
     public static let graceEligibleClasses: Set<DataClass> = [.journal, .goalRoadmap, .psychometrics, .spiritualPractices]
@@ -500,7 +564,9 @@ public actor FileVaultStore {
         let now = try vault.consumeAuthorization(authorization, for: .revokeConsent(purpose: purpose))
         let affected = manifest.records.filter { $0.value.consentPurpose == purpose && $0.value.dataClass.requiresPurposeConsentToStore && $0.value.state != .pendingDelete }
             .keys.sorted().compactMap { try? RecordID(hex: $0) }
-        guard !affected.isEmpty else { return ([], []) }
+        // P03-05A: the consent events themselves are revoked in the same mutation (immutable chain: new events).
+        let toRevoke = consentAuthority != nil ? consent.activeGrants(atUnixSeconds: now).filter { $0.purposeID == purpose } : []
+        guard !affected.isEmpty || !toRevoke.isEmpty else { return ([], []) }
         var toSuspend: [RecordID] = []
         var deleteRoots = Set<RecordID>()
         var graceSeconds: Int64 = 0
@@ -520,7 +586,10 @@ public actor FileVaultStore {
         let deleteOrder = manifest.cascadeOrder(from: deleteRoots).filter { !toSuspend.contains($0) }
         let until = now + graceSeconds
         let ids = deleteOrder + toSuspend
-        try runMutation(op: "revoke", tokenID: authorization.id, ids: ids, params: [Int64(deleteOrder.count), now, until]) { m, l, step in
+        try runMutation(op: "revoke", tokenID: authorization.id, ids: ids, params: [Int64(deleteOrder.count), now, until]) { m, l, c, step in
+            for g in toRevoke {
+                try c.append(ConsentEvent(id: RecordID().hex, kind: .revoked, purposeID: g.purposeID, purposeVersion: g.purposeVersion, dataClasses: g.dataClasses, destination: g.destination, atUnixSeconds: now, authorizationID: authorization.id, revokesEventID: g.id, previousChain: c.lastChain))
+            }
             try self.applyDelete(deleteOrder, deletedAt: now, m: &m, l: &l, step: step)
             for id in toSuspend {
                 guard var e = m.records[id.hex] else { continue }
@@ -539,12 +608,12 @@ public actor FileVaultStore {
         let now = try vault.consumeAuthorization(authorization, for: .restoreSuspended(recordIDs: ids))
         for id in ids {
             guard let e = manifest.records[id.hex], e.state == .suspended else { throw VaultError.recordNotActive(state: manifest.records[id.hex]?.state.name ?? "missing") }
-            if case .denied(let reason) = VaultPolicy.mayRead(e.dataClass, consentPurpose: e.consentPurpose, authority: composition.consentAuthority, atUnixSeconds: now) {
+            if case .denied(let reason) = VaultPolicy.mayRead(e.dataClass, consentPurpose: e.consentPurpose, authority: effectiveConsentAuthority, atUnixSeconds: now) {
                 throw VaultError.notAuthorized(reason)
             }
         }
         let list = ids.sorted { $0.hex < $1.hex }
-        try runMutation(op: "unsuspend", tokenID: authorization.id, ids: list, params: []) { m, _, step in
+        try runMutation(op: "unsuspend", tokenID: authorization.id, ids: list, params: []) { m, _, _, step in
             for id in list { if var e = m.records[id.hex] { e.state = .active; e.suspendedUntilUnixSeconds = 0; m.records[id.hex] = e } }
             try step("activate", 0)
             return true
@@ -560,7 +629,7 @@ public actor FileVaultStore {
         let expired = manifest.records.filter { $0.value.state == .suspended && $0.value.suspendedUntilUnixSeconds <= now }.keys.sorted().compactMap { try? RecordID(hex: $0) }
         guard !expired.isEmpty else { return [] }
         let order = manifest.cascadeOrder(from: Set(expired))
-        try runMutation(op: "delete", tokenID: "", ids: order, params: [now]) { m, l, step in
+        try runMutation(op: "delete", tokenID: "", ids: order, params: [now]) { m, l, _, step in
             try self.applyDelete(order, deletedAt: now, m: &m, l: &l, step: step)
             return true
         }
@@ -575,12 +644,13 @@ public actor FileVaultStore {
     /// it never repeats. Any corrupt/missing record fails the export closed (typed error).
     public func exportBackup(recoveryKey: RecoveryKey, authorization: OperationAuthorization) throws -> [UInt8] {
         try requireWritable()
+        try vault.precheckAuthorization(authorization, for: .exportBackup, recordID: nil)   // PRE-01: no generation burned, no file read, without a valid token
         let keys = manifest.records.filter { $0.value.state == .active && $0.value.kind == .record }.keys.sorted()
         var envs: [RecordEnvelope] = []
         envs.reserveCapacity(keys.count)
         for key in keys { envs.append(try readRecordFile(try RecordID(hex: key))) }
         let gen = manifest.lastExportedGeneration + 1
-        try runMutation(op: "export", tokenID: authorization.id, ids: [], params: [Int64(gen)]) { m, _, step in
+        try runMutation(op: "export", tokenID: authorization.id, ids: [], params: [Int64(gen)]) { m, _, _, step in
             m.lastExportedGeneration = gen
             try step("generation", 0)
             return true
@@ -651,13 +721,13 @@ public actor FileVaultStore {
         let report = AdmissionReport(staged: staged.map { $0.0.header.recordID }, risks: riskMap, skippedDeleted: skippedDeleted, skippedExisting: skippedExisting, historyMerged: historyMerged)
         guard !staged.isEmpty else {
             if historyMerged && merged != ledger {
-                try runMutation(op: "history", tokenID: authorization.id, ids: [], params: []) { _, l, step in l = merged; try step("merge", 0); return true }
+                try runMutation(op: "history", tokenID: authorization.id, ids: [], params: []) { _, l, _, step in l = merged; try step("merge", 0); return true }
             }
             return report
         }
         let ids = staged.map { $0.0.header.recordID }
         let params = staged.map { Int64(RestoreRisk.mask($0.1)) } + [historyMerged ? 1 : 0]   // trailing flag: a merge is part of this batch
-        try runMutation(op: "admit", tokenID: authorization.id, ids: ids, params: params) { m, l, step in
+        try runMutation(op: "admit", tokenID: authorization.id, ids: ids, params: params) { m, l, _, step in
             if historyMerged { l = merged }
             for (i, (env, risks)) in staged.enumerated() {
                 let id = env.header.recordID
@@ -694,7 +764,7 @@ public actor FileVaultStore {
                 guard let sEntry = manifest.records[src.hex], sEntry.state == .active || ids.contains(src) else { throw VaultError.recordNotActive(state: "sourceInactive") }
                 guard sEntry.createdAtUnixSeconds <= e.createdAtUnixSeconds else { throw VaultError.unknownDependency }
             }
-            if case .denied(let reason) = VaultPolicy.mayRead(e.dataClass, consentPurpose: e.consentPurpose, authority: composition.consentAuthority, atUnixSeconds: now) {
+            if case .denied(let reason) = VaultPolicy.mayRead(e.dataClass, consentPurpose: e.consentPurpose, authority: effectiveConsentAuthority, atUnixSeconds: now) {
                 throw VaultError.notAuthorized(reason)
             }
             guard !missingFiles.contains(id.hex), !corruptFiles.contains(id.hex) else { throw VaultError.recordMissing }
@@ -702,7 +772,7 @@ public actor FileVaultStore {
         }
         // Derived-data graph: no cycle may be admitted through a restored batch (DFS over the batch's edges).
         try Self.refuseCycles(among: ids, in: manifest)
-        try runMutation(op: "activate", tokenID: authorization.id, ids: list, params: []) { m, _, step in
+        try runMutation(op: "activate", tokenID: authorization.id, ids: list, params: []) { m, _, _, step in
             for id in list { if var e = m.records[id.hex] { e.state = .active; e.restoreRisks = 0; m.records[id.hex] = e } }
             try step("activate", 0)
             return true
@@ -731,6 +801,7 @@ public actor FileVaultStore {
     @discardableResult
     public func reimportUnderNewID(_ id: RecordID, authorization: OperationAuthorization) throws -> RecordID {
         try requireWritable()
+        try vault.precheckAuthorization(authorization, for: .reimport(recordID: id), recordID: nil)   // PRE-01
         guard let e = manifest.records[id.hex] else { throw VaultError.recordMissing }
         guard e.state == .quarantined, e.provenance == .restoredFromBackup, e.kind == .record else { throw VaultError.recordNotActive(state: e.state.name) }
         let risks = RestoreRisk.set(e.restoreRisks)
@@ -748,7 +819,7 @@ public actor FileVaultStore {
         guard manifest.records[newID.hex] == nil else { throw VaultError.duplicateRecordID }
         try IdentityPolicy.requireClear(newID, ledger: ledger, historyTrusted: true)
         let bytes = FileFraming.frame(EnvelopeCodec.encode(fresh))
-        try runMutation(op: "reimport", tokenID: authorization.id, ids: [newID, id], params: [now]) { m, l, step in
+        try runMutation(op: "reimport", tokenID: authorization.id, ids: [newID, id], params: [now]) { m, l, _, step in
             try AtomicWriter.replace(self.fs, bytes: bytes, at: self.recordPath(newID), tempName: self.tempName())
             try step("file", 0)
             try self.fs.remove(self.recordPath(id))
@@ -782,7 +853,7 @@ public actor FileVaultStore {
         var envs: [RecordEnvelope] = []
         for id in stale { envs.append(manifest.records[id.hex]?.kind == .attachment ? try readAttachmentHeader(id) : try readRecordFile(id)) }
         let rewrapped = try vault.rewrapBatch(envs, maintenance: maintenance)   // consumes the token even when the list is empty
-        try runMutation(op: op, tokenID: maintenance.id, ids: stale, params: [Int64(current)] + (retiring.map { [Int64($0)] } ?? [])) { m, l, step in
+        try runMutation(op: op, tokenID: maintenance.id, ids: stale, params: [Int64(current)] + (retiring.map { [Int64($0)] } ?? [])) { m, l, _, step in
             for (i, env) in rewrapped.enumerated() {
                 let id = env.header.recordID
                 if m.records[id.hex]?.kind == .attachment {
@@ -809,7 +880,7 @@ public actor FileVaultStore {
         guard version < current, !manifest.retiredVersions.contains(version) else { throw VaultError.keyUnavailable(version: version) }
         // R1 freeze — durable before any scan.
         if manifest.minimumWrapVersion < current {
-            try runMutation(op: "freeze", tokenID: authorization.id, ids: [], params: [Int64(current)]) { m, _, step in
+            try runMutation(op: "freeze", tokenID: authorization.id, ids: [], params: [Int64(current)]) { m, _, _, step in
                 m.minimumWrapVersion = current
                 try step("freeze", 0)
                 return true
@@ -841,7 +912,7 @@ public actor FileVaultStore {
         guard proof.keyVersion == version, proof.manifestGeneration == manifest.generation, ConstantTime.equal(proof.manifestHash, manifest.hash) else { throw VaultError.proofStale }
         guard (manifest.keyUsage[version] ?? 0) == 0 else { throw VaultError.keyVersionInUse(version: version, count: manifest.keyUsage[version] ?? 0) }
         guard version < vault.currentKeyIdentity.version else { throw VaultError.keyUnavailable(version: version) }
-        try runMutation(op: "forget", tokenID: "", ids: [], params: [Int64(version)]) { m, _, step in
+        try runMutation(op: "forget", tokenID: "", ids: [], params: [Int64(version)]) { m, _, _, step in
             try self.keyProvider.retire(version: version)
             try step("retire", 0)
             try self.keyProvider.forget(version: version)
@@ -874,7 +945,7 @@ public actor FileVaultStore {
     /// and writes until a reopen replays or reconciles the journal (GATE B).
     public static let reopenRequiredReason = "mutation interrupted: reopen required"
 
-    private func runMutation(op: String, tokenID: String, ids: [RecordID], params: [Int64], body: (inout Manifest, inout DeletionLedger, (String, UInt32) throws -> Void) throws -> Bool) throws {
+    private func runMutation(op: String, tokenID: String, ids: [RecordID], params: [Int64], body: (inout Manifest, inout DeletionLedger, inout ConsentLedger, (String, UInt32) throws -> Void) throws -> Bool) throws {
         let target = manifest.generation + 1
         // GATE 1: the begin entry binds the op to the ledger state the manifest proves (pre-state).
         var entries: [JournalEntry] = [.begin(op: op, tokenID: tokenID, ids: ids, targetGeneration: target, epoch: epoch, params: params, ledgerHash: manifest.ledgerHash)]
@@ -882,13 +953,15 @@ public actor FileVaultStore {
             try writeJournal(target, entries)
             var m = manifest
             var l = ledger
+            var c = consent
             let ledgerBefore = ledger
-            let proceed = try body(&m, &l) { name, index in
+            let consentBefore = consent
+            let proceed = try body(&m, &l, &c) { name, index in
                 entries.append(.step(name: name, index: index))
                 try self.writeJournal(target, entries)
             }
             guard proceed else { try fs.remove(journalPath(target)); return }
-            try commitTail(target: target, newManifest: m, newLedger: l, ledgerChanged: l != ledgerBefore, entries: &entries)
+            try commitTail(target: target, newManifest: m, newLedger: l, ledgerChanged: l != ledgerBefore, newConsent: c, consentChanged: c != consentBefore, entries: &entries)
         } catch {
             // Any failed syscall or crash inside the critical section (journal, effects, ledger, manifest,
             // authz, anchor, commit) leaves the operation to recovery. Success was never reported; the
@@ -899,8 +972,9 @@ public actor FileVaultStore {
         }
     }
 
-    private func commitTail(target: UInt64, newManifest: Manifest, newLedger: DeletionLedger, ledgerChanged: Bool, entries: inout [JournalEntry]) throws {
+    private func commitTail(target: UInt64, newManifest: Manifest, newLedger: DeletionLedger, ledgerChanged: Bool, newConsent: ConsentLedger? = nil, consentChanged: Bool = false, entries: inout [JournalEntry]) throws {
         var m = newManifest
+        let c = newConsent ?? consent
         // The ledger is re-sealed when it changed, is missing, or is still wrapped under an older key
         // version (so key retirement never finds a stale system envelope — H2 R2 covers system files).
         let ledgerStale = (systemFileKeyVersion(StoreLayout.ledgerFile) ?? 0) < vault.currentKeyIdentity.version
@@ -914,6 +988,16 @@ public actor FileVaultStore {
             try writeSystem(StoreLayout.ledgerFile, encoded)
             m.ledgerHash = postHash
         }
+        // P03-05A: the consent ledger follows the same announce-then-write rule (also re-sealed when stale).
+        let consentStale = consentAuthority != nil && (systemFileKeyVersion(StoreLayout.consentFile) ?? 0) < vault.currentKeyIdentity.version
+        if consentAuthority != nil && (consentChanged || consentStale) {
+            let encoded = c.encode()
+            let postHash = VaultDigest.sha256(encoded)
+            entries.append(.consentWritten(hash: postHash))
+            try writeJournal(target, entries)
+            try writeSystem(StoreLayout.consentFile, encoded)
+            m.consentHash = postHash
+        }
         // Sticky distrust: a history found corrupt or unverifiable never becomes trusted by rewriting.
         if !ledgerTrusted { m.ledgerHistoryTrusted = false }
         m.prevHash = manifest.hash
@@ -921,11 +1005,11 @@ public actor FileVaultStore {
         try writeSystem(StoreLayout.manifestFile, m.encode())
         entries.append(.manifestWritten(generation: target))
         try writeJournal(target, entries)
-        try finishTail(target: target, m: m, l: newLedger, entries: &entries)
+        try finishTail(target: target, m: m, l: newLedger, c: c, entries: &entries)
     }
 
     /// authz → anchor → commit → journal removed. Also used by recovery when the manifest was durable.
-    private func finishTail(target: UInt64, m: Manifest, l: DeletionLedger, entries: inout [JournalEntry]) throws {
+    private func finishTail(target: UInt64, m: Manifest, l: DeletionLedger, c: ConsentLedger? = nil, entries: inout [JournalEntry]) throws {
         let hash = m.hash
         let a = AuthzState(epoch: epoch, clockHighWaterMark: clock.highWaterMark, lastManifestGeneration: target, lastManifestHash: hash)
         try writeSystem(StoreLayout.authzFile, a.encode())
@@ -933,7 +1017,7 @@ public actor FileVaultStore {
         entries.append(.commit)
         try writeJournal(target, entries)
         try fs.remove(journalPath(target))
-        manifest = m; ledger = l; authz = a
+        manifest = m; ledger = l; if let c { consent = c }; authz = a
         publish()
     }
 
@@ -1055,6 +1139,9 @@ public actor FileVaultStore {
         var announced: [UInt8]? = nil
         for e in j.entries { if case .ledgerWritten(let h) = e { announced = h } }
         let diskIsPost = announced.map { !ConstantTime.equal($0, preHash) && ConstantTime.equal(ledger.hash, $0) } ?? false
+        var announcedConsent: [UInt8]? = nil
+        for e in j.entries { if case .consentWritten(let h) = e { announcedConsent = h } }
+        let consentIsPost = announcedConsent.map { !ConstantTime.equal($0, manifest.consentHash) && ConstantTime.equal(VaultDigest.sha256(consent.encode()), $0) } ?? false
         switch op {
         case "put", "admit":
             // put: a file that exists is adopted from its authenticated header; a missing one never happened.
@@ -1125,6 +1212,10 @@ public actor FileVaultStore {
         case "history":
             if diskIsPost { try commitTail(target: target, newManifest: manifest, newLedger: ledger, ledgerChanged: true, entries: &entries) } else { try fs.remove(path(StoreLayout.journalDir, j.name)) }
             journalsReplayed += 1
+        case "consent":
+            // the event is not reconstructible from the journal: commit only an announced, written post-state
+            if consentIsPost { try commitTail(target: target, newManifest: manifest, newLedger: ledger, ledgerChanged: diskIsPost, newConsent: consent, consentChanged: true, entries: &entries) } else { try fs.remove(path(StoreLayout.journalDir, j.name)) }
+            journalsReplayed += 1
         case "export":
             var m = manifest
             m.lastExportedGeneration = max(m.lastExportedGeneration, UInt64(clamping: params.first ?? 0))
@@ -1142,7 +1233,7 @@ public actor FileVaultStore {
             var m = manifest, l = ledger
             try applyDelete(Array(ids.prefix(deleteCount)), deletedAt: now, m: &m, l: &l) { _, _ in }
             for id in ids.dropFirst(deleteCount) { if var e = m.records[id.hex] { e.state = .suspended; e.suspendedUntilUnixSeconds = until; m.records[id.hex] = e } }
-            try commitTail(target: target, newManifest: m, newLedger: l, ledgerChanged: deleteCount > 0, entries: &entries)
+            try commitTail(target: target, newManifest: m, newLedger: l, ledgerChanged: deleteCount > 0, newConsent: consent, consentChanged: consentIsPost, entries: &entries)
             journalsReplayed += 1
         case "unsuspend", "release", "activate":
             if op == "activate" {
@@ -1190,6 +1281,7 @@ public actor FileVaultStore {
         struct Loaded {
             let root: String; let vault: SecureVault; let issuer: AuthorizationIssuer; let clock: MonotonicGuardClock; let epoch: UInt64
             let manifest: Manifest; let ledger: DeletionLedger; let authz: AuthzState; let mode: StoreMode; let ledgerTrusted: Bool
+            let consent: ConsentLedger; let consentAuthority: StoreConsentAuthority?
             let journals: [(name: String, entries: [JournalEntry], truncated: Bool, bytes: [UInt8])]
             /// Ids of an untrusted (mid-file damaged) journal: quarantined and flagged `needsRecovery`.
             let untrustedIDs: [RecordID]
@@ -1198,6 +1290,7 @@ public actor FileVaultStore {
         /// Validator that accepts nothing: the bootstrap vault only opens system records.
         struct RejectAll: AuthorizationValidator {
             func consume(tokenID: String, atUnixSeconds now: Int64) throws -> OperationAuthorization { throw VaultError.authorizationInvalid(.unknownToken) }
+            func validate(tokenID: String, atUnixSeconds now: Int64) throws -> OperationAuthorization { throw VaultError.authorizationInvalid(.unknownToken) }
         }
 
         static func load(root: String, keyProvider: any RetirableKeyProvider, anchor: any VaultAnchorStore, composition: VaultComposition, limits: StoreLimits, fs: any VaultFileSystem, reinstall: ReinstallPolicy) throws -> Loaded {
@@ -1226,8 +1319,12 @@ public actor FileVaultStore {
                 }
             }
             // Bootstrap vault: system records only (no tokens can be consumed through it).
+            // P03-05A: when the store owns consent, ONE authority object serves the bootstrap vault, the real vault
+            // and the actor (published after every commit); nothing else can grant.
+            let storeAuthority: StoreConsentAuthority? = composition.purposeRegistry.map { StoreConsentAuthority(registry: $0) }
+            let consentPort: any ConsentAuthority = storeAuthority ?? composition.consentAuthority
             let bootstrapClock = MonotonicGuardClock(wrapping: composition.baseClock, toleranceSeconds: composition.toleranceSeconds)
-            let bootstrap = SecureVault(keyProvider: keyProvider, consentAuthority: composition.consentAuthority, clock: bootstrapClock, authorizations: RejectAll(), quarantine: composition.quarantine)
+            let bootstrap = SecureVault(keyProvider: keyProvider, consentAuthority: consentPort, clock: bootstrapClock, authorizations: RejectAll(), quarantine: composition.quarantine)
             func readSystem(_ name: String) throws -> [UInt8]? {
                 let path = p(StoreLayout.systemDir, name)
                 switch try fs.kind(of: path) {
@@ -1254,22 +1351,24 @@ public actor FileVaultStore {
                 let epoch: UInt64 = 1
                 let clock = MonotonicGuardClock(wrapping: composition.baseClock, toleranceSeconds: composition.toleranceSeconds)
                 let issuer = AuthorizationIssuer(clock: clock, epoch: epoch)
-                let vault = SecureVault(keyProvider: keyProvider, consentAuthority: composition.consentAuthority, clock: clock, authorizations: issuer, quarantine: composition.quarantine)
+                let vault = SecureVault(keyProvider: keyProvider, consentAuthority: consentPort, clock: clock, authorizations: issuer, quarantine: composition.quarantine)
                 var rng = SystemRandomNumberGenerator()
                 let instance = (0..<VaultAnchor.instanceIDBytes).map { _ in UInt8.random(in: 0...255, using: &rng) }
                 let ledger = DeletionLedger()
-                let manifest = Manifest(generation: 1, prevHash: Manifest.zeroHash, vaultInstanceID: instance, minimumWrapVersion: keyProvider.currentKey.version, ledgerHash: ledger.hash)
+                let consent = ConsentLedger()
+                let manifest = Manifest(generation: 1, prevHash: Manifest.zeroHash, vaultInstanceID: instance, minimumWrapVersion: keyProvider.currentKey.version, ledgerHash: ledger.hash, consentHash: VaultDigest.sha256(consent.encode()))
                 let now = try clock.now()
                 func writeSystem(_ name: String, _ plain: [UInt8]) throws {
                     let d = try RecordDescriptor(dataClass: .storeMetadata, retention: .untilUserDeletes, createdAtUnixSeconds: now)
                     try AtomicWriter.replace(fs, bytes: FileFraming.frame(EnvelopeCodec.encode(try vault.sealSystem(plaintext: plain, descriptor: d))), at: p(StoreLayout.systemDir, name), tempName: StoreLayout.tempPrefix + RecordID().hex)
                 }
                 try writeSystem(StoreLayout.ledgerFile, ledger.encode())
+                if storeAuthority != nil { try writeSystem(StoreLayout.consentFile, consent.encode()) }
                 try writeSystem(StoreLayout.manifestFile, manifest.encode())
                 let authz = AuthzState(epoch: epoch, clockHighWaterMark: clock.highWaterMark, lastManifestGeneration: 1, lastManifestHash: manifest.hash)
                 try writeSystem(StoreLayout.authzFile, authz.encode())
                 try anchor.writeAnchor(try VaultAnchor(vaultInstanceID: instance, manifestGeneration: 1, manifestHash: manifest.hash))
-                return Loaded(root: root, vault: vault, issuer: issuer, clock: clock, epoch: epoch, manifest: manifest, ledger: ledger, authz: authz, mode: .readWrite, ledgerTrusted: true, journals: [], untrustedIDs: [])
+                return Loaded(root: root, vault: vault, issuer: issuer, clock: clock, epoch: epoch, manifest: manifest, ledger: ledger, authz: authz, mode: .readWrite, ledgerTrusted: true, consent: consent, consentAuthority: storeAuthority, journals: [], untrustedIDs: [])
             }
 
             // Existing vault: decode and bind.
@@ -1341,13 +1440,30 @@ public actor FileVaultStore {
                 }
             }
 
+            // P03-05A: consent ledger — present (when the store owns consent), authenticated and PROVEN like the deletion ledger.
+            var consent = ConsentLedger()
+            if storeAuthority != nil {
+                if try fs.kind(of: p(StoreLayout.systemDir, StoreLayout.consentFile)) == .missing {
+                    if case .readWrite = mode { mode = .readOnly(reason: "consent ledger missing") }
+                } else if let cb = try? readSystem(StoreLayout.consentFile), let c = try? ConsentLedger.decode(cb) {
+                    consent = c
+                    if let reason = LedgerBinding.verifyConsent(manifest: manifest, diskConsentHash: VaultDigest.sha256(cb), journal: journals.count == 1 ? journals[0].entries : nil, persistedEpoch: persistedEpoch) {
+                        if case .readWrite = mode { mode = .readOnly(reason: reason) }
+                    }
+                } else {
+                    // unreadable consent history: no grant can be proven → every consent-gated read/write fails closed
+                    if case .readWrite = mode { mode = .readOnly(reason: "consent ledger unreadable") }
+                }
+            }
+            storeAuthority?.publish(consent)
+
             func finish() -> Loaded {
                 let epoch = persistedEpoch + 1
                 let clock = MonotonicGuardClock(wrapping: composition.baseClock, toleranceSeconds: composition.toleranceSeconds, initialHighWaterSeconds: authz.clockHighWaterMark)
                 let issuer = AuthorizationIssuer(clock: clock, epoch: epoch)
-                let vault = SecureVault(keyProvider: keyProvider, consentAuthority: composition.consentAuthority, clock: clock, authorizations: issuer, quarantine: composition.quarantine)
+                let vault = SecureVault(keyProvider: keyProvider, consentAuthority: consentPort, clock: clock, authorizations: issuer, quarantine: composition.quarantine)
                 for id in untrustedIDs { composition.quarantine.quarantine(id, reason: .unverifiedDeletionHistory) }
-                return Loaded(root: root, vault: vault, issuer: issuer, clock: clock, epoch: epoch, manifest: manifest, ledger: ledger, authz: authz, mode: mode, ledgerTrusted: ledgerTrusted, journals: journals, untrustedIDs: untrustedIDs)
+                return Loaded(root: root, vault: vault, issuer: issuer, clock: clock, epoch: epoch, manifest: manifest, ledger: ledger, authz: authz, mode: mode, ledgerTrusted: ledgerTrusted, consent: consent, consentAuthority: storeAuthority, journals: journals, untrustedIDs: untrustedIDs)
             }
 
             // Anchor ↔ manifest binding (GATE B). An earlier read-only reason (journal damage) is kept.

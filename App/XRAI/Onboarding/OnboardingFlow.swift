@@ -228,6 +228,8 @@ struct DateFields: View {
             .frame(minHeight: XRHit.min)
             .background(XRColor.surfaceSecondary)
             .clipShape(RoundedRectangle(cornerRadius: XRRadius.control, style: .continuous))
+            // F-UX-5: a 1.5pt boundary at ≥ 3:1 against the card so the input is identifiable without its placeholder.
+            .overlay(RoundedRectangle(cornerRadius: XRRadius.control, style: .continuous).strokeBorder(XRColor.inputBorder, lineWidth: 1.5))
             .accessibilityLabel(label)
             .accessibilityIdentifier(id)
     }

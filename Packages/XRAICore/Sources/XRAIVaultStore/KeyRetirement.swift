@@ -104,6 +104,7 @@ public enum StoreLayout {
     public static let manifestFile = "manifest.v1"
     public static let ledgerFile = "ledger.v1"
     public static let authzFile = "authz.v1"
+    public static let consentFile = "consent.v1"
     public static let lockFile = "vault.lock"
     public static let tempPrefix = ".tmp-"
     public static let recordSuffix = ".env"

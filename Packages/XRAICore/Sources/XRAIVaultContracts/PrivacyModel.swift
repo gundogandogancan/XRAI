@@ -200,6 +200,8 @@ public enum VaultPolicy {
         guard userInitiated else { return .denied(reason: .userInitiationRequired) }
         // P03-04 H3: store system state (epoch, clock mark, manifest, ledger) never leaves the device in a backup.
         guard dataClass != .storeMetadata else { return .denied(reason: .notListed) }
+        // P03-05A (reconciliation item 8): consent receipts/events are device-bound evidence; a new device asks again.
+        guard dataClass != .consentReceipts else { return .denied(reason: .notListed) }
         guard retention != .sessionOnly else { return .denied(reason: .sessionOnlyNeverPersisted) }
         return decide(dataClass, to: .userEncryptedBackup, purpose: "", authority: NoConsentAuthority(), atUnixSeconds: 0)
     }

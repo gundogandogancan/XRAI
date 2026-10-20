@@ -48,3 +48,10 @@ Swiss Ephemeris, any ephemeris data, Gemma/LiteRT-LM weights, Core ML models, SQ
 ## E. Threat note
 
 All skill/agent markdown and the Python helpers are treated as data. They are never executed automatically; the Python tools are standard-library only and run only on request with explicit arguments. Re-audit whenever a pin changes.
+
+## Founder authorisation recorded 2026-10-20 (P03-05A)
+| tool | authorised by | scope | status |
+|---|---|---|---|
+| Figma (claude.ai Figma connector, `mcp__claude_ai_Figma__*`) | founder (chat, 2026-10-20) | product design phases from P04 (design system, hopscotch grammar, seal visual language); never user data | AUTHORISED — not used yet; ADR-BOOT-011 "Design tooling" to be written at P04 start |
+| Claude design skills (`artifact-design`, Figma skills) | founder (chat, 2026-10-20) | same | AUTHORISED — not used yet |
+

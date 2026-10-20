@@ -14,6 +14,8 @@ let package = Package(
         .library(name: "XRAIVaultKeychain", targets: ["XRAIVaultKeychain"]),
         // P03-04: file-based encrypted record store (ADR-BOOT-009 + Amendment H). Not linked by the app yet.
         .library(name: "XRAIVaultStore", targets: ["XRAIVaultStore"]),
+        // P03-05A: InteractionGate — the only token source for production app code (in-process boundary, stated).
+        .library(name: "XRAIVaultInteraction", targets: ["XRAIVaultInteraction"]),
         // Test-only product: linked ONLY by test bundles (enforced by tests on Package.swift and project.yml).
         .library(name: "XRAIVaultTesting", targets: ["XRAIVaultTesting"]),
     ],
@@ -66,6 +68,14 @@ let package = Package(
         .testTarget(
             name: "XRAIVaultStoreTests",
             dependencies: ["XRAIVaultContracts", "XRAIVaultCryptoKit", "XRAIVaultStore", "XRAIVaultTesting"]
+        ),
+        .target(
+            name: "XRAIVaultInteraction",
+            dependencies: ["XRAIVaultContracts", "XRAIVaultCryptoKit"]
+        ),
+        .testTarget(
+            name: "XRAIVaultInteractionTests",
+            dependencies: ["XRAIVaultContracts", "XRAIVaultCryptoKit", "XRAIVaultInteraction", "XRAIVaultTesting"]
         ),
         .testTarget(
             name: "XRAIVaultKeychainTests",

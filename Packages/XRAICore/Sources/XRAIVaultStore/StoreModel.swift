@@ -37,31 +37,6 @@ public enum EntryKind: UInt8, Sendable, Hashable {
     case attachment = 1
 }
 
-/// Risks noted at restore admission (P03-04b GATE 3). Persisted in the manifest so that activation
-/// after a relaunch still requires the user to acknowledge exactly these.
-public enum RestoreRisk: UInt16, Sendable, Hashable, CaseIterable {
-    /// The backup names another vault instance while this vault already holds data.
-    case foreignInstance = 1
-    /// Legacy (v2) backup: no instance id, no generation, no embedded deletion history.
-    case legacyFormat = 2
-    /// This vault's own deletion history is not trusted (corrupt earlier, or unverifiable).
-    case untrustedLocalHistory = 4
-    /// The id hits the compacted deletion digest (possibly deleted).
-    case possiblyDeleted = 8
-    /// The backup's generation is older than the newest export this vault made.
-    case olderBackupGeneration = 16
-    /// The record arrived quarantined from the vault facade (consent not active at restore time).
-    case consentInactiveAtRestore = 32
-    /// The backup carried a history this vault could not (or must not) merge: untrusted at the
-    /// source, or a compacted digest incompatible with the local one.
-    case unmergedBackupHistory = 64
-    /// P03-04bH: the source vault held attachments that this backup does not contain (incomplete recovery).
-    case attachmentsMissing = 128
-
-    public static func mask(_ set: Set<RestoreRisk>) -> UInt16 { set.reduce(0) { $0 | $1.rawValue } }
-    public static func set(_ mask: UInt16) -> Set<RestoreRisk> { Set(allCases.filter { mask & $0.rawValue != 0 }) }
-}
-
 public struct ManifestEntry: Sendable, Hashable {
     public var dataClass: DataClass
     public var privacyTier: PrivacyTier
@@ -90,9 +65,9 @@ public struct ManifestEntry: Sendable, Hashable {
 
 /// Encrypted manifest (H5): generation chain, frozen minimum wrap version, record table.
 public struct Manifest: Sendable, Hashable {
-    public static let magic = "XRAI-MANIFEST-2"
-    /// P03-04b compatibility policy: an older manifest format is refused (`unsupportedFormat`), never converted silently.
-    public static let legacyMagics = ["XRAI-MANIFEST-1"]
+    public static let magic = "XRAI-MANIFEST-3"
+    /// Compatibility policy: an older manifest format is refused (`unsupportedFormat`), never converted silently.
+    public static let legacyMagics = ["XRAI-MANIFEST-1", "XRAI-MANIFEST-2"]
     public static let hashBytes = 32
     public static let zeroHash = [UInt8](repeating: 0, count: 32)
 
@@ -106,12 +81,15 @@ public struct Manifest: Sendable, Hashable {
     /// P03-04b GATE 1: once the deletion history was found corrupt or unverifiable, this stays false
     /// forever (sticky): a rewritten ledger can never launder a lost history back into "trusted".
     public var ledgerHistoryTrusted: Bool
+    /// P03-05A: hash of the consent event ledger (`system/consent.v1`) this generation binds.
+    public var consentHash: [UInt8]
     public var records: [String: ManifestEntry]   // key = RecordID.hex
 
-    public init(generation: UInt64, prevHash: [UInt8], vaultInstanceID: [UInt8], minimumWrapVersion: UInt32, retiredVersions: [UInt32] = [], lastExportedGeneration: UInt64 = 0, ledgerHash: [UInt8], ledgerHistoryTrusted: Bool = true, records: [String: ManifestEntry] = [:]) {
+    public init(generation: UInt64, prevHash: [UInt8], vaultInstanceID: [UInt8], minimumWrapVersion: UInt32, retiredVersions: [UInt32] = [], lastExportedGeneration: UInt64 = 0, ledgerHash: [UInt8], ledgerHistoryTrusted: Bool = true, consentHash: [UInt8], records: [String: ManifestEntry] = [:]) {
         self.generation = generation; self.prevHash = prevHash; self.vaultInstanceID = vaultInstanceID
         self.minimumWrapVersion = minimumWrapVersion; self.retiredVersions = retiredVersions
-        self.lastExportedGeneration = lastExportedGeneration; self.ledgerHash = ledgerHash; self.ledgerHistoryTrusted = ledgerHistoryTrusted; self.records = records
+        self.lastExportedGeneration = lastExportedGeneration; self.ledgerHash = ledgerHash; self.ledgerHistoryTrusted = ledgerHistoryTrusted
+        self.consentHash = consentHash; self.records = records
     }
 
     public func encode() -> [UInt8] {
@@ -120,7 +98,7 @@ public struct Manifest: Sendable, Hashable {
         e.appendU64(generation); e.appendBytes(prevHash); e.appendBytes(vaultInstanceID)
         e.appendU32(minimumWrapVersion)
         e.appendU32(UInt32(retiredVersions.count)); for v in retiredVersions.sorted() { e.appendU32(v) }
-        e.appendU64(lastExportedGeneration); e.appendBytes(ledgerHash); e.appendU8(ledgerHistoryTrusted ? 1 : 0)
+        e.appendU64(lastExportedGeneration); e.appendBytes(ledgerHash); e.appendU8(ledgerHistoryTrusted ? 1 : 0); e.appendBytes(consentHash)
         e.appendU32(UInt32(records.count))
         for key in records.keys.sorted() {
             let r = records[key]!
@@ -146,6 +124,7 @@ public struct Manifest: Sendable, Hashable {
         let lastExp = try d.readU64(); let lh = try d.readBytes()
         guard lh.count == hashBytes else { throw VaultError.storeIntegrityFailed(reason: "ledger hash length") }
         let trustedByte = try d.readU8(); guard trustedByte <= 1 else { throw VaultError.storeIntegrityFailed(reason: "manifest trust flag") }
+        let ch = try d.readBytes(); guard ch.count == hashBytes else { throw VaultError.storeIntegrityFailed(reason: "consent hash length") }
         let n = Int(try d.readU32()); guard n <= BackupLimits.maxEntries * 10 else { throw VaultError.limitExceeded("manifest entries") }
         var records: [String: ManifestEntry] = [:]
         for _ in 0..<n {
@@ -169,7 +148,7 @@ public struct Manifest: Sendable, Hashable {
             records[key] = entry
         }
         guard d.isAtEnd else { throw VaultError.storeIntegrityFailed(reason: "manifest trailing bytes") }
-        return Manifest(generation: gen, prevHash: prev, vaultInstanceID: inst, minimumWrapVersion: minV, retiredVersions: retired, lastExportedGeneration: lastExp, ledgerHash: lh, ledgerHistoryTrusted: trustedByte == 1, records: records)
+        return Manifest(generation: gen, prevHash: prev, vaultInstanceID: inst, minimumWrapVersion: minV, retiredVersions: retired, lastExportedGeneration: lastExp, ledgerHash: lh, ledgerHistoryTrusted: trustedByte == 1, consentHash: ch, records: records)
     }
 
     public var hash: [UInt8] { VaultDigest.sha256(encode()) }
@@ -394,6 +373,8 @@ public enum JournalEntry: Sendable, Hashable {
     case ledgerWritten(hash: [UInt8])
     case manifestWritten(generation: UInt64)
     case commit
+    /// P03-05A: announces the consent ledger's post-state before `system/consent.v1` is replaced.
+    case consentWritten(hash: [UInt8])
 
     static let magic = "XRAI-J-2"
     /// Compatibility policy: a journal of an older format opens the vault read-only; it is never converted.
@@ -411,6 +392,7 @@ public enum JournalEntry: Sendable, Hashable {
         case .manifestWritten(let g): e.appendU8(3); e.appendU64(g)
         case .commit: e.appendU8(4)
         case .ledgerWritten(let h): e.appendU8(5); e.appendBytes(h)
+        case .consentWritten(let h): e.appendU8(6); e.appendBytes(h)
         }
         return e.bytes
     }
@@ -436,6 +418,9 @@ public enum JournalEntry: Sendable, Hashable {
         case 5:
             let h = try d.readBytes(); guard h.count == Manifest.hashBytes else { throw VaultError.storeIntegrityFailed(reason: "journal ledger hash") }
             return .ledgerWritten(hash: h)
+        case 6:
+            let h = try d.readBytes(); guard h.count == Manifest.hashBytes else { throw VaultError.storeIntegrityFailed(reason: "journal consent hash") }
+            return .consentWritten(hash: h)
         default: throw VaultError.storeIntegrityFailed(reason: "journal kind")
         }
     }
@@ -499,21 +484,37 @@ public enum IdentityPolicy {
 /// An older-but-authentic ledger therefore never becomes trusted through a journal replay.
 public enum LedgerBinding {
     public static func verify(manifest: Manifest, diskLedgerHash: [UInt8], journal: [JournalEntry]?, persistedEpoch: UInt64) -> String? {
-        guard let j = journal, let first = j.first, case .begin(_, _, _, let target, let epoch, _, let pre) = first else {
-            return ConstantTime.equal(diskLedgerHash, manifest.ledgerHash) ? nil : "deletion ledger does not bind to the manifest"
+        var pre: [UInt8]? = nil
+        if let first = journal?.first, case .begin(_, _, _, _, _, _, let lh) = first { pre = lh }
+        return verifyBinding(name: "deletion ledger", boundHash: manifest.ledgerHash, generation: manifest.generation, diskHash: diskLedgerHash, journal: journal, journalPreHash: pre, persistedEpoch: persistedEpoch) { e in
+            if case .ledgerWritten(let h) = e { return h } else { return nil }
+        }
+    }
+
+    /// P03-05A: the consent ledger uses the same proof rule; its pre-state is the manifest's bound hash
+    /// (the begin entry carries only the deletion-ledger hash, so "pre" = what the manifest at g binds).
+    public static func verifyConsent(manifest: Manifest, diskConsentHash: [UInt8], journal: [JournalEntry]?, persistedEpoch: UInt64) -> String? {
+        verifyBinding(name: "consent ledger", boundHash: manifest.consentHash, generation: manifest.generation, diskHash: diskConsentHash, journal: journal, journalPreHash: manifest.consentHash, persistedEpoch: persistedEpoch) { e in
+            if case .consentWritten(let h) = e { return h } else { return nil }
+        }
+    }
+
+    static func verifyBinding(name: String, boundHash: [UInt8], generation: UInt64, diskHash: [UInt8], journal: [JournalEntry]?, journalPreHash: [UInt8]?, persistedEpoch: UInt64, announced: (JournalEntry) -> [UInt8]?) -> String? {
+        guard let j = journal, let first = j.first, case .begin(_, _, _, let target, let epoch, _, _) = first, let pre = journalPreHash else {
+            return ConstantTime.equal(diskHash, boundHash) ? nil : "\(name) does not bind to the manifest"
         }
         guard epoch == persistedEpoch else { return "journal does not bind to the authorization state" }
         var post: [UInt8]? = nil
-        for e in j { if case .ledgerWritten(let h) = e { post = h } }
-        if target == manifest.generation + 1 {
-            guard ConstantTime.equal(pre, manifest.ledgerHash) else { return "journal does not bind to the manifest" }
-            if ConstantTime.equal(diskLedgerHash, pre) { return nil }
-            if let p = post, ConstantTime.equal(diskLedgerHash, p) { return nil }
-            return "deletion ledger state is not proven by the journal"
-        } else if target == manifest.generation {
+        for e in j { if let h = announced(e) { post = h } }
+        if target == generation + 1 {
+            guard ConstantTime.equal(pre, boundHash) else { return "journal does not bind to the manifest" }
+            if ConstantTime.equal(diskHash, pre) { return nil }
+            if let p = post, ConstantTime.equal(diskHash, p) { return nil }
+            return "\(name) state is not proven by the journal"
+        } else if target == generation {
             let expected = post ?? pre
-            guard ConstantTime.equal(manifest.ledgerHash, expected) else { return "journal does not bind to the manifest" }
-            return ConstantTime.equal(diskLedgerHash, manifest.ledgerHash) ? nil : "deletion ledger does not bind to the manifest"
+            guard ConstantTime.equal(boundHash, expected) else { return "journal does not bind to the manifest" }
+            return ConstantTime.equal(diskHash, boundHash) ? nil : "\(name) does not bind to the manifest"
         }
         return "stale journal generation"
     }

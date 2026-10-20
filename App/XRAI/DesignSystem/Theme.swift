@@ -19,6 +19,9 @@ enum XRColor {
     /// Subtle separators / inset fields.
     static let surfaceSecondary = dynamic(light: hex(0xF1EDE6), dark: hex(0x221E33))
     static let border = dynamic(light: hex(0xE3DED5), dark: hex(0x3B3556))   // dark raised for ≥1.3:1 on surface (measured)
+    /// F-UX-5 (WCAG 2.2 SC 1.4.11): boundary of text inputs against the surface they sit on — ≥ 3:1 in both
+    /// appearances (measured by ContrastTests). Only inputs use it; decorative borders keep `border`.
+    static let inputBorder = dynamic(light: hex(0x8A8399), dark: hex(0x9A93B0))
     /// Primary text (AA+ on background and surface).
     static let text = dynamic(light: hex(0x1A1724), dark: hex(0xF3F0FA))
     static let textSecondary = dynamic(light: hex(0x5E586E), dark: hex(0xB5AFC6))

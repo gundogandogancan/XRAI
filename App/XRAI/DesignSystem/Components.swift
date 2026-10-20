@@ -27,14 +27,19 @@ struct XRSecondaryButtonStyle: ButtonStyle {
     }
 }
 
+/// F-UX-4: a quiet button is still recognisably a button — accent colour, underline and a chevron
+/// (three affordances, none of them colour-only), 44pt target.
 struct XRQuietButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .font(XRFont.secondary)
-            .foregroundStyle(XRColor.textSecondary)
-            .frame(minHeight: XRHit.min)
-            .opacity(configuration.isPressed ? 0.6 : 1)
-            .contentShape(Rectangle())
+        HStack(spacing: XRSpace.xs) {
+            configuration.label.underline()
+            Image(systemName: "chevron.right").font(.caption.weight(.semibold)).accessibilityHidden(true)
+        }
+        .font(XRFont.secondary.weight(.medium))
+        .foregroundStyle(XRColor.accent)
+        .frame(minHeight: XRHit.min)
+        .opacity(configuration.isPressed ? 0.6 : 1)
+        .contentShape(Rectangle())
     }
 }
 

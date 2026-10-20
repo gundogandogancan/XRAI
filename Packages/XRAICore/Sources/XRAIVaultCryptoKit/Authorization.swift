@@ -95,6 +95,18 @@ public final class AuthorizationIssuer: AuthorizationValidator, @unchecked Senda
         return t
     }
 
+    /// P03-05A PRE-01: the same checks as `consume`, without consuming.
+    public func validate(tokenID: String, atUnixSeconds now: Int64) throws -> OperationAuthorization {
+        lock.lock(); defer { lock.unlock() }
+        guard let tokenEpoch = AuthorizationIssuer.epoch(ofTokenID: tokenID) else { throw VaultError.authorizationInvalid(.unknownToken) }
+        guard tokenEpoch == epoch else { throw VaultError.authorizationInvalid(.epochMismatch) }
+        guard !consumed.contains(tokenID) else { throw VaultError.authorizationInvalid(.alreadyConsumed) }
+        guard let t = issued[tokenID] else { throw VaultError.authorizationInvalid(.unknownToken) }
+        guard now >= t.issuedAtUnixSeconds else { throw VaultError.authorizationInvalid(.notYetValid) }
+        guard now < t.expiresAtUnixSeconds else { throw VaultError.authorizationInvalid(.expired) }
+        return t
+    }
+
     /// Drops expired, never-consumed tokens.
     public func purge() throws {
         let now = try clock.now()

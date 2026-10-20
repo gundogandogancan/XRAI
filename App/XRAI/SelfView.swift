@@ -15,6 +15,13 @@ struct SelfView: View {
 
                 LifePathFeatureView()
 
+                if security.consentFlow != nil {
+                    NavigationLink("Gizlilik ve izinler") { ConsentView() }
+                        .buttonStyle(XRSecondaryButtonStyle()).accessibilityIdentifier("self.consent")
+                    NavigationLink("Yedekten geri yükleme (örnek)") { RestoreRiskView() }
+                        .buttonStyle(XRSecondaryButtonStyle()).accessibilityIdentifier("self.restore")
+                }
+
                 XRCard {
                     Text("Güvenlik durumu (bu derleme)").font(XRFont.heading).foregroundStyle(XRColor.text)
                     keyRows

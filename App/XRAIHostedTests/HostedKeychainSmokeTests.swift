@@ -54,6 +54,11 @@ struct HostedKeychainSmokeTests {
             return
         }
         #expect(protection.isProductionGrade)
+        // P03-05A: the self-test goes through the InteractionGate — refused while the scene is inactive, allowed when active.
+        s.sceneActivity.set(false)
+        s.runSelfTest()
+        #expect(s.selfTestResult?.hasPrefix("Reddedildi (etkileşim kapısı): SCENE_INACTIVE") == true, Comment(rawValue: s.selfTestResult ?? "nil"))
+        s.sceneActivity.set(true)
         s.runSelfTest()
         #expect(s.selfTestResult?.hasPrefix("Başarılı") == true, Comment(rawValue: s.selfTestResult ?? "nil"))
         #expect(!s.persistenceImplemented && !s.deviceVerified && !s.securityReviewed)

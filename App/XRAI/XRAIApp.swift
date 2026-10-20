@@ -21,7 +21,7 @@ struct XRAIApp: App {
         WindowGroup {
             ZStack {
                 if session.onboardingCompleted {
-                    RootTabView()
+                    if let cf = security.consentFlow { RootTabView().environment(cf) } else { RootTabView() }
                 } else {
                     OnboardingView(flow: onboarding)
                 }
@@ -33,12 +33,14 @@ struct XRAIApp: App {
             .environment(security)
             .environment(session)
             .preferredColorScheme(nil)
-            .task { security.bootstrap() }
+            .task { security.sceneActivity.set(scenePhase == .active); security.bootstrap() }
             .onChange(of: session.onboardingCompleted) { _, done in
                 if !done { onboarding = OnboardingFlow(session: session) }
             }
         }
         .onChange(of: scenePhase) { _, phase in
+            // P03-05A: the InteractionGate mints and redeems proofs ONLY while the scene is active.
+            security.sceneActivity.set(phase == .active)
             // Key cache hygiene: drop unwrapped KEKs whenever the app leaves the foreground.
             // The session's in-memory birth date is kept for this process; it is gone on relaunch.
             if phase != .active { security.purgeKeyCache() }

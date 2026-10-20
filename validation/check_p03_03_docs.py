@@ -157,6 +157,27 @@ else:
     for word in ("GO / NO-GO", "Final SHA", "Root cause"):
         if word not in rt: problems.append(f"P03-04bH2 report lacks '{word}'")
 
+# P03-05A: six deliverables exist, cite the baseline, rows resolve, T53 exists, no direct issuer use in app code
+for name in ("P03_05A_CANONICAL_RECONCILIATION", "P03_05A_CONSENT_AND_INTERACTION_ARCHITECTURE", "P03_05A_PRIVACY_UX_ACCEPTANCE_MATRIX", "P03_05A_SECURITY_NEGATIVE_TEST_MATRIX", "P03_05A_PERFORMANCE_AND_RECOVERY_DECISIONS", "P03_05A_GATE_REVIEW_REPORT"):
+    q = root / f"docs/status/{name}.md"
+    if not q.exists(): problems.append(f"missing {name}.md"); continue
+    qt = q.read_text()
+    if "1a3a448" not in qt: problems.append(f"{name}.md does not cite the baseline 1a3a448")
+    for nid in set(re.findall(r"NT-[A-Z0-9]+-\d+", qt)):
+        if nid not in matrix_ids: problems.append(f"{name}.md references {nid} which is not a matrix row")
+for fam, n in (("CA", 6), ("PR", 3), ("IG", 6), ("UX", 7)):
+    for i in range(1, n + 1):
+        if f"NT-{fam}-{i:02d}" not in matrix_ids: problems.append(f"matrix lacks NT-{fam}-{i:02d}")
+if "| T53 |" not in tm: problems.append("threat model lacks row T53")
+if "<!-- HOSTS5 -->" in matrix_h: problems.append("matrix P03-05A rows still carry the HOSTS5 placeholder")
+if not (root / "docs/adr/ADR-BOOT-010-consent-and-interaction-authority.md").exists(): problems.append("ADR-BOOT-010 missing")
+app_dir = root / "App/XRAI"
+for f in app_dir.rglob("*.swift"):
+    t = f.read_text()
+    if ".issue(" in t: problems.append(f"app code calls the issuer directly: {f.name}")
+    if "AuthorizationIssuer(" in t and f.name != "SecurityStatus.swift": problems.append(f"app code constructs an issuer: {f.name}")
+if "XRAIVaultStore" in (root / "project.yml").read_text().split("\n  XRAI:\n")[1].split("\n  XRAIHostedTests:")[0]: problems.append("XRAI app target links XRAIVaultStore before P03-05B")
+
 if problems:
     print("FAIL"); [print(" -", p) for p in problems]; sys.exit(1)
-print(f"PASS P03-03/P03-03H/P03-04/P03-04H/P03-04b/P03-04bH/P03-04bH2 docs: {len(cases)} data classes cross-checked, blockers resolved, ADRs present, no app groups, {len(matrix_ids)} NT rows, T44–T48 present, filesystem review consistent")
+print(f"PASS P03-03/P03-03H/P03-04/P03-04H/P03-04b/P03-04bH/P03-04bH2/P03-05A docs: {len(cases)} data classes cross-checked, blockers resolved, ADRs present, no app groups, {len(matrix_ids)} NT rows, T44–T48 present, filesystem review consistent")

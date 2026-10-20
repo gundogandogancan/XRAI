@@ -810,6 +810,102 @@
    "result": "PASS: 118 NT rows, T44–T52, P03-04bH2 report consistent, releaseQuarantined absent, IdentityPolicy call sites counted",
    "log": "docs/status/evidence/p03_04bh2_check_docs.log",
    "log_sha256": "7aae5f257d048bd5428ee256508a01b4b6d641b8fbec197d8165700f754d67e6"
+  },
+  {
+   "run_id": "P03-05A-STORE-RUN1",
+   "command": "swift test --filter XRAIVaultStoreTests",
+   "exit_code": 1,
+   "result": "FAIL (kept): 6 test-expectation issues in the new consent/PRE tests (state-before-consent order, stale snapshot in the rollback probe, consumed-token probe design, an extra expected risk); product code unchanged by the corrections",
+   "log": "docs/status/evidence/p03_05a_store_run1_FAIL_6_test_expectations.log",
+   "log_sha256": "0010217a16c6bdbfce9a6baf2c5459ef70bc43b29d69ee2e2e67f8365247ad5a"
+  },
+  {
+   "run_id": "P03-05A-SWIFT-MACOS-RUN1",
+   "command": "swift test",
+   "exit_code": 1,
+   "result": "FAIL (kept, environmental): 18 issues, all secureEnclaveUnavailable in KeychainKeyProviderTests — the Mac screen session was locked (CGSSessionScreenIsLocked); not a code failure",
+   "log": "docs/status/evidence/p03_05a_swift_test_macos_run1_FAIL_secure_enclave_unavailable.log",
+   "log_sha256": "ffcd646bd38b637712329c2ceebf60a5762492acdfc8792193cff0b3c505d867"
+  },
+  {
+   "run_id": "P03-05A-SWIFT-MACOS-RUN2",
+   "command": "swift test",
+   "exit_code": 0,
+   "result": "PASS (kept): 222 tests in 51 suites after unlock, before the NT-IG-05 scan split",
+   "log": "docs/status/evidence/p03_05a_swift_test_macos_run2_PASS_before_scan_split.log",
+   "log_sha256": "f5ab5cd6d82a08798d4a89b851cd97945c4f8814a59b6f59e41e1bc8634d34d7"
+  },
+  {
+   "run_id": "P03-05A-SWIFT-MACOS",
+   "command": "swift test",
+   "exit_code": 0,
+   "result": "PASS: 223 tests in 51 suites (contracts, numerology, vault, keychain incl. Secure Enclave, store NT-CA/NT-PR, interaction NT-IG incl. 05b scan, scale NT-SC-01)",
+   "log": "docs/status/evidence/p03_05a_swift_test_macos.log",
+   "log_sha256": "ca9d830a73e9da020608e7ec3601f4456913e33a54b97504dadecb0a2bc95eff"
+  },
+  {
+   "run_id": "P03-05A-SIM-ALL-RUN1",
+   "command": "xcodebuild test -project XRAI.xcodeproj -scheme XRAI -destination \"platform=iOS Simulator,name=iPhone 17\"",
+   "exit_code": 65,
+   "result": "FAIL (kept): hosted 154 tests with 1 issue (smoke self-test needed an active scene for the gate — test adapted) + 3 ConsentUITests failures (value-based NavigationLink destinations not registered on a pushed screen — switched to view-based links)",
+   "log": "docs/status/evidence/p03_05a_xcodebuild_sim_all_run1_FAIL_4_issues.log",
+   "log_sha256": "309cf5b037ffd25be6e6a376f5b21023786febc75c1fefdc78539d977e81951f"
+  },
+  {
+   "run_id": "P03-05A-SIM-ALL-RUN2",
+   "command": "xcodebuild test … iPhone 17 (whole scheme)",
+   "exit_code": 65,
+   "result": "FAIL (kept): 98 hosted store failures ioFailed(setprotectionclass, EPERM) — the Simulator host refuses F_SETPROTECTIONCLASS; enforcement is now compiled for physical iOS only (SIMULATOR_PROTECTION_CLASS_EPERM)",
+   "log": "docs/status/evidence/p03_05a_xcodebuild_sim_all_run2_FAIL_simulator_protection_EPERM.log",
+   "log_sha256": "3ecbbec472ba521cc7f50418ca4c5006d07ece1a7cfb61657d7254ea1c2b3aab"
+  },
+  {
+   "run_id": "P03-05A-SIM-ALL-RUN3",
+   "command": "xcodebuild test … iPhone 17 (whole scheme)",
+   "exit_code": 0,
+   "result": "PASS (kept): hosted 154 tests in 39 suites + XCUI 11/11, before the NT-IG-05 scan split",
+   "log": "docs/status/evidence/p03_05a_xcodebuild_sim_all_run3_PASS_before_scan_split.log",
+   "log_sha256": "938af95f06f4dec5f027e134072cb5b7badfe292b3bbc69ff389f63b76111ac5"
+  },
+  {
+   "run_id": "P03-05A-SIM-ALL",
+   "command": "xcodebuild test … iPhone 17 (whole scheme)",
+   "exit_code": 0,
+   "result": "PASS: hosted 155 tests in 39 suites (both source scans executed) + XCUI 11/11 (OnboardingUITests 7 + ConsentUITests 4 incl. accessibility audits)",
+   "log": "docs/status/evidence/p03_05a_xcodebuild_sim_all.log",
+   "log_sha256": "986e83c1ad25d1ccfb153e317b22a7cfa0e7a364ca2045fbb430d511c5bd9ae0"
+  },
+  {
+   "run_id": "P03-05A-DEVICE-ALL-RUN1",
+   "command": "xcodebuild test -project XRAI.xcodeproj -scheme XRAI -destination \"platform=iOS,id=C7C6CE6E-B577-558A-8992-DC6C1F492B39\" -allowProvisioningUpdates",
+   "exit_code": 65,
+   "result": "FAIL (kept): 2 hosted issues — NT-IG-05 (scan half) and NT-UX-05 read the Mac source tree via #filePath (ENOENT / 0 files on the device); runtime assertions and XCUI 11/11 passed",
+   "log": "docs/status/evidence/p03_05a_xcodebuild_device_all_run1_FAIL_2_issues.log",
+   "log_sha256": "087d3cd1328cfe9072f41873e17a9b82352a0e92992a3638eb6e6c1a182dcb59"
+  },
+  {
+   "run_id": "P03-05A-DEVICE-ALL",
+   "command": "xcodebuild test … platform=iOS,id=C7C6CE6E-… (whole scheme, non-destructive)",
+   "exit_code": 0,
+   "result": "PASS: iPhone 14 Pro Max (iOS 26.6) hosted 155 tests in 39 suites with NT-IG-05b and NT-UX-05 reported SKIPPED (no source tree on the device; never counted as passed) + XCUI 11/11; DEVICE_VERIFIED: PARTIAL (non-destructive only)",
+   "log": "docs/status/evidence/p03_05a_xcodebuild_device_all.log",
+   "log_sha256": "0070832f4fed39f404b1d768edcd79a7bc170920159be27147da9fc3e2b3793b"
+  },
+  {
+   "run_id": "P03-05A-STATIC-VALIDATE",
+   "command": "python3 -I validation/validate_package.py",
+   "exit_code": 0,
+   "result": "PASS spec structure; files=5120; does NOT verify an iOS build",
+   "log": "docs/status/evidence/p03_05a_validate_package.log",
+   "log_sha256": "e7dd35a3de4443de071afabf06880b3a846cc25baa27f63aa7fa4e89ab0aaece"
+  },
+  {
+   "run_id": "P03-05A-STATIC-DOCS",
+   "command": "python3 -I validation/check_p03_03_docs.py",
+   "exit_code": 0,
+   "result": "PASS: P03-05A deliverables present, 140 NT rows, T44–T53, ADR-010, no .issue( in App/XRAI, app does not link XRAIVaultStore",
+   "log": "docs/status/evidence/p03_05a_check_docs.log",
+   "log_sha256": "36c1fb8a322302c20c55791e0068cd2d8d453f387496b4b38a1f4372950d5f55"
   }
  ],
  "acceptance_test_mapping": [
@@ -975,7 +1071,11 @@
   "vault.store.ledger_binding": "CODED + TESTED (P03-04b GATE 1: NT-LR-01…08; LEDGER_ONLY_ROLLBACK closed)",
   "vault.store.attachments": "CODED + TESTED (P03-04b GATE 4: NT-AT-01…11 incl. 64 MiB on device); not in backups; SECURITY_REVIEWED: NO",
   "vault.store.restore_identity": "CODED + TESTED (P03-04bH: NT-BH-01…09 on macOS, Simulator, iPhone 14 Pro Max); F-P04B-01/02/03 closed; SECURITY_REVIEWED: NO",
-  "vault.store.global_deletion_invariant": "CODED + TESTED (P03-04bH2: NT-GD-01…07 on macOS, Simulator, iPhone 14 Pro Max; F-P04BH-01 reproduced then closed); SECURITY_REVIEWED: NO"
+  "vault.store.global_deletion_invariant": "CODED + TESTED (P03-04bH2: NT-GD-01…07 on macOS, Simulator, iPhone 14 Pro Max; F-P04BH-01 reproduced then closed); SECURITY_REVIEWED: NO",
+  "P03-05A": "CODED + TESTED (library + synthetic UI): macOS 223/223, Simulator hosted 155/155 + XCUI 11/11, iPhone 14 Pro Max hosted 155/155 (2 source scans skipped by design) + XCUI 11/11 (DEVICE_VERIFIED: PARTIAL, non-destructive); app NOT wired to the store; no real personal data; SECURITY_REVIEWED: NO",
+  "vault.consent.ledger": "CODED + TESTED (P03-05A: NT-CA-01…06, NT-PR-01…03 on macOS, Simulator, iPhone 14 Pro Max); system/consent.v1 bound to manifest v3; never in backups; SECURITY_REVIEWED: NO",
+  "app.interaction_gate": "CODED + TESTED (P03-05A: NT-IG-01…06 + 05b scan on macOS/Simulator; NT-UX-05 scan on Simulator; device skips the scans by design); in-process boundary only; SECURITY_REVIEWED: NO",
+  "app.consent_ux": "CODED + TESTED on synthetic state (P03-05A: NT-UX-01…04, 06, 07 on Simulator and iPhone 14 Pro Max); VoiceOver/native-English MANUAL_PENDING; CONSENT_UI_SYNTHETIC"
  },
  "not_evidence": [
   "docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"

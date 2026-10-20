@@ -9,6 +9,7 @@ import Observation
 import UIKit
 import XRAIVaultContracts
 import XRAIVaultCryptoKit
+import XRAIVaultInteraction
 import XRAIVaultKeychain
 
 /// In-memory quarantine registry for the host skeleton. NOT persisted; replaced in a later phase.
@@ -53,7 +54,11 @@ final class SecurityStatus {
 
     private var provider: KeychainKeyProvider?
     private var vault: SecureVault?
-    private var issuer: AuthorizationIssuer?
+    /// P03-05A: the ONLY token source in the app. The issuer is created inline and handed over; no other
+    /// code holds it (source-scan test `TokenSourceScanTests`).
+    let sceneActivity = AppSceneActivity()
+    private(set) var gate: InteractionGate?
+    private(set) var consentFlow: ConsentFlow?
     private var observer: NSObjectProtocol?
 
     func bootstrap() {
@@ -63,9 +68,10 @@ final class SecurityStatus {
         let cache = KeyCachePolicy(ttlSeconds: cacheTTLSeconds)
         do {
             let p = try KeychainKeyProvider(keyID: SecurityStatus.keyID, configuration: .production(service: SecurityStatus.keychainService), uptime: SystemUptime(), cachePolicy: cache)
-            let i = AuthorizationIssuer(clock: clock)
-            let v = SecureVault(keyProvider: p, consentAuthority: NoConsentAuthority(), clock: clock, authorizations: i, quarantine: InMemoryAppQuarantineRegistry())
-            provider = p; issuer = i; vault = v
+            let g = InteractionGate(issuer: AuthorizationIssuer(clock: clock), clock: clock, scene: sceneActivity)
+            let v = SecureVault(keyProvider: p, consentAuthority: NoConsentAuthority(), clock: clock, authorizations: g.validator, quarantine: InMemoryAppQuarantineRegistry())
+            provider = p; gate = g; vault = v
+            consentFlow = ConsentFlow(registry: try XRAIPurposes.registryV1(), gate: g, clock: clock)
             keyState = .ready(protection: p.protection, key: p.currentKey)
         } catch let e as VaultError {
             keyState = .failedClosed(reason: String(reflecting: e))
@@ -78,16 +84,20 @@ final class SecurityStatus {
     }
 
     /// Seals and opens SYNTHETIC bytes through the real vault, then discards them. Nothing is stored.
+    /// P03-05A: called from the button's action closure; the two proofs (seal, open) are minted there and
+    /// each becomes exactly one token through the gate — no code path can call the issuer directly.
     func runSelfTest() {
-        guard let vault, let issuer else { selfTestResult = "Kasa hazır değil."; return }
+        guard let vault, let gate else { selfTestResult = "Kasa hazır değil."; return }
         do {
             let plain = Array("xrai-self-test-\(RecordID().hex)".utf8)
             let descriptor = try RecordDescriptor(dataClass: .derivedResult, retention: .sessionOnly, createdAtUnixSeconds: Int64(Date().timeIntervalSince1970))
-            let env = try vault.seal(plaintext: plain, descriptor: descriptor, authorization: try issuer.issue(scope: .write(.derivedResult)))
-            let back = try vault.open(env, authorization: try issuer.issue(scope: .read(recordIDs: [descriptor.recordID])))
+            let env = try vault.seal(plaintext: plain, descriptor: descriptor, authorization: try gate.authorize(scope: .write(.derivedResult), proof: try gate.mint(.tap)))
+            let back = try vault.open(env, authorization: try gate.authorize(scope: .read(recordIDs: [descriptor.recordID]), proof: try gate.mint(.tap)))
             selfTestResult = back == plain ? "Başarılı: sentetik kayıt mühürlendi ve açıldı, saklanmadı." : "Başarısız: açılan veri farklı."
         } catch let e as VaultError {
             selfTestResult = "Başarısız (fail-closed): \(String(reflecting: e))"
+        } catch let e as InteractionError {
+            selfTestResult = "Reddedildi (etkileşim kapısı): \(e.failure.rawValue)"
         } catch {
             selfTestResult = "Başarısız: beklenmeyen hata."
         }

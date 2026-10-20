@@ -72,6 +72,9 @@ targets:
         product: XRAIVaultCryptoKit
       - package: XRAICore
         product: XRAIVaultKeychain
+      # P03-05A: InteractionGate — the only token source for app code.
+      - package: XRAICore
+        product: XRAIVaultInteraction
     entitlements:
       path: App/XRAI/XRAI.entitlements
       properties:
@@ -111,6 +114,7 @@ targets:
       - path: Packages/XRAICore/Tests/XRAIVaultKeychainTests
       # P03-04: the store suite runs inside the signed app on Simulator and device (temp dir in the app container).
       - path: Packages/XRAICore/Tests/XRAIVaultStoreTests
+      - path: Packages/XRAICore/Tests/XRAIVaultInteractionTests
     dependencies:
       - target: XRAI
       - package: XRAICore
@@ -121,6 +125,8 @@ targets:
         product: XRAIVaultKeychain
       - package: XRAICore
         product: XRAIVaultStore
+      - package: XRAICore
+        product: XRAIVaultInteraction
       - package: XRAICore
         product: XRAIVaultTesting
     settings:

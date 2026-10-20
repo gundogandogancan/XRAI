@@ -136,7 +136,7 @@ struct StoreLedgerBindingTests {
     @Test("NT-LR-05: LedgerBinding rules — epoch mismatch, stale generation, manifest-durable post/pre binding; manifest v2 round-trips kinds and risks")
     func bindingRules() throws {
         let h0 = [UInt8](repeating: 1, count: 32), h1 = [UInt8](repeating: 2, count: 32), h2 = [UInt8](repeating: 3, count: 32)
-        var m = Manifest(generation: 4, prevHash: Manifest.zeroHash, vaultInstanceID: [UInt8](repeating: 7, count: 16), minimumWrapVersion: 1, ledgerHash: h1)
+        var m = Manifest(generation: 4, prevHash: Manifest.zeroHash, vaultInstanceID: [UInt8](repeating: 7, count: 16), minimumWrapVersion: 1, ledgerHash: h1, consentHash: Manifest.zeroHash)
         func begin(_ target: UInt64, epoch: UInt64 = 3, pre: [UInt8]) -> JournalEntry { .begin(op: "delete", tokenID: "", ids: [], targetGeneration: target, epoch: epoch, params: [], ledgerHash: pre) }
         #expect(LedgerBinding.verify(manifest: m, diskLedgerHash: h1, journal: nil, persistedEpoch: 3) == nil)
         #expect(LedgerBinding.verify(manifest: m, diskLedgerHash: h0, journal: nil, persistedEpoch: 3) == "deletion ledger does not bind to the manifest")
