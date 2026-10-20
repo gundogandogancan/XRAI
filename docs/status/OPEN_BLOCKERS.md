@@ -16,11 +16,11 @@ Vocabulary: `BLOCKED` (cannot proceed without an external fact/right/decision), 
 |---|---|---|---|
 | IPHONE_TEST | P02 | NOT_VERIFIED | a physical iPhone + developer signing to test vault, model, thermals. |
 | DEVICE_BACKUP_POLICY | P02 | RESOLVED 2026-10-19 (founder decisions 3–4) | Optional user-held 256-bit recovery key + E2EE portable backup; fresh device keys on restore; loss of both = unrecoverable, stated plainly. Implemented at library level (ADR-BOOT-005). |
-| JOURNAL_SECURITY | P02 | DESIGN_RESOLVED 2026-10-20 (P03-03), NOT_VERIFIED | engine chosen: record-per-file envelopes + encrypted manifest, no SQLCipher (ADR-BOOT-009 D1, PROPOSED); WAL/temp/backup leak tests belong to P03-04 on device. Persistence layer NOT_STARTED. |
+| JOURNAL_SECURITY | P02 | CODED + TESTED (library, P03-04) | `FileVaultStore` (record-per-file envelopes, encrypted manifest/ledger/authz, no SQLite); directory hygiene, padding, Data Protection attribute (iOS hosts) tested. App NOT wired; no real data. Remaining: on-device audit under lock/unlock, independent review. |
 | KEYCHAIN_PROVIDER | P02-02 | CODED + TESTED (macOS host) | `KeychainKeyProvider` + Secure Enclave wrapping exist (ADR-BOOT-006). DEVICE_VERIFIED: NO. |
 | DEVICE_TESTS_KEYCHAIN_SE | P02-02+ | PARTIAL 2026-10-20 | create/read/rotate/retire/forget/wipe, SE wrapping, cache, serialization VERIFIED on iPhone 14 Pro Max (non-destructive). Still NOT_RUN: lock/unlock behaviour, passcode removal, reinstall — need a dedicated test device + explicit approval. |
 | ROTATION_CROSS_PROCESS | P02+ | BLOCKED | keychain rotation sequence is not a CAS; in-process serialized; app extensions must never rotate (main-app ownership rule) until a cross-process mechanism exists. |
-| FORGET_REQUIRES_STORE_PROOF | pre-persistence | PROTOCOL v2 SPECIFIED 2026-10-20 (P03-03H H2), still BLOCKED until P03-04 | freeze `minimumWrapVersion`, journaled rewrap incl. system envelopes, full inventory digest, three-way cross-check, proof bound to manifest generation + exclusive section, retire+forget in one section. Closes only with NT-H2-01…09. |
+| FORGET_REQUIRES_STORE_PROOF | pre-persistence | CODED + TESTED (library, 2026-10-20, P03-04) | `prepareRetirement`/`forgetRetired`/`retireKey` implement protocol v2; `KeyRetirementVerifier` recomputes the inventory independently; NT-H2-01…09 TESTED on macOS (see matrix). Not SECURITY_REVIEWED; not exercised with the production Keychain provider on device beyond the anchor test. |
 | XCODEGEN_PRESETS_MISSING | tooling | NOTE | installed xcodegen lacks SettingPresets; all defaults are explicit in project.yml; re-check when xcodegen is reinstalled. |
 | SIM_HOST_APP | P03-00 | RESOLVED_TODAY | `XRAI.xcodeproj` app target + `XRAIHostedTests` (TEST_HOST) run the Keychain tests on the iPhone 17 Simulator: 20/20. |
 | DEVICE_TRUST_AND_RUN | P03-00F | RESOLVED 2026-10-20 — the real cause was a missing rpath (packaging), not trust; app launches and 24/24 hosted tests pass on iPhone 14 Pro Max. Original note kept for history: | iPhone 14 Pro Max 'Dogi (2)': signing/provisioning OK, app installed, runner crashed at launch. Founder must unlock the phone, approve the developer profile (Settings › General › VPN & Device Management) / Developer Mode, keep it unlocked, then rerun `xcodebuild test … -destination 'platform=iOS,id=C7C6CE6E-B577-558A-8992-DC6C1F492B39' -allowProvisioningUpdates`. Destructive scenarios (reinstall, passcode removal) need a dedicated test device and explicit approval. |
@@ -31,10 +31,10 @@ Vocabulary: `BLOCKED` (cannot proceed without an external fact/right/decision), 
 | TABBAR_CONTRAST_AUDIT | known limitation | NOTE | iOS 26 translucent floating tab bar blends scrolled content; XCUI `.contrast` audit excluded on tab screens; token pairs measured separately. |
 | ONBOARDING_FLAG_IN_DEFAULTS | pre-persistence | NOTE | the only persisted value is the non-personal onboarding flag in UserDefaults (test-asserted); moves to a preferences layer with the vault store. |
 | AUTHZ_ISSUER_UI_BINDING | pre-persistence | SPECIFIED 2026-10-20 (P03-03 D7), OPEN until P03-05 | `InteractionGate` + `InteractionProof` minted only inside consent/confirm action closures (scene active, 5 s, single use); `issue()` leaves the public surface. In-process limit stated (INTERACTION_PROOF_LIMIT). |
-| DELETION_GRANT_VALIDATION | pre-persistence | SPECIFIED 2026-10-20 (P03-03 D3), OPEN until P03-04 | `VaultStore.delete(ids, grant)` consumes the grant, runs the journaled cascade and writes tombstones. |
+| DELETION_GRANT_VALIDATION | pre-persistence | CODED + TESTED (P03-04) | `FileVaultStore.delete(_:grant:)` validates coverage, consumes the grant once (`deletionGrantInvalid` on reuse), cascades dependents-first, ledgers every id (NT-H4-01, NT-DG-01). |
 | VAULT_SECURITY_REVIEW | P02/P12 | NOT_DONE | independent review/pen test before any 'vault complete' claim. ChatGPT code review round 1 (V32-02-01H) applied: 5 findings closed, see P02_01H report. |
 | CONSENT_AUTHORITY_IMPL | P02+ | SPECIFIED 2026-10-20 (P03_03_CONSENT_AUTHORITY_SPEC), NOT_STARTED | purpose registry, versioned receipts, payload-free events, persisted in the vault; UI in P03-05. |
-| AUTHZ_PERSISTENCE | P02+ | RE-SPECIFIED 2026-10-20 (P03-03H H3), NOT_STARTED | persisted epoch (launch/restore increments), token id = epoch‖counter‖random, journal-bound consumption, `authz.v1` never exported, clock mark bound to manifest generation + Keychain anchor; the 10 000 ring is withdrawn. Tests NT-H3-01…07 PLANNED. |
+| AUTHZ_PERSISTENCE | P02+ | CODED + TESTED (P03-04) | `authz.v1` {epoch, clock mark, manifest binding}; `AuthorizationIssuer(epoch:)`; `MonotonicGuardClock(initialHighWaterSeconds:)`; NT-H3-01…07 TESTED. LIMIT: a rollback beyond tolerance fails closed (vault opens, tokens/reads refuse) until the clock is sane. |
 | IN_PROCESS_ISOLATION | P02-02+ | PARTIAL | SE-wrapped KEK means the Keychain item alone is useless, but in-process code can still call the provider; app hardening and review remain. |
 | BACKUP_SIZE_SIDECHANNEL | P02+ | PARTIAL | 4 KiB block padding only; bucketed padding once backup cadence is designed. |
 | PARENT_NAME_SCOPE | P02 | RESOLVED 2026-10-19 (founder decision 6) | Optional; purpose-bound consent required to store; never analytics/model/cloud/ads. Encoded in `VaultPolicy` and tested. |
@@ -56,6 +56,17 @@ Vocabulary: `BLOCKED` (cannot proceed without an external fact/right/decision), 
 | SOURCE_COVERAGE_GAPS | see `SOURCE_COVERAGE_AND_TRACEABILITY_AUDIT.md` and `MISSING_REQUIREMENTS_REGISTER.json` | requirements found in older material without a v3.1 id. |
 | SWIFTLINT_FORMAT | low | not installed; optional for P03. |
 
+## New in P03-04 (2026-10-20, library implementation)
+| id | status | detail |
+|---|---|---|
+| STORE_NOT_WIRED | BY DESIGN until P03-05 | `XRAIVaultStore` exists and is tested; the XRAI app target does not link it (test-enforced). No personal data is persisted by the app. |
+| STORE_METADATA_SYSTEM_PATH | NEEDS REVIEW | `SecureVault.sealSystem/openSystem` is a tokenless path restricted to `DataClass.storeMetadata` (ids/classes/generations, never contents, never exported). Negative tests cover both directions; reviewer should confirm the class-restriction model. |
+| CORRUPT_STATE_IN_MEMORY | OPEN | a record whose AEAD fails is marked corrupt in memory only (re-detected on each read); persisting the state is a P03-04b item. |
+| BACKUP_BODY_V3 | DEFERRED (P03-04b) | instance id, backup generation and embedded ledger digest inside the sealed body; `admitRestored` currently takes the provenance from the caller. |
+| ATTACHMENTS | DEFERRED (P03-04b) | chunked attachment envelopes (one DEK per attachment). |
+| FSYNC_COST_ON_DEVICE | NOT_MEASURED | ~10 `F_FULLFSYNC` per mutation; human-paced writes only; large-vault performance not measured on device. |
+| STORE_DEVICE_RUN | see ledger | hosted store suite on Simulator and iPhone 14 Pro Max (non-destructive, temp dir in the app container). |
+
 ## New in P03-03 (2026-10-20, design only)
 | id | status | detail |
 |---|---|---|
@@ -64,10 +75,10 @@ Vocabulary: `BLOCKED` (cannot proceed without an external fact/right/decision), 
 | TOMBSTONE_RESURRECTION_WINDOW | SUPERSEDED 2026-10-20 (P03-03H H1) | the 90-day window is withdrawn; replaced by DELETION_LEDGER_PERMANENT and DELETION_HISTORY_AFTER_DEVICE_LOSS. |
 | INTERACTION_PROOF_LIMIT | LIMIT | the interaction proof is in-process, not an OS boundary; malicious in-process code can forge it. Mitigations: code signing, sandbox, SE keys, optional biometrics (deferred, UX decision). |
 | INPUT_FIELD_BOUNDARY_CONTRAST | OPEN (F-UX-5) | WCAG 2.2 SC 1.4.11: text-input boundary measures 1.17:1 light / 1.11:1 dark against the surface, below the 3:1 non-text requirement; needs an `inputBorder` token ≥ 3:1 asserted by `ContrastTests`. The 1.3:1 border threshold is an internal decorative minimum, not an SC claim (P03_03_ARCHITECTURE_GATE_REPORT §4). |
-| DELETION_LEDGER_PERMANENT | SPECIFIED (P03-03H H1), NOT_STARTED | permanent, encrypted, cross-bound deletion ledger; fail-closed digest compaction above 200 000 entries; missing/corrupt → all restores quarantined; known-deleted ids never reactivated. |
+| DELETION_LEDGER_PERMANENT | CODED + TESTED (P03-04) | `DeletionLedger` + `BloomFilter` (p ≤ 1e-6 measured at 250 000 entries), cross-bound to the manifest; corrupt → every admission quarantined; missing → read-only; known-deleted ids skipped on admission; reimport = new id with provenance (NT-H1-01…05, 07). NT-H1-06 (embedded ledger in backup body v3) DEFERRED to P03-04b. |
 | DELETION_HISTORY_AFTER_DEVICE_LOSS | LIMIT | with only an old portable backup, deletions made after its export are unknowable; restored records are quarantined and reviewed per class; no absolute-forgetting claim. |
-| MANIFEST_ROLLBACK_ANCHOR | SPECIFIED (P03-03H H5), NOT_STARTED | generation chain + mutual bindings + Keychain anchor `vault/anchor`; mismatch → read-only, no restore. LIMIT: compromised OS. |
+| MANIFEST_ROLLBACK_ANCHOR | CODED + TESTED (P03-04) | `KeychainAnchorStore` (real keychain test on every host) + `InMemoryAnchorStore`; rollback of manifest alone or of the whole system/ snapshot → read-only (NT-H5-04/05); crash between manifest and anchor recovered via chain + open journal (GATE B). LIMIT: compromised OS. |
 | SINGLE_WRITER_LOCK_ADVISORY | LIMIT | `vault.lock` is advisory; isolation is the actor + main-app-only rule; extensions never link the store (test-enforced in P03-04). |
-| REVOKE_VS_DELETE_SPLIT | SPECIFIED (P03-03H H4), NOT_STARTED | distinct scopes; "Kalıcı sil" immediate; suspension only on explicit choice for grace-eligible own-authored classes; re-grant never reactivates. |
+| REVOKE_VS_DELETE_SPLIT | CODED + TESTED (P03-04, library) | `revoke(purpose:mode:)` (`.deleteNow` / `.suspend(grace)`), `restoreSuspended`, `expireSuspended`; third-party classes refuse suspension; re-grant never reactivates (NT-H4-01…05). UI choice screen is P03-05. |
 | F_UX_5_GATE | MANDATORY for next UX phase | `ContrastTests` must assert `inputBorder` vs surface ≥ 3.0:1 light and dark before that phase is TESTED. |
 | P03_02_OPEN_FINDINGS | OPEN (unchanged) | F-UX-4, SE-class layout, human VoiceOver (MANUAL_PENDING), native English review, app-switcher snapshot visual check (MANUAL_PENDING), full device regression with the final build, tab-bar contrast exception. |

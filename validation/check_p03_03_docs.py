@@ -54,6 +54,23 @@ for doc in ("P03_03H_SECURITY_REMEDIATION_REPORT", "P03_04_IMPLEMENTATION_CONTRA
         if nid not in matrix_ids: problems.append(f"{doc}.md references {nid} which is not a row of the acceptance matrix")
 for bid in set(re.findall(r"`([A-Z][A-Z0-9_]{6,})`", (root / "docs/status/P03_03H_SECURITY_REMEDIATION_REPORT.md").read_text())):
     if bid in ("ROTATION_CROSS_PROCESS", "VAULT_SECURITY_REVIEW") and bid not in blockers: problems.append(f"remediation report names {bid} missing from OPEN_BLOCKERS.md")
+# P03-04: the store review report exists, cites the approved baseline, and every NT id it names is a matrix row
+rep = root / "docs/status/P03_04_STORE_REVIEW_REPORT.md"
+if not rep.exists(): problems.append("missing P03_04_STORE_REVIEW_REPORT.md")
+else:
+    rt = rep.read_text()
+    if "56a5ece" not in rt: problems.append("P03_04_STORE_REVIEW_REPORT.md does not cite the approved baseline 56a5ece")
+    for nid in set(re.findall(r"NT-[A-Z0-9]+-\d+", rt)):
+        if nid not in matrix_ids: problems.append(f"store report references {nid} which is not a matrix row")
+    if "<!-- RUNS -->" in rt: problems.append("store report still has the RUNS placeholder")
+    # no row may be claimed TESTED without a real test name
+    for line in matrix_h.split("\n"):
+        if line.startswith("| NT-") and "TESTED" in line and "test: `" not in line: problems.append("matrix row claims TESTED without a test name: " + line[:40])
+    if "<!-- NT-H5-16 -->" in matrix_h or "<!-- PLATFORM-SUMMARY -->" in matrix_h: problems.append("matrix still has P03-04 placeholders")
+    # the app target must not link the store
+    yml = (root / "project.yml").read_text()
+    app_block = yml.split("\n  XRAI:\n")[1].split("\n  XRAIHostedTests:")[0]
+    if "XRAIVaultStore" in app_block: problems.append("XRAI app target links XRAIVaultStore before P03-05")
 tm = (root / "docs/security/VAULT_THREAT_MODEL_P02.md").read_text()
 for t in ("T44", "T45", "T46"):
     if f"| {t} |" not in tm: problems.append(f"threat model lacks row {t}")

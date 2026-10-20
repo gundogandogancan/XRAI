@@ -1,0 +1,118 @@
+[0/1] Planning build
+Building for debugging...
+[0/4] Write sources
+[1/4] Write swift-version--58304C5D6DBC2206.txt
+[3/6] Compiling XRAIVaultStore KeyRetirement.swift
+[4/6] Emitting module XRAIVaultStore
+[5/7] Compiling XRAIVaultStore FileVaultStore.swift
+[6/10] Emitting module XRAIVaultStoreTests
+[7/10] Compiling XRAIVaultStoreTests StoreBoundaryTests.swift
+[8/10] Compiling XRAIVaultStoreTests StoreCrashAndRetirementTests.swift
+[9/12] Compiling XRAIVaultStoreTests StoreCoreTests.swift
+[10/12] Compiling XRAIVaultStoreTests StoreHarness.swift
+[10/12] Write Objects.LinkFileList
+[11/12] Linking XRAICorePackageTests
+Build complete! (3.47s)
+Test Suite 'Selected tests' started at 2026-10-20 02:55:22.093.
+Test Suite 'XRAICorePackageTests.xctest' started at 2026-10-20 02:55:22.095.
+Test Suite 'XRAICorePackageTests.xctest' passed at 2026-10-20 02:55:22.095.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-20 02:55:22.095.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.002) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite "H1 — permanent deletion ledger and fail-closed restore admission" started.
+◇ Suite "NT-B-01 / GATE A — module boundary and actor isolation (source + manifest + compile-negative)" started.
+◇ Suite "H4 — revoke vs delete, suspension, grace" started.
+◇ Suite "GATE C — authorization cannot be bypassed through the store" started.
+◇ Suite "H2 — key retirement protocol v2" started.
+◇ Suite "H5 — crash consistency by fault injection" started.
+◇ Suite "H3 — epoch tokens, persisted clock mark" started.
+◇ Suite "Store core: round trip, states, derived graph, directory hygiene" started.
+◇ Test "compile-negative: external code cannot construct the store directly, reach its loader, the journal writer or the system descriptor path" started.
+◇ Test "GATE A: no `await` inside FileVaultStore's isolated methods — every mutation is one synchronous critical section; the only await is in the static open" started.
+◇ Test "NT-H1-01/04: a deleted id in a backup is skipped, never reactivated — not even through release; reimport creates a NEW id with provenance" started.
+◇ Test "XRAIVaultStore imports only Foundation, the contracts and the CryptoKit adapter; contains no fault seams, no logging, no CryptoKit/Security" started.
+◇ Test "every store mutation needs the right scope: wrong scope, foreign token, replay and expired tokens are refused and leave no trace" started.
+◇ Test "the system seal/open path accepts ONLY storeMetadata; personal classes fail closed in both directions" started.
+◇ Test "NT-H5-01/02: a crash at any syscall of put leaves the record either absent or fully readable; the manifest, authz and anchor always agree" started.
+◇ Test "NT-H3-01/02: a token from the previous epoch is rejected after relaunch; 20 000 consumed tokens never evict (replay is still alreadyConsumed)" started.
+◇ Test "reads go through SecureVault.open: a revoked grant, a quarantined id or a purpose mismatch deny even with a valid read token" started.
+◇ Test "NT-H4-01: 'Kalıcı sil' deletes now with a ledger entry and never produces a suspended state" started.
+◇ Test "put/get round-trips; a fresh vault has generation 1, epoch 1, anchor bound; relaunch keeps data and bumps the epoch" started.
+◇ Test "happy path: rotate → retireKey → version forgotten, records readable under the new key, proof independently verifiable (NT-H2-07)" started.
+✘ Test "XRAIVaultStore imports only Foundation, the contracts and the CryptoKit adapter; contains no fault seams, no logging, no CryptoKit/Security" recorded an issue at StoreBoundaryTests.swift:89:9: Expectation failed: (block.contains("\"XRAIVaultContracts\"") && block.contains("\"XRAIVaultCryptoKit\"") && !block.contains("XRAIVaultTesting") → false) && (!block.contains("XRAIVaultKeychain") → <not evaluated>)
+✔ Test "GATE A: no `await` inside FileVaultStore's isolated methods — every mutation is one synchronous critical section; the only await is in the static open" passed after 0.233 seconds.
+✘ Test "XRAIVaultStore imports only Foundation, the contracts and the CryptoKit adapter; contains no fault seams, no logging, no CryptoKit/Security" failed after 0.233 seconds with 1 issue.
+✔ Test "every store mutation needs the right scope: wrong scope, foreign token, replay and expired tokens are refused and leave no trace" passed after 0.233 seconds.
+✔ Test "reads go through SecureVault.open: a revoked grant, a quarantined id or a purpose mismatch deny even with a valid read token" passed after 0.474 seconds.
+✔ Test "the system seal/open path accepts ONLY storeMetadata; personal classes fail closed in both directions" passed after 0.483 seconds.
+✔ Suite "GATE C — authorization cannot be bypassed through the store" passed after 0.483 seconds.
+✔ Test "put/get round-trips; a fresh vault has generation 1, epoch 1, anchor bound; relaunch keeps data and bumps the epoch" passed after 0.570 seconds.
+◇ Test "NT-H5-15: directory listing shows only hex names, system/*.v1, journal/*.j; every file is a 4 KiB multiple" started.
+✔ Test "NT-H4-01: 'Kalıcı sil' deletes now with a ledger entry and never produces a suspended state" passed after 0.682 seconds.
+◇ Test "NT-H4-02/03: suspension blocks reads, deletes derived data now, excludes from export, and re-granting does not reactivate; restoreSuspended needs a token + active grant" started.
+✔ Test "NT-H3-01/02: a token from the previous epoch is rejected after relaunch; 20 000 consumed tokens never evict (replay is still alreadyConsumed)" passed after 0.835 seconds.
+◇ Test "NT-H3-07: the clock mark survives relaunch — a wall clock set back within tolerance yields the mark; beyond tolerance fails closed; nothing expires or activates" started.
+✔ Test "NT-H1-01/04: a deleted id in a backup is skipped, never reactivated — not even through release; reimport creates a NEW id with provenance" passed after 1.004 seconds.
+◇ Test "NT-H1-02/03: a corrupted ledger quarantines every restored record; a missing ledger makes the vault read-only with restore refused" started.
+✔ Test "compile-negative: external code cannot construct the store directly, reach its loader, the journal writer or the system descriptor path" passed after 1.069 seconds.
+✘ Suite "NT-B-01 / GATE A — module boundary and actor isolation (source + manifest + compile-negative)" failed after 1.069 seconds with 1 issue.
+✘ Test "happy path: rotate → retireKey → version forgotten, records readable under the new key, proof independently verifiable (NT-H2-07)" recorded an issue at StoreCrashAndRetirementTests.swift:168:6: Caught error: .keyVersionInUse(version: 1, count: 1)
+✘ Test "happy path: rotate → retireKey → version forgotten, records readable under the new key, proof independently verifiable (NT-H2-07)" failed after 1.384 seconds with 1 issue.
+◇ Test "NT-H2-01/03: forget is refused while any record (manifest or disk) still references the version" started.
+✘ Test "NT-H3-07: the clock mark survives relaunch — a wall clock set back within tolerance yields the mark; beyond tolerance fails closed; nothing expires or activates" recorded an issue at StoreCoreTests.swift:213:6: Caught error: .clockRegressed
+✘ Test "NT-H3-07: the clock mark survives relaunch — a wall clock set back within tolerance yields the mark; beyond tolerance fails closed; nothing expires or activates" failed after 0.661 seconds with 1 issue.
+◇ Test "NT-H3-04/05: an older authz.v1 snapshot fails the manifest binding (read-only); store metadata can never be exported in a backup" started.
+✔ Test "NT-H5-15: directory listing shows only hex names, system/*.v1, journal/*.j; every file is a 4 KiB multiple" passed after 1.164 seconds.
+◇ Test "NT-H5-14: stale / suspended / quarantined / missing / corrupt / orphan are each a distinct typed denial, never plaintext" started.
+✔ Test "NT-H4-02/03: suspension blocks reads, deletes derived data now, excludes from export, and re-granting does not reactivate; restoreSuspended needs a token + active grant" passed after 1.148 seconds.
+◇ Test "NT-H4-04: third-party classes cannot be suspended — revoke must delete immediately" started.
+✔ Test "NT-H1-02/03: a corrupted ledger quarantines every restored record; a missing ledger makes the vault read-only with restore refused" passed after 0.880 seconds.
+◇ Test "NT-H1-05: a backup from another (or unknown) vault instance is quarantined whole while this vault holds data; released per record with consent" started.
+✘ Test "NT-H2-01/03: forget is refused while any record (manifest or disk) still references the version" recorded an issue at StoreCrashAndRetirementTests.swift:186:6: Caught error: .keyVersionInUse(version: 1, count: 1)
+✘ Test "NT-H2-01/03: forget is refused while any record (manifest or disk) still references the version" failed after 0.727 seconds with 1 issue.
+◇ Test "NT-H2-02: a proof is stale after any later mutation (generation changed)" started.
+✔ Test "NT-H3-04/05: an older authz.v1 snapshot fails the manifest binding (read-only); store metadata can never be exported in a backup" passed after 0.622 seconds.
+◇ Test "NT-H3-06: revoke is linearizable with reads — no read that starts after the revoke returns succeeds" started.
+✔ Test "NT-H4-04: third-party classes cannot be suspended — revoke must delete immediately" passed after 0.604 seconds.
+✔ Suite "H4 — revoke vs delete, suspension, grace" passed after 2.435 seconds.
+✔ Test "NT-H3-06: revoke is linearizable with reads — no read that starts after the revoke returns succeeds" passed after 0.554 seconds.
+✘ Suite "H3 — epoch tokens, persisted clock mark" failed after 2.674 seconds with 1 issue.
+✘ Test "NT-H2-02: a proof is stale after any later mutation (generation changed)" recorded an issue at StoreCrashAndRetirementTests.swift:233:6: Caught error: .keyVersionInUse(version: 1, count: 1)
+✘ Test "NT-H2-02: a proof is stale after any later mutation (generation changed)" failed after 0.736 seconds with 1 issue.
+◇ Test "NT-H2-04: after the freeze, an envelope wrapped under the old version is refused with staleKeyVersion (before, during and after the proof)" started.
+✔ Test "NT-H5-14: stale / suspended / quarantined / missing / corrupt / orphan are each a distinct typed denial, never plaintext" passed after 1.128 seconds.
+◇ Test "NT-H5-08/09: an extra file is moved to orphans/ and never opened; a manifest entry without a file reports missing" started.
+✔ Test "NT-H1-05: a backup from another (or unknown) vault instance is quarantined whole while this vault holds data; released per record with consent" passed after 1.041 seconds.
+◇ Test "NT-H1-07: digest compaction keeps deletions fail-closed (possiblyDeleted → quarantine) and the Bloom false-positive rate stays ≤ 1e-6 at 250 000 entries" started.
+✔ Test "NT-H5-08/09: an extra file is moved to orphans/ and never opened; a manifest entry without a file reports missing" passed after 0.412 seconds.
+◇ Test "NT-H5-11/12: symlinks and malformed ids are refused before any file is touched" started.
+✘ Test "NT-H2-04: after the freeze, an envelope wrapped under the old version is refused with staleKeyVersion (before, during and after the proof)" recorded an issue at StoreCrashAndRetirementTests.swift:253:6: Caught error: .keyVersionInUse(version: 1, count: 1)
+✘ Test "NT-H2-04: after the freeze, an envelope wrapped under the old version is refused with staleKeyVersion (before, during and after the proof)" failed after 0.475 seconds with 1 issue.
+◇ Test "NT-H2-05/08: a crash during rewrap or between retire and forget loses nothing: records stay readable, no proof survives, the protocol re-runs" started.
+✔ Test "NT-H5-11/12: symlinks and malformed ids are refused before any file is touched" passed after 0.255 seconds.
+◇ Test "NT-H5-13: a second instance on the same root is refused while the first holds the lock; a dead-pid lock is reclaimed" started.
+✔ Test "NT-H5-13: a second instance on the same root is refused while the first holds the lock; a dead-pid lock is reclaimed" passed after 0.129 seconds.
+◇ Test "NT-DG-01/02/03: cascade deletes dependents first; back-edges and unknown sources are rejected; revoking a source blocks the derived record" started.
+✔ Test "NT-DG-01/02/03: cascade deletes dependents first; back-edges and unknown sources are rejected; revoking a source blocks the derived record" passed after 0.651 seconds.
+✘ Test "NT-H2-05/08: a crash during rewrap or between retire and forget loses nothing: records stay readable, no proof survives, the protocol re-runs" recorded an issue at StoreCrashAndRetirementTests.swift:274:6: Caught error: .keyVersionInUse(version: 1, count: 1)
+✔ Suite "Store core: round trip, states, derived graph, directory hygiene" passed after 4.312 seconds.
+✘ Test "NT-H2-05/08: a crash during rewrap or between retire and forget loses nothing: records stay readable, no proof survives, the protocol re-runs" failed after 0.988 seconds with 1 issue.
+◇ Test "NT-H2-06: concurrent puts during retirement are serialized by the actor — the proof generation matches and no record is lost" started.
+✘ Test "NT-H2-06: concurrent puts during retirement are serialized by the actor — the proof generation matches and no record is lost" recorded an issue at StoreCrashAndRetirementTests.swift:308:6: Caught error: .keyVersionInUse(version: 1, count: 1)
+✘ Test "NT-H2-06: concurrent puts during retirement are serialized by the actor — the proof generation matches and no record is lost" failed after 0.300 seconds with 1 issue.
+◇ Test "NT-H2-09: a key version that vanished without retirement makes its records unreadable with a typed error; nothing crashes or is dropped" started.
+✔ Test "NT-H2-09: a key version that vanished without retirement makes its records unreadable with a typed error; nothing crashes or is dropped" passed after 0.228 seconds.
+✘ Suite "H2 — key retirement protocol v2" failed after 4.842 seconds with 6 issues.
+✔ Test "NT-H5-01/02: a crash at any syscall of put leaves the record either absent or fully readable; the manifest, authz and anchor always agree" passed after 5.561 seconds.
+◇ Test "NT-H5-03: a crash after each journal step of a cascade delete is recovered to all-or-nothing with the ledger complete" started.
+✔ Test "NT-H5-03: a crash after each journal step of a cascade delete is recovered to all-or-nothing with the ledger complete" passed after 0.347 seconds.
+◇ Test "NT-H3-03: a crash after the token was consumed and the journal begun completes the operation from the journal; the token stays dead" started.
+✔ Test "NT-H3-03: a crash after the token was consumed and the journal begun completes the operation from the journal; the token stays dead" passed after 0.146 seconds.
+◇ Test "NT-H5-04/05: an older manifest (rollback) or a whole older snapshot of system/ is detected via the chain and the anchor → read-only, no writes, no restore" started.
+✔ Test "NT-H5-04/05: an older manifest (rollback) or a whole older snapshot of system/ is detected via the chain and the anchor → read-only, no writes, no restore" passed after 0.138 seconds.
+◇ Test "NT-H5-06/07: a truncated journal tail is discarded; a byte flip in a middle entry makes the vault read-only and quarantines the op's ids" started.
+✔ Test "NT-H5-06/07: a truncated journal tail is discarded; a byte flip in a middle entry makes the vault read-only and quarantines the op's ids" passed after 0.174 seconds.
+✔ Suite "H5 — crash consistency by fault injection" passed after 6.369 seconds.

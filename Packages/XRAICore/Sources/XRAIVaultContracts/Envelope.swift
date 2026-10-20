@@ -39,6 +39,37 @@ public enum VaultError: Error, Equatable, Sendable {
     case clockUnavailable
     /// `forget` was called on a version that was never retired (two-phase forgetting, P03-00 §4).
     case keyVersionNotRetired(version: UInt32)
+
+    // P03-04 store layer (ADR-BOOT-009 Amendment H). Still identifier-free.
+    /// An envelope wrapped under a key version below the store's frozen minimum was offered for writing (H2 R1).
+    case staleKeyVersion(minimum: UInt32)
+    /// The store directory is not in a state the recovery pass can prove consistent (symlink, foreign file, binding mismatch).
+    case storeIntegrityFailed(reason: String)
+    /// The manifest on disk is older than the generation recorded by the anchor / authz state (H5).
+    case manifestRollback
+    /// The persisted authorization state (epoch, clock mark) does not bind to the manifest (H3).
+    case authzStateUntrusted
+    /// A journal failed authentication in the middle; the affected ids are quarantined until recovery (H5).
+    case needsRecovery
+    /// The record exists but is not `active` (suspended, stale, quarantined, corrupt, pending delete).
+    case recordNotActive(state: String)
+    /// The manifest lists the record but its file is missing.
+    case recordMissing
+    /// The store is read-only (binding mismatch, anchor missing) or locked by another writer.
+    case storeReadOnly(reason: String)
+    case storeLocked
+    /// A key version still wraps records; it cannot be forgotten (H2 R4).
+    case keyVersionInUse(version: UInt32, count: Int)
+    /// A retirement proof no longer matches the manifest generation it was computed for (H2 R6).
+    case proofStale
+    /// The system seal/open path accepts only the `storeMetadata` class.
+    case unsupportedSystemClass
+    /// `derivedFrom` names an unknown, non-active or later record (back-edge), or itself.
+    case unknownDependency
+    /// A deletion grant was already consumed or does not cover the ids.
+    case deletionGrantInvalid
+    /// The operation is not allowed for this data class (e.g. suspension of third-party data).
+    case notEligible(reason: String)
 }
 
 /// How a key-encryption key is protected at rest. Surfaced by every `KeyProvider` so the app can
@@ -119,6 +150,8 @@ extension RecordID: CustomStringConvertible, CustomDebugStringConvertible {
 /// below the class floor. Key identity is NOT part of this: keys may rotate without re-encrypting.
 public struct RecordDescriptor: Hashable, Sendable {
     public static let maxPurposeLength = 128
+    /// P03-04: upper bound on `derivedFrom` entries (header v3).
+    public static let maxDerivedFrom = 64
 
     public let recordID: RecordID
     public let dataClass: DataClass
@@ -128,18 +161,26 @@ public struct RecordDescriptor: Hashable, Sendable {
     /// Bound into the authenticated header so a record can never be read under another purpose.
     public let consentPurpose: String
     public let createdAtUnixSeconds: Int64
+    /// P03-04 (header v3): source records this record was derived from. Authenticated; a derived
+    /// record never outlives, outranks or out-consents its sources (lifecycle matrix §2).
+    public let derivedFrom: [RecordID]
+    /// P03-04 (header v3): application schema version of the plaintext. 0 = unspecified.
+    public let schemaVersion: UInt16
 
-    public init(recordID: RecordID = RecordID(), dataClass: DataClass, privacyTier: PrivacyTier? = nil, retention: RetentionClass, consentPurpose: String = "", createdAtUnixSeconds: Int64) throws {
+    public init(recordID: RecordID = RecordID(), dataClass: DataClass, privacyTier: PrivacyTier? = nil, retention: RetentionClass, consentPurpose: String = "", createdAtUnixSeconds: Int64, derivedFrom: [RecordID] = [], schemaVersion: UInt16 = 0) throws {
         let tier = privacyTier ?? dataClass.minimumTier
         try VaultPolicy.validateTier(tier, for: dataClass)
         guard consentPurpose.utf8.count <= RecordDescriptor.maxPurposeLength else { throw VaultError.limitExceeded("purpose length") }
         if dataClass.requiresPurposeConsentToStore && consentPurpose.isEmpty { throw VaultError.notAuthorized(.consentRequired) }
+        try EnvelopeHeader.validateDerivedFrom(derivedFrom, recordID: recordID)
         self.recordID = recordID
         self.dataClass = dataClass
         self.privacyTier = tier
         self.retention = retention
         self.consentPurpose = consentPurpose
         self.createdAtUnixSeconds = createdAtUnixSeconds
+        self.derivedFrom = derivedFrom
+        self.schemaVersion = schemaVersion
     }
 }
 
@@ -147,7 +188,12 @@ public struct RecordDescriptor: Hashable, Sendable {
 /// payload, so any change to any field makes `open` fail. Validated again on every read and import.
 public struct EnvelopeHeader: Hashable, Sendable {
     /// v2 (H2): adds the authenticated `consentPurpose`. v1 envelopes are rejected (none were ever persisted).
+    /// v3 (P03-04, ADR-BOOT-009 D2): adds authenticated `derivedFrom` and `schemaVersion`. A v2 header
+    /// is byte-identical to before and is read as a leaf (no sources). v3 is produced only when a
+    /// descriptor carries sources or a schema version, so existing records and tests are unchanged.
     public static let currentFormatVersion: UInt16 = 2
+    public static let derivedFormatVersion: UInt16 = 3
+    public static let supportedFormatVersions: Set<UInt16> = [2, 3]
 
     public let formatVersion: UInt16
     public let algorithm: EnvelopeAlgorithm
@@ -157,9 +203,14 @@ public struct EnvelopeHeader: Hashable, Sendable {
     public let retention: RetentionClass
     public let consentPurpose: String
     public let createdAtUnixSeconds: Int64
+    /// v3 only (empty for v2).
+    public let derivedFrom: [RecordID]
+    /// v3 only (0 for v2).
+    public let schemaVersion: UInt16
 
-    public init(formatVersion: UInt16 = EnvelopeHeader.currentFormatVersion, algorithm: EnvelopeAlgorithm, descriptor d: RecordDescriptor) {
-        self.formatVersion = formatVersion
+    public init(formatVersion: UInt16? = nil, algorithm: EnvelopeAlgorithm, descriptor d: RecordDescriptor) {
+        let needsV3 = !d.derivedFrom.isEmpty || d.schemaVersion != 0
+        self.formatVersion = formatVersion ?? (needsV3 ? EnvelopeHeader.derivedFormatVersion : EnvelopeHeader.currentFormatVersion)
         self.algorithm = algorithm
         self.recordID = d.recordID
         self.dataClass = d.dataClass
@@ -167,10 +218,12 @@ public struct EnvelopeHeader: Hashable, Sendable {
         self.retention = d.retention
         self.consentPurpose = d.consentPurpose
         self.createdAtUnixSeconds = d.createdAtUnixSeconds
+        self.derivedFrom = d.derivedFrom
+        self.schemaVersion = d.schemaVersion
     }
 
     /// Unchecked constructor for decoding and adversarial tests; callers must run `validate()`.
-    public init(formatVersion: UInt16, algorithm: EnvelopeAlgorithm, recordID: RecordID, dataClass: DataClass, privacyTier: PrivacyTier, retention: RetentionClass, consentPurpose: String, createdAtUnixSeconds: Int64) {
+    public init(formatVersion: UInt16, algorithm: EnvelopeAlgorithm, recordID: RecordID, dataClass: DataClass, privacyTier: PrivacyTier, retention: RetentionClass, consentPurpose: String, createdAtUnixSeconds: Int64, derivedFrom: [RecordID] = [], schemaVersion: UInt16 = 0) {
         self.formatVersion = formatVersion
         self.algorithm = algorithm
         self.recordID = recordID
@@ -179,15 +232,31 @@ public struct EnvelopeHeader: Hashable, Sendable {
         self.retention = retention
         self.consentPurpose = consentPurpose
         self.createdAtUnixSeconds = createdAtUnixSeconds
+        self.derivedFrom = derivedFrom
+        self.schemaVersion = schemaVersion
+    }
+
+    /// `derivedFrom` rules: bounded, no duplicates, never self-referential.
+    public static func validateDerivedFrom(_ sources: [RecordID], recordID: RecordID) throws {
+        guard sources.count <= RecordDescriptor.maxDerivedFrom else { throw VaultError.limitExceeded("derivedFrom count") }
+        var seen = Set<String>()
+        for s in sources {
+            guard s != recordID else { throw VaultError.unknownDependency }
+            guard seen.insert(s.hex).inserted else { throw VaultError.unknownDependency }
+        }
     }
 
     /// Fail-closed structural validation: supported version/algorithm, tier floor, purpose rules.
     public func validate() throws {
-        guard formatVersion == EnvelopeHeader.currentFormatVersion else { throw VaultError.unsupportedFormat(formatVersion) }
+        guard EnvelopeHeader.supportedFormatVersions.contains(formatVersion) else { throw VaultError.unsupportedFormat(formatVersion) }
+        if formatVersion == EnvelopeHeader.currentFormatVersion {
+            guard derivedFrom.isEmpty, schemaVersion == 0 else { throw VaultError.unsupportedFormat(formatVersion) }
+        }
         guard algorithm == .aes256gcm else { throw VaultError.unsupportedAlgorithm(algorithm.rawValue) }
         try VaultPolicy.validateTier(privacyTier, for: dataClass)
         guard consentPurpose.utf8.count <= RecordDescriptor.maxPurposeLength else { throw VaultError.limitExceeded("purpose length") }
         if dataClass.requiresPurposeConsentToStore && consentPurpose.isEmpty { throw VaultError.notAuthorized(.consentRequired) }
+        try EnvelopeHeader.validateDerivedFrom(derivedFrom, recordID: recordID)
     }
 
     public func canonicalBytes() -> [UInt8] {
@@ -206,6 +275,11 @@ public struct EnvelopeHeader: Hashable, Sendable {
         e.appendString(retention.rawValue)
         e.appendString(consentPurpose)
         e.appendI64(createdAtUnixSeconds)
+        if formatVersion >= EnvelopeHeader.derivedFormatVersion {
+            e.appendU16(schemaVersion)
+            e.appendU32(UInt32(derivedFrom.count))
+            for s in derivedFrom { e.appendString(s.hex) }
+        }
     }
 
     /// Decodes AND validates (tier floor, version, algorithm). Import of a downgraded header fails here.
@@ -219,7 +293,15 @@ public struct EnvelopeHeader: Hashable, Sendable {
         guard let ret = RetentionClass(rawValue: try d.readString()) else { throw VaultError.backupCorrupted(reason: "retention") }
         let purpose = try d.readString()
         let t = try d.readI64()
-        let h = EnvelopeHeader(formatVersion: v, algorithm: alg, recordID: rid, dataClass: dc, privacyTier: tier, retention: ret, consentPurpose: purpose, createdAtUnixSeconds: t)
+        var derived: [RecordID] = []
+        var schema: UInt16 = 0
+        if v >= EnvelopeHeader.derivedFormatVersion {
+            schema = try d.readU16()
+            let n = Int(try d.readU32())
+            guard n <= RecordDescriptor.maxDerivedFrom else { throw VaultError.limitExceeded("derivedFrom count") }
+            for _ in 0..<n { derived.append(try RecordID(hex: try d.readString())) }
+        }
+        let h = EnvelopeHeader(formatVersion: v, algorithm: alg, recordID: rid, dataClass: dc, privacyTier: tier, retention: ret, consentPurpose: purpose, createdAtUnixSeconds: t, derivedFrom: derived, schemaVersion: schema)
         try h.validate()
         return h
     }
@@ -329,6 +411,57 @@ public protocol KeyProvider: Sendable {
     /// Creates a new KEK version. Old versions stay available for unwrapping until `forget`.
     func rotate() throws -> KeyIdentity
     func forget(version: UInt32) throws
+}
+
+/// Port (P03-04): a key provider that supports two-phase forgetting. The store's retirement
+/// coordinator is the only caller of `forget` and does so only with a verified store proof (H2).
+public protocol RetirableKeyProvider: KeyProvider {
+    func retire(version: UInt32) throws
+    func isRetired(version: UInt32) throws -> Bool
+}
+
+/// Out-of-directory reference to the newest committed manifest (H5 rollback detection). Lives in
+/// a separate persistence domain (Keychain in production). Holds no personal data.
+public struct VaultAnchor: Hashable, Sendable {
+    public static let instanceIDBytes = 16
+    public static let hashBytes = 32
+    public let vaultInstanceID: [UInt8]
+    public let manifestGeneration: UInt64
+    public let manifestHash: [UInt8]
+
+    public init(vaultInstanceID: [UInt8], manifestGeneration: UInt64, manifestHash: [UInt8]) throws {
+        guard vaultInstanceID.count == VaultAnchor.instanceIDBytes else { throw VaultError.invalidLength(field: "instance id", expected: VaultAnchor.instanceIDBytes, actual: vaultInstanceID.count) }
+        guard manifestHash.count == VaultAnchor.hashBytes else { throw VaultError.invalidLength(field: "manifest hash", expected: VaultAnchor.hashBytes, actual: manifestHash.count) }
+        self.vaultInstanceID = vaultInstanceID
+        self.manifestGeneration = manifestGeneration
+        self.manifestHash = manifestHash
+    }
+
+    public func encode() -> [UInt8] {
+        var e = CanonicalEncoder()
+        e.appendString("XRAI-ANCHOR-1")
+        e.appendBytes(vaultInstanceID)
+        e.appendU64(manifestGeneration)
+        e.appendBytes(manifestHash)
+        return e.bytes
+    }
+
+    public static func decode(_ bytes: [UInt8]) throws -> VaultAnchor {
+        var d = CanonicalDecoder(bytes)
+        guard try d.readString() == "XRAI-ANCHOR-1" else { throw VaultError.storeIntegrityFailed(reason: "anchor magic") }
+        let id = try d.readBytes()
+        let g = try d.readU64()
+        let h = try d.readBytes()
+        guard d.isAtEnd else { throw VaultError.storeIntegrityFailed(reason: "anchor trailing bytes") }
+        return try VaultAnchor(vaultInstanceID: id, manifestGeneration: g, manifestHash: h)
+    }
+}
+
+/// Port: where the anchor is kept. Production: Keychain (ThisDeviceOnly). Tests: memory.
+public protocol VaultAnchorStore: Sendable {
+    func readAnchor() throws -> VaultAnchor?
+    func writeAnchor(_ anchor: VaultAnchor) throws
+    func clearAnchor() throws
 }
 
 /// Port: seals and opens record payloads. Adapters expose this ONLY behind an authorized facade.

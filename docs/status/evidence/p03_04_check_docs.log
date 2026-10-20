@@ -1,0 +1,4 @@
+FAIL
+ - DataClass store_metadata missing from DATA_INVENTORY
+ - DataClass store_metadata missing from DATA_LIFECYCLE_MATRIX
+EXIT=1

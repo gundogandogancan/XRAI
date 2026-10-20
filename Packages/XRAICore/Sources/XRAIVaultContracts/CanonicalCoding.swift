@@ -20,6 +20,7 @@ public struct CanonicalEncoder: Sendable {
             shift -= 8
         }
     }
+    public mutating func appendU64(_ v: UInt64) { appendI64(Int64(bitPattern: v)) }
     public mutating func appendBytes(_ b: [UInt8]) {
         appendU32(UInt32(b.count))
         bytes.append(contentsOf: b)
@@ -55,6 +56,7 @@ public struct CanonicalDecoder {
         for b in s { u = (u << 8) | UInt64(b) }
         return Int64(bitPattern: u)
     }
+    public mutating func readU64() throws -> UInt64 { UInt64(bitPattern: try readI64()) }
     public mutating func readBytes() throws -> [UInt8] {
         let n = Int(try readU32())
         guard n <= 64 * 1024 * 1024 else { throw VaultError.backupCorrupted(reason: "length field too large") }

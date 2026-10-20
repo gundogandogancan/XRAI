@@ -35,6 +35,10 @@ public enum DataClass: String, Hashable, Sendable, CaseIterable {
     case evidenceFiles = "evidence_files"
     case consentReceipts = "consent_receipts"
     case derivedResult = "derived_result"
+    /// P03-04: the store's own encrypted system records (manifest, deletion ledger, authorization
+    /// state, journal entries). Holds ids, classes, generations — never record contents. Never
+    /// included in a user backup; sealed/opened through `SecureVault`'s system path.
+    case storeMetadata = "store_metadata"
 
     /// MINIMUM tier (floor) for this class. A record of this class may be sealed or imported at this
     /// tier or higher, never lower (fail closed, V32-02-01H §3).
@@ -46,6 +50,7 @@ public enum DataClass: String, Hashable, Sendable, CaseIterable {
         case .spiritualPractices, .psychometrics, .journal: return .deviceSensitive
         case .goalRoadmap, .evidenceFiles, .derivedResult: return .devicePrivate
         case .consentReceipts: return .devicePrivate
+        case .storeMetadata: return .devicePrivate
         }
     }
 
@@ -193,6 +198,8 @@ public enum VaultPolicy {
     /// Including a record in a user-held encrypted backup.
     public static func mayBackup(_ dataClass: DataClass, retention: RetentionClass, userInitiated: Bool) -> PolicyDecision {
         guard userInitiated else { return .denied(reason: .userInitiationRequired) }
+        // P03-04 H3: store system state (epoch, clock mark, manifest, ledger) never leaves the device in a backup.
+        guard dataClass != .storeMetadata else { return .denied(reason: .notListed) }
         guard retention != .sessionOnly else { return .denied(reason: .sessionOnlyNeverPersisted) }
         return decide(dataClass, to: .userEncryptedBackup, purpose: "", authority: NoConsentAuthority(), atUnixSeconds: 0)
     }
@@ -223,4 +230,10 @@ public enum DenialReason: String, Hashable, Sendable {
     case notListed = "DESTINATION_NOT_LISTED"
     case userInitiationRequired = "USER_INITIATION_REQUIRED"
     case sessionOnlyNeverPersisted = "SESSION_ONLY_NEVER_PERSISTED"
+    /// P03-04 H1: the local deletion history could not be verified; restored records wait for review.
+    case unverifiedDeletionHistory = "UNVERIFIED_DELETION_HISTORY"
+    /// P03-04 H1: the backup comes from another vault instance (or unknown provenance) while this vault holds data.
+    case foreignBackupPendingReview = "FOREIGN_BACKUP_PENDING_REVIEW"
+    /// P03-04 H1: the id may have been deleted (compacted ledger digest); never reactivated without review.
+    case possiblyDeleted = "POSSIBLY_DELETED"
 }

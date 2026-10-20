@@ -22,10 +22,16 @@ public final class MonotonicGuardClock: VaultClock, @unchecked Sendable {
     private let lock = NSLock()
     private var highWater: Int64?
 
-    public init(wrapping base: any VaultClock, toleranceSeconds: Int64 = 300) {
+    /// `initialHighWaterSeconds` (P03-04 H3): the mark persisted by the store from an earlier
+    /// launch, so a wall clock set back across relaunches still cannot hand out earlier time.
+    public init(wrapping base: any VaultClock, toleranceSeconds: Int64 = 300, initialHighWaterSeconds: Int64? = nil) {
         self.base = base
         self.toleranceSeconds = toleranceSeconds
+        self.highWater = initialHighWaterSeconds
     }
+
+    /// The highest effective time handed out so far (persisted by the store on every mutation).
+    public var highWaterMark: Int64? { lock.lock(); defer { lock.unlock() }; return highWater }
 
     public func now() throws -> Int64 {
         let t = try base.now()
@@ -46,21 +52,38 @@ public final class AuthorizationIssuer: AuthorizationValidator, @unchecked Senda
     private let lock = NSLock()
     private var issued: [String: OperationAuthorization] = [:]
     private var consumed: Set<String> = []
+    private var counter: UInt64 = 0
+    /// P03-04 H3: process epoch. The store persists it and increments it on every open and every
+    /// restore; a token id carries its epoch, so a token from an earlier epoch is rejected outright
+    /// (`epochMismatch`) instead of relying on a bounded ring of consumed ids. Epoch 0 = no store.
+    public let epoch: UInt64
 
-    public init(clock: any VaultClock) { self.clock = clock }
+    public init(clock: any VaultClock, epoch: UInt64 = 0) { self.clock = clock; self.epoch = epoch }
 
     /// Issues a token. Called by the application layer in direct response to a user action or a
     /// scheduled maintenance job. `ttlSeconds` is capped at `OperationAuthorization.maxTTLSeconds`.
+    /// Token id = epoch ‖ counter ‖ 128-bit random (all hex, colon separated).
     public func issue(scope: OperationScope, purpose: String = "", ttlSeconds: Int64 = 60) throws -> OperationAuthorization {
         guard ttlSeconds > 0, ttlSeconds <= OperationAuthorization.maxTTLSeconds else { throw VaultError.authorizationInvalid(.ttlTooLong) }
         let now = try clock.now()
-        let token = OperationAuthorization(id: RecordID().hex, scope: scope, purpose: purpose, issuedAtUnixSeconds: now, expiresAtUnixSeconds: now + ttlSeconds)
-        lock.lock(); issued[token.id] = token; lock.unlock()
+        lock.lock(); defer { lock.unlock() }
+        counter &+= 1
+        let id = String(epoch, radix: 16) + ":" + String(counter, radix: 16) + ":" + RecordID().hex
+        let token = OperationAuthorization(id: id, scope: scope, purpose: purpose, issuedAtUnixSeconds: now, expiresAtUnixSeconds: now + ttlSeconds)
+        issued[token.id] = token
         return token
+    }
+
+    /// Epoch encoded in a token id, if well-formed.
+    public static func epoch(ofTokenID id: String) -> UInt64? {
+        guard let colon = id.firstIndex(of: ":") else { return nil }
+        return UInt64(id[id.startIndex..<colon], radix: 16)
     }
 
     public func consume(tokenID: String, atUnixSeconds now: Int64) throws -> OperationAuthorization {
         lock.lock(); defer { lock.unlock() }
+        guard let tokenEpoch = AuthorizationIssuer.epoch(ofTokenID: tokenID) else { throw VaultError.authorizationInvalid(.unknownToken) }
+        guard tokenEpoch == epoch else { throw VaultError.authorizationInvalid(.epochMismatch) }
         // Replay is reported as such (ids of consumed tokens are retained; they are 128-bit random
         // and small, so the set grows by one entry per operation until the process ends).
         guard !consumed.contains(tokenID) else { throw VaultError.authorizationInvalid(.alreadyConsumed) }

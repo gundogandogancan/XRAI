@@ -166,4 +166,56 @@ public struct SecureVault: Sendable {
     }
 
     public static func generateRecoveryKey() throws -> RecoveryKey { try BackupCodec.generateRecoveryKey() }
+
+    // MARK: P03-04 store support (ADR-BOOT-009). Still the only crypto entry point.
+
+    /// Consumes a token for an operation the STORE executes (revoke, restore suspended, retire key,
+    /// admit restored). Same issuer, same clock, same single-use rule as every other call; returns
+    /// the trusted time. Nothing is decrypted here.
+    public func consumeAuthorization(_ token: OperationAuthorization, for op: OperationScope) throws -> Int64 {
+        try authorize(token, for: op, recordID: nil, purpose: nil).1
+    }
+
+    /// Seals one of the store's own system records (manifest, deletion ledger, authorization state,
+    /// journal entries). Accepts ONLY `DataClass.storeMetadata` — the class that never holds record
+    /// contents and is never exported — and fails closed for every other class. No user token is
+    /// required because the content is store metadata the store itself produced; the personal-data
+    /// path (`seal`/`open`) is untouched. GATE C tests cover both directions.
+    public func sealSystem(plaintext: [UInt8], descriptor: RecordDescriptor) throws -> RecordEnvelope {
+        guard descriptor.dataClass == .storeMetadata else { throw VaultError.unsupportedSystemClass }
+        return try sealer.seal(plaintext: plaintext, descriptor: descriptor)
+    }
+
+    /// Opens a system record. Same restriction as `sealSystem`.
+    public func openSystem(_ envelope: RecordEnvelope) throws -> [UInt8] {
+        try envelope.header.validate()
+        guard envelope.header.dataClass == .storeMetadata else { throw VaultError.unsupportedSystemClass }
+        return try sealer.open(envelope)
+    }
+
+    /// Re-wraps every envelope under the current key AFTER verifying each payload (G4), with one
+    /// maintenance token for the batch (the store writes the results file by file, journaled).
+    public func rewrapBatch(_ envelopes: [RecordEnvelope], maintenance: OperationAuthorization) throws -> [RecordEnvelope] {
+        _ = try authorize(maintenance, for: .maintenance(.rewrap), recordID: nil, purpose: nil)
+        var out: [RecordEnvelope] = []
+        out.reserveCapacity(envelopes.count)
+        for env in envelopes {
+            try env.header.validate()
+            out.append(try sealer.rewrap(env))
+        }
+        return out
+    }
+
+    /// Re-wraps a system record (no token; same class restriction as `openSystem`).
+    public func rewrapSystem(_ envelope: RecordEnvelope) throws -> RecordEnvelope {
+        try envelope.header.validate()
+        guard envelope.header.dataClass == .storeMetadata else { throw VaultError.unsupportedSystemClass }
+        return try sealer.rewrap(envelope)
+    }
+}
+
+/// SHA-256 for store bindings (manifest hash, scan digest, Bloom indices). Lives here because this
+/// is the only module allowed to import CryptoKit.
+public enum VaultDigest {
+    public static func sha256(_ bytes: [UInt8]) -> [UInt8] { Array(SHA256.hash(data: bytes)) }
 }

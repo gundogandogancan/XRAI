@@ -40,6 +40,14 @@ public enum OperationScope: Hashable, Sendable {
     case delete(recordIDs: Set<RecordID>)
     /// Technical maintenance without plaintext access.
     case maintenance(MaintenanceKind)
+    /// P03-04 H4: consent revocation for a purpose, executed by the store (distinct from `delete`).
+    case revokeConsent(purpose: String)
+    /// P03-04 H4: bring suspended records back after a fresh grant (never automatic).
+    case restoreSuspended(recordIDs: Set<RecordID>)
+    /// P03-04 H2: run the key-retirement protocol for a version (freeze, rewrap, prove, forget).
+    case retireKey(version: UInt32)
+    /// P03-04 H1: admit records returned by a backup restore into the store (reconciled, fail-closed).
+    case admitRestored
 
     /// Whether this scope covers `op` for `recordID` (nil when the operation is not record-bound).
     public func covers(_ op: OperationScope, recordID: RecordID?) -> Bool {
@@ -52,6 +60,10 @@ public enum OperationScope: Hashable, Sendable {
         case (.exportBackup, .exportBackup), (.restoreBackup, .restoreBackup), (.releaseQuarantine, .releaseQuarantine): return true
         case (.delete(let a), .delete(let b)): return b.isSubset(of: a)
         case (.maintenance(let a), .maintenance(let b)): return a == b
+        case (.revokeConsent(let a), .revokeConsent(let b)): return a == b
+        case (.restoreSuspended(let a), .restoreSuspended(let b)): return b.isSubset(of: a)
+        case (.retireKey(let a), .retireKey(let b)): return a == b
+        case (.admitRestored, .admitRestored): return true
         default: return false
         }
     }
@@ -86,6 +98,8 @@ public enum AuthorizationFailure: String, Hashable, Sendable {
     case scopeMismatch = "SCOPE_MISMATCH"
     case purposeMismatch = "PURPOSE_MISMATCH"
     case ttlTooLong = "TTL_TOO_LONG"
+    /// P03-04 H3: the token was issued in an earlier process epoch (before a relaunch or restore).
+    case epochMismatch = "EPOCH_MISMATCH"
 }
 
 /// Port: the trusted issuer/validator of operation tokens. `consume` must be atomic: a token is

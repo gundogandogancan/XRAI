@@ -12,6 +12,8 @@ let package = Package(
         .library(name: "XRAIVaultContracts", targets: ["XRAIVaultContracts"]),
         .library(name: "XRAIVaultCryptoKit", targets: ["XRAIVaultCryptoKit"]),
         .library(name: "XRAIVaultKeychain", targets: ["XRAIVaultKeychain"]),
+        // P03-04: file-based encrypted record store (ADR-BOOT-009 + Amendment H). Not linked by the app yet.
+        .library(name: "XRAIVaultStore", targets: ["XRAIVaultStore"]),
         // Test-only product: linked ONLY by test bundles (enforced by tests on Package.swift and project.yml).
         .library(name: "XRAIVaultTesting", targets: ["XRAIVaultTesting"]),
     ],
@@ -55,6 +57,15 @@ let package = Package(
         .target(
             name: "XRAIVaultKeychain",
             dependencies: ["XRAIVaultContracts", "XRAIVaultCryptoKit"]
+        ),
+        // P03-04: store. Imports Foundation, the contracts and the CryptoKit adapter only (never Security/CryptoKit directly).
+        .target(
+            name: "XRAIVaultStore",
+            dependencies: ["XRAIVaultContracts", "XRAIVaultCryptoKit"]
+        ),
+        .testTarget(
+            name: "XRAIVaultStoreTests",
+            dependencies: ["XRAIVaultContracts", "XRAIVaultCryptoKit", "XRAIVaultStore", "XRAIVaultTesting"]
         ),
         .testTarget(
             name: "XRAIVaultKeychainTests",

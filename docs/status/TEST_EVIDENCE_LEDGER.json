@@ -514,6 +514,70 @@
       "result": "PASS: P03-03 checks + H docs cite baseline 7fc3091; every NT-* id referenced resolves to a matrix row (48 rows); threat model T44–T46 present",
       "log": "docs/status/evidence/p03_03h_check_docs.log",
       "log_sha256": "a810b673923e4b2f521a8847e3f3cdb901dd6dd282433740b8f0769cbb723bcf"
+    },
+    {
+      "run_id": "P03-04-SWIFT-MACOS",
+      "command": "swift test (Packages/XRAICore)",
+      "exit_code": 0,
+      "result": "145 tests in 36 suites passed (108 existing + 36 XRAIVaultStoreTests + 1 KeychainAnchorStoreTests); Bloom false positives 0/2000000",
+      "log": "docs/status/evidence/p03_04_swift_test_macos.log",
+      "log_sha256": "13071e626ec1faa431d7549cfcebc89f8b386358d08a4f399e24633ad972054d"
+    },
+    {
+      "run_id": "P03-04-SIM-HOSTED",
+      "command": "xcodebuild test -project XRAI.xcodeproj -scheme XRAI -destination 'platform=iOS Simulator,name=iPhone 17' -only-testing:XRAIHostedTests",
+      "exit_code": 0,
+      "result": "73 tests in 21 suites passed (NT-H5-16 protection class not reported on Simulator: KNOWN_LIMITATION)",
+      "log": "docs/status/evidence/p03_04_xcodebuild_sim_hosted.log",
+      "log_sha256": "a9bececd67e29d8d30a95b16435bd8917e2725ffdec2bb167d1a24450597af48"
+    },
+    {
+      "run_id": "P03-04-SIM-HOSTED-RUN1",
+      "command": "same, before NT-H5-16 adjustment",
+      "exit_code": 65,
+      "result": "72/73 — NT-H5-16 failed: Simulator reports nil protection class",
+      "log": "docs/status/evidence/p03_04_xcodebuild_sim_hosted_run1_NT-H5-16_sim_limitation.log",
+      "log_sha256": "9ea8b17ea391a5e8d455d2ba62ac1cf32a14099636ff5443888f3ba1c652ba2d"
+    },
+    {
+      "run_id": "P03-04-DEVICE-HOSTED",
+      "command": "xcodebuild test -project XRAI.xcodeproj -scheme XRAI -destination 'platform=iOS,id=C7C6CE6E-B577-558A-8992-DC6C1F492B39' -only-testing:XRAIHostedTests -allowProvisioningUpdates",
+      "exit_code": 0,
+      "result": "73 tests in 21 suites passed on iPhone 14 Pro Max (iOS 26.6): store suite incl. fault injection, NSFileProtectionComplete on every vault file, real keychain anchor; non-destructive",
+      "log": "docs/status/evidence/p03_04_xcodebuild_device_hosted.log",
+      "log_sha256": "0b30a37b600443d4bb78032e36f435e5d217e92916c542baa87aca7e67291b7a"
+    },
+    {
+      "run_id": "P03-04-STORE-DEV-RUN1",
+      "command": "swift test --filter XRAIVaultStoreTests",
+      "exit_code": 1,
+      "result": "FAIL: keyVersionInUse (ledger.v1 not re-sealed before scan) + O(n) ledger lookup made NT-H1-07 hang; both fixed",
+      "log": "docs/status/evidence/p03_04_store_tests_run1_FAIL_ledger_rewrap_and_slow_lookup.log",
+      "log_sha256": "bc1353e7956fca90fe2f8fbd5d49aec015f0db19dfddef4e6eceb87e40fed360"
+    },
+    {
+      "run_id": "P03-04-STORE-DEV-RUN2",
+      "command": "swift test --filter XRAIVaultStoreTests",
+      "exit_code": 1,
+      "result": "36 tests, 3 issues (test manifest-block parsing; verifier after forget; open with regressed clock); fixed",
+      "log": "docs/status/evidence/p03_04_store_tests_run2_FAIL_3_issues.log",
+      "log_sha256": "57dd5b65ea02eb3c74937986e6d8825b91534de21f8e8409e1ebed50ed9feff1"
+    },
+    {
+      "run_id": "P03-04-STATIC-VALIDATE",
+      "command": "python3 -I validation/validate_package.py",
+      "exit_code": 0,
+      "result": "PASS",
+      "log": "docs/status/evidence/p03_04_validate_package.log",
+      "log_sha256": "3a94d86ea4544e9bd0293f6f7b644f54811fbf41a12424b0e00efd2a38cf11e6"
+    },
+    {
+      "run_id": "P03-04-STATIC-DOCS",
+      "command": "python3 -I validation/check_p03_03_docs.py",
+      "exit_code": 0,
+      "result": "PASS incl. P03-04 report/matrix checks and app-does-not-link-store check",
+      "log": "docs/status/evidence/p03_04_check_docs.log",
+      "log_sha256": "e5dcf8ca7efd232fa39999b20e942976709ecfa757316832382eae753133cdc0"
     }
   ],
   "acceptance_test_mapping": [
@@ -636,7 +700,8 @@
     "app.a11y_audit": "TESTED on 5 screens; contrast type excluded on tab screens (KNOWN_LIMITATION)",
     "app.voiceover_human": "MANUAL_PENDING",
     "P03-03": "SPECIFIED (design only); no code change; static checks exit 0; DEVICE_VERIFIED: n/a; SECURITY_REVIEWED: NO",
-    "P03-03H": "SPECIFIED (design hardening only); no code change; static checks exit 0; device tests NOT_RUN (nothing executable changed); SECURITY_REVIEWED: NO"
+    "P03-03H": "SPECIFIED (design hardening only); no code change; static checks exit 0; device tests NOT_RUN (nothing executable changed); SECURITY_REVIEWED: NO",
+    "P03-04": "CODED + TESTED (library): macOS 145/145, Simulator hosted 73/73, iPhone 14 Pro Max hosted 73/73 (DEVICE_VERIFIED: PARTIAL, non-destructive); app not wired; no personal persistence; SECURITY_REVIEWED: NO"
   },
   "not_evidence": [
     "docs/registries/historical_archive/REFERENCE_SWIFT_TEST_LOG_v1.8_NOT_THIS_REPO.txt (historical prototype, not this code)"

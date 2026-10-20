@@ -109,6 +109,8 @@ targets:
     sources:
       - path: App/XRAIHostedTests
       - path: Packages/XRAICore/Tests/XRAIVaultKeychainTests
+      # P03-04: the store suite runs inside the signed app on Simulator and device (temp dir in the app container).
+      - path: Packages/XRAICore/Tests/XRAIVaultStoreTests
     dependencies:
       - target: XRAI
       - package: XRAICore
@@ -117,6 +119,8 @@ targets:
         product: XRAIVaultCryptoKit
       - package: XRAICore
         product: XRAIVaultKeychain
+      - package: XRAICore
+        product: XRAIVaultStore
       - package: XRAICore
         product: XRAIVaultTesting
     settings:
