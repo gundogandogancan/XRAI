@@ -14,3 +14,4 @@ Spec-level ADR-001…ADR-015 live in `docs/registries/ARCHITECTURE_ADRS_v3.1.jso
 | [ADR-BOOT-008](ADR-BOOT-008-design-system-and-onboarding.md) | Design system, onboarding and first user flow (P03-01) | ACCEPTED, Simulator 38/38, device 38/38 |
 | [ADR-BOOT-009](ADR-BOOT-009-secure-persistence-architecture.md) | Secure persistence architecture: file-based envelope store, derived-data graph, tombstones, consent authority persistence, store proof for key forgetting (P03-03) | ACCEPTED for library scope (P03-04 CONDITIONAL GO); `XRAIVaultStore` CODED + TESTED (macOS 36/36 store tests, hosted runs in the ledger); app wiring, backup v3, attachments pending; not SECURITY_REVIEWED |
 - ADR-BOOT-010 — Consent and interaction authority (PROPOSED, P03-05A)
+- ADR-BOOT-011 — Design tooling: Figma connector and design skills, non-personal content only (PROPOSED, P04-00)

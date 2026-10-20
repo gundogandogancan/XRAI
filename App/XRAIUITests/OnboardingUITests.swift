@@ -139,6 +139,11 @@ final class OnboardingUITests: XCTestCase {
         skip.tap()
         XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 5))
         app.tabBars.buttons.element(boundBy: 1).tap()
+        // P04-00: preferences live one level down (Güvenlik durumu); the last-card rule applies to that screen.
+        let sec = element("self.security")
+        XCTAssertTrue(sec.waitForExistence(timeout: 5))
+        for _ in 0..<8 where !sec.isHittable { app.swipeUp() }
+        sec.tap()
         let last = element("prefs.resetOnboarding")
         XCTAssertTrue(last.waitForExistence(timeout: 5))
         for _ in 0..<8 where !last.isHittable { app.swipeUp() }

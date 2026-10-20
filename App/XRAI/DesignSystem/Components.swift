@@ -40,6 +40,9 @@ struct XRQuietButtonStyle: ButtonStyle {
         .frame(minHeight: XRHit.min)
         .opacity(configuration.isPressed ? 0.6 : 1)
         .contentShape(Rectangle())
+        // P04-00: one accessibility element per quiet button (label + chevron were exposed as separate
+        // children, which hid the button's identifier from XCUI and split it for VoiceOver).
+        .accessibilityElement(children: .combine)
     }
 }
 

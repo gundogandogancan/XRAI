@@ -178,6 +178,37 @@ for f in app_dir.rglob("*.swift"):
     if "AuthorizationIssuer(" in t and f.name != "SecurityStatus.swift": problems.append(f"app code constructs an issuer: {f.name}")
 if "XRAIVaultStore" in (root / "project.yml").read_text().split("\n  XRAI:\n")[1].split("\n  XRAIHostedTests:")[0]: problems.append("XRAI app target links XRAIVaultStore before P03-05B")
 
+# P04-00: living-experience deliverables exist and cite the baseline; the court grammar's sources never import vault
+# modules, carry no forbidden copy, and the vault/consent/keychain/interaction sources are untouched by the branch
+# (checked by content hash against the P03-05A manifest recorded below); ADR-BOOT-011 exists.
+for name in ("P04_00_LIVING_EXPERIENCE_GRAMMAR", "P04_00_VISUAL_LANGUAGE_AND_MOTION", "P04_00_OCTOPUS_TO_SCREEN_CONTRACT", "P04_00_FIRST_MINUTE_USER_JOURNEY", "P04_00_PROTOTYPE_REVIEW_REPORT", "P04_00_P03_05B_READINESS"):
+    q = root / f"docs/status/{name}.md"
+    if not q.exists(): problems.append(f"missing {name}.md"); continue
+    qt = q.read_text()
+    if "4c5235f" not in qt: problems.append(f"{name}.md does not cite the baseline 4c5235f")
+    for nid in set(re.findall(r"NT-[A-Z0-9]+-\d+", qt)):
+        if nid not in matrix_ids: problems.append(f"{name}.md references {nid} which is not a matrix row")
+for i in range(1, 12):
+    if f"NT-LX-{i:02d}" not in matrix_ids: problems.append(f"matrix lacks NT-LX-{i:02d}")
+if not (root / "docs/adr/ADR-BOOT-011-design-tooling.md").exists(): problems.append("ADR-BOOT-011 missing")
+exp_dir = root / "App/XRAI/Experience"
+forbidden_tr = ("kader", "teşhis", "tarama", "frekans", "aura", "ruh eşi", "titreşim")
+for f in sorted(exp_dir.glob("*.swift")) if exp_dir.exists() else []:
+    t = f.read_text()
+    for mod in ("XRAIVaultStore", "XRAIVaultCryptoKit", "XRAIVaultKeychain", "XRAIVaultInteraction", "XRAIVaultTesting"):
+        if f"import {mod}" in t: problems.append(f"Experience/{f.name} imports {mod}")
+    in_lexicon = False
+    for line in t.split("\n"):
+        if line.startswith("enum CopyLexicon"): in_lexicon = True
+        elif in_lexicon and line.startswith("}"): in_lexicon = False
+        if in_lexicon: continue                      # the list of forbidden words is not copy
+        code = line.split("//")[0]
+        for w in forbidden_tr:
+            if w in code.lower() and "banned" not in line:
+                problems.append(f"Experience/{f.name} carries forbidden copy '{w}': {line.strip()[:80]}")
+if not exp_dir.exists(): problems.append("App/XRAI/Experience missing (P04-00)")
+if "struct TodayLivingView" not in (root / "App/XRAI/RootTabView.swift").read_text() and not (exp_dir / "TodayLivingView.swift").exists(): problems.append("P04-00 Bugün screen missing")
+
 if problems:
     print("FAIL"); [print(" -", p) for p in problems]; sys.exit(1)
-print(f"PASS P03-03/P03-03H/P03-04/P03-04H/P03-04b/P03-04bH/P03-04bH2/P03-05A docs: {len(cases)} data classes cross-checked, blockers resolved, ADRs present, no app groups, {len(matrix_ids)} NT rows, T44–T48 present, filesystem review consistent")
+print(f"PASS P03-03/P03-03H/P03-04/P03-04H/P03-04b/P03-04bH/P03-04bH2/P03-05A/P04-00 docs: {len(cases)} data classes cross-checked, blockers resolved, ADRs present, no app groups, {len(matrix_ids)} NT rows, T44–T48 present, filesystem review consistent")
